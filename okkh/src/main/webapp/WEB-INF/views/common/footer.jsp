@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKKH - 이곳에서 꿈을</title>
+
+    
+</head>
+
+<body>
+    <!-- 푸터바 시작 -->
+    <footer>
+        <div class="footer clearfix mb-0 text-muted">
+            <div class="float-start">
+                <p>2023 &copy; OKKH</p>
+            </div>
+            <div class="float-end">
+                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by 오류없조</p>
+            </div>
+        </div>
+    </footer>
+    <!-- 푸터바 끝 -->
+</body>
+
+</html>
