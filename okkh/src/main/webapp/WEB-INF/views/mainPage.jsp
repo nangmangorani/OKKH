@@ -5,22 +5,21 @@
 <html lang="en">
 
 <head>
-    
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKKH - 이곳에서 꿈을</title>
 </head>
 
 <body>
-    <!-- 주야간모드 버튼 js 시작 -->
-    <script src="resources/assets/static/js/initTheme.js"></script>
-	<!-- /주야간모드 버튼 js 끝 -->
 
     <!-- alert 시작 -->
-    <!-- <c:if test="${ not empty alertMsg }">
+    <c:if test="${ not empty alertMsg }">
     	<script>
     		alert("${ alertMsg }");
     	</script>
     	
     	<c:remove var="alertMsg"/>
-    </c:if> -->
+    </c:if>
     <!-- /alert 끝 -->
     
     <!-- 전체 -->
