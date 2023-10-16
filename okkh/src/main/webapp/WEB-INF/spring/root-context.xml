@@ -5,4 +5,91 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<!-- 
+		* root-context.xml
+		  서버 구동과 동시에 web.xml을 거쳐서 바로 로딩 되는 문서
+		  => 서버 구동과 동시에 바로 셋팅해야 되는 내용들을 작성하면 됨
+		  바로 세팅 해야되는 것들? 빈으로 등록해야 되는 것들!
+		  주로 db연결 설정, 트랜젝션 처리, 내외부 모듈 연동 등등...
+		  
+		  1. xml문서에 세팅하는 방법
+		  2. 어노테이션으로 등록하는 방법
+	 -->
+	 	<bean class="org.apache.commons.dbcp.BasicDataSource" id="dataSource" destroy-method="close">
+	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	 	<property name="username" value="okkh"/>
+	 	<property name="password" value="okkh"/>
+	 </bean>
+	 <!-- 
+       BasicDataSource dataSource = new BasicDataSource();
+       dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+       dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+       dataSource.setUsername("spring");
+       dataSource.setPassword("spring");
+     -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 
+		sqlsessionFactory sqlSessionFactory = new SqlSessionFactory(); 빈에 등록했으니 알아서 객체 생성해줌
+		sqlSessionFactory.setConfigLocation("classpath:mybatis-config.xml");
+		sqlSessionFactory.setDataSource(dataSource);
+	 -->
+	 
+	 <!--  property는 setter 주입! 이라고 생각하면 됨 -->
+	 
+	 <bean class="org.mybatis.spring.SqlSessionTemplate">
+	 <constructor-arg ref="sqlSessionFactory"/>
+	 </bean>
+	 <!-- 
+	 	SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSessionFactory);
+	  -->
+	  
+	  <!-- 
+	  	constructor-arg 이건 매개변수 생성자 주입! 이라고 생각 하면 됨
+	   -->
+	   
+	   <!-- 
+	   		property : setter 주입
+	   		constructor-arg : 생성자 주입
+	   		외우는게 아니라 이해하는 거임
+	    -->
+	
+	
+	
+	<!-- 메일 인증하는 부분 -->
+	<!--  
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+      <property name="host" value="smtp.gmail.com" />
+      <property name="port" value="587" />
+      <property name="username" value="finalTeamNexus@gmail.com" />
+      <property name="password" value="uikugywzxewoiabj" />
+      <property name="javaMailProperties">
+         <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                -->
+                
+                <!-- gmail의 경우 보안문제 업데이트로 인해 SSLSocketFactory를 추가해야 smtp 사용 가능. -->
+                <!--  
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+                <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+            </props>
+      </property>  
+   </bean>
+
+   -->
+   
+   <!-- 파일 업로드 관련 빈 등록 -->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+    	<property name="maxUploadSize" value="1000000000"/> <!-- 100Mb 이건 용량이 무제한이지만 제한둬야함 -->
+    	<property name="maxInMemorySize" value="1000000000"/>
+    </bean>
+	
 </beans>

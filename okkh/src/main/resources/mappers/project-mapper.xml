@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="projectMapper">
+  	
+  	<resultMap type="Project" id="projectResultSet">
+  		<result column="pro_no" property="proNo"/>
+  		<result column="nickname" property="proWriter"/>
+  		<result column="pro_stack" property="proStack"/>
+  		<result column="pro_title" property="proTitle"/>
+  		<result column="pro_deadline" property="proDeadLine"/>
+  		<result column="pro_position" property="proPosition"/>
+  	</resultMap>
+  	
+  	
+  	
+  	<select id="selectProjectList" resultMap="">
+  		    select 
+			       pro_no
+			     , pro_title
+			     , nickname
+			     , pro_position
+			     , pro_stack
+			     , pro_deadline
+			 from project
+			 join member on (mem_no = pro_writer)
+  	</select>
+  
+</mapper>

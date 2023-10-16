@@ -64,7 +64,7 @@
                 </div>
                 <!-- 로고, 주야간버튼 끝 -->
                 
-                <!-- 메뉴바 시작 -->
+                <!-- 메뉴바 시작 (김유정 풀리퀘 추가) -->
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title" style="font-weight: bolder;">test Menu22w2</li>
@@ -87,6 +87,12 @@
                                 <span>Milestones</span>
                             </a>
                         </li>
+                         <li class="sidebar-item">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-puzzle"></i>
+                                <span>Pull Request</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a href="#" class='sidebar-link'>
                                 <i class="fa-solid fa-calendar fa-sm"></i>
@@ -99,7 +105,7 @@
                         <li class="sidebar-title" style="font-weight: bolder;">Community</li>
 
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="recruitList.pro" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>
                                 <span>Recruit</span>
                             </a>
