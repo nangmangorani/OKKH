@@ -41,7 +41,7 @@
   }
 
 
-  .UJ-menu>input{
+  .UJ-menu input{
     margin-left: 60px;
     margin-top: 5px;
     border-radius: 20px;
@@ -52,23 +52,11 @@
     
   }
 
-  /* 돋보기 사진 감싸는 div */
-  /* .UJ-menu> .UJ-searchImg{
-      background-color: #fff; 
-      width: 60px;
-     height: 80px;
-     border-radius: 20px 0 0 20px; 
-     display: inline;
-  } */
-
   /* 돋보기 사진 */
-  /* .UJ-search_searchImg{
-    width: 30px; 
-    height: 30px;
-    margin-left: 20px;
-    margin-top: 2px;
-
- } */
+  #searchBar:hover{
+  	cursor:pointer;
+  }
+  
 
 
 /* 리스트 부분 */
@@ -780,18 +768,18 @@ transform: scale(1.1);
 
 
 
-
-<script>
-var val1 = "";
-
-// ul 태그(class =LanguageBar_languages__2Ilqf)의 후손 li태그를 누를때마다 해당 li의 value 값 + ' '을 
-// val1에다가 누적하는 코드
-$(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
-     val1 += $(this).attr('value') + ' ';
-     console.log(val1);
-});
-
-</script>
+		
+		<script>
+		var val1 = "";
+		
+		// ul 태그(class =LanguageBar_languages__2Ilqf)의 후손 li태그를 누를때마다 해당 li의 value 값 + ' '을 
+		// val1에다가 누적하는 코드
+		$(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
+		     val1 += $(this).attr('value') + ' ';
+		     console.log(val1);
+		});
+		
+		</script>
 
 
 
@@ -840,18 +828,38 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                 </script>
 
 
-
-
-
-
+ 			<form id="searchForm" action="searchBar.pro" method="get" style="display:inline-flex;">     
+                <div class="text" style="position: relative;">
+			        <input placeholder="제목, 글 내용을 검색해보세요." style="padding-left: 20px;" name="keyword" type="text">
+			     
+			     <button type="submit" style=" width: 70px; border-radius: 10px; position: absolute; top: 52%; transform: translateY(-50%); right: 0px; border:none; background-color: transparent;">
+			        <!-- background-color: transparent;는 버튼의 배경색 없애는 스타일 -->
+			        
+			        <img src="https://holaworld.io/images/info/search.png" style="width: 25px; height: 25px; " id="searchBar">
+                	
+                </button>
+			    
+			    </div>
+                <!--  
                
-                    <input placeholder="  제목, 글 내용을 검색해보세요."  style="padding-left: 20px;"  value="">
+                
+                -->
+            </form>
+
+
+
+             
+                    
                
                     <select name="" id="" style="margin-left: 50px;">
                         <option value="0">조회수 순</option>
                         <option value="1">즐겨찾기 순</option>
                         <option value="2">최신 순</option>
                     </select>
+
+			       
+
+
 
                     <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" >프로젝트 작성하기</button>
                 

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<jsp:include page="WEB-INF/views/mainPage.jsp"></jsp:include>
+	<jsp:include page="WEB-INF/views/project/projectList.jsp"></jsp:include>
 	
 
 </body>
