@@ -18,7 +18,7 @@ body {
   font-size: 14px;
   margin-right: 10px;
   line-height: inherit;
-  color: #d3d4da;
+  color: #435ebe;
 }
 
 .popoverInfoCalendar p {
@@ -91,13 +91,13 @@ body {
   font-size: 13px;
   font-weight: 500;
   color: rgb(245, 241, 241);
-  background-color: #8989f2;
+  background-color: #435ebe;
   padding: 11px 0px !important;
   text-decoration: none;
 }
 
 .fc-unthemed td.fc-today{
-  background-color: #c3c3f2;
+  background-color: #95b8e4;
 }
 .fc-day-header a {
   text-decoration: none !important;
@@ -342,8 +342,8 @@ select.filter {
 } */
 .fc-listWeek-button{
   color: #fff;
-  background-color: #696cff;
-  border-color: #696cff;
+  background-color: #435ebe;
+  border-color: #435ebe;
   box-shadow: 0 0.125rem 0.25rem 0 rgba(105, 108, 255, 0.4);
 }
 .fc-button:hover{
