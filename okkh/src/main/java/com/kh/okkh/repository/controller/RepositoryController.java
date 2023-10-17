@@ -45,5 +45,18 @@ public class RepositoryController {
 		return "repo/repoDetail";
 		
 	}
+	
+	/**
+	 * 레파지토리에 속한 코드 조회용 컨트롤러
+	 * 
+	 * @param rno => 레파지토리 번호
+	 * @author 윤관현
+	 */
+	@RequestMapping("codeDetail.re")
+	public String selectCode(int rno) {
+		
+		return "repo/codeDetail";
+		
+	}
 
 }

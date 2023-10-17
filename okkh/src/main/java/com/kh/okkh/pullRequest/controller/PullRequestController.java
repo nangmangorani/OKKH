@@ -17,5 +17,12 @@ public class PullRequestController {
 		return "pullRequest/myPullRequest";
 		
 	}
+	
+	@RequestMapping("pullRequestDetail.pu")
+	public String selectPullRequest() {
+		
+		return "pullRequest/pullRequestDetail";
+		
+	}
 
 }
