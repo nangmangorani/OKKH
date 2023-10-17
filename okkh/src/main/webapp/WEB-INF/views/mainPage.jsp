@@ -14,13 +14,13 @@
 	<!-- /주야간모드 버튼 js 끝 -->
 
     <!-- alert 시작 -->
-    <!-- <c:if test="${ not empty alertMsg }">
+    <c:if test="${ not empty alertMsg }">
     	<script>
     		alert("${ alertMsg }");
     	</script>
     	
     	<c:remove var="alertMsg"/>
-    </c:if> -->
+    </c:if> 
     <!-- /alert 끝 -->
     
     <!-- 전체 -->

@@ -30,6 +30,9 @@
 <link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 
 
+<!-- quill 에디터 -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
   <style>
     .UJ-WriteHeader>button{
         border: 0;

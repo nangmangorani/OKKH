@@ -13,16 +13,6 @@
   	
   	
   	
-  	<select id="selectProjectList" resultMap="">
-  		    select 
-			       pro_no
-			     , pro_title
-			     , nickname
-			     , pro_position
-			     , pro_stack
-			     , pro_deadline
-			 from project
-			 join member on (mem_no = pro_writer)
-  	</select>
+  	
   
 </mapper>

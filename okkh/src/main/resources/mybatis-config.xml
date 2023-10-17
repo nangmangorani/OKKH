@@ -8,10 +8,13 @@
 
 <typeAliases>
 	<typeAlias type="com.kh.okkh.project.model.vo.Project" alias="Project"/>
+	<typeAlias type="com.kh.okkh.pr.model.vo.PR" alias="PR"/>
+	<typeAlias type="com.kh.okkh.common.model.vo.Stack" alias="Stack"/>
 </typeAliases>
 
 <mappers>
 	<mapper resource="/mappers/project-mapper.xml"/>
+	<mapper resource="/mappers/pr-mapper.xml"/>
 </mappers>
 
 </configuration>

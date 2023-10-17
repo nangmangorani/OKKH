@@ -33,11 +33,7 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<!-- 
-		sqlsessionFactory sqlSessionFactory = new SqlSessionFactory(); 빈에 등록했으니 알아서 객체 생성해줌
-		sqlSessionFactory.setConfigLocation("classpath:mybatis-config.xml");
-		sqlSessionFactory.setDataSource(dataSource);
-	 -->
+
 	 
 	 <!--  property는 setter 주입! 이라고 생각하면 됨 -->
 	 

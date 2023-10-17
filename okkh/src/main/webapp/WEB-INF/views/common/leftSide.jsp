@@ -15,6 +15,8 @@
 	<link rel="stylesheet" href="resources/assets/compiled/css/iconly.css">
 </head>
 <body>
+
+
 	<!-- 주야간모드 버튼 js 시작 -->
     <script src="resources/assets/static/js/initTheme.js"></script>
 	<!-- /주야간모드 버튼 js 끝 -->
@@ -111,7 +113,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="personalList.pr" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>PR</span>
                             </a>

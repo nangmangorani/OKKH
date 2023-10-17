@@ -1,14 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-		<!-- 글 작성을 위해 필요함 -->
-		<link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
-		<link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
+<!-- summernote 부트스트랩 -->
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> 
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+	
+	
+	<link rel="stylesheet" href="resources/assets/extensions/summernote/summernote-lite.css">
+
+  	<link rel="stylesheet" href="resources/assets/compiled/css/form-editor-summernote.css">
 
 <style>
     .UJ-WriteHeader>button{
@@ -92,7 +103,7 @@
          <!-- 상단바 끝 --> 
       
       
-            
+            <br><br>
 <div class="page-heading">
     <h3>Detail Personal PR</h3>
 </div> 
@@ -117,18 +128,18 @@
                                         <br>
                                         <!-- 제목 -->
                                         <div>
-                                           <h3>참한 대한 건아 </h3> 
+                                           <h3>${pr.prTitle } </h3> 
                                         </div>
 
                                         <br>
 
                                         <!-- 작성자/ 작성일 -->
                                         <div style="font-size: 17px;">
-                                            작성자 : 호빵맨여친세균맨 &nbsp; | &nbsp; 2023-10-04 
+                                            작성자 : ${pr.prWriter } &nbsp; | &nbsp; ${pr.createDate }
                                         </div>
                                         
                                         <div style="font-size: 17px;">
-                                            조회수 : 5  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : 2
+                                            조회수 : ${pr.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : 2
                                         </div>
                                         
                                         <hr >
@@ -143,13 +154,20 @@
                                                 <!-- 사용언어는 기술 스택임 -->
                                                 <div class="form-group">
                                                     <label for="city-column">사용 언어</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="tech-stack">자바,스프링,VSCode</span>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="tech-stack">
+                                                    
+                                                    <c:set var="techStacks" value="${fn:split(pr.stackName, ',')}" />
+														    <c:forEach items="${techStacks}" var="techStack">
+														    <c:set var="src" value="https://holaworld.io/images/languages/${techStack}.svg"/>
+														        <img src="${src }" alt="${src}" style="width:45px; height:45px;">
+														    </c:forEach>
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="country-floating">프로젝트 가능 시간 <br>(단위 기간 : 24HR)</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">5시간</span>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">${pr.prTime }시간</span>
                                                 </div>
                                             </div>
                                           
@@ -174,30 +192,73 @@
                                                
                                             <!-- 프로젝트 내용 -->
 
-                                           <div style="font-size: 15px; height: 150px;">
-                                           안녕하세요 저는 아주 참하고 성실한 대한의 건아입니다.
-                                           저를 데려가시면 후회하지 않을 겁니다 후후
-                                            
+                                           <!-- PR 내용 -->
 
-
-                                          
-                                            
-                                        </div>
+                                                 
+                                               
+                                               <textarea  class="summernote" id="summernote" name="prContent"  style="resize: none;" readonly >
+                                               	${pr.prContent }
+                                               </textarea>    
+                                                  
+                                    				
+                                    				<script>
+												    $('.summernote').summernote({
+												          // 에디터 높이
+												       
+												          height: "1000",
+												          // 에디터 한글 설정
+												          lang: "ko-KR",
+												          // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
+												          focus : true,
+												          toolbar: [
+												                // 글꼴 설정
+												                ['fontname', ['fontname']],
+												                // 글자 크기 설정
+												                ['fontsize', ['fontsize']],
+												                // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+												                ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+												                // 글자색
+												                ['color', ['forecolor','color']],
+												                // 표만들기
+												                ['table', ['table']],
+												                // 글머리 기호, 번호매기기, 문단정렬
+												                ['para', ['ul', 'ol', 'paragraph']],
+												                // 줄간격
+												                ['height', ['height']],
+												                // 그림첨부, 링크만들기, 동영상첨부
+												                ['insert',['picture','link','video']],
+												                // 코드보기, 확대해서보기, 도움말
+												                ['view', ['codeview','fullscreen', 'help']]
+												              ],
+												              // 추가한 글꼴
+												            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+												             // 추가한 폰트사이즈
+												            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+												
+												
+												            
+												            
+												        });
+												    
+												    
+												  
+												    </script>
+												                 
                                         
                                         <!-- <hr style=" margin-left:23;"> -->
 
                             
 
 
-
+											
 
                                            <!-- 제출하기 버튼 -->
                                            <!-- 작성한 사람만 보이게 하기 -->
-                                            <div class="col-12 d-flex justify-content-end">
+                                            <div class="col-12 d-flex justify-content-end" style="margin-top:40px;">
                                                
                                                 <button type="submit" class="btn btn-primary me-1 mb-1">수정하기</button>
                                                 <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="#">삭제하기</button>
-                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="#">뒤로가기</button>
+                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="javascript:history.go(-1)">뒤로가기</button>
                                             </div>
                                         </div>
                                     </form>
@@ -302,8 +363,10 @@
     
     
 	<!-- 글 작성을 위해 필요함 -->
-      <script src="resources/assets/extensions/quill/quill.min.js"></script>
-      <script src="resources/assets/static/js/pages/quill.js"></script> 
+     <!-- 썸머노트 이용하려면 필요함 -->
+	<script src="resources/assets/extensions/jquery/jquery.min.js"></script>	
+	<script src="resources/assets/extensions/summernote/summernote-lite.min.js"></script>
+	<script src="resources/assets/static/js/pages/summernote.js"></script>
      
 
 
