@@ -17,6 +17,10 @@
 <link rel="stylesheet" href="resources/assets/compiled/css/app-dark.css">
 <link rel="stylesheet" href="resources/assets/compiled/css/iconly.css">
 
+<!-- 에디터 -->
+<link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
+<link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
+
 </head>
 <body>
 	<!-- 주야간모드 버튼 js 시작 -->
@@ -177,6 +181,10 @@
     <!-- Need: Apexcharts -->
     <script src="resources/assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="resources/assets/static/js/pages/dashboard.js"></script>
+    
+    <!-- 에디터 -->
+    <script src="resources/assets/extensions/quill/quill.min.js"></script>
+	<script src="resources/assets/static/js/pages/quill.js"></script>
     <!-- /템플릿 js 끝 -->
 
     <!-- fontawesome 이미지 -->

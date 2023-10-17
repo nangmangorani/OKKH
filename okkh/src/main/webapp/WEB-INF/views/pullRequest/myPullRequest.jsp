@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
+<!-- 풀리퀘스트 css -->
+<link rel="stylesheet" href="resources/okkh/pullRequest.css">
 </head>
 
 <body>
@@ -39,47 +41,224 @@
             <div class="page-content"> 
                 <section class="row">
                     <!-- 왼쪽 내용 시작 -->
-                    <!-- 소스 리스트 시작 -->
-                    <section class="section">
-                        <div class="row" id="table-head">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">
-                                        	<img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="20" width="20" style="border-radius: 15px;"> YoonTarget
-                                        </h4>
-                                    </div>
-                                    <div class="card-content">
-                                        <!-- table head dark -->
-                                        <div class="table-responsive">
-                                            <table class="table mb-0">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th>NAME</th>
-                                                        <th>COMMIT</th>
-                                                        <th>WHEN</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-bold-500"><i class="fa-solid fa-folder"></i> okkh</td>
-                                                        <td class="text-bold-500">로그인 기능 수정</td>
-                                                        <td class="text-bold-500">2시간 전</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-bold-500"><i class="fa-regular fa-file"></i> README.md</td>
-                                                        <td class="text-bold-500">리드미 수정</td>
-                                                        <td class="text-bold-500">3일 전</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <!-- /소스 리스트 끝 -->
+                    <!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
+					<div class="buttons">
+						<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
+						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
+						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+						<!-- 레파지 추가 버튼 시작 -->
+	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+	                    	New PullRequest
+	                	</button>
+	                	<!-- /레파지 추가 버튼 끝 -->
+					</div>
+					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
+					
+					<!-- 풀리퀘 추가 form Modal 시작 -->
+	                <div class="modal fade text-left" id="inlineForm" tabindex="-1"
+	                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+	                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+	                        role="document">
+	                        <div class="modal-content">
+	                            <div class="modal-header bg-primary">
+	                                <h5 class="modal-title white" id="myModalLabel160">
+	                                    New PullRequest
+	                                </h5>
+	                                <button type="button" class="close"
+	                                    data-bs-dismiss="modal" aria-label="Close">
+	                                    <i data-feather="x"></i>
+	                                </button>
+	                            </div>
+	                            <form action="insertRepo.re">
+	                                <div class="modal-body">
+	                                    <label>Repository Name*:</label>
+	                                    <div class="form-group">
+	                                        <input type="text" placeholder="레파지토리 이름을 입력해주세요."
+	                                            class="form-control">
+	                                    </div>
+	                                    <label>Description:</label>
+	                                    <div class="form-group">
+	                                        <input type="text" placeholder="레파지토리에 대한 설명을 입력해주세요."
+	                                            class="form-control">
+	                                    </div>
+	                                    <label>Public or Private:</label>
+	                                    <div class="form-group">	
+	                                        <div class="form-check">
+					                            <input class="form-check-input" type="radio" name="status" id="Public" checked>
+					                            <label class="form-check-label" for="Public">
+					                                Public
+					                            </label>
+					                        </div>
+	                                        <div class="form-check">
+					                            <input class="form-check-input" type="radio" name="status" id="Private">
+					                            <label class="form-check-label" for="Private">
+					                                Private
+					                            </label>
+					                        </div>
+	                                    </div>
+	                                    <label>ReadMe:</label>
+	                                    <div class="form-group">	
+	                                        <div class="form-check">
+					                            <input class="form-check-input" type="radio" name="ReadMe"
+					                                id="ReadMe" checked disabled>
+					                            <label class="form-check-label" for="ReadMe">
+					                                ReadMe
+					                            </label>
+					                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="modal-footer">
+	                                    <button type="button" class="btn btn-light-secondary"
+	                                        data-bs-dismiss="modal">
+	                                        <i class="bx bx-x d-block d-sm-none"></i>
+	                                        <span class="d-none d-sm-block">Cancel</span>
+	                                    </button>
+	                                    <button type="button" class="btn btn-primary ml-1"
+	                                        data-bs-dismiss="modal">
+	                                        <i class="bx bx-check d-block d-sm-none"></i>
+	                                        <span class="d-none d-sm-block">Create</span>
+	                                    </button>
+	                                </div>
+	                            </form>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!--/풀리퀘 추가 form Modal 끝 -->
+					
+                    <!-- 풀리퀘스트 table start -->
+				    <section class="section">
+				        <div class="row" id="table-bordered">
+				            <div class="col-12">
+				                <div class="card">
+					                <!-- nav바 시작 -->
+					                <div class="card-body">
+					                	<!-- open or close 선택창 시작 -->
+				                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+				                        	<!-- open -->
+				                            <li class="nav-item" role="presentation">
+				                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
+				                                    aria-controls="home" aria-selected="true"><i class="fa-solid fa-circle-notch" style="color: #0521f5;"></i> Open(2)</a>
+				                            </li>
+				                            <!-- /open -->
+				                            <!-- close -->
+				                            <li class="nav-item" role="presentation">
+				                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
+				                                    aria-controls="profile" aria-selected="false"><i class="fa-solid fa-check" style="color: #f50535;"></i> Close(3)</a>
+				                            </li>
+				                            <!-- /close -->
+				                        </ul>
+				                        <!-- /open or close 선택창 끝 -->
+				                        <!-- 선택창에 해당하는 테이블 시작 -->
+				                        <div class="tab-content" id="myTabContent">
+				                        	<!-- open 테이블 -->
+				                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+					                            <table class="table table-bordered mb-0">
+					                                <thead>
+					                                    <tr>
+					                                    	<th>
+						                                        <div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">TITLE</label>
+						                                        </div>
+					                                    	</th>
+					                                        <th>AUTHOR</th>
+					                                        <th>LABEL</th>
+					                                        <th>MILESTONE</th>
+					                                        <th>REVIEW</th>
+					                                    </tr>
+					                                </thead>
+					                                <tbody>
+					                                    <tr>
+					                                        <td class="text-bold-500">
+					                                        	<div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">풀리퀘 테스트</label>
+						                                        </div>
+					                                        </td>
+					                                        <td>묵순이</td>
+					                                        <td class="text-bold-500">BUG</td>
+					                                        <td><i class="fa-solid fa-xmark"></i></td>
+					                                        <td><i class="fa-regular fa-comment"></i> 3</td>
+					                                    </tr>
+					                                    <tr>
+					                                        <td class="text-bold-500">
+					                                        	<div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">풀리퀘 리뷰 남겨라잉</label>
+						                                        </div>
+					                                        </td>
+					                                        <td>$13/hr</td>
+					                                        <td class="text-bold-500">Graphic concepts</td>
+					                                        <td>Remote</td>
+					                                        <td>Shangai,China</td>
+					                                    </tr>
+					                                </tbody>
+					                            </table>
+				                            </div>
+				                            <!-- /open 테이블 -->
+				                            <!-- close 테이블 -->
+				                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+				                                <table class="table table-bordered mb-0">
+					                                <thead>
+					                                    <tr>
+					                                    	<th>
+						                                        <div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">NAME</label>
+						                                        </div>
+					                                    	</th>
+					                                        <th>RATE</th>
+					                                        <th>SKILL</th>
+					                                        <th>TYPE</th>
+					                                        <th>LOCATION</th>
+					                                        <th>ACTION</th>
+					                                    </tr>
+					                                </thead>
+					                                <tbody>
+					                                    <tr>
+					                                        <td class="text-bold-500">
+					                                        	<div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">하이하이</label>
+						                                        </div>
+					                                        </td>
+					                                        <td>$15/hr</td>
+					                                        <td class="text-bold-500">UI/UX</td>
+					                                        <td>Remote</td>
+					                                        <td>Austin,Taxes</td>
+					                                        <td><a href="#"><i
+					                                                    class="badge-circle badge-circle-light-secondary font-medium-1"
+					                                                    data-feather="mail"></i></a></td>
+					                                    </tr>
+					                                    <tr>
+					                                        <td class="text-bold-500">
+					                                        	<div class="checkbox">
+						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
+						                                            <label for="checkbox1">풀리퀘 해주셈</label>
+						                                        </div>
+					                                        </td>
+					                                        <td>$13/hr</td>
+					                                        <td class="text-bold-500">Graphic concepts</td>
+					                                        <td>Remote</td>
+					                                        <td>Shangai,China</td>
+					                                        <td><a href="#"><i
+					                                                    class="badge-circle badge-circle-light-secondary font-medium-1"
+					                                                    data-feather="mail"></i></a></td>
+					                                    </tr>
+					                                </tbody>
+					                            </table>
+				                            </div>
+				                            <!-- /close 테이블 -->
+				                        </div>
+				                        <!-- /선택창에 해당하는 테이블 끝 -->
+				                    </div>
+            					    <!-- /nav바 끝 -->
+				                    
+				                </div>
+				            </div>
+				        </div>
+				    </section>
+				    <!-- /풀리퀘스트 table end -->
                     <!-- /왼쪽 내용 끝 -->
 
                 </section>
@@ -94,6 +273,21 @@
         <!-- /메인 끝 -->
     </div>
 	<!-- /전체 div 끝 -->
+	
+	<!-- 풀리퀘스트 js -->
+	<script>
+	
+		$(() => {
+			
+			$("#myTabContent tbody>tr").click(() => {
+				
+				location.href = "pullRequestDetail.pu?pno=1";
+				
+			});
+			
+		})
+	
+	</script>
 </body>
 
 </html>

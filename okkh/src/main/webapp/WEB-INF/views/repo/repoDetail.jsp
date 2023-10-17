@@ -8,6 +8,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
+<!-- 에디터 css -->
+<link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
+<link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
+<style>
+	#source {
+		display: none;
+	}
+	#repo tbody>tr:hover {
+		cursor: pointer;
+		background-color: #f8f8f8;
+	}
+</style>
 </head>
 
 <body>
@@ -38,7 +50,7 @@
 			<div class="buttons">
 				<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 				<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Request</a>
+				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 			</div>
 			<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 			
@@ -56,10 +68,10 @@
                                         	<img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="20" width="20" style="border-radius: 15px;"> YoonTarget
                                         </h4>
                                     </div>
-                                    <div class="card-content">
+                                    <div class="card-body">
                                         <!-- table head dark -->
                                         <div class="table-responsive">
-                                            <table class="table mb-0">
+                                            <table class="table mb-0" id="repo">
                                                 <thead class="thead-dark">
                                                     <tr>
                                                         <th>NAME</th>
@@ -69,12 +81,16 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="text-bold-500"><i class="fa-solid fa-folder"></i> okkh</td>
+                                                        <td class="text-bold-500">
+                                                   			<i class="fa-regular fa-folder-open fa-bounce"></i> okkh
+                                                        </td>
                                                         <td class="text-bold-500">로그인 기능 수정</td>
                                                         <td class="text-bold-500">2시간 전</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-bold-500"><i class="fa-regular fa-file"></i> README.md</td>
+                                                        <td class="text-bold-500">
+                                                        	<i class="fa-regular fa-file fa-bounce"></i> README.md
+                                                        </td>
                                                         <td class="text-bold-500">리드미 수정</td>
                                                         <td class="text-bold-500">3일 전</td>
                                                     </tr>
@@ -87,8 +103,38 @@
                         </div>
                     </section>
                     <!-- /소스 리스트 끝 -->
+                    
+                    <!-- 소스코드 호출 js 시작 -->
+                    <script>
+                    
+                    	$(() => {
+                    		
+                    		$("#repo tbody>tr").click(() => {
+                    			
+                    			$("#source").toggle();
+                    			
+                    		})
+                    		
+                    	})
+                    
+                    </script>
+                    <!-- /소스코드 호출 js 끝 -->
+                    
+                    <!-- 소스코드 호출 부분 시작 -->
+                    <section class="section" id="source">
+				        <div class="card">
+				            <div class="card-header">
+				                <h6 class="card-title">README.md</h6>
+				            </div>
+				            <div class="card-body">
+				                <div id="full">
+				                    여기에 코드를 어케 보여줄꼬,,
+				                </div>
+				            </div>
+				        </div>
+				    </section>
+                    <!-- /소스코드 호출 부분 끝 -->
                     <!-- /왼쪽 내용 끝 -->
-
                 </section>
             </div>
             <!-- /내용 끝 -->
@@ -101,6 +147,10 @@
         <!-- /메인 끝 -->
     </div>
 	<!-- /전체 div 끝 -->
+	
+	<!-- 에디터 js -->
+	<script src="resources/assets/extensions/quill/quill.min.js"></script>
+	<script src="resources/assets/static/js/pages/quill.js"></script>
 </body>
 
 </html>
