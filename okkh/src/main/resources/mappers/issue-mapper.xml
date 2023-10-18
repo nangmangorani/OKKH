@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="issueMapper">
+
+	<resultMap type="Issue" id="issueResult">
+		<result column="iss_no" property="issNo"/>
+		<result column="iss_title" property="issTitle"/>
+		<result column="iss_content" property="issContent"/>
+		<result column="create_date" property="createDate"/>
+		<result column="modify_date" property="modifyDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="iss_assignee" property="issAssignee"/>
+		<result column="iss_status" property="issStatus"/>
+		<result column="status" property="status"/>
+		<result column="mem_no" property="memNo"/>
+		<result column="lab_name" property="labName"/>
+		<result column="mil_no" property="milNo"/>
+		<result column="repo_no" property="repoNo"/>
+	</resultMap>
+	
+	
+	
+	<select id="selectIssueList" resultMap="issueResult">
+		select
+		       iss_no
+		     , iss_title
+		     , i.create_date
+		     , iss_assignee
+		     , iss_status
+		     , i.status
+		     , mem_id
+             , a.change_name
+		     , lab_name
+		     , mil_no
+		     , repo_no
+		  from issue i
+          join member m using(mem_no)
+          join attachment a on ref_bno = mem_no
+		 where i.status = 'Y'
+           and a.category = 'M'
+	</select>
+
+
+
+
+</mapper>
+
+
