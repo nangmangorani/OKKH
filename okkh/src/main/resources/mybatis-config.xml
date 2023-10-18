@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd" >
 <configuration>
 
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.okkh.member.model.vo.Member" alias="Member"/>
+	</typeAliases>
 
-<!-- 유의사항 미리 등록해두려면 반드시 해당 클래스가 존재해야 한다. -->
-<typeAliases>
-		<typeAlias type="com.kh.okkh.issue.model.vo.Issue" alias="Issue"/>
-		<typeAlias type="com.kh.okkh.labels.model.vo.Labels" alias="Labels"/>
-</typeAliases>
-
-
-<mappers>
-	<mapper resource="/mappers/issue-mapper.xml"/>
-	<mapper resource="/mappers/labels-mapper.xml"/>
-</mappers>
+	 <mappers>
+		<mapper resource="/mappers/member-mapper.xml"/>
+	 </mappers>
 
 </configuration>
-

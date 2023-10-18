@@ -5,9 +5,15 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OKKH - 이곳에서 꿈을</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKKH - 이곳에서 꿈을</title>
+	<style>
+		#pr:hover{
+            cursor: pointer;
+            opacity: 0.5;
+        }
+	</style>
 </head>
 
 <body>
@@ -52,7 +58,7 @@
                                             </ol>
                                             <div class="carousel-inner" style="height: 300px;">
                                                 <div class="carousel-item active" style="height: 300px;">
-                                                    <img src="resources/images/banner/4 감청색 배경화면.jpg" class="d-block w-100" alt="...">
+                                                    <img src="resources/images/banner/banner1.jpg" class="d-block w-100" alt="...">
                                                     <div class="carousel-caption d-none d-md-block">
                                                         <img src="resources/images/banner/Clab.png" style="width: 30%;">
                                                         <h2 style="color: white;">OKKH 이용안내</h2>
@@ -60,7 +66,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="carousel-item" style="height: 300px;">
-                                                    <img src="resources/images/banner/6 어두운 하늘색 배경화면.jpg" class="d-block w-100" alt="...">
+                                                    <img src="resources/images/banner/banner2.jpg" class="d-block w-100" alt="...">
                                                     <div class="carousel-caption d-none d-md-block">
                                                         <img src="resources/images/banner/Truck.png" style="width: 35%;">
                                                         <h2 style="color: white;">OKKH 새단장!!</h2>
@@ -68,7 +74,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="carousel-item" style="height: 300px;">
-                                                    <img src="resources/images/banner/3 분홍보라색 배경화면.jpg" class="d-block w-100" alt="...">
+                                                    <img src="resources/images/banner/banner3.jpg" class="d-block w-100" alt="...">
                                                     <div class="carousel-caption d-none d-md-block">
                                                         <img src="resources/images/banner/Heart.png" style="width: 35%;">
                                                         <h2 style="color: white;">채용 정보들 뿌린다. 딱 대.</h2>
@@ -106,7 +112,7 @@
                                             <div class="card" style="border: 1px solid gray;">
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
-                                                        <div>
+                                                        <div id="pr">
                                                             <p>마감일  |  2023.11.07</p>
                                                             <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
                                                             <span class="badge bg-primary">프론트</span>
@@ -136,7 +142,7 @@
                                             <div class="card" style="border: 1px solid gray;">
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
-                                                        <div>
+                                                        <div id="pr">
                                                             <p>마감일  |  2023.11.07</p>
                                                             <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
                                                             <span class="badge bg-primary">프론트</span>
@@ -166,7 +172,7 @@
                                             <div class="card" style="border: 1px solid gray;">
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
-                                                        <div>
+                                                        <div id="pr">
                                                             <p>마감일  |  2023.11.07</p>
                                                             <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
                                                             <span class="badge bg-primary">프론트</span>
@@ -237,7 +243,7 @@
                                             <div class="card" style="border: 1px solid gray;">
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
-                                                        <div>
+                                                        <div id="pr">
                                                             <p>작성일  |  2023.11.07</p>
                                                             <h5 class="font-semibold">저 잘합니다~ 연락주세요! 캐리 가능.</h5>
                                                             <span class="badge bg-primary">프론트</span>

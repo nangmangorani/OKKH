@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<resultMap type="Member" id="memberResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="mem_id" property="memId"/>
+		<result column="mem_token" property="memToken"/>
+		<result column="profile" property="profile"/>
+		<result column="nickname" property="nickname"/>
+		<result column="mem_intro" property="memIntro"/>
+		<result column="create_date" property="createDate"/>
+		<result column="status" property="status"/>
+	</resultMap>
+	
+	<!-- 깃로그인 시 유저정보 DB에 저장 -->
+	<insert id="insertMember">
+		insert 
+		    into member
+		    (	mem_no
+		      , mem_id
+		      , mem_token
+		      , profile
+		      , nickname
+		      , mem_intro
+		      , create_date
+		      , status
+		    )
+		    values
+		    (
+		    	seq_mno.nextval
+		      , #{memId}
+		      , #{memToken}
+		      , #{profile}
+		      , #{nickname}
+		      , #{memIntro}  
+		      , #{createDate}
+		      , #{status}
+		    )
+	</insert>
+	
+	<select id="selectMember" resultMap="memberResultSet">
+		select 
+		        mem_no
+		      , mem_id
+		      , mem_token
+		      , profile
+		      , nickname
+		      , mem_intro
+		      , create_date
+		      , status
+		  from member
+		  where mem_id = #{memId}
+	</select>
+	
+</mapper>
