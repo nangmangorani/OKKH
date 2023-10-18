@@ -1,0 +1,5 @@
+@charset "UTF-8";
+#myTabContent tbody>tr:hover {
+	cursor: pointer;
+	background-color: #f8f8f8;
+}

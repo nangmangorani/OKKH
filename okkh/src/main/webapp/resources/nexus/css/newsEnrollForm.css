@@ -1,0 +1,24 @@
+.title{
+    width: 80px !important;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.note-editor{
+    margin: auto;
+}
+
+.hiddenp{
+    visibility: hidden;
+}
+.cardcon{
+    height: 100%;
+}
+
+form{
+    height: 100%;
+}
+
+.note-editable{
+    height: 700px !important;
+}

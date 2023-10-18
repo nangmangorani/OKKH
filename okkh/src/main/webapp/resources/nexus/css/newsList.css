@@ -1,0 +1,81 @@
+.card-img-top{
+    height: 160px;
+    width: 200px;
+}
+
+.userInfo{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-text1{
+    height: 70px;
+    overflow: hidden;
+}
+
+.card-title{
+    font-weight: 800;
+    height: 20px;
+    overflow: hidden;
+}
+
+.card-body{
+    padding-bottom: 5px !important;
+}
+
+.bxs-heart-circle{
+    font-size: 1.5rem !important;
+}
+.heartwrap{
+    margin-top: 5px;
+}
+
+.cardWrap{
+    position: relative;
+    transition: top 0.3s ease-in-out;
+}
+
+.cardWrap:hover{
+    cursor: pointer;
+    top:-5px;
+}
+
+#enroll{
+    visibility: visible !important;
+    margin-right: 15px;
+}
+
+.up{
+    position: fixed;
+    bottom: 100px;
+    right: 70px;
+    font-size: 2rem !important;
+}
+.bx-chevrons-up{
+    font-size: 2rem !important;
+}
+
+#observer{
+	visibility: hidden;
+}
+
+.new:hover{
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.popular:hover{
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+.my:hover{
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.popular,.my,.new{
+    font-weight: 900;
+    font-size: 1.3rem;
+}
+
+

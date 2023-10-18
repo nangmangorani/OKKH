@@ -5,13 +5,18 @@
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.kh</groupId>
-	<artifactId>okkh</artifactId>
-	<name>okkh</name>
+	<artifactId>spring</artifactId>
+	<name>springProject</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
 	
+	
+	
+	
 	<properties>
+		<java-version>11</java-version>
+		<org.springframework-version>5.3.14</org.springframework-version>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.14</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
@@ -27,6 +32,7 @@
 	</repositories>
 	
 	<dependencies>
+	
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -240,6 +246,7 @@
       </dependency>
 		
 	</dependencies>
+	
     <build>
         <plugins>
             <plugin>

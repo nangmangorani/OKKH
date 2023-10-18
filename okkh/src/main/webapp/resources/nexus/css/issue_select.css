@@ -1,0 +1,186 @@
+
+
+.assClose:hover {
+   cursor: pointer;
+}
+
+.labelClose:hover {
+   cursor: pointer;
+}
+
+
+.label-list {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 5px;
+}
+
+.label-list .badge {
+   display: block;
+}
+
+
+/* 글등록 버튼 속성*/
+
+.btn-box button {
+  float: right;
+  margin-right : 12px;
+}
+
+.btn-box a {
+  float: right;
+  margin-right : 12px;
+}
+
+/* 글자 설정 */
+
+a{
+  text-decoration: none;
+  color: #495057;
+}
+
+
+.luda {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.luda a {
+	margin-left: auto;
+	margin-right: 5vw;
+}
+
+.textA {
+text-decoration: none;
+	color: rgb(31, 29, 29)
+}
+
+.textA:hover {
+  text-decoration: none;
+}
+
+
+
+.btnBox {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btnGroup1{
+	margin-right: 25px;
+}
+
+.btnGroup2 {
+margin-right: 5vw;
+}
+
+
+
+/* 에디터--------------------------- */
+
+.input-group input{
+	width:80px;
+}
+
+.total-box{
+	width:100%;
+  display: flex;
+   border-radius: 0.375rem;
+    height: 80%;
+}
+
+ .input-top {
+  display: flex;
+  margin-top:50px;
+ 
+ 
+  border-radius: 0.375rem;
+} 
+
+
+#issueEnrollForm{
+	width:65%;
+}
+
+.why{
+
+	height:88%;
+	 background-color: white;
+}
+
+.editor-wrapper {
+width:100%;
+  flex: 1 1 68%;
+  padding: 20px 20px;
+  height:85%;
+    background-color: white;
+    border-radius: 0.375rem;
+}
+
+
+.editor{
+	width:100%;
+}
+
+.btn-box{
+	width:100%;
+
+}
+
+.btn-box button{
+	
+	float:right;
+	margin-right:12px;
+}
+
+
+
+.editor-label {
+	width:35%;
+  flex: 1 1 32%;
+  padding: 20px 20px;
+   background-color: white;
+   border-radius: 0.375rem;
+    margin-top: 50px;
+}
+
+ .issuetitle{
+ 
+ margin-top: 50px;
+ width: 50%;
+ }
+
+
+/* 선택된 옵션 스타일 */
+select option:checked {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* 선택된 값 표시 스타일 */
+.select-values {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+
+.hidden-profiles {
+  display: none;
+}
+
+.assClose:hover{
+  cursor: pointer;
+}
+.labelClose:hover{
+  cursor: pointer;
+}
+
+
+  
+

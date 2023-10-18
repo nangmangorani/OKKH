@@ -1,0 +1,20 @@
+#phoneImg{
+    width: 30px;
+}
+
+#email{
+    width: 30px;
+}
+#url{
+    width: 30px;
+}
+.row>div{
+    height: 100%;
+}
+.container-p-y>div{
+    height: 100%;
+}
+.issueTable::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
