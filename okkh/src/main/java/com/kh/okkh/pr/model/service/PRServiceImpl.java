@@ -85,13 +85,19 @@ public class PRServiceImpl implements PRService{
 		return prdao.insertPR(pr, sqlSession);
 	}
 
+	
+	
+
+	
+	
+	
 	/**
 	 * pr 수정하는 메소드
 	 */
 	@Override
 	public int updatePR(PR pr) {
 		
-		return 0;
+		return prdao.updatePR(pr, sqlSession);
 	}
 
 	/**
@@ -100,9 +106,16 @@ public class PRServiceImpl implements PRService{
 	@Override
 	public int deletePR(int pno) {
 		
-		return 0;
+		return prdao.deletePR(pno, sqlSession);
 	}
 
+
+
+
+
+
+
+	
 	
 
 }

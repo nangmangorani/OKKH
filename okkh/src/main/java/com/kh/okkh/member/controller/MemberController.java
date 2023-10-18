@@ -55,7 +55,7 @@ public class MemberController {
 	@RequestMapping("main.p")
 	public String nexusPage(HttpSession session, Model model) throws IOException {
 		// 최근 접속한 repository 3개 select
-		int userNo = ((Member)(session.getAttribute("loginUser"))).getMemNo();
+		int userNo = ((Member)(session.getAttribute("loginMember"))).getMemNo();
 		return "main";
 	}
 	
@@ -85,10 +85,10 @@ public class MemberController {
 	// 로그인
 	@RequestMapping("login.ih")
 	public String nexusLogin(Member m,HttpSession session,Model model) {
-		Member loginUser = mService.selectMember(m);
+		Member loginMember = mService.selectMember(m);
 		
-		if(loginUser != null){
-			session.setAttribute("loginUser", loginUser);
+		if(loginMember != null){
+			session.setAttribute("loginMember", loginMember);
 			return "redirect:main.p";
 		}else {
 			session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
@@ -102,12 +102,12 @@ public class MemberController {
 	@ResponseBody
 	public String enrollToken(Member m, HttpSession session) {
 		
-		m.setMemNo(((Member)session.getAttribute("loginUser")).getMemNo());
+		m.setMemNo(((Member)session.getAttribute("loginMember")).getMemNo());
 		
 		int result = mService.enrollToken(m);
 		
 		if(result>0) {
-			((Member)session.getAttribute("loginUser")).setMemToken(m.getMemToken());
+			((Member)session.getAttribute("loginMember")).setMemToken(m.getMemToken());
 			return "토큰 등록에 성공했습니다.";
 		}else {
 			return "토큰 등록에 실패했습니다. 다시 등록해주세요";

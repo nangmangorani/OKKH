@@ -334,10 +334,12 @@
 .note-editor.note-frame,
 .note-editor.note-airframe {
     border: 1px solid #00000032;
+    
 }
 .note-editor.note-frame.codeview .note-editing-area .note-editable,
 .note-editor.note-airframe.codeview .note-editing-area .note-editable {
     display: none;
+   
 }
 .note-editor.note-frame.codeview .note-editing-area .note-codable,
 .note-editor.note-airframe.codeview .note-editing-area .note-codable {
@@ -352,6 +354,7 @@
     padding: 10px;
     overflow: auto;
     word-wrap: break-word;
+   
 }
 .note-editor.note-frame .note-editing-area .note-editable[contenteditable=false],
 .note-editor.note-airframe .note-editing-area .note-editable[contenteditable=false] {
@@ -393,7 +396,7 @@
     width: 100%;
     font-size: 14px;
     line-height: 1.42857143;
-    height: 20px;
+    height: 100px;
     margin-bottom: 0;
     color: #000;
     border: 0;

@@ -7,7 +7,7 @@
 		<result column="pr_title" property="prTitle" />
 		<result column="create_date" property="createDate" />
 		<result column="stack_name" property="stackName" />
-		<result column="nickname" property="prWriter" />
+		<result column="okkh_nick" property="prWriter" />
 		<result column="count" property="count" />
 		<result column="pr_time" property="prTime"/>
 		<result column="pr_content" property="prContent"/>
@@ -38,7 +38,7 @@
 		      , pr_title
 		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
 		      , stack_name
-		      , nickname
+		      , okkh_nick
 		      , count
 		  from my_pr pr
 		  join member using (mem_no)
@@ -66,7 +66,7 @@
 		     , #{prTitle}
 		     , #{prContent}
 		     , sysdate
-		     , #{proTime}
+		     , #{prTime}
 		     , 'Y'
 		     , #{stackName}
 		     , #{prWriter}
@@ -92,7 +92,7 @@
 		       , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
 		       , pr_time
 		       , stack_name
-		       , nickname
+		       , okkh_nick
 		       , count
 		    from my_pr pr
 		    join member using (mem_no)
@@ -100,6 +100,27 @@
 		     and pr_no = #{prNo}
 	
 	</select>
+	
+	<update id="deletePR">
+		update 
+			   my_pr
+		   set status = 'N'
+		 where pr_no = #{prNo}     
+	</update>
+	
+	
+	
+	<update id="updatePR">
+		update 
+		       my_pr
+		   set pr_title = #{prTitle}
+		     , pr_content = #{prContent}
+		     , stack_name = #{stackName}
+		     , pr_time = #{prTime}
+		 where pr_no = #{prNo}
+		       
+	</update>
+	
 
 </mapper>
   	

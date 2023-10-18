@@ -1130,6 +1130,7 @@ a.note-dropdown-item:hover {
     width: 20px;
     margin: 1px auto;
     border-top: 1px solid #00000032;
+    background-color: #a94442;
 }
 .note-editor.note-frame .note-statusbar.locked .note-resizebar,
 .note-editor.note-airframe .note-statusbar.locked .note-resizebar {

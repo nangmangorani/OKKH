@@ -930,6 +930,7 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 			</c:forEach>
                 
           
+        
                 
                 
             </div>
@@ -938,6 +939,14 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
        
 
         </div>
+        
+           <!-- 사이드에 친구 목록 -->
+       
+     <!-- 친구 및 팀원 시작 -->
+      <jsp:include page="../common/rightSide.jsp" />
+      <!-- 친구 및 팀원 끝 -->
+      
+      
         </div>
               	
   
@@ -973,11 +982,9 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             
      </script>
 
+ 
 	</div>
 	
-    <!-- 사이드에 친구 목록 -->
-        
-     
     
     
         

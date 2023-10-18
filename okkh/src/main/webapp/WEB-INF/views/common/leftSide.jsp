@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +26,19 @@
 </head>
 <body>
 
-
+  <!-- alert 시작 -->
+    
+    <c:if test="${ not empty alertMsg }">
+    	<script>
+    		alert("${ alertMsg }");
+    	</script>
+    	
+    	<c:remove var="alertMsg" scope="session"/>
+    </c:if>
+    <!-- /alert 끝 -->
+    
+    
+    
 	<!-- 주야간모드 버튼 js 시작 -->
     <script src="resources/assets/static/js/initTheme.js"></script>
 	<!-- /주야간모드 버튼 js 끝 -->
@@ -98,12 +112,7 @@
                                 <span>Milestones</span>
                             </a>
                         </li>
-                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-puzzle"></i>
-                                <span>Pull Request</span>
-                            </a>
-                        </li>
+                        
                         <li class="sidebar-item">
                             <a href="myPullRequest.pu" class='sidebar-link'>
                                 <i class="fa-solid fa-code-pull-request"></i>

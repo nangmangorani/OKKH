@@ -83,6 +83,11 @@
            /* width: 100%; */
          
         }
+
+
+
+
+
         
   </style>
 
@@ -153,13 +158,24 @@
                                             <div class="col-md-6 col-12">
                                                 <!-- 사용언어는 기술 스택임 -->
                                                 <div class="form-group">
-                                                    <label for="city-column">사용 언어</label>
+                                                    <label for="city-column">기술 스택</label>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="tech-stack">
                                                     
+                                                    
+                                                    <!-- 기술 스택을 이미지와 글씨로 표현하는 	부분  -->
                                                     <c:set var="techStacks" value="${fn:split(pr.stackName, ',')}" />
 														    <c:forEach items="${techStacks}" var="techStack">
 														    <c:set var="src" value="https://holaworld.io/images/languages/${techStack}.svg"/>
-														        <img src="${src }" alt="${src}" style="width:45px; height:45px;">
+														        
+														         <button type="button" class="btn" style="border:1px solid lightgray; border-radius: 50px; height: 60px;padding-left: 0; margin-right: 3px; ">
+										                           <div style=" border-radius:50px; ">
+                                                                    
+                                                                        <span class="badge bg-transparent"   >
+                                                                                <img src="${src }" alt="${techStack}" style="width:35px; height:35px; ">
+                                                                            </span>
+                                                                            <span style="padding-right: 10px;"> ${techStack}</span>
+                                                                    </div>    
+										                        </button>
 														    </c:forEach>
                                                     </span>
                                                 </div>
@@ -167,7 +183,22 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="country-floating">프로젝트 가능 시간 <br>(단위 기간 : 24HR)</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">${pr.prTime }시간</span>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">
+                                                    
+                                                    <!-- selectbox에서 value=0이면 시간미정이어서 분기처리해주기 -->
+                                                    <c:choose>
+                                                    	<c:when test="${pr.prTime eq 0 }">
+                                                    		시간 미정
+                                                    	</c:when>
+                                                    	<c:otherwise>
+                                                    	  ${pr.prTime }시간
+                                                    	</c:otherwise>
+                                                    
+                                                    </c:choose>
+                                                  
+                                                    
+                                                    
+                                                    </span>
                                                 </div>
                                             </div>
                                           
@@ -195,18 +226,19 @@
                                            <!-- PR 내용 -->
 
                                                  
-                                               
-                                               <textarea  class="summernote" id="summernote" name="prContent"  style="resize: none;" readonly >
-                                               	${pr.prContent }
-                                               </textarea>    
-                                                  
+                                               <div style=" height: 600px;" id="UJ-summerDiv">
+                                                   
+                                                        ${pr.prContent }
+                                                      
+                                                </div>
                                     				
                                     				<script>
-												    $('.summernote').summernote({
+												    $('#summernote').summernote({
 												          // 에디터 높이
 												       
-												          height: "1000",
+												     
 												          // 에디터 한글 설정
+                                                          maxHeight:600,
 												          lang: "ko-KR",
 												          // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
 												          focus : true,
@@ -256,9 +288,9 @@
                                            <!-- 작성한 사람만 보이게 하기 -->
                                             <div class="col-12 d-flex justify-content-end" style="margin-top:40px;">
                                                
-                                                <button type="submit" class="btn btn-primary me-1 mb-1">수정하기</button>
-                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="#">삭제하기</button>
-                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="javascript:history.go(-1)">뒤로가기</button>
+                                                <button type="button" class="btn btn-primary me-1 mb-1" onclick="location.href='updatePrForm.pr?pno='+ ${pr.prNo}">수정하기</button>
+                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='deletePr.pr?pno='+${pr.prNo}">삭제하기</button>
+                                                 <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='personalList.pr'">뒤로가기</button>
                                             </div>
                                         </div>
                                     </form>

@@ -360,6 +360,7 @@
 .note-editor.note-frame .note-editing-area .note-codable,
 .note-editor.note-airframe .note-editing-area .note-codable {
     display: none;
+    height: 600px;
     width: 100%;
     padding: 10px;
     border: none;

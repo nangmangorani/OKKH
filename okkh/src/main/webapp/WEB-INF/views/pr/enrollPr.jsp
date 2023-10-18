@@ -22,6 +22,7 @@
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
 	
 	
+	<!-- 썸머노트 에디터 위해 필요함 -->
 	<link rel="stylesheet" href="resources/assets/extensions/summernote/summernote-lite.css">
 
   	<link rel="stylesheet" href="resources/assets/compiled/css/form-editor-summernote.css">
@@ -92,10 +93,10 @@
                                                     <!-- <input type="text" id="last-name-column" class="form-control"
                                                         placeholder="기간 미정 ~ 6개월 이상" name="period"> -->
 
-                                                        <select class="form-select" id="basicSelect" name="proTime">
+                                                        <select class="form-select" id="basicSelect" name="prTime" required>
                                                             <option value="0">시간 미정</option>
                                                             <option value="1">1시간</option>
-                                                            <option value="2">2시간</option>
+                                                            <option value="2" >2시간</option>
                                                             <option value="3">3시간</option>
                                                             <option value="4">4시간</option>
                                                             <option value="5">5시간</option>
@@ -113,7 +114,7 @@
                                             <div class="col-md-6 mb-4">
                                                 <div class="form-group">
                                                     <label for="country-floating">기술 스택</label>
-                                                    <select class="choices form-select multiple-remove" multiple="multiple" name="stackName">
+                                                    <select class="choices form-select multiple-remove" multiple="multiple" name="stackName" required>
                                                         
                                                         <c:forEach var="s" items="${list }">
                                                             <option value="${s.stackName }">${s.stackName }</option>
@@ -144,21 +145,23 @@
                                             <span>제목</span>
                                              <br>
                                             <input type="text" id="company-column" class="form-control"
-                                                name="prTitle" placeholder="자기 소개 제목을 입력해주세요" style="width: 1100px; margin-left: 10px; margin-bottom:10px;" >
+                                                name="prTitle" placeholder="자기 소개 제목을 입력해주세요" style="width: 1100px; margin-left: 10px; margin-bottom:10px;" required >
                                                
                                                
                                             <!-- PR 내용 -->
 
                                                  
                                                
-                                               <textarea  class="summernote" id="summernote" name="prContent"  style="resize: none;" ></textarea>    
+                                               <textarea  class="summernote" id="summernote" name="prContent" required  ></textarea>    
                                                   
                                     				
                                     				<script>
 												    $('.summernote').summernote({
 												          // 에디터 높이
 												       
-												          height: "1000",
+												         
+                                                          height: 600,
+                                                          placeholder: 'dkssuddd',
 												          // 에디터 한글 설정
 												          lang: "ko-KR",
 												          // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
@@ -188,12 +191,39 @@
 												             // 추가한 폰트사이즈
 												            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 												
-												
+												          //콜백 함수
+												            callbacks : { 
+												            	onImageUpload : function(files, editor, welEditable) {
+												            // 파일 업로드(다중업로드를 위해 반복문 사용)
+												            for (var i = files.length - 1; i >= 0; i--) {
+												            uploadSummernoteImageFile(files[i],
+												            this);
+												            		}
+												            	}
+												            }
+												          
 												            
 												            
 												        });
 												    
+												    $('#summernote').summernote(setting);
+										             });
 												    
+												    function uploadSummernoteImageFile(file, el) {
+														data = new FormData();
+														data.append("file", file);
+														$.ajax({
+															data : data,
+															type : "POST",
+															url : "uploadSummernoteImageFile",
+															contentType : false,
+															enctype : 'multipart/form-data',
+															processData : false,
+															success : function(data) {
+																$(el).summernote('editor.insertImage', data.url);
+															}
+														});
+													}
 												  
 												    </script>
 												                                                  

@@ -85,22 +85,25 @@ public class PRdao {
 		return sqlSession.insert("prMapper.insertPR", pr);
 	}
 
+	
+
+	
 	/**
 	 * pr 수정하는 메소드
 	 */
 	
-	public int updatePR(PR pr) {
+	public int updatePR(PR pr, SqlSessionTemplate sqlSession) {
 		
-		return 0;
+		return sqlSession.update("prMapper.updatePR", pr) ;
 	}
 
 	/**
 	 * pr 삭제하는 메소드
 	 */
 	
-	public int deletePR(int pno) {
+	public int deletePR(int pno, SqlSessionTemplate sqlsession) {
 		
-		return 0;
+		return sqlsession.update("prMapper.deletePR", pno);
 	}
 
 }
