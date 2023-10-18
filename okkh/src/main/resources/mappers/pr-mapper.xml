@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="prMapper">
+
+	<resultMap type="PR" id="prSetResult">
+		<result column="pr_no" property="prNo" />
+		<result column="pr_title" property="prTitle" />
+		<result column="create_date" property="createDate" />
+		<result column="stack_name" property="stackName" />
+		<result column="nickname" property="prWriter" />
+		<result column="count" property="count" />
+		<result column="pr_time" property="prTime"/>
+		<result column="pr_content" property="prContent"/>
+		
+	</resultMap>
+
+	<resultMap type="Stack" id="stackSetResult">
+		<result column="stack_no" property="stackNo"/>
+		<result column="stack_type" property="stackType"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="stack_img" property="stackImg"/>
+		
+	</resultMap>
+
+
+	<select id="selectListCount" resultType="_int">
+		select count(*)
+		  from my_pr
+		 where status ='Y'
+	
+	</select>
+	
+	
+	
+  <select id="selectPRList" resultMap="prSetResult">
+		 select 
+		        pr_no
+		      , pr_title
+		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
+		      , stack_name
+		      , nickname
+		      , count
+		  from my_pr pr
+		  join member using (mem_no)
+		 where pr.status ='Y'
+		 order by pr.create_date desc
+			
+	</select>
+	
+	
+	<select id="selectStackList"  resultMap="stackSetResult">
+		select 
+			   stack_no
+			 , stack_type
+			 , stack_name
+			 , stack_img 
+		 from stack	  
+	
+	</select>
+	
+	<insert id="insertPR">
+		INSERT INTO MY_PR 
+		     VALUES
+		     (
+		       SEQ_PRNO.NEXTVAL
+		     , #{prTitle}
+		     , #{prContent}
+		     , sysdate
+		     , #{proTime}
+		     , 'Y'
+		     , #{stackName}
+		     , #{prWriter}
+		     , DEFAULT
+		     
+		     )
+	</insert>
+
+
+	<update id="increaseCount">
+		update 
+			   my_pr
+		   set count = count +1
+		 where pr_no = #{prNo}    
+	</update>
+	
+	
+	<select id="selectDetailPR" resultMap="prSetResult">
+		  select 
+		         pr_no
+		       , pr_title
+		       , pr_content
+		       , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
+		       , pr_time
+		       , stack_name
+		       , nickname
+		       , count
+		    from my_pr pr
+		    join member using (mem_no)
+		   where pr.status = 'Y'
+		     and pr_no = #{prNo}
+	
+	</select>
+
+</mapper>
+  	

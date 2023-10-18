@@ -2,16 +2,24 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "mybatis-3-config.dtd" >
 <configuration>
 
-	<settings>
-		<setting name="jdbcTypeForNull" value="NULL"/>
-	</settings>
-	
-	<typeAliases>
-		<typeAlias type="com.kh.okkh.member.model.vo.Member" alias="Member"/>
-	</typeAliases>
+<settings>
+	<setting name="jdbcTypeForNull" value="NULL"/>
+</settings>
 
-	 <mappers>
-		<mapper resource="/mappers/member-mapper.xml"/>
-	 </mappers>
+<typeAliases>
+	<typeAlias type="com.kh.okkh.project.model.vo.Project" alias="Project"/>
+	<typeAlias type="com.kh.okkh.pr.model.vo.PR" alias="PR"/>
+	<typeAlias type="com.kh.okkh.common.model.vo.Stack" alias="Stack"/>
+	<typeAlias type="com.kh.okkh.member.model.vo.Member" alias="Member"/>
+</typeAliases>
+
+<mappers>
+	<mapper resource="/mappers/project-mapper.xml"/>
+	<mapper resource="/mappers/pr-mapper.xml"/>
+	<mapper resource="/mappers/member-mapper.xml"/>
+</mappers>
+
+
+
 
 </configuration>

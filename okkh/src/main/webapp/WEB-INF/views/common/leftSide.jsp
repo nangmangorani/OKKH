@@ -23,6 +23,8 @@
 
 </head>
 <body>
+
+
 	<!-- 주야간모드 버튼 js 시작 -->
     <script src="resources/assets/static/js/initTheme.js"></script>
 	<!-- /주야간모드 버튼 js 끝 -->
@@ -72,7 +74,7 @@
                 </div>
                 <!-- 로고, 주야간버튼 끝 -->
                 
-                <!-- 메뉴바 시작 -->
+                <!-- 메뉴바 시작 (김유정 풀리퀘 추가) -->
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title" style="font-weight: bolder;">Project</li>
@@ -96,6 +98,12 @@
                                 <span>Milestones</span>
                             </a>
                         </li>
+                         <li class="sidebar-item">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-puzzle"></i>
+                                <span>Pull Request</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item">
                             <a href="myPullRequest.pu" class='sidebar-link'>
                                 <i class="fa-solid fa-code-pull-request"></i>
@@ -115,13 +123,13 @@
                         <li class="sidebar-title" style="font-weight: bolder;">Transfer</li>
                         
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="recruitList.pro" class='sidebar-link'>
                                 <i class="bi bi-grid-1x2-fill"></i>
                                 <span>Recruit</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="personalList.pr" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>PR</span>
                             </a>

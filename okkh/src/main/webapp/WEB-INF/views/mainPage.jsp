@@ -20,6 +20,7 @@
 
     <!-- alert 시작 -->
     <c:if test="${ not empty alertMsg }">
+    <c:if test="${ not empty alertMsg }">
     	<script>
     		alert("${ alertMsg }");
     	</script>
@@ -264,7 +265,7 @@
                                                             <i class="fa-regular fa-comment"></i> <span>6</span>
                                                         </div>
                                                     </div> 
-                                                </div>
+                                           </div>
                                             </div>
                                         </div>
                                     </div>
