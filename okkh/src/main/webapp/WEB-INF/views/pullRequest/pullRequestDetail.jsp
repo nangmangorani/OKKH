@@ -56,8 +56,8 @@
 				                <div class="card">
 				                	<div class="review">
 					                    <div class="card-header">
-					                    	<span style="font-weight: bold; font-size: 18px; color: #202020">풀리퀘 테스트</span>
-					                        <span>#01</span>
+					                    	<span style="font-weight: bold; font-size: 18px;">풀리퀘 테스트</span>
+					                        <span style="color: #707070;">#01</span>
 					                    </div>
 				                    </div>
 				                	<div class="review">

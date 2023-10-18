@@ -1,4 +1,4 @@
------------------삭제------------------
+]-----------------삭제------------------
 --접속유저의 모든테이블 및 제약조건 삭제
 BEGIN
     FOR C IN (SELECT TABLE_NAME FROM USER_TABLES) LOOP
@@ -33,7 +33,7 @@ END;
 CREATE SEQUENCE SEQ_CALNO
 NOCACHE;
 -- 레파지토리 시퀀스 생성
-CREATE SEQUENCE SEQ_REPONO
+CREATE SEQUENCE SEQ_REPO
 NOCACHE;
 -- 커밋 시퀀스 생성
 CREATE SEQUENCE SEQ_CNO
@@ -57,22 +57,25 @@ NOCACHE;
 CREATE SEQUENCE SEQ_FPNO
 NOCACHE;
 -- 자기PR 시퀀스 생성
-CREATE SEQUENCE SEQ_PR
+CREATE SEQUENCE SEQ_PRNO
 NOCACHE;
 -- 마일스톤 시퀀스 생성
-CREATE SEQUENCE SEQ_SNO
+CREATE SEQUENCE SEQ_MIL
 NOCACHE;
 -- 이슈 시퀀스 생성
-CREATE SEQUENCE SEQ_INO
+CREATE SEQUENCE SEQ_ISS
 NOCACHE;
 -- 이슈라벨 시퀀스 생성
-CREATE SEQUENCE SEQ_LNO 
+CREATE SEQUENCE SEQ_LAB 
 NOCACHE;
 -- 댓글 시퀀스 생성
 CREATE SEQUENCE SEQ_RNO
 NOCACHE;
 -- 풀리퀘스트 시퀀스 생성
 CREATE SEQUENCE SEQ_PREQ
+NOCACHE;
+-- 풀리퀘스트 리뷰 시퀀스 생성
+CREATE SEQUENCE SEQ_REV
 NOCACHE;
 -- 채팅방 시퀀스 생성
 CREATE SEQUENCE SEQ_CHATNO
@@ -86,7 +89,8 @@ NOCACHE;
 CREATE TABLE STACK(
     STACK_NO NUMBER PRIMARY KEY,
     STACK_TYPE VARCHAR2(100),
-    STACK_NAME VARCHAR2(100) 
+    STACK_NAME VARCHAR2(100),
+    STACK_IMG VARCHAR2(100)
 )
 ;
 
@@ -94,40 +98,41 @@ CREATE TABLE STACK(
 COMMENT ON COLUMN STACK.STACK_NO IS '기술스택 번호';
 COMMENT ON COLUMN STACK.STACK_NAME IS '기술스택 이름';
 COMMENT ON COLUMN STACK.STACK_TYPE IS '기술 스택 분류';
+COMMENT ON COLUMN STACK.STACK_IMG IS '기술 스택 이미지';
 
 -- 기술 스택 샘플 데이터
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','JavaScript'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','TypeScript'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','React'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','Vue'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','Svelte'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','Next.js'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Java'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Spring'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Node.js'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','NestJS'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Go');
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Kotlin'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','ExPress'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','MySQL'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','MongoDB');
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Python'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Django');
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','php'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','GraphQL'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','Firebase'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','Flutter'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','Swift'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','ReactNative'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','Unity'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','AWS'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Kubernetes'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Docker'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Git'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Figma'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Zeplin'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','Jest'); 
-INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','C'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','javascript','https://holaworld.io/images/languages/javascript.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','typescript','https://holaworld.io/images/languages/typescript.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','react','https://holaworld.io/images/languages/react.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','vue','https://holaworld.io/images/languages/vue.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','svelte','https://holaworld.io/images/languages/svelte.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '프론트엔드','nextjs','https://holaworld.io/images/languages/nextjs.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','java','https://holaworld.io/images/languages/java.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','spring','https://holaworld.io/images/languages/spring.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','nodejs','https://holaworld.io/images/languages/nodejs.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','nestjs','https://holaworld.io/images/languages/nestjs.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','go','https://holaworld.io/images/languages/go.svg');
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','kotlin','https://holaworld.io/images/languages/kotlin.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','express','https://holaworld.io/images/languages/express.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','mysql','https://holaworld.io/images/languages/mysql.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','mongodb','https://holaworld.io/images/languages/mongodb.svg');
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','python','https://holaworld.io/images/languages/python.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','django','https://holaworld.io/images/languages/django.svg');
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','php','https://holaworld.io/images/languages/php.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','graphql','https://holaworld.io/images/languages/graphql.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '백엔드','firebase','https://holaworld.io/images/languages/firebase.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','flutter','https://holaworld.io/images/languages/flutter.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','swift','https://holaworld.io/images/languages/swift.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','reactnative','https://holaworld.io/images/languages/reactnative.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '모바일','unity','https://holaworld.io/images/languages/unity.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','aws','https://holaworld.io/images/languages/aws.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','kubernetes','https://holaworld.io/images/languages/kubernetes.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','docker','https://holaworld.io/images/languages/docker.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','git','https://holaworld.io/images/languages/git.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','figma','https://holaworld.io/images/languages/figma.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','zeplin','https://holaworld.io/images/languages/zeplin.svg'); 
+INSERT INTO STACK VALUES (SEQ_TNO.NEXTVAL, '기타','jest','https://holaworld.io/images/languages/jest.svg'); 
+
 
  ---사진 테이블 
  -- 회원테이블에서 FILE_NO를 참조해서
@@ -243,9 +248,11 @@ CREATE TABLE MY_PR(
     PR_TITLE VARCHAR2(1000) NOT NULL,
     PR_CONTENT VARCHAR2(4000) NOT NULL,
     CREATE_DATE DATE DEFAULT SYSDATE,
+    PR_TIME NUMBER ,
     STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN ('Y','N')) NOT NULL,
     STACK_NAME VARCHAR2(4000) NOT NULL,
-    MEM_NO NUMBER REFERENCES MEMBER
+    MEM_NO NUMBER REFERENCES MEMBER,
+    COUNT NUMBER DEFAULT 0
 );
 
 -- 자기PR 코멘트
@@ -256,46 +263,228 @@ COMMENT ON COLUMN MY_PR.CREATE_DATE IS 'PR 작성일';
 COMMENT ON COLUMN MY_PR.STATUS IS '상태';
 COMMENT ON COLUMN MY_PR.STACK_NAME IS '기술스택';
 COMMENT ON COLUMN MY_PR.MEM_NO IS '회원번호';
+COMMENT ON COLUMN MY_PR.COUNT IS '조회수';
+COMMENT ON COLUMN MY_PR.PR_TIME IS '프로젝트 가능시간';
 
 
 INSERT INTO MY_PR 
      VALUES
      (
-       SEQ_PR.NEXTVAL
+       SEQ_PRNO.NEXTVAL
      , '성실한 개발자입니다'  
      , '저를 뽑으면 절대 후회하지 않습니다.'
      , '2023-09-25'
-     , 'Y'
-     , 'Java,MySQL,JavaScript,AJAX,VSCODE'
      , 1
-       
+     , 'Y'
+     , 'java,spring,mysql,kotlin,vue'
+     , 1
+     , DEFAULT
+     
      );
      
+     commit;
      
 INSERT INTO MY_PR 
      VALUES
      (
-       SEQ_PR.NEXTVAL
+       SEQ_PRNO.NEXTVAL
      , '아... 프로젝트 하고싶다'  
      , '프로젝트 하고 싶어 미치겠읍니다. 데려가주십시오'
      , '2023-09-28'
-     , 'Y'
-     , 'Java,MySQL,JavaScript,AJAX,VSCODE'  
      , 2
+     , 'Y'
+     , 'java,spring,mysql,react'  
+     , 2
+     , DEFAULT
      );
 
 
 INSERT INTO MY_PR 
      VALUES
      (
-       SEQ_PR.NEXTVAL
+       SEQ_PRNO.NEXTVAL
      , '취업하고싶다면?'  
      , '저와 함께 네카라쿠배로 취업하실래요?'
      , '2023-09-25'
+     , 5
      , 'Y'
-     , 'Java,MySQL,JavaScript,AJAX,VSCODE'
+     , 'typescript,javascript,spring,java'
      , 3  
+     , DEFAULT
      );
+
+
+
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     );
+     
+INSERT INTO MY_PR 
+     VALUES
+     (
+       SEQ_PRNO.NEXTVAL
+     , '취업하고싶다면?'  
+     , '저와 함께 네카라쿠배로 취업하실래요?'
+     , '2023-09-25'
+     , 5
+     , 'Y'
+     , 'typescript,javascript,spring,java'
+     , 3  
+     , DEFAULT
+     )
+;
 
 --- 프로젝트 모집 테이블 
 CREATE TABLE PROJECT(
@@ -310,7 +499,10 @@ CREATE TABLE PROJECT(
     PRO_START_DATE DATE NOT NULL,
     PRO_POSITION VARCHAR2(500) NOT NULL,
     PRO_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(PRO_STATUS IN('Y','N')),
-    STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN('Y','N'))
+    STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN('Y','N')),
+    STACK_NO NUMBER REFERENCES STACK(STACK_NO),
+    COUNT NUMBER DEFAULT 0
+    
     
 );
 
@@ -327,6 +519,8 @@ COMMENT ON COLUMN PROJECT.PRO_START_DATE IS '프로젝트 시작예정일';
 COMMENT ON COLUMN PROJECT.PRO_POSITION IS '프로젝트 모집포지션';
 COMMENT ON COLUMN PROJECT.PRO_STATUS IS '프로젝트 모집상태';
 COMMENT ON COLUMN PROJECT.STATUS IS '프로젝트 게시글 상태';
+COMMENT ON COLUMN PROJECT.STATUS IS '기술스택(기술스택과 연결용)';
+COMMENT ON COLUMN PROJECT.COUNT IS '조회수';
 
 -- 프로젝트 모집 테이블 샘플데이터
 INSERT INTO 
@@ -345,6 +539,8 @@ INSERT INTO
      , '백엔드'
      , 'Y'
      , 'Y'
+     , NULL
+     , DEFAULT
      );
      
      
@@ -364,6 +560,8 @@ INSERT INTO
      , '프론트엔드'
      , 'Y'
      , 'Y'
+     , NULL
+     , DEFAULT
      );
         
 
@@ -383,6 +581,8 @@ INSERT INTO
      , '백엔드'
      , 'Y'
      , 'Y'
+     , NULL
+     , DEFAULT 
      );
      
 -- 완료된 프로젝트 
@@ -502,7 +702,6 @@ INSERT INTO CALENDAR (CAL_NO, CAL_TITLE, CAL_CONTENT, START_DATE, END_DATE, CAL_
 CREATE TABLE REPO(
     REPO_NO NUMBER CONSTRAINT REPO_PK PRIMARY KEY,
     REPO_TITLE VARCHAR2(100) NOT NULL,
-    REPO_CONTENT VARCHAR2(4000) NOT NULL,
     REPO_STATUS VARCHAR2(10) DEFAULT 'PUBLIC' CHECK (REPO_STATUS IN ('PUBLIC', 'PRIVATE')),
     CREATE_DATE DATE DEFAULT SYSDATE,
     STATUS VARCHAR2(1) DEFAULT 'Y' CHECK (STATUS IN ('Y', 'N'))
@@ -511,17 +710,16 @@ CREATE TABLE REPO(
 -- 레파지토리 코멘트 작성
 COMMENT ON COLUMN REPO.REPO_NO IS '레파지토리 번호';
 COMMENT ON COLUMN REPO.REPO_TITLE IS '레파지토리 이름';
-COMMENT ON COLUMN REPO.REPO_CONTENT IS '레파지토리 내용';
 COMMENT ON COLUMN REPO.REPO_STATUS IS '레파지토리 공개여부';
 COMMENT ON COLUMN REPO.CREATE_DATE IS '레파지토리 생성일';
 COMMENT ON COLUMN REPO.STATUS IS '레파지토리 삭제여부';
 
 -- 레파지토리 샘플 데이터 5개
-INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_CONTENT, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPONO.NEXTVAL, 'FINAL_HTML', 'HTML 작성 레파지토리', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_CONTENT, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPONO.NEXTVAL, 'FINAL_JSP', 'JSP 작성 레파지토리', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_CONTENT, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPONO.NEXTVAL, 'FINAL_TEST', 'TEST 레파지토리', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_CONTENT, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPONO.NEXTVAL, 'FINAL_TEMPLATE', 'TEMPLATE 모아두는 레파지토리', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_CONTENT, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPONO.NEXTVAL, 'FINAL_REAL', '찐 최종 레파지토리', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPO.NEXTVAL, 'FINAL_HTML', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPO.NEXTVAL, 'FINAL_JSP', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPO.NEXTVAL, 'FINAL_TEST', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPO.NEXTVAL, 'FINAL_TEMPLATE', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO REPO (REPO_NO, REPO_TITLE, REPO_STATUS, CREATE_DATE, STATUS) VALUES (SEQ_REPO.NEXTVAL, 'FINAL_REAL', DEFAULT, DEFAULT, DEFAULT);
 
 ---라벨 테이블 생성
 CREATE TABLE LABELS (
@@ -542,7 +740,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_LNO.NEXTVAL
+       SEQ_LAB.NEXTVAL
      , 'BUG'
      );
 INSERT 
@@ -553,7 +751,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_LNO.NEXTVAL
+       SEQ_LAB.NEXTVAL
      , 'DOCUMENTATION'
      );
 INSERT 
@@ -564,7 +762,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_LNO.NEXTVAL
+       SEQ_LAB.NEXTVAL
      , 'DUPLICATE'
      );
 
@@ -611,7 +809,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_SNO.NEXTVAL
+       SEQ_MIL.NEXTVAL
      , '마일1'
      , DEFAULT
      , NULL
@@ -639,7 +837,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_SNO.NEXTVAL
+       SEQ_MIL.NEXTVAL
      , '마일2'
      , DEFAULT
      , NULL
@@ -667,7 +865,7 @@ INSERT
      )
 VALUES
      (
-       SEQ_SNO.NEXTVAL
+       SEQ_MIL.NEXTVAL
      , '마일3'
      , DEFAULT
      , NULL
@@ -691,7 +889,7 @@ CREATE TABLE ISSUE (
    ISS_STATUS VARCHAR2(1) DEFAULT 'Y',
    STATUS VARCHAR2(1) DEFAULT 'Y' NOT NULL,
    MEM_NO NUMBER REFERENCES MEMBER,
-   LAB_NO NUMBER REFERENCES LABELS,
+   LAB_NAME VARCHAR2(300),
    MIL_NO NUMBER REFERENCES MILESTONE,
    REPO_NO NUMBER REFERENCES REPO
 );
@@ -707,7 +905,7 @@ COMMENT ON COLUMN ISSUE.ISS_ASSIGNEE IS '이슈 할당받은 사람';
 COMMENT ON COLUMN ISSUE.ISS_STATUS IS '이슈 진행상태(Y/N)';
 COMMENT ON COLUMN ISSUE.STATUS IS '이슈상태(Y/N)';
 COMMENT ON COLUMN ISSUE.MEM_NO IS '이슈 작성자';
-COMMENT ON COLUMN ISSUE.LAB_NO IS '이슈가 속한 라벨번호';
+COMMENT ON COLUMN ISSUE.LAB_NAME IS '이슈가 속한 라벨(,로 구분)';
 COMMENT ON COLUMN ISSUE.MIL_NO IS '이슈가 속한 마일스톤';
 COMMENT ON COLUMN ISSUE.REPO_NO IS '이슈가 속한 레퍼지토리 번호';
 
@@ -725,13 +923,13 @@ INSERT
      , ISS_STATUS
      , STATUS
      , MEM_NO
-     , LAB_NO
+     , LAB_NAME
      , MIL_NO
      , REPO_NO
      )
 VALUES
      (
-       SEQ_INO.NEXTVAL
+       SEQ_ISS.NEXTVAL
      , '제목1'
      , '내용1'
      , DEFAULT
@@ -741,7 +939,7 @@ VALUES
      , DEFAULT
      , DEFAULT
      , 1
-     , 1
+     , 'bug,duplicate'
      , 1
      , 1
      );
@@ -759,13 +957,13 @@ INSERT
      , ISS_STATUS
      , STATUS
      , MEM_NO
-     , LAB_NO
+     , LAB_NAME
      , MIL_NO
      , REPO_NO
      )
 VALUES
      (
-       SEQ_INO.NEXTVAL
+       SEQ_ISS.NEXTVAL
      , '제목2'
      , '내용2'
      , DEFAULT
@@ -775,7 +973,7 @@ VALUES
      , DEFAULT
      , DEFAULT
      , 2
-     , 1
+     , 'bug,duplicate'
      , 1
      , 1
      );
@@ -793,13 +991,13 @@ INSERT
      , ISS_STATUS
      , STATUS
      , MEM_NO
-     , LAB_NO
+     , LAB_NAME
      , MIL_NO
      , REPO_NO
      )
 VALUES
      (
-       SEQ_INO.NEXTVAL
+       SEQ_ISS.NEXTVAL
      , '제목1'
      , '내용1'
      , DEFAULT
@@ -809,7 +1007,7 @@ VALUES
      , DEFAULT
      , DEFAULT
      , 1
-     , 1
+     , 'bug,duplicate,documentation'
      , 1
      , 1
      );
@@ -914,11 +1112,32 @@ INSERT INTO
      , DEFAULT
      );    
      
+-- 풀리퀘스트 리뷰 테이블 생성
+CREATE TABLE PULL_REVIEW(
+    PULL_REVIEW_NO NUMBER PRIMARY KEY,
+    REF_PULL NUMBER REFERENCES PULL_REQUEST,
+    MEM_NO NUMBER REFERENCES MEMBER,
+    PULL_REVIEW_CONTENT VARCHAR2(1000),
+    CREATE_DATE DATE DEFAULT SYSDATE
+);
+
+-- 풀리퀘스트 리뷰 테이블 코멘트
+COMMENT ON COLUMN PULL_REVIEW.PULL_REVIEW_NO IS '풀리퀘스트 리뷰 번호';
+COMMENT ON COLUMN PULL_REVIEW.REF_PULL IS '참조할 풀리퀘스트 번호';
+COMMENT ON COLUMN PULL_REVIEW.MEM_NO IS '작성한 회원 번호';
+COMMENT ON COLUMN PULL_REVIEW.PULL_REVIEW_CONTENT IS '리뷰 내용';
+COMMENT ON COLUMN PULL_REVIEW.CREATE_DATE IS '작성일';
+
+-- 풀리퀘스트 리뷰 테이블 샘플데이터
+INSERT INTO PULL_REVIEW (PULL_REVIEW_NO, REF_PULL, MEM_NO, PULL_REVIEW_CONTENT, CREATE_DATE) VALUES (SEQ_REV.NEXTVAL, 1, 1, '이상무', DEFAULT);
+INSERT INTO PULL_REVIEW (PULL_REVIEW_NO, REF_PULL, MEM_NO, PULL_REVIEW_CONTENT, CREATE_DATE) VALUES (SEQ_REV.NEXTVAL, 2, 3, '유상무', DEFAULT);
+INSERT INTO PULL_REVIEW (PULL_REVIEW_NO, REF_PULL, MEM_NO, PULL_REVIEW_CONTENT, CREATE_DATE) VALUES (SEQ_REV.NEXTVAL, 3, 2, '홍당무', DEFAULT);
+     
 ----채팅방 테이블 생성--------------------------------
 CREATE TABLE CHAT_ROOM (
    ROOM_NO NUMBER PRIMARY KEY,
    ROOM_TITLE VARCHAR2(100) NOT NULL,
-   PARTICIPANT NUMBER NOT NULL,
+   ROOM_MEM VARCHAR2(4000) NOT NULL,
    CREATE_DATE DATE DEFAULT SYSDATE NOT NULL, 
    STATUS VARCHAR2(1) DEFAULT 'Y' NOT NULL,
    LAST_CHAT VARCHAR2(3000),
@@ -929,7 +1148,7 @@ CREATE TABLE CHAT_ROOM (
 -- 채팅방 테이블 코멘트
 COMMENT ON COLUMN CHAT_ROOM.ROOM_NO IS '채팅방 번호';
 COMMENT ON COLUMN CHAT_ROOM.ROOM_TITLE IS '채팅방 제목';
-COMMENT ON COLUMN CHAT_ROOM.PARTICIPANT IS '채팅방 참여자수';
+COMMENT ON COLUMN CHAT_ROOM.ROOM_MEM IS '채팅방 참여자목록';
 COMMENT ON COLUMN CHAT_ROOM.CREATE_DATE IS '채팅방 생성일';
 COMMENT ON COLUMN CHAT_ROOM.STATUS IS '채팅방 상태(Y/N)';
 COMMENT ON COLUMN CHAT_ROOM.LAST_CHAT IS '마지막 채팅';
@@ -942,7 +1161,7 @@ INSERT
      (
        ROOM_NO
      , ROOM_TITLE
-     , PARTICIPANT
+     , ROOM_MEM
      , CREATE_DATE
      , STATUS
      , LAST_CHAT
@@ -953,7 +1172,7 @@ VALUES
      (
        SEQ_CHATNO.NEXTVAL
      , '채팅방제목2'
-     , 2
+     , '유정,정묵'
      , DEFAULT
      , DEFAULT
      , '마지막챗2'
@@ -966,7 +1185,7 @@ INSERT
      (
        ROOM_NO
      , ROOM_TITLE
-     , PARTICIPANT
+     , ROOM_MEM
      , CREATE_DATE
      , STATUS
      , LAST_CHAT
@@ -977,7 +1196,7 @@ VALUES
      (
        SEQ_CHATNO.NEXTVAL
      , '채팅방제목3'
-     , 4
+     , '승준,관현'
      , DEFAULT
      , DEFAULT
      , '마지막챗3'
@@ -1071,6 +1290,7 @@ CREATE TABLE MY_PROJECT(
     PRO_NO NUMBER PRIMARY KEY,
     CREATE_DATE DATE DEFAULT SYSDATE,
     STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(STATUS IN('Y','N')),
+    MYPRO_STATUS VARCHAR2(1) DEFAULT 'Y' CHECK(MYPRO_STATUS IN('Y','N')),
     REPO_NO NUMBER NOT NULL,
     MEM_NO NUMBER REFERENCES MEMBER
 );
@@ -1082,9 +1302,9 @@ COMMENT ON COLUMN MY_PROJECT.REPO_NO IS '레퍼지토리 번호';
 COMMENT ON COLUMN MY_PROJECT.MEM_NO IS '회원번호';
 
 -- 나의 프로젝트 샘플데이터
-INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, 1, 1);
-INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, 2, 3);
-INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, 3, 2);
+INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, MYPRO_STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, DEFAULT, 1, 1);
+INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, MYPRO_STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, DEFAULT, 2, 3);
+INSERT INTO MY_PROJECT (PRO_NO, CREATE_DATE, STATUS, MYPRO_STATUS, REPO_NO, MEM_NO) VALUES (SEQ_PNO.NEXTVAL, SYSDATE, DEFAULT, DEFAULT, 3, 2);
 
 -- 알림 테이블
 CREATE TABLE NOTICE(
@@ -1131,5 +1351,19 @@ INSERT INTO PRO_COMMIT (COMM_NO, COMM_WRITER, COMM_DATE, COMM_MSG, REPO_NO) VALU
 INSERT INTO PRO_COMMIT (COMM_NO, COMM_WRITER, COMM_DATE, COMM_MSG, REPO_NO) VALUES (SEQ_CNO.NEXTVAL, 1, DEFAULT, '레파지토리 등록 기능 추가', 3);
 INSERT INTO PRO_COMMIT (COMM_NO, COMM_WRITER, COMM_DATE, COMM_MSG, REPO_NO) VALUES (SEQ_CNO.NEXTVAL, 1, DEFAULT, '신고 기능 삭제', 4);
 INSERT INTO PRO_COMMIT (COMM_NO, COMM_WRITER, COMM_DATE, COMM_MSG, REPO_NO) VALUES (SEQ_CNO.NEXTVAL, 1, DEFAULT, '마이페이지 기능 코드 수정', 5);
+
+
+
+--- 북마크 테이블 
+CREATE TABLE BOOKMARK(
+    MEM_NO NUMBER REFERENCES MEMBER,
+    PRO_NO NUMBER REFERENCES PROJECT,
+    PRIMARY KEY(MEM_NO, PRO_NO)
+    
+);
+
+COMMENT ON COLUMN BOOKMARK.MEM_NO IS '북마크 회원번호';
+COMMENT ON COLUMN BOOKMARK.PRO_NO IS '북마크 게시판 번호';
+
 
 COMMIT;

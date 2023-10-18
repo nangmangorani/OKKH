@@ -20,7 +20,6 @@
 
     <!-- alert 시작 -->
     <c:if test="${ not empty alertMsg }">
-    <c:if test="${ not empty alertMsg }">
     	<script>
     		alert("${ alertMsg }");
     	</script>

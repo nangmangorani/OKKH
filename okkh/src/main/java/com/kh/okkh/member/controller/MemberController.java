@@ -31,6 +31,9 @@ public class MemberController {
 	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
+		
+		// System.out.println(code);
+		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
