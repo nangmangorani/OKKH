@@ -36,6 +36,7 @@ public class MemberController {
 	    
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
+		System.out.println("토큰ㅋㅋ" + token);
 		
         Member m = mService.selectMember(mToken);
         

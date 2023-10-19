@@ -362,6 +362,33 @@
                                             </table>
                             
                                         </div> 
+                                        
+                                        
+                                        <!-- 댓글 작성하는 script -->
+                                        <script>
+                                        	function UJinsertReply(){
+                                        		// 댓글 작성하는 함수
+                                        		$.ajax({
+                                        			
+                                        			url:"insertReply.pr",
+                                        			data:{
+                                        				replyNo:${pr.prNo},
+                                        				replyWriter:${pr.}
+                                        				
+                                        		
+                                        			},
+                                        			success:function(){
+                                        				
+                                        			},
+                                        			
+                                        			error:function(){
+                                        				console.log("pr 댓글 작성용 ajax실패ㅠㅠ");
+                                        			}
+                                        			
+                                        		})
+                                        	}
+                                        
+                                        </script>
                                 
                                 </div>
                             </div>

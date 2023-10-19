@@ -8,8 +8,7 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="mem_id" property="memId"/>
 		<result column="mem_token" property="memToken"/>
-		<result column="profile" property="profile"/>
-		<result column="nickname" property="nickname"/>
+		<result column="git_nick" property="okkhNick"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
@@ -22,8 +21,7 @@
 		    (	mem_no
 		      , mem_id
 		      , mem_token
-		      , profile
-		      , nickname
+		      , git_nick
 		      , mem_intro
 		      , create_date
 		      , status
@@ -33,8 +31,7 @@
 		    	seq_mno.nextval
 		      , #{memId}
 		      , #{memToken}
-		      , #{profile}
-		      , #{nickname}
+		      , #{okkhNick}
 		      , #{memIntro}  
 		      , #{createDate}
 		      , #{status}
@@ -46,8 +43,7 @@
 		        mem_no
 		      , mem_id
 		      , mem_token
-		      , profile
-		      , nickname
+		      , git_nick
 		      , mem_intro
 		      , create_date
 		      , status

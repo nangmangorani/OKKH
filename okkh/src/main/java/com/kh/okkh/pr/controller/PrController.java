@@ -214,7 +214,7 @@ public class PrController {
 	
 	
 	/**
-	 * 썸머노트에서 파일 다중으로 업로드 할 때 필요한 메소드
+	 * 썸머노트에서 파일 다중으로 업로드 할 때 필요한 메소드 (근데 구현 잘 안됨...ㅠ)
 	 * @param multipartFile
 	 * @param request
 	 * @return
@@ -250,6 +250,15 @@ public class PrController {
 		}
 		String a = jsonObject.toString();
 		return a;
+	}
+	
+	
+	/**
+	 * pr 댓글 작성하는 메소드
+	 */
+	@RequestMapping("insertReply.pr")
+	public void insertReplyPR() {
+		
 	}
 	
 	

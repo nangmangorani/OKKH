@@ -3,6 +3,7 @@ package com.kh.okkh.pr.model.service;
 import java.util.ArrayList;
 
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.pr.model.vo.PR;
 
@@ -46,11 +47,11 @@ public interface PRService {
 	
 		
 	// 6. pr 상세페이지에서 	댓글 작성(ajax로)
-		
+		int insertReplyPR(Reply rep);
 	
 		
 	// 7. pr 상세보기에서 댓글 조회하기 (ajax로) 
-		
+		ArrayList<Reply> selectPrReplyList(int pno);
 	
 	
 }

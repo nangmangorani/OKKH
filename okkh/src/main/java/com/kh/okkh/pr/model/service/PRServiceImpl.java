@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.pr.model.dao.PRdao;
 import com.kh.okkh.pr.model.vo.PR;
@@ -107,6 +108,36 @@ public class PRServiceImpl implements PRService{
 	public int deletePR(int pno) {
 		
 		return prdao.deletePR(pno, sqlSession);
+	}
+
+
+
+
+
+
+
+	/**
+	 * pr 상세페이지에 댓글 작성하는 메소드
+	 */
+	@Override
+	public int insertReplyPR(Reply rep) {
+		
+		return 0;
+	}
+
+
+
+
+
+
+
+	/**
+	 * pr 상세페이지에 댓글 조회하는 메소드
+	 */
+	@Override
+	public ArrayList<Reply> selectPrReplyList(int pno) {
+		
+		return null;
 	}
 
 

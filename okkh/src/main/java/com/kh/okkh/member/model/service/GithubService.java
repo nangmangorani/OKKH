@@ -69,7 +69,7 @@ public class GithubService {
 		try {
 			jsonNode = objecMapper.readTree(response);
 			m.setMemId(jsonNode.get("id").asText());
-			m.setNickname(jsonNode.get("login").asText());
+			m.setOkkhNick(jsonNode.get("login").asText());
 			m.setProfile(jsonNode.get("avatar_url").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {

@@ -230,7 +230,7 @@
 												    
 										    		// 이 코드를 작성하면 되긴 하는데, 정확히 일치가 아닌 특정단어가 포함된 것도 
 										    		// selected가 되어버림
-										    		//  예) goCompany, go 면 goCompany만 나와야하는데 go도 같이 나와버림
+										    		//  예) 'goCompany, go' 면 goCompany만 나와야하는데 go도 같이 나와버림
 										    		
 												   */
 												    
