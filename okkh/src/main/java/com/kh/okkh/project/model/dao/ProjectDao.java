@@ -51,6 +51,37 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 프로젝트 조회수 증가시키는 메소드
+	 * @return
+	 */
+	public int increaseCount( int pno, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("projectMapper.increaseCount", pno);
+	}
+	
+	
+	
+	
+	/**
+	 * 프로젝트 찐으로 상세조회하는 메소드
+	 * @return
+	 */
+	public Project selectDetailPro(int pno, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("projectMapper.selectDetailPro", pno);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

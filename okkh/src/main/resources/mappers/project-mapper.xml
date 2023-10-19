@@ -4,11 +4,20 @@
   	
   	<resultMap type="Project" id="projectResultSet">
   		<result column="pro_no" property="proNo"/>
-  		<result column="nickname" property="proWriter"/>
+  		<result column="git_nick" property="proWriter"/>
   		<result column="pro_stack" property="proStack"/>
+  		<result column="pro_member" property="proMember"/>
+  		<result column="pro_period" property="proPeriod"/>
   		<result column="pro_title" property="proTitle"/>
+  		<result column="pro_content" property="proContent"/>
   		<result column="pro_deadline" property="proDeadLine"/>
+  		<result column="pro_start_date" property="proStartDate"/>
   		<result column="pro_position" property="proPosition"/>
+  		<result column="pro_status" property="proStatus"/>
+  		<result column="count" property="count"/>
+  		<result column="create_date" property="createDate"/>
+  		<result column="mem_no" property="memNo"/>
+  		
   	</resultMap>
   	
   	<select id="selectProjectListCount" resultType="_int">
@@ -22,8 +31,65 @@
   	
   	<select id="selectProjectList" resultMap="projectResultSet">
   		select
+		       pro_no
+		     , git_nick
+		     , pro_stack
+		     , pro_title
+		     , to_char(pro_deadline, 'YYYY-MM-DD') as "pro_deadline"
+		     , pro_position
+		     , pro_status
+		     , count
+		     , p.create_date
+		  from project p
+		  join member on (pro_writer = mem_no)
+		 where p.status = 'Y' 
+		 order by p.create_date desc
+		 
   	
   	</select>
+  	
+  	
+  	<update id="increaseCount">
+  		update 
+  			   project 
+  		   set count = count +1 
+  		 where pro_no = #{proNo}
+	       and status = 'Y'  	   
+  	</update>
+  	
+  	
+  	
+  	
+  	
+  		
+ 
+  	
+  	<select id="selectDetailPro" resultMap="projectResultSet">
+  	
+  	select
+	       pro_no
+	     , git_nick
+	     , pro_stack
+	     , pro_member
+	     , pro_period
+	     , pro_title
+	     , pro_content
+	     , to_char(pro_deadline, 'YYYY-MM-DD') as "pro_deadline"
+	     , to_char(pro_start_date, 'YYYY-MM-DD') as "pro_start_date"
+	     , pro_position
+	     , pro_status
+	     , p.status
+	     , count
+	     , p.create_date
+	     , mem_no
+	  from project p
+	  join member on (pro_writer = mem_no)
+	 where pro_no = #{proNo}
+	 order by p.create_date desc
+  	
+  	</select>
+  	
+  	
   	
   
 </mapper>

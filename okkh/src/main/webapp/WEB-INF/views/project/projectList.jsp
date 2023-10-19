@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +15,7 @@
 
  /* 전체 / 모집 중 / 모집 완료 헤더 부분 */
   .UJ-header{
-    height: 80px;
+    height: 50px;
     /* border: 1px solid red; */
   }
 
@@ -69,7 +74,7 @@
 /* 목록들 스타일 */
 .UJ-content>.UJ-ProjectContent{
     width: 330px;
-    height: 320px;
+    height: 390px;
     border: 3px solid lightgrey;
     margin-top: 20px;
     margin-left: 10px;
@@ -143,7 +148,7 @@ padding-left: 20px;
     background-color: #f2f4f8;
     color: blue;
     border: 0;
-    width: 80px;
+    width: 100px;
     height: 30px;
     font-weight: 900;
 }
@@ -582,7 +587,6 @@ transform: scale(1.1);
                 <a href="#" style="color: lightgray;">모집 완료</a>
 
                 
-
             </div>
                 
                 <!-- 프로젝트 메인 내용 -->
@@ -598,20 +602,7 @@ transform: scale(1.1);
             
             <!-- 메뉴 바 (기술 스택 등 선택하는 곳) -->
             <div class="UJ-menu">
-                <!-- <select name="" id="" > 
-                    <option value="1">기술 스택</option>
-                    
-                </select> -->
-                <!-- <div class="col-md-6 mb-1">
-                    <div class="input-group mb-3">xd
-                        <span class="input-group-text" id="basic-addon1"><i
-                                class="bi bi-search"></i></span>
-                        <input type="text" class="form-control" placeholder="제목, 내용으로 검색하세요"
-                            aria-label="Recipient's username" aria-describedby="button-addon2" style="display: inline;">
-                        <button class="btn btn-outline-secondary" type="button"
-                            id="button-addon2">Button</button>
-                    </div>
-                </div> -->
+              
 
 
 
@@ -865,7 +856,16 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                         <option value="2">최신 순</option>
                     </select>
 
-                    <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="#" >프로젝트 작성하기</button>
+
+				<c:choose>
+					<c:when test="${empty loginMember }">
+                    	<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" disabled >프로젝트 작성하기</button>
+					</c:when>
+					
+					<c:otherwise>
+						<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="#" >프로젝트 작성하기</button>
+					</c:otherwise>
+				</c:choose>
                 
                 
             </div>
@@ -874,279 +874,90 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             <!-- 첫번째 있는 div만 남기고 나머지는 다 지우기  -->
             <!-- 어차피 반복문으로 돌릴거임 -->
             <div class="UJ-content">
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
+            
+            	
+            
+            
+            <c:forEach var="p" items="${list }">
+            
+	                <div  class="UJ-ProjectContent" onclick="location.href='selectDetailPro.pro?pno=' + ${p.proNo}">
+	
+				
+	
+	                    <div style="padding-top: 7px; padding-left: 10px;">
+	                    
+	                      <!-- 모집중/ 모집완료표시 -->
+	                      <c:choose>
+		                      	<c:when test="${p.proStatus eq 'Y' }">
+		                        	<button style="border:0; width: 80px; height: 30px; border-radius: 50px; margin-left:10px" class="btn btn-primary">모집중</button>
+		                      	
+		                      	</c:when>
+		                      	
+		                      	<c:otherwise>
+		                      		<button style="border:0; width: 100px; height: 30px; border-radius: 50px; margin-left:10px" class="btn btn-secondary">모집 완료</button>
+		                      	</c:otherwise>
+	                      
+						 </c:choose>
+							
+							
+	                        <!-- 북마크 -->
+	                        <img  class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px; float: right; margin-right: 30px;">
+	                    </div>
+	                    <!-- 마감일 , 북마크 -->
+	                    <div id="UJ-dateMark">
+	                        <div id="UJ-date">
+	                            마감일 : ${p.proDeadLine }
+	                           
+	                        </div>
+	                       
+	                    </div>
+	
+	                    <!-- 제목 -->
+	                    <div id="UJ-title">
+	                        ${p.proTitle }
+	                    </div>
+	                    
+	                    <!-- 기술 -->
+	                    <div id="UJ-tech">
+	                    	<!-- 모집 기술분야는 ,로 구분지어서 하나씩 값을 버튼 사이 text에 넣어주기 -->
+		                    	<c:set var="position" value="${fn:split(p.proPosition,',') }"/>
+		                    	
+		                    	<c:forEach var="po" items="${position }">
+		                        	<button>${po}</button>
+		                        </c:forEach>
+	                    </div>
+	
+	                    <!-- 기술 이미지 -->
+	                    <div id="UJ-techImg">
+	                    
+	                    	<c:set var="stacks" value="${fn:split(p.proStack,',') }"/>
+	                    	<c:forEach var="stack" items="${stacks }">
+	                    		<c:set var="src" value="https://holaworld.io/images/languages/${stack}.svg" />
+	                    	
+			                        <img src="${src }" alt="${src }">
+	                    	
+	                    	</c:forEach>
+	                    
+	                     
+	                        <br>
+	                        <hr>
+	
+	                    </div>
+	                    
+	                    <!-- 작성자 -->
+	                    <div id="UJ-writer" style="padding-top: 10px;">
+	                     조회수 : ${p.count } <br>
+	                     작성자 : ${p.proWriter }
+	                    </div>
+	
+	                </div>
 
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                       고구려의 흥망성쇠
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                <div  class="UJ-ProjectContent" >
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                        저 정말 괜찮은 놈입니다?
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                     안녕하세요
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                       EEEE 입니다.
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                        캐리할 사람 나야나
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                        저 좀 데려가 주실 분?
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-                
-                <div  class="UJ-ProjectContent">
-                    <!-- 마감일 , 북마크 -->
-                    <div id="UJ-dateMark">
-                        <div id="UJ-date">
-                            작성일 : 2023-10-10
-                        </div>
-                        <div id="UJ-bookMark">
-                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
-                        </div>
-                    </div>
-
-                    <!-- 제목 -->
-                    <div id="UJ-title">
-                        ㅎㅎ
-                    </div>
-                    
-                    <!-- 기술 -->
-                    <div id="UJ-tech">
-                        <button>백엔드</button>
-                    </div>
-
-                    <!-- 기술 이미지 -->
-                    <div id="UJ-techImg">
-                        <img src="	https://holaworld.io/images/languages/spring.svg" alt="">
-                        <img src="	https://holaworld.io/images/languages/java.svg" alt="">
-                        <img src="https://holaworld.io/images/languages/swift.svg" alt="">
-                        <hr>
-
-                    </div>
-                    
-                    <!-- 작성자 -->
-                    <div id="UJ-writer">
-                       
-                     작성자 : 호빵맨
-                    </div>
-
-                </div>
-
-
-                
+			</c:forEach>
                 
             </div>
 
+
+		
 				
 
         </div>
