@@ -8,11 +8,24 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="mem_id" property="memId"/>
 		<result column="mem_token" property="memToken"/>
-		<result column="git_nick" property="okkhNick"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
+		<result column="stack" property="stack"/>
 	</resultMap>
+	
+	<select id="selectMember" resultMap="memberResultSet">
+		select 
+		        mem_no
+		      , mem_id
+		      , mem_token
+		      , mem_intro
+		      , create_date
+		      , status
+		      , stack
+		  from member
+		  where mem_id = #{memId}
+	</select>
 	
 	<!-- 깃로그인 시 유저정보 DB에 저장 -->
 	<insert id="insertMember">
@@ -21,8 +34,6 @@
 		    (	mem_no
 		      , mem_id
 		      , mem_token
-		      , git_nick
-		      , mem_intro
 		      , create_date
 		      , status
 		    )
@@ -31,24 +42,18 @@
 		    	seq_mno.nextval
 		      , #{memId}
 		      , #{memToken}
-		      , #{okkhNick}
-		      , #{memIntro}  
-		      , #{createDate}
-		      , #{status}
+		      , SYSDATE
+		      , 'Y'
 		    )
 	</insert>
 	
-	<select id="selectMember" resultMap="memberResultSet">
-		select 
-		        mem_no
-		      , mem_id
-		      , mem_token
-		      , git_nick
-		      , mem_intro
-		      , create_date
-		      , status
-		  from member
-		  where mem_id = #{memId}
-	</select>
+	<update id="updateMember">
+		update member
+		   set mem_intro = #{memIntro},
+		   	   stack = #{stack}
+		 where mem_id = #{memId}
+		   and status = 'Y'
+	</update>
+	
 	
 </mapper>
