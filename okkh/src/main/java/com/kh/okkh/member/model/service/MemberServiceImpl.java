@@ -17,25 +17,18 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao mDao;
 	
 	@Override
-	public int idCheck(String id) {
-		return mDao.idCheck(sqlSession, id);
+	public Member selectMember(Member m) {
+		return mDao.selectMember(sqlSession, m);
 	}
-
+	
 	@Override
 	public int insertMember(Member m) {
 		return mDao.insertMember(sqlSession, m);
 	}
-
-	@Override
-	public Member selectMember(Member m) {
-		return mDao.selectMember(sqlSession, m);
-	}
-
-	@Override
-	public int enrollToken(Member m) {
-		return mDao.enrollToken(sqlSession, m);
-	}
 	
-	
+	@Override
+	public int updateMember(Member m) {
+		return mDao.updateMember(sqlSession, m);
+	}
 	
 }

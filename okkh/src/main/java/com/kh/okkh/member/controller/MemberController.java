@@ -1,7 +1,5 @@
 package com.kh.okkh.member.controller;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ public class MemberController {
 	
 	private String token = "";
 	
-	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
 		// code를 통해 token 얻어오기
@@ -46,75 +43,41 @@ public class MemberController {
         }else {
         	m = mService.selectMember(mToken);
         }
-        session.setAttribute("loginMember", m);
+        
+        session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
+        session.setAttribute("loginMember", m); // db에 쌓인 정보
         
 	    return "redirect:/";
 	}
 	
-	// 메인페이지로
-	@RequestMapping("main.p")
-	public String nexusPage(HttpSession session, Model model) throws IOException {
-		// 최근 접속한 repository 3개 select
-		int userNo = ((Member)(session.getAttribute("loginUser"))).getMemNo();
-		return "main";
+	@RequestMapping("logout.me")
+	public String logoutMember(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 	
-	// 로그인페이지로
-	@RequestMapping("login.p")
-	public String login() {
-		return "member/login";
-	}
-
-	
-	// 회원가입 페이지로 이동
-	@RequestMapping("register.p")
-	public String toRegister() {
-		return "member/register";
+	@RequestMapping("myPage.me")
+	public String myPage() {
+		return "member/myPage";
 	}
 	
-	// 아이디체크
-	@RequestMapping(value="idCheck.me.p", method=RequestMethod.POST)
-	@ResponseBody
-	public String idCheck(Member m) {
-		int checkCount = mService.idCheck(m.getMemId());
-		return checkCount+"";
-	}
-	
-	
-	
-	// 로그인
-	@RequestMapping("login.ih")
-	public String nexusLogin(Member m,HttpSession session,Model model) {
-		Member loginUser = mService.selectMember(m);
+	@RequestMapping("update.me")
+	public String updateMember(Member m, Model model, HttpSession session) {
+		int result = mService.updateMember(m);
 		
-		if(loginUser != null){
-			session.setAttribute("loginUser", loginUser);
-			return "redirect:main.p";
-		}else {
-			session.setAttribute("alertMsg", "아이디나 비밀번호가 일치하지 않습니다.");
-			return "redirect:/";
+		if(result > 0) {
+			Member updateMem = mService.selectMember(m);
+			m.setBio(updateMem.getMemIntro());
+			
+			session.setAttribute("loginMember", updateMem);
+			session.setAttribute("alertMsg", "성공적으로 회원정보를 수정하였습니다.");
+			
+			return "redirect:myPage.me";
+			
+		} else {
+			model.addAttribute("errorMsg", "회원정보 수정 실패");
+			return "common/errorPage";
 		}
 	}
-	
-	
-	// 깃허브 연동 안되어있는 계정 토큰 직접입력 
-	@RequestMapping(value="enrollToken", produces = "text/html; charset=utf-8")
-	@ResponseBody
-	public String enrollToken(Member m, HttpSession session) {
-		
-		m.setMemNo(((Member)session.getAttribute("loginUser")).getMemNo());
-		
-		int result = mService.enrollToken(m);
-		
-		if(result>0) {
-			((Member)session.getAttribute("loginUser")).setMemToken(m.getMemToken());
-			return "토큰 등록에 성공했습니다.";
-		}else {
-			return "토큰 등록에 실패했습니다. 다시 등록해주세요";
-		}
-		
-	}
-	
-	
 	
 }
