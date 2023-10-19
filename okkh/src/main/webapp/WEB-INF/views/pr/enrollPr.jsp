@@ -84,7 +84,7 @@
                                     <form class="form" action="enrollPr.pr">
                                         <div class="row">
                                            
-                                            <input type="hidden" value="1" name="prWriter">
+                                            <input type="hidden" value="${loginMember.memNo }" name="prWriter">
                                            
                                             
                                             <div class="col-md-6 col-12">

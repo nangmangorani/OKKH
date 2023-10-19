@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
+import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.project.model.dao.ProjectDao;
 import com.kh.okkh.project.model.vo.Project;
 
@@ -18,26 +20,26 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+	
+	
 	
 	
 	/**
-	 * 페이징 처리를 위해서 프로젝트 목록 개수를 구하는 메소드
+	 * leftsideBar에서 recruit 누르자마자 프로젝트 전체 개수 구하는 메소드
 	 */
 	@Override
-	public int selectProjectCount() {
+	public int selectProjectListCount() {
 		
-		return 0;
+		return pdao.selectProjectListCount(sqlSession);
 	}
 
 	
 	
-	/**
-	 * leftBar에서 recruit 누르자마자 전체 프로젝트 리스트 조회할 메소드
-	 */
 	@Override
 	public ArrayList<Project> selectProjectList(PageInfo pi) {
 		
-		return pdao.selectProjectList(sqlSession);
+		return pdao.selectProjectList(pi, sqlSession);
 	}
 
 	@Override
@@ -53,13 +55,13 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
-	public ArrayList<Project> selectStackPro(String stack,PageInfo pi) {
+	public ArrayList<Project> selectStackPro(String stack, PageInfo pi) {
 		
 		return null;
 	}
 
 	@Override
-	public ArrayList<Project> selectSearchBar(String search,PageInfo pi) {
+	public ArrayList<Project> selectSearchBar(String search, PageInfo pi) {
 		
 		return null;
 	}
@@ -83,6 +85,12 @@ public class ProjectServiceImpl implements ProjectService{
 	}
 
 	@Override
+	public ArrayList<Stack> selectStackList() {
+		
+		return null;
+	}
+
+	@Override
 	public int insertProject(Project p) {
 		
 		return 0;
@@ -100,7 +108,25 @@ public class ProjectServiceImpl implements ProjectService{
 		return 0;
 	}
 
+	@Override
+	public int insertReplyProject(Reply rep) {
+		
+		return 0;
+	}
 
+	@Override
+	public ArrayList<Reply> selectProjectReplyList(int pno) {
+		
+		return null;
+	}
+
+	@Override
+	public int deleteReplyProject(int pno) {
+		
+		return 0;
+	}
+	
+	
 	
 	
 }

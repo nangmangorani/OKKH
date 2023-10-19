@@ -11,8 +11,19 @@
   		<result column="pro_position" property="proPosition"/>
   	</resultMap>
   	
+  	<select id="selectProjectListCount" resultType="_int">
+  		select 
+  		       count(*)
+  		  from project 
+  	     where status = 'Y'	       
+  	
+  	</select>
   	
   	
+  	<select id="selectProjectList" resultMap="projectResultSet">
+  		select
+  	
+  	</select>
   	
   
 </mapper>

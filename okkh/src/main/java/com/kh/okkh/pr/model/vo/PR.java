@@ -22,5 +22,5 @@ public class PR {
 	private String stackName;
 	private String prWriter; // memNo : pr작성자인데 닉네임보여줄거임
 	private int count; // 조회수
-	
+	private int memNo;
 }

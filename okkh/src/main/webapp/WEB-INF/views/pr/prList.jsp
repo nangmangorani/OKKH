@@ -871,10 +871,18 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                         <option value="1">즐겨찾기 순</option>
                         <option value="2">최신 순</option>
                     </select>
-
+			<c:choose>
+				<c:when test="${not empty loginMember }">
                     <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="location.href='enrollPRFr.pr'" >PR 작성하기</button>
+				
+				</c:when>
+				
+				<c:otherwise>
+				
+				 <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="enrollPRFr.pr" disabled >PR 작성하기</button>
+				</c:otherwise>
                 
-                
+             </c:choose>   
             </div>
 
             <!-- 메인 내용 -->
@@ -885,6 +893,7 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             <div class="UJ-content" >
             <c:forEach var="pr" items="${list }">
             	<input type="hidden" name="prNo" value="${pr.prNo }" >
+            
                 <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pr.prNo}" >
                     <!-- 마감일 , 북마크 -->
                     <div id="UJ-dateMark">
@@ -976,14 +985,14 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             });
             
             
+           
             
         
             
             
      </script>
-
- 
-	</div>
+     
+    
 	
     
     

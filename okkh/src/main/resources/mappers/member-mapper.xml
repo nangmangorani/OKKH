@@ -11,7 +11,7 @@
 		<result column="mem_intro" property="memIntro"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
-		<result column="stack" property="stack"/>
+	
 	</resultMap>
 	
 	<select id="selectMember" resultMap="memberResultSet">
@@ -22,7 +22,7 @@
 		      , mem_intro
 		      , create_date
 		      , status
-		      , stack
+		   
 		  from member
 		  where mem_id = #{memId}
 	</select>
@@ -34,14 +34,16 @@
 		    (	mem_no
 		      , mem_id
 		      , mem_token
+		      , git_nick
 		      , create_date
 		      , status
 		    )
 		    values
 		    (
-		    	seq_mno.nextval
+		    	seq_mem.nextval
 		      , #{memId}
 		      , #{memToken}
+		      , #{gitNick}
 		      , SYSDATE
 		      , 'Y'
 		    )
@@ -50,7 +52,7 @@
 	<update id="updateMember">
 		update member
 		   set mem_intro = #{memIntro},
-		   	   stack = #{stack}
+		   	  
 		 where mem_id = #{memId}
 		   and status = 'Y'
 	</update>

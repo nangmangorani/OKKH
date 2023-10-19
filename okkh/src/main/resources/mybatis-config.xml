@@ -11,6 +11,7 @@
 	<typeAlias type="com.kh.okkh.pr.model.vo.PR" alias="PR"/>
 	<typeAlias type="com.kh.okkh.common.model.vo.Stack" alias="Stack"/>
 	<typeAlias type="com.kh.okkh.member.model.vo.Member" alias="Member"/>
+	<typeAlias type="com.kh.okkh.common.model.vo.Reply" alias="Reply"/>
 </typeAliases>
 
 <mappers>

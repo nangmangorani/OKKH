@@ -114,6 +114,14 @@ public class PRServiceImpl implements PRService{
 
 
 
+	/**
+	 * pr 상세페이지에 댓글 조회하는 메소드
+	 */
+	@Override
+	public ArrayList<Reply> selectPrReplyList(int pno) {
+		
+		return prdao.selectPrReplyList(pno, sqlSession);
+	}
 
 
 	/**
@@ -122,7 +130,7 @@ public class PRServiceImpl implements PRService{
 	@Override
 	public int insertReplyPR(Reply rep) {
 		
-		return 0;
+		return prdao.insertReplyPR(rep, sqlSession);
 	}
 
 
@@ -132,13 +140,20 @@ public class PRServiceImpl implements PRService{
 
 
 	/**
-	 * pr 상세페이지에 댓글 조회하는 메소드
+	 * pr 상세페이지에서 댓글 삭제하는 메소드
 	 */
 	@Override
-	public ArrayList<Reply> selectPrReplyList(int pno) {
+	public int deleteReplyPR(int pno) {
 		
-		return null;
+		return prdao.deleteReplyPR(pno, sqlSession);
 	}
+
+
+
+
+
+
+
 
 
 

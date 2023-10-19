@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.pr.model.vo.PR;
 
@@ -105,5 +106,39 @@ public class PRdao {
 		
 		return sqlsession.update("prMapper.deletePR", pno);
 	}
+	
+	
+	public ArrayList<Reply> selectPrReplyList(int pno, SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("prMapper.selectPrReplyList", pno);
+	}
+	
+	
+	
+	
+	/** 
+	 * pr에 댓글 작성하는 메소드
+	 * @return
+	 */
+	public int insertReplyPR(Reply rep, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.insert("prMapper.insertReplyPR", rep);
+	}
+	
+	
+	
+	/**
+	 * pr 댓글 삭제하는 메소드
+	 * @param pno
+	 * @param sqlSession
+	 * @return
+	 */
+	public int deleteReplyPR(int pno, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("prMapper.deleteReplyPR", pno);
+		
+		
+	}
+	
+	
 
 }

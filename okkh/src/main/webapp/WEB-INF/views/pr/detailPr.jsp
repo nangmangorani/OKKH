@@ -226,55 +226,13 @@
                                            <!-- PR 내용 -->
 
                                                  
-                                               <div style=" height: 600px;" id="UJ-summerDiv">
+                                               <div style=" height: 400px;" id="UJ-summerDiv">
                                                    
                                                         ${pr.prContent }
                                                       
                                                 </div>
                                     				
-                                    				<script>
-												    $('#summernote').summernote({
-												          // 에디터 높이
-												       
-												     
-												          // 에디터 한글 설정
-                                                          maxHeight:600,
-												          lang: "ko-KR",
-												          // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
-												          focus : true,
-												          toolbar: [
-												                // 글꼴 설정
-												                ['fontname', ['fontname']],
-												                // 글자 크기 설정
-												                ['fontsize', ['fontsize']],
-												                // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
-												                ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-												                // 글자색
-												                ['color', ['forecolor','color']],
-												                // 표만들기
-												                ['table', ['table']],
-												                // 글머리 기호, 번호매기기, 문단정렬
-												                ['para', ['ul', 'ol', 'paragraph']],
-												                // 줄간격
-												                ['height', ['height']],
-												                // 그림첨부, 링크만들기, 동영상첨부
-												                ['insert',['picture','link','video']],
-												                // 코드보기, 확대해서보기, 도움말
-												                ['view', ['codeview','fullscreen', 'help']]
-												              ],
-												              // 추가한 글꼴
-												            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
-												             // 추가한 폰트사이즈
-												            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-												
-												
-												            
-												            
-												        });
-												    
-												    
-												  
-												    </script>
+                                    				
 												                 
                                         
                                         <!-- <hr style=" margin-left:23;"> -->
@@ -288,9 +246,20 @@
                                            <!-- 작성한 사람만 보이게 하기 -->
                                             <div class="col-12 d-flex justify-content-end" style="margin-top:40px;">
                                                
-                                                <button type="button" class="btn btn-primary me-1 mb-1" onclick="location.href='updatePrForm.pr?pno='+ ${pr.prNo}">수정하기</button>
-                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='deletePr.pr?pno='+${pr.prNo}">삭제하기</button>
+                                              <c:choose>
+                                              	<c:when test="${loginMember.memNo eq pr.memNo }">
+                                              	         
+	                                                <button type="button" class="btn btn-primary me-1 mb-1" onclick="location.href='updatePrForm.pr?pno='+ ${pr.prNo}">수정하기</button>
+	                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='deletePr.pr?pno='+${pr.prNo}">삭제하기</button>
+	                                                 <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='personalList.pr'">뒤로가기</button>
+                                              	</c:when>
+                                             
+                                               
+                                               <c:otherwise>
                                                  <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='personalList.pr'">뒤로가기</button>
+                         						</c:otherwise>
+                         						
+                         					</c:choose> 
                                             </div>
                                         </div>
                                     </form>
@@ -304,11 +273,11 @@
                                     <div id="UJ-reply">
 
 
-                                        <table class="replyTable" >
+                                    <table class="replyTable" align="center"  width=900 >
 
                                             <!-- 로그인 한 회원이 볼 화면  -->
                                         
-                                        <thead>
+                                        <thead style="width:100%; ">
                                             <tr >
                                                 <th colspan="3"  >
                                                  
@@ -317,21 +286,40 @@
                                                
                                             </tr>
                         
+                        
+                        				<c:choose>
+                        					<c:when test="${not empty loginMember }">
+                        				
                                               <tr >
                                         
-                                                <th colspan="3"  >
-                                                  <input type="text" placeholder="댓글을 입력하세요" style="padding-left: 10px;  width: 600px;" id="UJreply">
+                                                <th colspan="4"  >
+                                                  <input type="text" placeholder="댓글을 입력하세요" style=" padding-left:10px; width: 600px;" id="UJreply" name="replyContent">
                                                 
+                                                    <button style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
                                                   
                                                 </th>
                                                 
-                                                <td>
-                                                    <button style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
+                                               </tr> 
+                                                
+                                          	</c:when>
+                                          	
+                                          	<c:otherwise>
+                                          	
+                                          	 <th colspan="4"  >
+                                                  <input type="text" placeholder="로그인 후 이용가능한 서비스입니다." style=" padding-left:10px; width: 600px;" id="UJreply" readonly>
+                                                
+                                                    <button style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();" disabled>작성</button>
                                                   
-                                                </td> 
+                                                </th>
+                                                
+                                               </tr> 
+                                          	
+                                          	</c:otherwise>
+                                          	
+                                         </c:choose>     
                                                 
                                               
-                                              </tr>  
+                                               
                         
                         
                                                 <tr >
@@ -343,52 +331,152 @@
                                                    
                                                   
                                                 </tr>
+                                                
+                                                <tr >
+                                               		<td  style="padding-left:10px; padding-bottom:20px; font-size:18px; font-weight:900;">댓글 (<span id="rcount">0</span>) </td>
+                                                </tr>
 
                                             </thead>
 
 
-                                            <tbody id="UJ-courseTbody">
+                                            <tbody id="UJ-PRTbody"  >
                                                 <!-- 작성한 댓글을 ajax로 여기다가 그릴 예정   -->
-                                                
+                                               
                             
                             
-                                                </tbody>
-                            
-                                                <th colspan="3"  >
-                                                         
-                                                    <p>&nbsp;</p>
-                                                </th>
+                                             </tbody>
+                            				
+                            					<tfoot>
+                            					
+		                                                <th colspan="3"  >
+		                                                         
+		                                                    <p>&nbsp;</p>
+		                                                </th>
+                            					
+                            					</tfoot>
+                            	
                                               
                                             </table>
                             
                                         </div> 
                                         
-                                        
-                                        <!-- 댓글 작성하는 script -->
+                                         <!-- 댓글 작성하는 script -->
                                         <script>
+                                        
+                                        // 상세페이지 로딩되자마자 실행할 함수 
+                                        // 실행되자마자 댓글 조회해오기
+                                        $(function(){
+                                        	selectPrReplyList();
+                                        	
+                                        	
+                                        })
+                                        
+                                        
+                                        // 댓글 작성하는 함수
                                         	function UJinsertReply(){
-                                        		// 댓글 작성하는 함수
-                                        		$.ajax({
-                                        			
-                                        			url:"insertReply.pr",
-                                        			data:{
-                                        				replyNo:${pr.prNo},
-                                        				replyWriter:${pr.}
-                                        				
                                         		
-                                        			},
-                                        			success:function(){
-                                        				
-                                        			},
+                                        if($("#UJreply").val().trim().length != 0){
+                                        	$.ajax({
+                                    			
+                                    			url:"insertReply.pr",
+                                    			data:{
+                                    				refPno:${pr.prNo},
+                                    				replyWriter:'${loginMember.memNo}',
+                                    				replyContent: $("#UJreply").val(),
+                                    				memNo : ${loginMember.memNo}
+
+                                    			},
+                                    			success:function(result){
+                                    				
+                                    				if(result =="success"){
+                                    					// 댓글 작성성공하면 다시 댓글 리스트 조회해오는 함수 호출
+                                    					// alert("댓글 작성 성공!")
+                                    					$("#UJreply").val("")
+                                    					selectPrReplyList();
+                                    					
+                                    				}
+                                    			},
+                                    			
+                                    			error:function(){
+                                    				console.log("pr 댓글 작성용 ajax실패ㅠㅠ");
+                                    			}
+                                    			
+                                    		})
+                                        }else{
+                                        	// 만약 댓글에 공백만 있다면 
+                                        	alert("댓글 작성 후 등록해주세요")
+                                        }	
+                                        	
+                                      };
+                                        	
+                                        
+                                        // 댓글 조회하는 ajax
+                                        function selectPrReplyList(){
+                                        	$.ajax({
+                                        		url:"prReplyList.pr",
+                                        		data:{pno:${pr.prNo}},
+                                        		success:function(list){
                                         			
-                                        			error:function(){
-                                        				console.log("pr 댓글 작성용 ajax실패ㅠㅠ");
+                                        			let value = "";
+                                        			
+                                        			for(var i in list){
+                                        				value += "<tr style='border-bottom:1px solid lightgray; height:50px;'>"
+                                        					  + "<input type='hidden' name='replyNo' value='list[i].replyNo' id='replyNo'>"
+                                        				      + "<td style='padding-left:10px; width:20%;'>" + list[i].replyWriter + "</td>"
+                                        				      + "<td style='width:50%'>" + list[i].replyContent + "</td>"
+                                        				      + "<td style='width:15%'>" + list[i].repDate + "</td>";
+                                        				      
+                                        				      if(list[i].memNo == ${loginMember.memNo}){
+                                        				    	  value += "<td style='width:15%'> <button style='border:0' class='btn btn-primary' onclick='deleteReplyBtn(" + list[i].replyNo + ");'>댓글 삭제</button></td>";
+                                        				      }
+                                        				     
+                                        				     value += "</tr>";
                                         			}
                                         			
+                                        			$(".replyTable tbody").html(value)
+                                        			$("#rcount").text(list.length)
+                                        			
+                                        		},
+                                        		error:function(){
+                                        			console.log()
+                                        		}
+                                        	})
+                                        };
+                                    
+                                     
+                                          
+                                        // 삭제하는 함수
+                                       function deleteReplyBtn(num){
+                                        	
+                                        	// 댓글 삭제 버튼을 누르면 댓글 삭제하는 ajax 실행하기 
+                                        		$.ajax({
+                                        			url:"deletePrReply.pr",
+                                        			data:{
+                                        				pno:num
+                                        			},
+                                        			success:function(result){
+                                        				
+                                        				if(result === "success"){
+                                        					// 댓글 삭제 성공하면 alert띄우고
+                                        					// 댓글 조회 함수 호출
+                                        					
+                                        					alert("댓글 삭제 성공!")
+                                        					selectPrReplyList();
+                                        				}else{
+                                        					alert("댓글 삭제 실패ㅠㅠ")
+                                        				}
+                                        				
+                                        			},
+                                        			error:function(){
+                                        				console.log("댓글 삭제용 ajax 실패ㅠㅠ")
+                                        			}
                                         		})
-                                        	}
+                                        	
+                                        	
+                                        }
                                         
                                         </script>
+                                       
                                 
                                 </div>
                             </div>

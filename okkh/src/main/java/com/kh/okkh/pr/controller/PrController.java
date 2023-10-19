@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.pr.model.service.PRServiceImpl;
@@ -87,11 +89,18 @@ public class PrController {
 	
 	
 	
+	/**
+	 * 찐으로 pr 작성하는 메소드
+	 * @param pr
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("enrollPr.pr")
 	public String insertPR(PR pr,  HttpSession session, Model model) {
 		
 		
-		System.out.println(pr); // 값 잘 넘어옴
+		// System.out.println(pr.getPrWriter() + "pr 작성자아아아앙"); // 값 잘 넘어옴
 		 int result = prService.insertPR(pr);
 		
 		 if(result>0) {
@@ -110,6 +119,12 @@ public class PrController {
 	
 	
 	
+	/**
+	 * pr 상세내용 조회하는 메소드
+	 * @param pno
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("detailPr.pr")
 	public ModelAndView selectDetailPR(int pno, ModelAndView mv) {
 		
@@ -254,12 +269,56 @@ public class PrController {
 	
 	
 	/**
-	 * pr 댓글 작성하는 메소드
+	 * pr 댓글 조회하는 메소드(ajax)
+	 * @param pno
 	 */
-	@RequestMapping("insertReply.pr")
-	public void insertReplyPR() {
+	@ResponseBody
+	@RequestMapping(value="prReplyList.pr", produces="application/json; charset=UTF-8")
+	public String selectPrReplyList(int pno){
+		
+		ArrayList<Reply> list = prService.selectPrReplyList(pno);
+		
+		return new Gson().toJson(list);
 		
 	}
+	
+	
+	
+	/**
+	 * pr 댓글 작성하는 메소드 (ajax로 구현)
+	 */
+	@ResponseBody
+	@RequestMapping("insertReply.pr")
+	public String insertReplyPR(Reply rep ) {
+		
+		int result = prService.insertReplyPR(rep);
+		
+		 return result>0 ? "success" : "fail";
+		
+	}
+	
+	
+	/**
+	 * 댓글 삭제하는 메소드
+	 * @param pno
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("deletePrReply.pr")
+	public String deleteReplyPR(int pno) {
+		
+		//System.out.println(pno + "댓글 번호호호홓호");
+		
+		int result = prService.deleteReplyPR(pno);
+		
+		//System.out.println(result + " 결과가가ㅏㄱ");
+		
+		return result>0 ? "success":"fail";
+		
+	}
+	
+	
+	
 	
 	
 	
