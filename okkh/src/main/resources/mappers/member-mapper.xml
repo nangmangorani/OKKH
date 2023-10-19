@@ -30,7 +30,7 @@
 		    )
 		    values
 		    (
-		    	seq_mno.nextval
+		    	seq_mem.nextval
 		      , #{memId}
 		      , #{memToken}
 		      , #{gitNick}

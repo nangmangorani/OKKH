@@ -18,16 +18,6 @@
 
 <body>
 
-    <!-- alert 시작 -->
-    <c:if test="${ not empty alertMsg }">
-    	<script>
-    		alert("${ alertMsg }");
-    	</script>
-    	
-    	<c:remove var="alertMsg"/>
-    </c:if>
-    <!-- /alert 끝 -->
-    
     <!-- 전체 -->
     <div id="app">
         <!-- 사이드바 시작 -->

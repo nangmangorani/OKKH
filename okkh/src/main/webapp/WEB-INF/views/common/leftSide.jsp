@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +25,15 @@
 </head>
 <body>
 
+	<!-- alert 시작 -->
+    <c:if test="${ not empty alertMsg }">
+    	<script>
+    		alertify("${ alertMsg }");
+    	</script>
+    	
+    	<c:remove var="alertMsg"/>
+    </c:if>
+    <!-- /alert 끝 -->
 
 	<!-- 주야간모드 버튼 js 시작 -->
     <script src="resources/assets/static/js/initTheme.js"></script>

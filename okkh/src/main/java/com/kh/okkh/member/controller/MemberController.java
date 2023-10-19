@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kh.okkh.member.model.service.GithubService;
+import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
 
@@ -32,10 +32,12 @@ public class MemberController {
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
 		
-		// System.out.println(code);
+//		 System.out.println(code);
 		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
+		
+//		System.out.println(token);
 	    
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="repoMapper">
+
+	<resultMap type="MyProject" id="myProjectResult">
+		<result column="mypro_no" property="myproNo"/>
+		<result column="mypro_title" property="myproTitle"/>
+		<result column="mypro_type" property="myproType"/>
+		<result column="mypro_status" property="myproStatus"/>
+	</resultMap>
+
+	<select id="selectMyProjectList" resultMap="myProjectResult">
+		select
+		       mypro_no
+		     , mypro_title
+		     , mypro_type
+		     , mypro_status
+		  from my_project
+		 where owner = #{memNo}
+		   and status = 'Y'
+	</select>
+
+</mapper>

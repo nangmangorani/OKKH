@@ -23,7 +23,7 @@ public class ProjectController {
 	@RequestMapping("recruitList.pro")
 	public String selectProjectList(Model model) {
 		
-		ArrayList<Project> list = pservice.selectProjectList(); 
+		ArrayList<Project> list = pservice.selectProjectList();
 		
 		model.addAttribute("list", list);
 		
