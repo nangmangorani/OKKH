@@ -79,7 +79,7 @@ public class GithubService {
 			jsonNode = objecMapper.readTree(response);
 			m.setMemId(jsonNode.get("id").asText());
 			m.setGitNick(jsonNode.get("login").asText());
-			m.setProfile(jsonNode.get("avatar_url").asText());
+			m.setAvatarUrl(jsonNode.get("avatar_url").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -91,11 +91,11 @@ public class GithubService {
 	 * @param r => 화면에서 넘어온 레파지 값들 (레포 이름, 레포 내용, 공개여부)
 	 * @return result => 0 or 1
 	 */
-	public int insertRepo(Repo r) {
+	public void insertRepo(Repo r) {
 		
-		int result = rdao.insertRepo(sqlSession, r);
+		//int result = rdao.insertRepo(sqlSession, r);
 		
-		return result;
+		//return result;
 		
 	}
 	
@@ -136,7 +136,7 @@ public class GithubService {
 			jsonNode = objecMapper.readTree(response);
 			m.setMemId(jsonNode.get("id").asText());
 			m.setGitNick(jsonNode.get("login").asText());
-			m.setProfile(jsonNode.get("avatar_url").asText());
+			m.setAvatarUrl(jsonNode.get("avatar_url").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

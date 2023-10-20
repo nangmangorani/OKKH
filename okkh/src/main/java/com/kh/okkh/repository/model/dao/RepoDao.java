@@ -13,9 +13,15 @@ import com.kh.okkh.repository.model.vo.Repo;
 public class RepoDao {
 	
 	public ArrayList<MyProject> selectMyProjectList(SqlSessionTemplate sqlSession, Member loginMember) {
-		
 		return (ArrayList)sqlSession.selectList("repoMapper.selectMyProjectList", loginMember);
-		
+	}
+	
+	public ArrayList<Member> selectTeamMateList(SqlSessionTemplate sqlSession, int memNo) {
+		return (ArrayList)sqlSession.selectList("repoMapper.selectTeamMateList", memNo);
+	}
+	
+	public int insertMyProject(SqlSessionTemplate sqlSession, MyProject p) {
+		return sqlSession.insert("repoMapper.insertMyProject", p);
 	}
 
 }

@@ -8,7 +8,7 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="mem_id" property="memId"/>
 		<result column="git_nick" property="gitNick"/>
-		<result column="okkh_nick" property="okkhNick"/>
+		<result column="avatar_url" property="avatarUrl"/>
 		<result column="mem_token" property="memToken"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="create_date" property="createDate"/>
@@ -23,7 +23,7 @@
 		      , mem_id
 		      , mem_token
 		      , git_nick
-		      , okkh_nick
+		      , avatar_url
 		      , mem_intro
 		      , create_date
 		      , status
@@ -34,7 +34,7 @@
 		      , #{memId}
 		      , #{memToken}
 		      , #{gitNick}
-		      , #{okkhNick}
+		      , #{avatarUrl}
 		      , #{memIntro}  
 		      , #{createDate}
 		      , #{status}
@@ -47,7 +47,7 @@
 		      , mem_id
 		      , mem_token
 		      , git_nick
-		      , okkh_nick
+		      , avatar_url
 		      , mem_intro
 		      , create_date
 		      , status

@@ -83,6 +83,38 @@ public class RepositoryController {
 	}
 	
 	/**
+	 * 내 팀원 조회용 컨트롤러
+	 * 
+	 * @return
+	 */
+	@RequestMapping("selectTeamMateList.re")
+	public String selectTeamMateList(HttpSession session) {
+		
+		ArrayList<Member> teamMate = rService.selectTeamMateList(((Member)(session.getAttribute("loginMember"))).getMemNo());
+		
+		session.setAttribute("teamMate", teamMate);
+		
+		return "repo/myProject";
+		
+	}
+	
+	/**
+	 * 내 프로젝트 추가용 컨트롤러
+	 * 
+	 * @param p => 내 프로젝트 추가에 필요한 객체
+	 */
+	@RequestMapping("insertMyProject.re")
+	public void insertMyProject(MyProject p) {
+		
+		System.out.println(p);
+		
+//		int result = rService.insertMyProject(p);
+		
+//		return "repo/myProject";
+		
+	}
+	
+	/**
 	 * 레파지토리 조회용 컨트롤러
 	 *
 	 * @param pno => 프로젝트 번호

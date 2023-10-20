@@ -52,12 +52,36 @@
 		                            </li>
 		                        </ul>
 		                        <!-- 프로젝트 추가 버튼 시작 -->
-		                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+		                        <button id="newProject" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
 				                    New Project
 				                </button>
 				                <!-- /프로젝트 추가 버튼 끝 -->
 				                
 				                <br>
+				                
+				                <script>
+				                
+				                	$(() => {
+				                		
+				                		$("#newProject").click(() => {
+				                			
+				                			$.ajax({
+				                				url:"selectTeamMateList.re",
+				                				success:(list) => {
+				                					
+				                					
+				                					
+				                				},
+				                				error:() => {
+				                					console.log("new Project ajax failed");
+				                				}
+				                			})
+				                			
+				                		})
+				                		
+				                	})
+				                
+				                </script>
 				
 				                <!--프로젝트 추가 form Modal 시작 -->
 				                <div class="modal fade text-left" id="inlineForm" tabindex="-1"
@@ -74,17 +98,28 @@
 				                                    <i data-feather="x"></i>
 				                                </button>
 				                            </div>
-				                            <form action="insertRepo.re">
+				                            <form action="insertMyProject.re">
 				                                <div class="modal-body">
 				                                    <label>Project Title:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="프로젝트명을 입력해주세요."
-				                                            class="form-control" name="repoTitle">
+				                                            class="form-control" name="myproTitle">
 				                                    </div>
 				                                    <label>Project Type:</label>
 				                                    <div class="form-group">
-				                                        <input type="text" placeholder="프로젝트 종류를 입력해주세요."
-				                                            class="form-control" name="repoContent">
+								                        <input type="radio" class="btn-check" name="myproType" id="solo-outlined" value="개인 프로젝트"
+								                            autocomplete="off" checked>
+								                        <label class="btn btn-outline-success" for="solo-outlined">개인 프로젝트</label>
+								
+								                        <input type="radio" class="btn-check" name="myproType" id="team-outlined" value="팀 프로젝트"
+								                            autocomplete="off">
+								                        <label class="btn btn-outline-success" for="team-outlined">팀 프로젝트</label>
+				                                    </div>
+				                                    <label>Project Member:</label>
+				                                    <div class="form-group">
+								                        <div>
+								                        	<a href="#" class="btn btn-outline-primary"><img src="${ loginMember.avatarUrl }" width="25" height="25" style="border-radius: 20px;">${ loginMember.gitNick }</a>
+								                        </div>
 				                                    </div>
 				                                </div>
 				                                <div class="modal-footer">
@@ -112,7 +147,7 @@
 					                        <div class="row">
 					                        	<c:choose>
 					                        		<c:when test="${ not empty loginMember and not empty pIngList }">
-						                        		<!-- 로그인을 했다면 해당 유저의 진행중인 프로젝트 리스트 출력 -->
+						                        		<!-- 로그인을 하고 해당 유저의 진행중인 프로젝트가 있다면 리스트 출력 -->
 						                        		<!-- 진행중인 프로젝트 시작 -->
 							                        	<c:forEach var="pIng" items="${ pIngList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
@@ -139,6 +174,7 @@
 								                        <!-- /진행중인 프로젝트 끝 -->
 					                        		</c:when>
 					                        		<c:when test="${ not empty loginMember and empty pEndList }">
+					                        			<!-- 로그인을 했지만 해당 유저의 진행중인 프로젝트가 없다면 진행중인 프로젝트가 없다는 문구 출력 -->
 					                        			<div>진행중인 프로젝트가 없습니다.</div>
 					                        		</c:when>
 					                        		<c:otherwise>
@@ -157,7 +193,7 @@
 					                        <div class="row">
 					                        	<c:choose>
 					                        		<c:when test="${ not empty loginMember and not empty pEndList }">
-						                        		<!-- 로그인을 했다면 해당 유저의 완료된 프로젝트 리스트 출력 -->
+						                        		<!-- 로그인을 했고 해당 유저의 완료된 프로젝트가 있다면 리스트 출력 -->
 						                            	<!-- 완료된 프로젝트 시작 -->
 					                        			<c:forEach var="pEnd" items="${ pEndList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
@@ -184,6 +220,7 @@
 							                            <!-- /완료된 프로젝트 끝 -->
 					                        		</c:when>
 					                        		<c:when test="${ not empty loginMember and empty pEndList }">
+					                        			<!-- 로그인을 했지만 해당 유저의 완료된 프로젝트가 없다면 완료된 프로젝트가 없다는 문구 출력 -->
 					                        			<div>완료된 프로젝트가 없습니다.</div>
 					                        		</c:when>
 					                        		<c:otherwise>

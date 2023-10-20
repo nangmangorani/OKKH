@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                <img src="https://avatars.githubusercontent.com/u/${ loginMember.okkhNick }">
+                                                <img src="${ loginMember.avatarUrl }">
                                             </div>
                                         </div>
                                     </div>

@@ -38,9 +38,11 @@ public class MemberController {
 		String token = gService.getToken(code);
 		
 //		System.out.println(token);
-	    
+//	    // 여기 맛집이네요 코드 잘 보고 갑니다~
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
+		
+//		System.out.println(mToken);
 		
         Member m = mService.selectMember(mToken);
         
@@ -120,6 +122,13 @@ public class MemberController {
 		
 	}
 	
-	
+	@RequestMapping("logout.me")
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
+	}
 	
 }
