@@ -24,8 +24,8 @@ public class Member {
 	private String type; // DB X
 	private String bio; // DB X
 	private String memIntro;
+	private String stackName;
 	private Date createDate;
 	private String status;
-	private String stack;
 	
 }

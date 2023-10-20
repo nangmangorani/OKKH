@@ -1,5 +1,7 @@
 package com.kh.okkh.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Stack;
+import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.member.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
+import com.kh.okkh.pr.model.service.PRService;
+import com.kh.okkh.pr.model.service.PRServiceImpl;
+import com.kh.okkh.pr.model.vo.PR;
 
 @Controller
 public class MemberController {
@@ -24,7 +31,8 @@ public class MemberController {
 	@Autowired
 	private GithubService gService;
 	
-	private String token = "";
+	@Autowired
+	private PRServiceImpl pService;
 	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
@@ -62,9 +70,22 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
+	@RequestMapping("updateForm.me")
+	public ModelAndView updatePage(ModelAndView mv) {
+		ArrayList<Stack> list = mService.selectStackList();
+		
+		mv.addObject("list", list);
+		mv.setViewName("member/updateMem");
+		System.out.println(list);
+		
+		return mv;
+	}
+	
 	@RequestMapping("update.me")
 	public String updateMember(Member m, Model model, HttpSession session) {
+		
 		int result = mService.updateMember(m);
+		System.out.println(m);
 		
 		if(result > 0) {
 			Member updateMem = mService.selectMember(m);
@@ -81,4 +102,14 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("myPr.me")
+	public ModelAndView myPRList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
+		int listCount = pService.selectListCount();
+		
+		PageInfo pi = new PagiNation().getPageInfo(listCount, currentPage, 5, 12);
+		
+		ArrayList<PR> list = mService.myPRList(pi);
+		mv.addObject("list", list).addObject("pi", pi).setViewName("member/myPage");
+		return mv;
+	}
 }
