@@ -63,7 +63,7 @@ public class IssueController {
 
 		
 		// repo.getUserName()+"/"+repo.getRepoName(); 
-		String repository = "khFinal05/final05_html";
+		String repository = "nangmangorani/01_java-workspace";
 		
 		// 페이지 처음 열었을 때는 open이 default라 ㅠ
 		if(state == null) {
@@ -103,8 +103,9 @@ public class IssueController {
 	public String enrollIssueView(HttpSession session, Model model) {
 		
 		//repo.getUserName()+"/"+repo.getRepoName(); 
-
+		
 		String repository = "nangmangorani/01_java-workspace";
+		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -129,8 +130,6 @@ public class IssueController {
 		// js에서 배열로바꿔서 여기로 들고올지 고민중이야
 		// jsp에서 한명을 select할때마다 늘어나야돼. 그럼 배열로 받는게맞나?
 		String encodedMilestone = URLEncoder.encode(milestone, StandardCharsets.UTF_8.toString());
-
-		String encodedMilestoneName = URLEncoder.encode(milestone, "UTF-8");
 		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues";
@@ -198,7 +197,7 @@ public class IssueController {
 	public String detailIssue(HttpSession session, Model model, int bno) throws IOException {
 		try {
 		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "khFinal05/final05_html";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);

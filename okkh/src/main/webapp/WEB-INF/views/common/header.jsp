@@ -67,8 +67,7 @@
                     <i class="bi bi-justify fs-3"></i>
                 </a> -->
                 
-                <h3 style="margin: 0%;"></h3>
-                
+                	<h3 style="margin: 0%;"></h3>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">

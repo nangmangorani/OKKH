@@ -56,8 +56,8 @@
 										<div class="card-body">
 											<h6>이슈 담당자</h6>
 											<fieldset class="form-group">
-												<select class="form-select" id="basicSelect">
-													<option value="assignee" checked>nangmangorani</option>
+												<select class="form-select" name="assignee">
+													<option value="nangmangorani" checked>nangmangorani</option>
 												</select>
 												
 											</fieldset>

@@ -6,9 +6,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>이슈상세페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+
+	<style>
+        .iss-wrap{
+            border: 1px solid #e9ecef;
+            height: 180px;
+            overflow: auto;
+        }
+
+        .iss-time{
+            border: 1px solid #e9ecef;
+            background-color: #e9ecef;
+            font-size: 13px;
+            height: 30px;
+            line-height: 28px;
+        }
+    </style>
+    
 </head>
 <body>
 <!-- 주야간모드 버튼 js 시작 -->
@@ -45,18 +62,13 @@
 		                                
 	                            </div>
 	                            <div class="card-body">
-<!-- 	                                <div class="form-group with-title mb-3"> -->
-<!-- 	                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" -->
-<!-- 	                                        style="resize: none; background-color: white;" disabled></textarea> -->
-<%-- 										<input type="hidden" id="bodyChangePlease" value="${ body }"> --%>
-<!-- 	                                    <label style="font-size: 13px;"> -->
-<!-- 	                                        nangmangorani comment 15 minutes ago -->
-<!-- 	                                    </label> -->
-<!-- 	                                </div> -->
-										<div id="exampleFormControlTextarea1">
-											
-										</div>
-											<input type="hidden" id="bodyChangePlease" value="${ body }">
+	                                <div class="iss-wrap">
+	                                    <div class="iss-time">
+	                                        <span style="padding-left: 5px;">작성자닉 comments 작성시간-현재시간?? minutes ago</span>
+	                                    </div>
+	                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1"></span>
+	                                </div> 
+                            		<input type="hidden" id="bodyChangePlease" value="${ body }">
 	                            </div>
 	                            <div class="card-body">
 	                                <div class="form-group with-title mb-3">
@@ -170,6 +182,7 @@
                     $("#directInput").hide();
                 }
             });
+            
             
             
         });
