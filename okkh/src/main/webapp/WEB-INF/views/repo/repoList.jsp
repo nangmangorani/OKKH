@@ -80,30 +80,30 @@
 				                                    <label>Repository Name*:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="레파지토리 이름을 입력해주세요."
-				                                            class="form-control">
+				                                            class="form-control" name="repoTitle">
 				                                    </div>
 				                                    <label>Description:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="레파지토리에 대한 설명을 입력해주세요."
-				                                            class="form-control">
+				                                            class="form-control" name="repoContent">
 				                                    </div>
 				                                    <label>Public or Private:</label>
 				                                    <div class="form-group">	
 				                                        <div class="form-check">
-								                            <input class="form-check-input" type="radio" name="status" id="Public" checked>
+								                            <input class="form-check-input" type="radio" name="repoStatus" value="public" id="Public" checked>
 								                            <label class="form-check-label" for="Public">
 								                                Public
 								                            </label>
 								                        </div>
 				                                        <div class="form-check">
-								                            <input class="form-check-input" type="radio" name="status" id="Private">
+								                            <input class="form-check-input" type="radio" name="repoStatus" value="private" id="Private">
 								                            <label class="form-check-label" for="Private">
 								                                Private
 								                            </label>
 								                        </div>
 				                                    </div>
 				                                    <label>ReadMe:</label>
-				                                    <div class="form-group">	
+				                                    <div class="form-group">
 				                                        <div class="form-check">
 								                            <input class="form-check-input" type="radio" name="ReadMe"
 								                                id="ReadMe" checked disabled>
@@ -119,7 +119,7 @@
 				                                        <i class="bx bx-x d-block d-sm-none"></i>
 				                                        <span class="d-none d-sm-block">Cancel</span>
 				                                    </button>
-				                                    <button type="button" class="btn btn-primary ml-1"
+				                                    <button type="submit" class="btn btn-primary ml-1"
 				                                        data-bs-dismiss="modal">
 				                                        <i class="bx bx-check d-block d-sm-none"></i>
 				                                        <span class="d-none d-sm-block">Create</span>

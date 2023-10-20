@@ -10,12 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
-import com.kh.okkh.member.model.service.GithubService;
+import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.service.PRService;
@@ -36,6 +37,9 @@ public class MemberController {
 	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
+		
+//		 System.out.println(code);
+		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
@@ -102,6 +106,25 @@ public class MemberController {
 		}
 	}
 	
+	
+	// 깃허브 연동 안되어있는 계정 토큰 직접입력 
+	@RequestMapping(value="enrollToken", produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public String enrollToken(Member m, HttpSession session) {
+		
+		m.setMemNo(((Member)session.getAttribute("loginUser")).getMemNo());
+		
+		int result = mService.enrollToken(m);
+		
+		if(result>0) {
+			((Member)session.getAttribute("loginUser")).setMemToken(m.getMemToken());
+			return "토큰 등록에 성공했습니다.";
+		}else {
+			return "토큰 등록에 실패했습니다. 다시 등록해주세요";
+		}
+		
+	}
+
 	@RequestMapping("myPr.me")
 	public ModelAndView myPRList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
 		int listCount = pService.selectListCount();
@@ -112,4 +135,14 @@ public class MemberController {
 		mv.addObject("list", list).addObject("pi", pi).setViewName("member/myPage");
 		return mv;
 	}
+	
+	@RequestMapping("logout.me")
+	public String logout(HttpSession session) {
+		
+		session.invalidate();
+		
+		return "redirect:/";
+		
+	}
+	
 }

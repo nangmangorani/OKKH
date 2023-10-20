@@ -71,40 +71,15 @@
 	                            </div>
 	                            <form action="insertRepo.re">
 	                                <div class="modal-body">
-	                                    <label>Repository Name*:</label>
+	                                    <label>Title:</label>
 	                                    <div class="form-group">
-	                                        <input type="text" placeholder="레파지토리 이름을 입력해주세요."
+	                                        <input type="text" placeholder="제목을 입력해주세요."
 	                                            class="form-control">
 	                                    </div>
-	                                    <label>Description:</label>
+	                                    <label>Content:</label>
 	                                    <div class="form-group">
-	                                        <input type="text" placeholder="레파지토리에 대한 설명을 입력해주세요."
+	                                        <input type="text" placeholder="내용을 작성해주세요."
 	                                            class="form-control">
-	                                    </div>
-	                                    <label>Public or Private:</label>
-	                                    <div class="form-group">	
-	                                        <div class="form-check">
-					                            <input class="form-check-input" type="radio" name="status" id="Public" checked>
-					                            <label class="form-check-label" for="Public">
-					                                Public
-					                            </label>
-					                        </div>
-	                                        <div class="form-check">
-					                            <input class="form-check-input" type="radio" name="status" id="Private">
-					                            <label class="form-check-label" for="Private">
-					                                Private
-					                            </label>
-					                        </div>
-	                                    </div>
-	                                    <label>ReadMe:</label>
-	                                    <div class="form-group">	
-	                                        <div class="form-check">
-					                            <input class="form-check-input" type="radio" name="ReadMe"
-					                                id="ReadMe" checked disabled>
-					                            <label class="form-check-label" for="ReadMe">
-					                                ReadMe
-					                            </label>
-					                        </div>
 	                                    </div>
 	                                </div>
 	                                <div class="modal-footer">
@@ -116,7 +91,7 @@
 	                                    <button type="button" class="btn btn-primary ml-1"
 	                                        data-bs-dismiss="modal">
 	                                        <i class="bx bx-check d-block d-sm-none"></i>
-	                                        <span class="d-none d-sm-block">Create</span>
+	                                        <span class="d-none d-sm-block">Comment</span>
 	                                    </button>
 	                                </div>
 	                            </form>

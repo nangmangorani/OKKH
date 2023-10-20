@@ -253,6 +253,13 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.4</version>
 		</dependency> 
+      
+      	<!-- GitHub API 라이브러리 -->
+		<dependency>
+			<groupId>org.kohsuke</groupId>
+			<artifactId>github-api</artifactId>
+			<version>1.313</version>
+		</dependency>
 		
 	</dependencies>
 	
