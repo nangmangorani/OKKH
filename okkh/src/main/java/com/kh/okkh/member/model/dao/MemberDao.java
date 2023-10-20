@@ -1,9 +1,15 @@
 package com.kh.okkh.member.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.member.model.vo.Member;
+import com.kh.okkh.pr.model.vo.PR;
 
 @Repository
 public class MemberDao {
@@ -16,8 +22,21 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 	
+	public ArrayList<Stack> selectStackList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("memberMapper.selectStackList");
+	}
+	
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateMember", m);
+	}
+	
+	public ArrayList<PR> myPRList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.myPRList", null, rowBounds);
 	}
 
 }
