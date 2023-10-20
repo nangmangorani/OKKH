@@ -10,7 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 	var socket = null;
-	
 	$(document).ready(function(){
 		if(${loginMember != null}) {
 			connect();
@@ -21,7 +20,7 @@
 	function connect(){
 		console.log("소켓 고고!!")
 		
-		var ws = new SockJS("/okkh/myPage.me");
+		var ws = new SockJS("ws://localhost:7777/okkh");
 		socket = ws;
 		
 		ws.onopen = function() {
@@ -47,13 +46,14 @@
 	//소켓끝
 	
 	$(documet).ready(function(){
-		$("#myPage").on('click', function(evt){
+		$("#btnSend").on('click', function(evt){
 			evt.preventDefault();
 			if(socket.readyState !== 1) return;
 			
-			let msg = $("input#mnsg").val();
-			ws.send(msg);
+			let msg = $("input#msg").val();
+			socket.send(msg);
 		});
+		connect();
 	})
 	
 </script>
@@ -76,7 +76,9 @@
                 </button>
                 <c:choose>
                     <c:when test="${ not empty loginMember }">
-                        <input>
+                        <input type="text" id="msg" value="되나?">
+                        <button id="btnSend">send message</button>
+                        
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">
                                 <li class="nav-item dropdown me-1">
