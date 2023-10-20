@@ -8,7 +8,6 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="mem_id" property="memId"/>
 		<result column="mem_token" property="memToken"/>
-		<result column="profile" property="profile"/>
 		<result column="nickname" property="nickname"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="create_date" property="createDate"/>
@@ -22,7 +21,6 @@
 		    (	mem_no
 		      , mem_id
 		      , mem_token
-		      , profile
 		      , nickname
 		      , mem_intro
 		      , create_date
@@ -33,7 +31,6 @@
 		    	seq_mno.nextval
 		      , #{memId}
 		      , #{memToken}
-		      , #{profile}
 		      , #{nickname}
 		      , #{memIntro}  
 		      , #{createDate}
@@ -46,7 +43,6 @@
 		        mem_no
 		      , mem_id
 		      , mem_token
-		      , profile
 		      , nickname
 		      , mem_intro
 		      , create_date
