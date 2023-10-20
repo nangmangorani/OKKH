@@ -13,12 +13,14 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.repository.model.service.RepoImpl;
@@ -87,14 +89,13 @@ public class RepositoryController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("selectTeamMateList.re")
+	@ResponseBody
+	@RequestMapping(value = "selectTeamMateList.re", produces = "application/json; charset=UTF-8")
 	public String selectTeamMateList(HttpSession session) {
 		
 		ArrayList<Member> teamMate = rService.selectTeamMateList(((Member)(session.getAttribute("loginMember"))).getMemNo());
 		
-		session.setAttribute("teamMate", teamMate);
-		
-		return "repo/myProject";
+		return new Gson().toJson(teamMate);
 		
 	}
 	

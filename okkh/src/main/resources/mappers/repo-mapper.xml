@@ -11,7 +11,7 @@
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResult">
-		<result column="" property=""/>
+		<result column="mem_id" property="memId"/>
 	</resultMap>
 
 	<select id="selectMyProjectList" resultMap="myProjectResult">
@@ -26,7 +26,20 @@
 		   and p.status = 'Y'
 	</select>
 	
-	<select id=""></select>
+	<select id="selectTeamMateList" resultMap="memberResult">
+		select 
+			   mem_no
+			 , mem_id
+		  from member
+		 where team = (
+		              select
+		                     ref_pro_no
+		                from my_project p
+		                join member on (ref_pro_no = team)
+		               where mem_no = #{memNo}
+		                 and p.status = 'Y'
+		              )
+	</select>
 	
 	<insert id="insertMyProject">
 		

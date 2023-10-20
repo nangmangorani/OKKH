@@ -106,7 +106,7 @@ public class MemberController {
 		}
 	}
 	
-	
+	/*
 	// 깃허브 연동 안되어있는 계정 토큰 직접입력 
 	@RequestMapping(value="enrollToken", produces = "text/html; charset=utf-8")
 	@ResponseBody
@@ -124,6 +124,7 @@ public class MemberController {
 		}
 		
 	}
+	*/
 
 	@RequestMapping("myPr.me")
 	public ModelAndView myPRList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
@@ -134,15 +135,6 @@ public class MemberController {
 		ArrayList<PR> list = mService.myPRList(pi);
 		mv.addObject("list", list).addObject("pi", pi).setViewName("member/myPage");
 		return mv;
-	}
-	
-	@RequestMapping("logout.me")
-	public String logout(HttpSession session) {
-		
-		session.invalidate();
-		
-		return "redirect:/";
-		
 	}
 	
 }

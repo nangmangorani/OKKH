@@ -79,7 +79,7 @@ public class GithubService {
 			jsonNode = objecMapper.readTree(response);
 			m.setMemId(jsonNode.get("id").asText());
 			m.setGitNick(jsonNode.get("login").asText());
-			m.setAvatarUrl(jsonNode.get("avatar_url").asText());
+			m.setProfile(jsonNode.get("avatar_url").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -136,7 +136,7 @@ public class GithubService {
 			jsonNode = objecMapper.readTree(response);
 			m.setMemId(jsonNode.get("id").asText());
 			m.setGitNick(jsonNode.get("login").asText());
-			m.setAvatarUrl(jsonNode.get("avatar_url").asText());
+			m.setProfile(jsonNode.get("avatar_url").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

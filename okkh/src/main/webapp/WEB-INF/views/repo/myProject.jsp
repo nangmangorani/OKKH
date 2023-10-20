@@ -59,30 +59,6 @@
 				                
 				                <br>
 				                
-				                <script>
-				                
-				                	$(() => {
-				                		
-				                		$("#newProject").click(() => {
-				                			
-				                			$.ajax({
-				                				url:"selectTeamMateList.re",
-				                				success:(list) => {
-				                					
-				                					
-				                					
-				                				},
-				                				error:() => {
-				                					console.log("new Project ajax failed");
-				                				}
-				                			})
-				                			
-				                		})
-				                		
-				                	})
-				                
-				                </script>
-				
 				                <!--프로젝트 추가 form Modal 시작 -->
 				                <div class="modal fade text-left" id="inlineForm" tabindex="-1"
 				                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -107,19 +83,18 @@
 				                                    </div>
 				                                    <label>Project Type:</label>
 				                                    <div class="form-group">
-								                        <input type="radio" class="btn-check" name="myproType" id="solo-outlined" value="개인 프로젝트"
+								                        <input type="radio" class="btn-check" name="myproType" id="team" value="팀 프로젝트"
 								                            autocomplete="off" checked>
-								                        <label class="btn btn-outline-success" for="solo-outlined">개인 프로젝트</label>
-								
-								                        <input type="radio" class="btn-check" name="myproType" id="team-outlined" value="팀 프로젝트"
-								                            autocomplete="off">
-								                        <label class="btn btn-outline-success" for="team-outlined">팀 프로젝트</label>
+								                        <label class="btn btn-outline-success" for="team">팀 프로젝트</label>
+								                        
+								                        <input type="radio" class="btn-check" name="myproType" id="solo" value="개인 프로젝트"
+								                            autocomplete="off" >
+								                        <label class="btn btn-outline-success" for="solo">개인 프로젝트</label>
 				                                    </div>
-				                                    <label>Project Member:</label>
-				                                    <div class="form-group">
-								                        <div>
-								                        	<a href="#" class="btn btn-outline-primary"><img src="${ loginMember.avatarUrl }" width="25" height="25" style="border-radius: 20px;">${ loginMember.gitNick }</a>
-								                        </div>
+				                                    <label class="forTeam">Project Member:</label>
+				                                    <div id="teamMate" class="form-group forTeam">
+								                    	<!-- 팀원 목록이 노출될 자리 -->
+								                    	<div>하이하이</div>
 				                                    </div>
 				                                </div>
 				                                <div class="modal-footer">
@@ -253,6 +228,61 @@
         <!-- /메인 끝 -->
     </div>
 	<!-- /전체 div 끝 -->
+	
+	<script>
+				                
+	   	$(() => {
+	   		// New Project 버튼을 눌렀을 때 실행되는 function
+	   		$("#newProject").click(() => {
+	   			
+	   			$.ajax({
+	   				url:"selectTeamMateList.re",
+	   				success:(teamMate) => {
+	   					
+	   					console.log(teamMate);
+	   					
+	   					let value = "";
+	   					
+	   					if(teamMate.length = 1) {
+	   						
+	   						value = "팀원이 없습니다.";
+	   						
+	   					}
+	   					else {
+	   						
+		   					for(let i in teamMate) {
+		   						
+		   						if(teamMate[i].memId != ${ loginMember.memId }) {
+		   							
+			   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='resources/images/samples/출근짱구.jpg' width='25' height='25' style='border-radius: 20px;''>"
+			   								+ teamMate[i].memId 
+			   								+ "</a>";
+		   						}
+		   						
+		   					}
+	   					
+	   					}
+	   					
+	   					$("#teamMate").html(value);
+	   					
+	   				},
+	   				error:() => {
+	   					console.log("new Project ajax failed");
+	   				}
+	   			})
+	   			
+	   		})
+	   		// 개인 프로젝트 버튼을 눌렀을 때 실행되는 function
+	   		$("#solo").click(() => {
+	   			
+	   			$(".forTeam").css("display", "none");
+	   			
+	   		})
+	   		
+	   	})
+	   
+   </script>
+	
 </body>
 
 </html>
