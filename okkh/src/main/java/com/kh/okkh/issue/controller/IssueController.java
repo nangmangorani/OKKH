@@ -235,11 +235,11 @@ public class IssueController {
 			for (JsonElement assigneeElement : assigneesArray) {
 				JsonObject assigneeObject = assigneeElement.getAsJsonObject();
 
-				String nickname = assigneeObject.get("login").getAsString();
+				String gitNick = assigneeObject.get("login").getAsString();
 				String assigneeProfiles = assigneeObject.get("avatar_url").getAsString();
 
 				Member assignee = new Member();
-				assignee.setNickname(nickname);
+				assignee.setGitNick(gitNick);
 				assignee.setProfile(assigneeProfiles);
 
 				assignees.add(assignee);
