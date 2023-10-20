@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 import com.kh.okkh.issue.model.dao.IssueDao;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
+import com.kh.okkh.milestone.model.vo.Milestone;
 
 @Service
 public class IssueServiceImpl implements IssueService{
@@ -37,6 +38,7 @@ public class IssueServiceImpl implements IssueService{
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	
 //	@Override
 //	public ArrayList<Issue> selectIssueList() {
 //		return iDao.selectIssueList(sqlSession);
@@ -46,7 +48,6 @@ public class IssueServiceImpl implements IssueService{
 	public ArrayList<Labels> getLabels(String repository, HttpSession session){
 		
 		String url = repository + "/labels";
-		System.out.println("url이 멀까? ㅋㅋㅎㅎ" + url);
 		// 여기서 git.api url로 변환해줌
 		// 라벨 전체url이 나올거임
 		String labelResponse = iDao.getGitContentsByGet1(url, session);
@@ -54,7 +55,6 @@ public class IssueServiceImpl implements IssueService{
 		ObjectMapper obj = new ObjectMapper();
 		JsonNode jsonNode;
 		ArrayList<Labels> lList = new ArrayList<Labels>();
-		
 		// json으로 변환????
 		try {
 			jsonNode = obj.readTree(labelResponse);
@@ -66,43 +66,35 @@ public class IssueServiceImpl implements IssueService{
 
 				Labels l = new Labels(id, name, color, description);
 				lList.add(l);
-				System.out.println("내가 색이되어볼게 " + lList.get(i).getColor());
 			}
+			System.out.println("내가 서비스임플의 lList라면 믿을래? "+lList);
 			
 			// 여기까지하면 Labels 객체에 라벨관련된 내용들이 담겨있겠지??
 		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		System.out.println(lList.get(0).getName() + "이 친구는 잘있나?");
 		
 		return lList;
 	}
 
 	@Override
-	public ArrayList<Issue> getIssues(String repository, String token, String state, String assign, String label,
-			Integer page) 
+	public ArrayList<Issue> getIssues(String repository, String token ,String state) 
 			throws IOException {
 		
 		String url = "";
 		
 		url = "https://api.github.com/repos/" + repository + "/issues?state=" + state + "&page=1";
-		System.out.println("나는 url이야" + url);
 		
 		URL requestUrl = new URL(url);
 	    HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 
-	    //urlConnection.setRequestProperty("Authorization", "Bearer " + token);
+	    urlConnection.setRequestProperty("Authorization", "Bearer" + token);
 	    urlConnection.setRequestMethod("GET");
 		
-	    System.out.println("requestUrl이야 " + requestUrl);
-	    System.out.println("urlconnection이란다" + urlConnection);
 	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-	    System.out.println("나는 br ㅋㅋㅋ" + br);
 	    String line;
 	    String responseText = "";
 	    
@@ -110,29 +102,53 @@ public class IssueServiceImpl implements IssueService{
 	    while ((line = br.readLine()) != null) {
 	      responseText += line;
 	    }
-		
-	    System.out.println("나는 라인이라고해!!" + responseText);
 	    
+		
+	    // 제이슨 배열로 파싱작업
 	    JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+	    // arr을 추가할 issue 제네릭의 list
 	    ArrayList<Issue> list = new ArrayList<Issue>();
 	    
 	    for (int i = 0; i < arr.size(); i++) {
 	         JsonObject issueObj = arr.get(i).getAsJsonObject();
-	         System.out.println("issueObj" + issueObj);
 	         Issue git = createGitIssueFromJsonObject(issueObj);
-	         System.out.println("git" + git.toString());
 	         list.add(git);
 	      }
 	    return list;
 	      
 	}
+		
 	
-	
-	
-	
-	
-	
-	
+	@Override
+	public ArrayList<Milestone> getMilestone(String repository, HttpSession session) {
+		
+		String url = repository + "/milestones";
+		String milestoneResponse = iDao.getGitContentsByGet1(url, session);
+		
+		ObjectMapper obj = new ObjectMapper();
+		JsonNode jsonNode;
+		ArrayList<Milestone> mList = new ArrayList<Milestone>();
+		
+		try {
+			jsonNode = obj.readTree(milestoneResponse);
+			for (int i = 0; i < jsonNode.size(); i++) {
+	            String id = jsonNode.get(i).get("id").asText();
+	            String title = jsonNode.get(i).get("title").asText();
+	            
+	            String number = jsonNode.get(i).get("number").asText();
+	            String state = jsonNode.get(i).get("state").asText();
+	            Milestone m = new Milestone(id, title, number, state);
+	            mList.add(m);
+	         }
+			
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return mList;
+		
+	}
 	
 	
 	
@@ -143,14 +159,19 @@ public class IssueServiceImpl implements IssueService{
 		
 		// 제목
 		git.setTitle(issueObj.get("title").getAsString());
+	
+		// 진행중 여부
+		git.setState(issueObj.get("state").getAsString());
 		
 		// 라벨
 		JsonArray labelsArr = issueObj.get("labels").getAsJsonArray();
+		
+		
+		
 		String[] labels = new String[labelsArr.size()];
 		
 		for (int j = 0; j < labelsArr.size(); j++) {
 	       labels[j] = labelsArr.get(j).getAsJsonObject().get("name").getAsString();
-	       System.out.println("대가뤼딱대~" + labels[j]);
 	       
 	    }
 		git.setLabels(labels);
@@ -207,6 +228,15 @@ public class IssueServiceImpl implements IssueService{
 		
 		return git;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 	
 	

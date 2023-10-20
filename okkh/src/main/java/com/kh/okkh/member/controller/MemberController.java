@@ -31,9 +31,10 @@ public class MemberController {
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
+		System.out.println("난 멤컨 토큰 ㅌㅋㅌ" + token);
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
-		
+		// id, 아바타, 닉넴, 토큰
         Member m = mService.selectMember(mToken);
         
         // 저장된 멤버가 없을 경우 DB에 추가
