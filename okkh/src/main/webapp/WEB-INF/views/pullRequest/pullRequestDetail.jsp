@@ -49,15 +49,15 @@
 						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 					</div>
 					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
-					
+					<!-- 풀리퀘 리뷰 내용 시작 -->
 					<section class="section">
 				        <div class="row">
 				            <div class="col">
 				                <div class="card">
 				                	<div class="review">
 					                    <div class="card-header">
-					                    	<span style="font-weight: bold; font-size: 18px; color: #202020">풀리퀘 테스트</span>
-					                        <span>#01</span>
+					                    	<span style="font-weight: bold; font-size: 18px;">풀리퀘 테스트</span>
+					                        <span style="color: #707070;">#01</span>
 					                    </div>
 				                    </div>
 				                	<div class="review">
@@ -91,7 +91,8 @@
 				            </div>
 				        </div>
 				    </section>
-				    
+				    <!-- /풀리퀘 리뷰 내용 끝 -->
+				    <!-- 풀리퀘 리뷰 작성 시작 -->
 				    <section class="section">
 				        <div class="card">
 				            <div class="card-header">
@@ -108,6 +109,7 @@
 				            </div>
 				        </div>
 				    </section>
+				    <!-- /풀리퀘 리뷰 작성 끝 -->
                     <!-- /왼쪽 내용 끝 -->
 
                 </section>

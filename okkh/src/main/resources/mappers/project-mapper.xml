@@ -20,6 +20,30 @@
   		
   	</resultMap>
   	
+  	
+  <resultMap type="Stack" id="stackSetResult">
+		<result column="stack_no" property="stackNo"/>
+		<result column="stack_type" property="stackType"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="stack_img" property="stackImg"/>
+		
+	</resultMap>
+	
+	
+	
+	<resultMap type="Reply" id="replySetResult">
+		<result column="reply_no" property="replyNo"/>
+		<result column="git_nick" property="replyWriter"/>
+		<result column="rep_content" property="replyContent"/>
+		<result column="ref_pro" property="refPno"/>
+		<result column="rep_date" property="repDate"/>
+		<result column="mem_no" property="memNo"/>
+		<result column="status" property="status"/>
+		
+	</resultMap>
+	
+	
+  	
   	<select id="selectProjectListCount" resultType="_int">
   		select 
   		       count(*)
@@ -88,6 +112,143 @@
 	 order by p.create_date desc
   	
   	</select>
+  	
+  	
+  	<select id="selectStackList" resultMap="stackSetResult">
+  		select 
+			   stack_no
+			 , stack_type
+			 , stack_name
+			 , stack_img 
+		  from stack	 
+  	
+  	</select>
+  	
+  	
+  	
+  	<insert id="insertProject">
+  	          
+  insert into 
+	         project 
+	         (
+	           pro_no
+	         , pro_writer
+	         , pro_stack
+	         , pro_title
+	         , pro_content
+	         , pro_member
+	         , pro_period
+	         , pro_deadline
+	         , pro_start_date
+	         , pro_position
+	         , pro_status
+	         )
+	         values
+	         (
+	           seq_pro.nextval
+	         , #{proWriter}
+	         , #{proStack}
+	         , #{proTitle}
+	         , #{proContent}
+	         , #{proMember}
+	         , #{proPeriod}
+	         , #{proDeadLine}
+	         , #{proStartDate}
+	         , #{proPosition}
+	         , 'Y'
+	         )
+   
+  	
+  	</insert>
+  	
+  	
+  	<update id="recruitDonePro">
+  		update 
+  		       project 
+  		   set pro_status = 'N'
+  		 where pro_no = #{proNo}
+  		   and status = 'Y'        
+  	</update>
+  	
+  	
+  	<update id="recruitReplayPro">
+  		update 
+  		       project 
+  		   set pro_status = 'Y'
+  		 where pro_no = #{proNo}
+  		   and status = 'Y'  
+  	</update>
+  	
+  	
+  	<update id="deleteProject">
+  		update project 
+  		   set status = 'N'
+  		 where pro_no = #{proNo}  
+  	</update>
+  	
+  	
+  	<update id="updateProject">
+  		update
+  		       project
+  		   set pro_stack = #{proStack}
+  		     , pro_title = #{proTitle}
+  		     , pro_content = #{proContent}
+  		     , pro_member = #{proMember}
+  		     , pro_period = #{proPeriod}
+  		     , pro_deadLine = #{proDeadLine}
+  		     , pro_start_date = #{proStartDate}
+  		     , pro_position = #{proPosition}
+  		 where pro_no = #{proNo}     
+  	
+  	</update>
+  	
+  	
+  	<insert id="insertReplyProject">
+  	    insert into 
+			  REPLY
+			  (
+			    reply_no
+			  , mem_no
+			  , rep_content
+			  , ref_pro
+			  , rep_date  
+			  ) 
+			  values
+			  (
+			    seq_rep.nextval
+			  , #{replyWriter}
+			  , #{replyContent}
+			  , #{refPno}
+			  , sysdate 
+			  )     
+  	
+  	</insert>
+  	
+  	<select id="selectProjectReplyList" resultMap="replySetResult">
+  		select 
+  		       reply_no
+  		     , git_nick
+  		     , rep_content
+  		     , ref_pro
+  		     , to_char(rep_date,'YYYY-MM-DD') as "rep_date"
+  		     , mem_no
+  		  from reply r
+  		  join member using (mem_no)
+  		 where r.status = 'Y'
+  		   and ref_pro = #{refPno}  
+  		 order by rep_date desc     
+  	</select>
+  	
+  	<update id="deleteReplyProject">
+  		update
+  		       reply
+  		   set status = 'N'
+  		 where reply_no = #{replyNo}      
+  	
+  	</update>
+  	
+  	
+  	
   	
   	
   	

@@ -859,11 +859,11 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 
 				<c:choose>
 					<c:when test="${empty loginMember }">
-                    	<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" disabled >프로젝트 작성하기</button>
+                    	<button class="btn btn-primary" style="margin-left: 50px; width: 170px; height:60px; border-radius: 10px;" disabled >프로젝트 작성하기(로그인 필수)</button>
 					</c:when>
 					
 					<c:otherwise>
-						<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="#" >프로젝트 작성하기</button>
+						<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="location.href='insertProjectForm.pro'" >프로젝트 작성하기</button>
 					</c:otherwise>
 				</c:choose>
                 
@@ -889,12 +889,12 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 	                      <!-- 모집중/ 모집완료표시 -->
 	                      <c:choose>
 		                      	<c:when test="${p.proStatus eq 'Y' }">
-		                        	<button style="border:0; width: 80px; height: 30px; border-radius: 50px; margin-left:10px" class="btn btn-primary">모집중</button>
+		                        	<button style="border:0; width: 80px; height: 35px; border-radius: 50px; margin-left:10px" class="btn btn-primary">모집중</button>
 		                      	
 		                      	</c:when>
 		                      	
 		                      	<c:otherwise>
-		                      		<button style="border:0; width: 100px; height: 30px; border-radius: 50px; margin-left:10px" class="btn btn-secondary">모집 완료</button>
+		                      		<button style="border:0; width: 100px; height: 35px; border-radius: 50px; margin-left:10px" class="btn btn-light-secondary">모집 완료</button>
 		                      	</c:otherwise>
 	                      
 						 </c:choose>
@@ -923,7 +923,7 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 		                    	<c:set var="position" value="${fn:split(p.proPosition,',') }"/>
 		                    	
 		                    	<c:forEach var="po" items="${position }">
-		                        	<button>${po}</button>
+		                        	<button style="width: 65px; font-size: 12px;">${po}</button>
 		                        </c:forEach>
 	                    </div>
 	
@@ -1003,7 +1003,7 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
     </section>
 </div>
 
-
+<br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> <br><br> 
 
 
 </div>

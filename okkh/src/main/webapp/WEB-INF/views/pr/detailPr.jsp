@@ -112,6 +112,17 @@
 <div class="page-heading">
     <h3>Detail Personal PR</h3>
 </div> 
+
+
+<script>
+	
+
+</script>
+
+
+
+
+
 <div class="page-content"> 
     <section class="row">
 
@@ -264,6 +275,10 @@
                                         </div>
                                     </form>
 
+									
+								
+								
+							
                                    
                     
                                     <!-- <hr style="width: 810px;" > -->

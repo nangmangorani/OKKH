@@ -150,7 +150,8 @@ public class PrController {
 	 * pr 삭제하는 메소드
 	 * @param pno
 	 */
-	@RequestMapping("deletePr.pr")
+	
+	@RequestMapping(value="deletePr.pr")
 	public String deletePR(int pno, Model model, HttpSession session) {
 		
 		int result = prService.deletePR(pno);
@@ -163,15 +164,30 @@ public class PrController {
 			session.setAttribute("alertMsg", "PR 삭제를 성공했습니다.");
 			return "redirect:personalList.pr";
 			
+			
 		}else {
 			// 실패하면 
 			// 에러메시지 띄우기
 				model.addAttribute("errorMsg", "PR 삭제를 실패했습니다.");
-				return "pr/detailPr";
+				return "common/errorPage";
 		}
 		
 		
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**

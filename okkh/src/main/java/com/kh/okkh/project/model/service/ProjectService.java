@@ -42,7 +42,11 @@ public interface ProjectService {
 		// 3. 프로젝트 찐 상세조회 (프로젝트게시글 번호 넘어옴)
 		Project selectDetailPro(int pno);
 	
+		// 4. 프로젝트 모집완료하기 (프로젝트 번호 넘어옴)
+		int recruitDonePro(int pno);
 		
+		// 5. 프로젝트 재모집하기 (프로젝트 번호)
+		int recruitReplayPro(int pno);
 		
 	// 작성폼으로 갈때 기술스택 같이 조회해서가는 메소드
 	ArrayList<Stack> selectStackList();	
@@ -58,7 +62,7 @@ public interface ProjectService {
 	// 가져가기
 	
 	
-	// 프로젝트 수정하기 (사용자가 입력한 값이 넘어옴)
+	// 프로젝트 수정하기 (사용자가 입력한 값 넘어옴)
 		int updateProject(Project p);
 	
 	
@@ -68,7 +72,7 @@ public interface ProjectService {
 	
 	
 	// project 상세페이지에서 댓글 작성(ajax로)
-		int insertReplyProject(Reply rep);
+		int insertReplyProject(Reply r);
 
 	
 	// project 상세보기에서 댓글 조회하기 (ajax로) 

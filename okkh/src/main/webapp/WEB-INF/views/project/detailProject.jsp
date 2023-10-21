@@ -136,17 +136,23 @@
                                             <c:choose>
                                             
                                             	<c:when test="${empty loginMember }">
-                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" disabled >프로젝트 신청하기</button>
+                                            		<button style="float: right; border: 0; height: 60px; " class="btn btn-primary" disabled >프로젝트 신청하기(로그인 후 신청가능)</button>
                                             	</c:when>
                                             
-                                            	<c:when test="${pro.proStatus eq 'N'  }">
+                                            	<c:when test="${pro.memNo ne loginMember.memNo and pro.proStatus == 'N'  }">
 		                                             <button style="float: right; border: 0; height: 50px; " class="btn btn-primary" disabled>프로젝트 모집마감</button>
                                             	
                                             	</c:when>
                                             	
-                                            	<c:when test="${pro.memNo eq loginMember.memNo }">
-                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="#" >모집 완료하기</button>
+                                            	<c:when test="${pro.memNo eq loginMember.memNo and pro.proStatus == 'Y'}">
+                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='recruitDone.pro?pno=' + ${pro.proNo }" >모집 완료하기</button>
                                             	</c:when>
+                                            	
+                                            	<c:when test="${pro.memNo eq loginMember.memNo and pro.proStatus == 'N'}">
+                                            	
+                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-light-secondary" onclick="location.href='recruitReturn.pro?pno=' + ${pro.proNo }" >다시 모집하기</button>
+                                            	</c:when>
+                                            	
                                             	
                                             	<c:otherwise>
                                             		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='insertProForm.pro" >프로젝트 신청하기</button>
@@ -167,7 +173,7 @@
                                         <br>
                         
                                     </div>
-                                    <form class="form">
+                                    
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
@@ -176,11 +182,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
-                                                <!-- 시작 예정은 모집 마감일부터 시작 예정일임  -->
+                                              
+                                                
                                                 <div class="form-group">
-                                                    <label for="last-name-column">시작 예정</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="endDate">${pro.proStartDate }</span>
+                                                    <label for="country-floating">모집 마감</label>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="proDeadLine">${pro.proDeadLine}</span>
                                                 </div>
+                                                
+                                                
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <!-- 사용언어는 기술 스택임 -->
@@ -207,12 +216,18 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            
+                                            
+                                            <div class="col-md-6 col-12" style="margin-top:10px;">
+                                                 <!-- 시작 예정은 모집 마감일부터 시작 예정일임  -->
                                                 <div class="form-group">
-                                                    <label for="country-floating">예상 기간</label>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">${pro.proPeriod }</span>
+                                                    <label for="last-name-column">시작 예정</label>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="endDate">${pro.proStartDate }</span>
                                                 </div>
                                             </div>
+                                            
+                                            
+                                            
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="company-column">모집 포지션</label>
@@ -222,18 +237,23 @@
 								                    	<c:set var="position" value="${fn:split(pro.proPosition,',') }"/>
 								                    	
 								                    	<c:forEach var="po" items="${position }">
-								                        	<button style="border:0; border-radius:50px; width:100px; height:40px;">${po}</button>
+								                        	<button style="border:0; border-radius:50px; width:100px; height:40px; box-sixing:border">${po}</button>
 								                        </c:forEach>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="country-floating">예상 기간</label>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span name="period">${pro.proPeriod }</span>
                                                 </div>
                                             </div>
 
                                        
                                             
-                                            <div class="form-group col-12">
-                                              
-                                            </div>
                                            
-                                            <br><br><br>
+                                           
+                                            <br><br><br> <br><br><br> <br><br> 
                                     
                     
                                            
@@ -247,7 +267,7 @@
                                                
                                             <!-- 프로젝트 내용 -->
 
-                                           <div style="font-size: 15px; height: 150px;">
+                                           <div style="font-size: 15px; height: 500px;">
                                             ${pro.proContent }
                                             
 
@@ -272,8 +292,8 @@
 	                                                <button type="button" class="btn btn-primary me-1 mb-1" onclick="#">모집완료</button>
 	                                               --> 
 	                                                
-	                                                <button type="submit" class="btn btn-primary me-1 mb-1 ">수정하기</button>
-	                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="#">삭제하기</button>
+	                                                <button type="button" class="btn btn-primary me-1 mb-1 " onclick="location.href='updateFormProject.pro?pno='+ ${pro.proNo}">수정하기</button>
+	                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='deleteProject.pro?pno='+ ${pro.proNo}">삭제하기</button>
 	                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="location.href='recruitList.pro'">뒤로가기</button>
                                             	
                                             	</c:when>
@@ -287,7 +307,7 @@
                                                 
                                             </div>
                                         </div>
-                                    </form>
+                                    
 
                                    
                     
@@ -298,7 +318,7 @@
                                     <div id="UJ-reply">
 
 
-                                        <table class="replyTable" >
+                                        <table class="replyTable" align="center" >
 
                                             <!-- 로그인 한 회원이 볼 화면  -->
                                         
@@ -312,17 +332,41 @@
                                             </tr>
                         
                                               <tr >
-                                        
-                                                <th colspan="3"  >
-                                                  <input type="text" placeholder="댓글을 입력하세요" style="padding-left: 10px;  width: 600px;" id="UJreply">
+                                              
+                                              <c:choose>
+	                                              	<c:when test="${not empty loginMember }">
+	                                        
+		                                                <th colspan="3"  >
+		                                                  <input type="text" placeholder="댓글을 입력하세요" style="padding-left: 10px;  width: 600px;" id="UJreply" >
+		                                                
+		                                                  
+		                                                </th>
+		                                                
+		                                                <td>
+			                                                    <button type="button"  style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
+			                                                  
+			                                            </td>
+	                                                </c:when>
+	                                                
+	                                                <c:otherwise>
+	                                                
+	                                                
+		                                                <th colspan="4"  >
+		                                                  <input type="text" placeholder="로그인 후 이용가능한 서비스입니다." style="padding-left: 10px;  width: 600px;" id="UJreply" readonly >
+		                                                
+		                                                  
+		                                                </th>
+	                                                
+			                                                <td>
+			                                                    <button type="button"  style="width: 90px;" class="btn btn-primary" disabled>작성</button>
+			                                                  
+			                                                </td> 
+	                                                </c:otherwise>
                                                 
-                                                  
-                                                </th>
+                                                </c:choose>
                                                 
-                                                <td>
-                                                    <button style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
-                                                  
-                                                </td> 
+                                                
+                                                
                                                 
                                               
                                               </tr>  
@@ -337,11 +381,15 @@
                                                    
                                                   
                                                 </tr>
+                                                
+                                                <tr >
+                                               		<td  style="padding-left:10px; padding-bottom:20px; font-size:18px; font-weight:900;">댓글 (<span id="rcount">0</span>) </td>
+                                                </tr>
 
                                             </thead>
 
 
-                                            <tbody id="UJ-courseTbody">
+                                            <tbody id="UJ-projectReply">
                                                 <!-- 작성한 댓글을 ajax로 여기다가 그릴 예정   -->
                                                 
                             
@@ -356,13 +404,139 @@
                                             </table>
                             
                                         </div> 
+                                        
+                                        
+                                        <script>
+                                        
+                                        // 댓글 용 스크립트 
+                                        
+                                        $(function(){
+                                        	// 상세화면 열리자마자 댓글 리스트부터 조회하는 함수
+                                        	selectProjectReply();
+                                        });
+                                        
+                                        
+                                        
+                                        
+                                        // 댓글 작성하는 함수
+                                      function UJinsertReply(){
+                                        		
+                                        if($("#UJreply").val().trim().length != 0){
+                                        		$.ajax({
+													
+                                        			url:"insertReply.pro",
+                                        			data:{
+                                        				replyContent:$("#UJreply").val(),
+                                        				replyWriter: "${loginMember.memNo}",
+                                        				refPno : ${pro.proNo}
+                                        				
+                                        			},
+                                        			success:(data)=>{
+                                        				
+                                        				console.log(data + " 화면단 돌아온 값!!!!!")
+                                        				
+                                        				if(data == "success"){
+                                        					selectProjectReply();
+                                        					$("#UJreply").val("");
+                                        					//alert("댓글 작성을 성공했습니다.")
+                                        				}
+                                        				
+                                        			},
+                                        			
+                                        			error:()=>{
+                                        				
+                                        				console.log("프로젝트 댓글 작성용 ajax 실패ㅠㅠ")
+                                        			}
+                                        			
+                                        		})
+                                        		
+                                        	  
+                                        		
+                                        	  }else{
+                                        		alert("댓글 작성 후 등록해주세요")
+                                        	
+                                        	  }
+                                        	  
+                                        }; 
+                                        
+                                        
+                                        	// 댓글 조회하는 함수
+                                        	function selectProjectReply(){
+                                        		$.ajax({
+                                        			url:"selectProReplyList.pro",
+                                        			data : {pno:${pro.proNo}},
+                                        			success:function(list){
+                                        				
+                                        				
+                                        				let value = "";
+                                        				
+                                        				for(let i in list){
+                                        					value += "<tr style='border-bottom:1px solid lightgray; height:50px;'>"
+                                          					  + "<input type='hidden' name='replyNo' value='list[i].replyNo' id='replyNo'>"
+                                          				      + "<td style='padding-left:10px; width:20%;'>" + list[i].replyWriter + "</td>"
+                                          				      + "<td style='width:50%'>" + list[i].replyContent + "</td>"
+                                          				      + "<td style='width:15%'>" + list[i].repDate + "</td>";
+                                          				      
+                                          				      if(list[i].memNo == ${loginMember.memNo}){
+                                          				    	  value += "<td style='width:15%'> <button style='border:0' class='btn btn-primary' onclick='deleteReplyBtn(" + list[i].replyNo + ");'>댓글 삭제</button></td>";
+                                          				      }
+                                          				     
+                                          				     value += "</tr>";
+                                          			      }
+                                        				
+                                        					$("#UJ-projectReply").html(value);
+                                        					$("#rcount").text(list.length)
+                                        				
+                                        				
+                                        			},
+                                        			
+                                        			error:() => {
+                                        				console.log("프로젝트 댓글 조회용 아작스 실패ㅠㅠ");
+                                        			}
+                                        		
+                                        		})
+                                        	};
+                                        	
+                                        	
+                                        	
+                                        	// 댓글 삭제하는 함수
+                                        	function deleteReplyBtn(num){
+                                        		
+                                        		$.ajax({
+                                        			
+                                        			url:"deleteProReply.pro",
+                                        			data:{pno:num},
+                                        			success:function(result){
+                                        				console.log(result + " 댓글 삭제제제")
+                                        				
+                                        				if(result == "success"){
+                                        					
+                                        					alert("댓글 삭제를 성공했습니다.")
+                                        					selectProjectReply();
+                                        					
+                                        				}else{
+                                        					alert("댓글 삭제를 실패했습니다.")
+                                        				}
+                                        			},
+                                        			error:function(){
+                                        				console.log("프로젝트 댓글 삭제용 아작스 실패");
+                                        			}
+                                        			
+                                        		})
+                                        		
+                                        	}
+                                        	
+                                        	
+                                        	
+                                        
+                                        </script>
                                 
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+				
 			</div>
 
 					<jsp:include page="../common/rightSide.jsp"></jsp:include>
@@ -380,17 +554,12 @@
         
    
             <jsp:include page="../common/footer.jsp"></jsp:include>
-   
-		</section>
+
         </div>
     </div>
 
     
-   
-    <!-- 내용 작성을 위해 필요한 부분이라 삭제하면 안됨 -->
-            <script src="resources/assets/extensions/quill/quill.min.js"></script>
-            <script src="resources/assets/static/js/pages/quill.js"></script> 
-
+ 
     
 
 </body>

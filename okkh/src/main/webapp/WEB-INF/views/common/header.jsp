@@ -7,6 +7,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+
+<!-- 
+<script>
+	var socket = null;
+	$(document).ready(function(){
+		if(${loginMember != null}) {
+			connect();
+			}
+	})
+	
+	//소켓
+	function connect(){
+		console.log("소켓 고고!!")
+		
+		var ws = new SockJS("ws://localhost:7777/okkh");
+		socket = ws;
+		
+		ws.onopen = function() {
+	 		console.log('Info: connection opened');
+		};
+	
+		ws.onmessage = function(event) {
+			console.log("onmessage"+ event.data);
+			let $socketAlert = $('div#socketAlert');
+			
+			$socketAlert.html(event.data);
+			$socketAlert.css('display', 'block');
+			
+			setTimeout(function() {
+				$socketAlert.css('display','none');
+			}, 5000);
+		};
+	
+		ws.onclose = function(event) {
+		    console.log('Info: connection closed');
+		};
+	};
+	//소켓끝
+	
+	$(documet).ready(function(){
+		$("#btnSend").on('click', function(evt){
+			evt.preventDefault();
+			if(socket.readyState !== 1) return;
+			
+			let msg = $("input#msg").val();
+			socket.send(msg);
+		});
+		connect();
+	})
+	
+</script>
+
+ -->
 </head>
 
 <body>
@@ -26,6 +80,8 @@
                 </button>
                 <c:choose>
                     <c:when test="${ not empty loginMember }">
+                        <input type="text" id="msg" value="되나?">
+                        <button id="btnSend">send message</button>
                         
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">
@@ -96,7 +152,7 @@
                                     <li>
                                         <h6 class="dropdown-header">Hello, ${ git.gitNick }!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="myPage.me"><i class="icon-mid bi bi-person me-2"></i> My
+                                    <li><a class="dropdown-item" href="myPage.me" id="myPage"><i class="icon-mid bi bi-person me-2"></i> My
                                             Profile</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
                                             Settings</a></li>
@@ -115,10 +171,10 @@
                     <c:otherwise>
                         
 	                    <!-- 로그인버튼 -->
-	                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+	                    <button type="button" onclick="login()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
 	                        Github Login
 	                    </button>
-	
+
 	                    <!-- 로그인 모달 창 -->
 	                    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
 	                    aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -156,6 +212,28 @@
         </nav>
     </header>
     <!-- 상단바 끝 -->
+    
+
+
 </body>
 
+
+
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

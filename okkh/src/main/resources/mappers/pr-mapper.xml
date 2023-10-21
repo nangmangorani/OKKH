@@ -50,7 +50,7 @@
 		        pr_no
 		      , pr_title
 		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
-		      , stack_name
+		      , pr.stack_name
 		      , git_nick
 		      , count
 		      , mem_no
@@ -105,7 +105,7 @@
 		       , pr_content
 		       , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
 		       , pr_time
-		       , stack_name
+		       , pr.stack_name
 		       , git_nick
 		       , count
 		       , mem_no
@@ -182,6 +182,12 @@
 		 where reply_no = #{replyNo}    
 		    
 	</update>
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>

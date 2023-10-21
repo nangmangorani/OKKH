@@ -1,4 +1,4 @@
-package com.kh.okkh.member.model.service;
+package com.kh.okkh.common.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

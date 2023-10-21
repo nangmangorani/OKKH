@@ -7,11 +7,32 @@
 	<resultMap type="Member" id="memberResultSet">
 		<result column="mem_no" property="memNo"/>
 		<result column="mem_id" property="memId"/>
+		<result column="git_nick" property="gitNick"/>
+		<result column="avatar_url" property="avatarUrl"/>
 		<result column="mem_token" property="memToken"/>
 		<result column="mem_intro" property="memIntro"/>
+		<result column="stack_name" property="stackName"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
+
+	</resultMap>
 	
+	<resultMap type="Stack" id="stackSetResult">
+		<result column="stack_no" property="stackNo"/>
+		<result column="stack_type" property="stackType"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="stack_img" property="stackImg"/>
+	</resultMap>
+	
+	<resultMap type="PR" id="prSetResult">
+		<result column="pr_no" property="prNo" />
+		<result column="pr_title" property="prTitle" />
+		<result column="create_date" property="createDate" />
+		<result column="stack_name" property="stackName" />
+		<result column="okkh_nick" property="prWriter" />
+		<result column="count" property="count" />
+		<result column="pr_time" property="prTime"/>
+		<result column="pr_content" property="prContent"/>
 	</resultMap>
 	
 	<select id="selectMember" resultMap="memberResultSet">
@@ -20,9 +41,9 @@
 		      , mem_id
 		      , mem_token
 		      , mem_intro
+		      , stack_name
 		      , create_date
 		      , status
-		   
 		  from member
 		  where mem_id = #{memId}
 	</select>
@@ -49,13 +70,36 @@
 		    )
 	</insert>
 	
+	<select id="selectStackList"  resultMap="stackSetResult">
+		select 
+			   stack_no
+			 , stack_type
+			 , stack_name
+			 , stack_img 
+		  from stack
+	</select>
+	
 	<update id="updateMember">
 		update member
 		   set mem_intro = #{memIntro},
-		   	  
+		   	   stack_name = #{stackName}
 		 where mem_id = #{memId}
 		   and status = 'Y'
 	</update>
 	
+	<select id="myPRList" resultMap="prSetResult">
+		select 
+		        pr_no
+		      , pr_title
+		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
+              , pr.stack_name
+		      , mem_id
+		      , count
+		  from my_pr pr
+		  join member mem using (mem_no)
+		 where pr.status ='Y'
+           and mem_id = #{ memId }
+		 order by pr.create_date desc
+	</select>
 	
 </mapper>

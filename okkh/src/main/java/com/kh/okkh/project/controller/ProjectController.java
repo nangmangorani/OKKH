@@ -2,15 +2,20 @@ package com.kh.okkh.project.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.project.model.service.ProjectServiceImpl;
@@ -29,10 +34,14 @@ public class ProjectController {
 	@RequestMapping("recruitList.pro")
 	public ModelAndView selectProjectList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
 		
+
 		// 프로젝트 전체 조회리스트로 갈 때 
 		// 1. 페이징 처리하기 
 		// 2. 기술스택 조회하기 (프로젝트 목록에 사용하는 기술스택을 이미지로 보여줘야해서 조회해야함)
 		// 3. 프로젝트 리스트도 조회하기 
+
+		
+
 		
 		//  페이징 처리 위해서 전체 프로젝트 개수 구해오기 
 		int listCount = pservice.selectProjectListCount();
@@ -97,14 +106,223 @@ public class ProjectController {
 	 * 프로젝트 작성폼으로 이동할 때 기술스택을 먼저 조회하고 작성폼으로 이동
 	 * @return
 	 */
-//	@RequestMapping("insertProForm.pro")
-//	public String insertProForm() {
-//		
-//		// 기술 스택 조회하는 메소드
-//		ArrayList<Stack> list = pservice.selectStackList();
-//		// 아직 기술 스택 조회하는 메소드 작성 안함 
-// 		
-//	}
+
+	@RequestMapping("insertProjectForm.pro")
+	public String insertProForm(Model model) {
+		
+		// 기술 스택 조회하는 메소드
+		ArrayList<Stack> list = pservice.selectStackList();
+		
+		model.addAttribute("list", list);
+		
+		return "project/enrollProject";
+		
+		
+ 		
+	}
+	
+	
+	
+	/**
+	 * 찐으로 프로젝트 작성하는 메소드
+	 * @param p
+	 */
+	@RequestMapping("insertProject.pro")
+	public String insertProject(Project p, HttpSession session, Model model) {
+		
+		int result = pservice.insertProject(p);
+		
+		if(result>0) {
+			// 프로젝트 작성 성공하면 
+			// alert 띄우고 목록으로 가기 
+			session.setAttribute("alertMsg", "프로젝트 작성을 성공했습니다.");
+			return "redirect:recruitList.pro";
+			
+		}else {
+			// 실패 에러메시지
+			
+			model.addAttribute("errorMsg", "프로젝트 작성 실패ㅠㅠ");
+			return "common/errorPage";
+			
+		}
+		
+	}
+	
+	
+	/**
+	 * 프로젝트 모집작성자가 프로젝트 모집 완료하는 메소드
+	 * @param pno
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("recruitDone.pro")
+	public String recruitDonePro(int pno, HttpSession session) {
+		
+		int result = pservice.recruitDonePro(pno);
+		
+		if(result>0) {
+			// 모집완료 성공하면 alert 띄우고 다시 상세페이지로 돌아가기 
+			
+			session.setAttribute("alertMsg", "모집완료를 성공했습니다.");
+			
+		}else {
+			// 모집완료 실패하면 alert 띄우고 다시 상세페이지로 
+			session.setAttribute("alertMsg", "모집완료를 실패했습니다ㅠㅠ");
+		}
+		
+		return "redirect:selectDetailPro.pro?pno="+ pno;
+	}
+	
+	
+	
+	/**
+	 * 프로젝트 재모집하는 메소드
+	 * @param pno
+	 * @return
+	 */
+	@RequestMapping("recruitReturn.pro")
+	public String recruitReplayPro(int pno, HttpSession session) {
+		 
+		int result = pservice.recruitReplayPro(pno);
+		
+		if(result>0) {
+			// 재모집 성공하면 alert띄우고 다시 상세페이지로 
+			
+			session.setAttribute("alertMsg", "프로젝트 재 모집을 성공했습니다.");
+			
+			
+		}else {
+			// 실패해도 동일 
+			session.setAttribute("alertMsg", "프로젝트 재 모집을 실패했습니다.");
+		}
+		
+		return "redirect:selectDetailPro.pro?pno="+ pno;
+		
+	}
+	
+	
+	/**
+	 * 프로젝트 삭제하는 메소드
+	 * @param pno
+	 */
+	@RequestMapping("deleteProject.pro")
+	public String deleteProject(int pno,HttpSession session) {
+		
+		int result = pservice.deleteProject(pno);
+		
+		if(result>0) {
+			
+			session.setAttribute("alertMsg", "프로젝트 삭제를 성공했습니다.");
+			return "redirect:recruitList.pro";
+			
+		}else {
+			session.setAttribute("alertMsg", "프로젝트 삭제를 실패했습니다ㅠㅠ");
+			return "redirect:selectDetailPro.pro?pno="+ pno;
+		}
+		
+	}
+	
+	
+	/**
+	 * 프로젝트 수정하는 폼으로 가는 메소드
+	 * 수정하는 폼에 가기 전에 상세내용, 기술스택목록부터 조회하기
+	 * @param pno
+	 */
+	@RequestMapping("updateFormProject.pro")
+	public ModelAndView updateFormProject(int pno, ModelAndView mv) {
+		
+		// 수정 폼으로 갈 때 작성자가 작성한 내용, 기술스택 목록을 들고 가야함 
+		// 위에 있는 상세내용 조회 메소드 가져오기 
+		Project p = pservice.selectDetailPro(pno);
+		ArrayList<Stack> list = pservice.selectStackList();
+		
+		mv.addObject("p", p).addObject("list", list).setViewName("project/updateProject");
+		
+		return mv;
+	
+		
+	}
+	
+	
+	
+	/**
+	 * 찐으로 수정하는 메소드
+	 * @param p
+	 */
+	@RequestMapping("updateProject.pro")
+	public String updateProject(Project p, HttpSession session) {
+		
+		int result = pservice.updateProject(p);
+		
+		if(result>0) {
+			session.setAttribute("alertMsg", "프로젝트 수정을 성공했습니다.");
+			
+		}else {
+			session.setAttribute("alertMsg", "프로젝트 수정을 실패했습니다ㅠㅠ");
+		}
+	
+		return "redirect:selectDetailPro.pro?pno="+ p.getProNo();
+	}
+	
+	
+	
+	
+	/**
+	 * 프로젝트 댓글 작성용 메소드
+	 * @param replyContent
+	 */
+	@ResponseBody
+	@RequestMapping("insertReply.pro")
+	public String insertReplyProject(Reply r,HttpSession session) {
+		
+		int result = pservice.insertReplyProject(r);
+		
+		
+		return result>0 ? "success" : "fail";
+		
+	}
+	
+	
+	/**
+	 * 프로젝트 댓글 리스트 조회용 메소드
+	 * @param pno
+	 */
+	@ResponseBody
+	@RequestMapping(value= "selectProReplyList.pro", produces="application/json; charset=UTF-8")
+	public String selectProjectReplyList(int pno) {
+		
+		ArrayList<Reply> list = pservice.selectProjectReplyList(pno);
+		//System.out.println(list + " 컨트롤단!!!!!!!!!!!!");
+		
+		return new Gson().toJson(list);
+		
+	}
+	
+	
+	
+	/**
+	 * 프로젝트 댓글 삭제하는 메소드
+	 * @param pno
+	 */
+	@ResponseBody
+	@RequestMapping("deleteProReply.pro")
+	public String deleteReplyProject(int pno, HttpSession session) {
+		
+		int result = pservice.deleteReplyProject(pno);
+		
+		
+		return result>0 ? "success" : "fail"; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -39,6 +39,12 @@
     
     
     
+    
+   
+    
+    
+    
+    
 	<!-- 주야간모드 버튼 js 시작 -->
     <script src="resources/assets/static/js/initTheme.js"></script>
 	<!-- /주야간모드 버튼 js 끝 -->
@@ -175,7 +181,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="chat.ch" class='sidebar-link'>
                                 <i class="fa-solid fa-comments fa-sm"></i>
                                 <span>Chat</span>
                             </a>

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
+import com.kh.okkh.milestone.model.vo.Milestone;
 
 
 public interface IssueService {
@@ -15,6 +16,9 @@ public interface IssueService {
 	
 	ArrayList<Labels> getLabels(String repository, HttpSession session);
 	
-	ArrayList<Issue> getIssues(String repository, String token, String state, String assign, String label, Integer page) throws IOException;
+	ArrayList<Issue> getIssues(String repository, String token, String state) throws IOException;
+	
+	ArrayList<Milestone> getMilestone(String repository, HttpSession session);
+	
 	
 }

@@ -107,14 +107,37 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.selectDetailPro(pno, sqlSession);
 	}
+	
+	
 
+	/**
+	 * 프로젝트 모집 완료하는 메소드
+	 */
+	@Override
+	public int recruitDonePro(int pno) {
+		
+		return pdao.recruitDonePro( pno, sqlSession);
+	}
+
+
+	/**
+	 * 다시 재모집하는 메소드
+	 */
+	@Override
+	public int recruitReplayPro(int pno) {
+		
+		return pdao.recruitReplayPro(pno, sqlSession);
+	}
+	
+	
+	
 	/**
 	 * 작성 폼으로 가기 전 기술스택 목록 조회하는 메소드
 	 */
 	@Override
 	public ArrayList<Stack> selectStackList() {
 		
-		return null;
+		return pdao.selectStackList(sqlSession);
 	}
 
 	/**
@@ -123,16 +146,17 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public int insertProject(Project p) {
 		
-		return 0;
+		return pdao.insertProject(p,sqlSession);
 	}
 
+	
 	/**
 	 * 프로젝트 수정하기
 	 */
 	@Override
 	public int updateProject(Project p) {
 		
-		return 0;
+		return pdao.updateProject(p, sqlSession);
 	}
 
 	/**
@@ -141,16 +165,16 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public int deleteProject(int pno) {
 		
-		return 0;
+		return pdao.deleteProject(pno, sqlSession);
 	}
 
 	/**
 	 * 프로젝트 상세페이지에 댓글 작성하기
 	 */
 	@Override
-	public int insertReplyProject(Reply rep) {
+	public int insertReplyProject(Reply r) {
 		
-		return 0;
+		return pdao.insertReplyProject(r,sqlSession);
 	}
 
 	/**
@@ -159,7 +183,13 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public ArrayList<Reply> selectProjectReplyList(int pno) {
 		
-		return null;
+		ArrayList<Reply>list = pdao.selectProjectReplyList(pno, sqlSession);
+		
+		//System.out.println(list + "   서비스단!!!!!!!!");
+		
+		return list;
+		
+		
 	}
 
 	/**
@@ -168,8 +198,15 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public int deleteReplyProject(int pno) {
 		
-		return 0;
+		return pdao.deleteReplyProject( pno, sqlSession);
 	}
+
+
+
+
+
+
+
 	
 	
 	
