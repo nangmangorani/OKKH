@@ -28,4 +28,6 @@ public class Project {
 	private int count;
 	private String createDate;
 	private int memNo;
+	private int bookmarkProNo;  
+	private int bookmarkMemNo;
 }

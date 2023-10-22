@@ -1,5 +1,6 @@
 package com.kh.okkh.project.model.dao;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
@@ -7,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
@@ -181,15 +183,47 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 프로젝트 북마크 목록조회하는 메소드
+	 * @param memNo
+	 * @param sqlSession
+	 * @return
+	 */
+	public Bookmark selectProBookmart(Bookmark b,SqlSessionTemplate sqlSession){
+		
+		return sqlSession.selectOne("projectMapper.selectProBookmark", b);
+	}
+	
+	
+	/**
+	 * 해당 게시글의 북마크 개수 조회하는 메소드
+	 * @return
+	 */
+	public int selectBookCount(int pno,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("projectMapper.selectBookCount", pno);
+	}
 	
 	
 	
 	
+	/**
+	 * 북마크 삽입하러 가기
+	 * @return
+	 */
+	public int insertProBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.insert("projectMapper.insertProBookmark", b);
+	}
 	
 	
-	
-	
-	
+	/**
+	 * 북마크 삭제하는 메소드
+	 * @return
+	 */
+	public int deleteProBookmark(Bookmark b, SqlSessionTemplate sqlSession) {
+		return sqlSession.delete("projectMapper.deleteProBookmark", b);
+	}
 	
 	
 	

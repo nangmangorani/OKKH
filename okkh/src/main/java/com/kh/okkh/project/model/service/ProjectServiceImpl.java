@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
@@ -200,6 +201,53 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.deleteReplyProject( pno, sqlSession);
 	}
+
+
+
+	/**
+	 * 북마크 조회하는 메소드
+	 */
+	@Override
+	public Bookmark selectProBookmark(Bookmark b) {
+		
+		return pdao.selectProBookmart(b,sqlSession);
+	}
+
+
+	/**
+	 * 해당 게시글의 북마크 개수 조회하는 메소드
+	 */
+	@Override
+	public int selectBookCount(int pno) {
+		
+		return pdao.selectBookCount(pno, sqlSession);
+	}
+
+	/**
+	 * 북마크 삽입하는 메소드
+	 */
+	@Override
+	public int insertProBookmark(Bookmark b) {
+		 
+		
+		
+		return pdao.insertProBookmark(b, sqlSession);
+	}
+
+
+
+	/**
+	 *  북마크 삭제하는 메소드
+	 */
+	@Override
+	public int deleteProBookmark(Bookmark b) {
+		
+		return pdao.deleteProBookmark(b, sqlSession);
+	}
+
+
+
+	
 
 
 

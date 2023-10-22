@@ -1,5 +1,6 @@
 package com.kh.okkh.project.controller;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.service.ProjectServiceImpl;
 import com.kh.okkh.project.model.vo.Project;
 
@@ -52,6 +55,11 @@ public class ProjectController {
 		// 페이징 처리 후 찐 프로젝트 조회하러 가기 
 		ArrayList<Project> list = pservice.selectProjectList(pi);
 		
+		
+		
+		
+		
+
 		mv.addObject("list", list);
 		mv.setViewName("project/projectList");
 		
@@ -68,11 +76,18 @@ public class ProjectController {
 	 */
 	@ResponseBody
 	@RequestMapping("selectDetailPro.pro")
-	public ModelAndView selectDetailPro(int pno, ModelAndView mv){
+	public ModelAndView selectDetailPro(int pno, ModelAndView mv, HttpSession session){
 		
 		
 		// 먼저 조회수부터 증가시키고 오기
 		int result = pservice.increaseCount(pno);
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		
+		Bookmark b = new Bookmark(memNo, pno);
+		
+		
+	
 		
 		if(result>0) {
 			
@@ -80,8 +95,19 @@ public class ProjectController {
 			// 조회수 증가 성공했으면 찐으로 상세 조회하러 가기
 			Project pro = pservice.selectDetailPro(pno);
 			
-			System.out.println(pro + "    컨트롤러 pro");
 			
+			Bookmark book = pservice.selectProBookmark(b);
+			
+			int count = pservice.selectBookCount(pno);
+			
+			
+			System.out.println( pno + " 게시글 번호닷" + book + "  book이당");
+			
+			
+			// System.out.println(pro + "    컨트롤러 pro");
+			mv.addObject("count", count);
+			mv.addObject("book", book);
+			//mv.addObject("bookmarkCount", bookmarkCount);
 			mv.addObject("pro", pro);
 			mv.setViewName("project/detailProject");
 			
@@ -315,9 +341,48 @@ public class ProjectController {
 	}
 	
 	
-	
-	
-	
+    /**
+     * 북마크 삭제 / 삽입하는 메소드 (ajax)
+     * @param proNo
+     * @param session
+     */
+    @ResponseBody
+	@RequestMapping("projectBookmark.pro")
+	public String projectBookmark(int pno, HttpSession session) {
+		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		
+		
+		
+		Bookmark b = new Bookmark();
+		b.setMemNo(memNo);
+		b.setProNo(pno);
+		
+		System.out.println(b  + "북마크 객체 뽑아봄");
+		 
+		
+		int result = 0;
+		
+		
+		int count = pservice.selectBookCount(pno);
+		
+		if(count == 0) {
+			// 북마크 된 것이 없다면 북마크 하러 가기 
+			result = pservice.insertProBookmark(b);
+			
+			
+		}else {
+			// 북마크가 이미 되어있다면 삭제하러 가기
+			result = pservice.deleteProBookmark(b);
+		}
+		
+		System.out.println(result + "   : 컨트롤러 단에서 북마크 result 화깅");
+		
+		return result>0 ? "success" : "fail";
+		
+		
+	}
 	
 	
 	

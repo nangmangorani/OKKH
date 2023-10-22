@@ -882,7 +882,7 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             
 	                <div  class="UJ-ProjectContent" onclick="location.href='selectDetailPro.pro?pno=' + ${p.proNo}">
 	
-				
+						<input type="hidden" value="${p.proNo }" id="proNo">
 	
 	                    <div style="padding-top: 7px; padding-left: 10px;">
 	                    
@@ -899,9 +899,12 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 	                      
 						 </c:choose>
 							
-							
-	                        <!-- 북마크 -->
-	                        <img  class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px; float: right; margin-right: 30px;">
+						
+	        
+	                      	
+	                   
+	                   
+	                   
 	                    </div>
 	                    <!-- 마감일 , 북마크 -->
 	                    <div id="UJ-dateMark">
@@ -970,30 +973,10 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                     <!-- 친구 및 팀원 끝 -->
 
       
-        
+        		
         
         
 
-        <script>
-            // 이미지 요소들을 가져옵니다.
-            const heartImages = document.querySelectorAll(".heartImage");
-
-            // 각 이미지에 대한 클릭 이벤트 핸들러를 추가합니다.
-            heartImages.forEach((image) => {
-            image.addEventListener("click", () => {
-                // 이미지의 현재 src 속성 값을 확인합니다.
-                const currentSrc = image.src;
-
-                // 빈 하트 이미지의 경로와 현재 이미지의 경로를 비교하여 토글합니다.
-                if (currentSrc.endsWith("https://holaworld.io/images/info/bookmark.png")) {
-                image.src = "https://holaworld.io/images/info/bookmark_filled.png"; // 채워진 하트 이미지로 변경
-                } else if (currentSrc.endsWith("https://holaworld.io/images/info/bookmark_filled.png")) {
-                image.src = "https://holaworld.io/images/info/bookmark.png"; // 빈 하트 이미지로 변경
-                }
-            });
-            });
-            
-     </script>
 
 
 

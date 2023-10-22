@@ -119,15 +119,36 @@
                             <div class="card-content">
                                 <div class="card-body">
 
-                                    <div class="UJ-WriteHeader">
-                                        
+                                    <div class="UJ-WriteHeader" >
+                                        <c:choose >
+	                                         <c:when test="${not empty book and book.memNo eq loginMember.memNo}">
+	                                        	<img src="https://holaworld.io/images/info/bookmark_filled.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+											 </c:when>	
+											 
+											 <c:otherwise>
+												 <img src="https://holaworld.io/images/info/bookmark.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+											 </c:otherwise>
+										
+										</c:choose>
                                         <br>
                                         <!-- 제목 -->
-                                        <div>
-                                           <h3> ${pro.proTitle } </h3> 
-                                        </div>
-
+                                     
+                                   
+                                           	
+                                          <div > 	
+                                           <h3> ${pro.proTitle } </h3>
+                                           
+                                          </div>
+                                          
+                                          
+                                         
+                                         
+                                     
                                         <br>
+                                        
+                                        
+                                        	
+                                        
 
                                         <!-- 작성자/ 작성일 -->
                                         <div style="font-size: 17px;">
@@ -155,7 +176,7 @@
                                             	
                                             	
                                             	<c:otherwise>
-                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='insertProForm.pro" >프로젝트 신청하기</button>
+                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='insertProForm.pro'" >프로젝트 신청하기</button>
                                             	</c:otherwise>
                                             </c:choose>
                                         </div>
@@ -166,7 +187,7 @@
                                         
                                         
                                         <div style="font-size: 17px;">
-                                            조회수 : ${pro.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : 2
+                                            조회수 : ${pro.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : <span id="bookmarkCount">${count }</span>
                                         </div>
                                         
                                         <hr >
@@ -318,7 +339,7 @@
                                     <div id="UJ-reply">
 
 
-                                        <table class="replyTable" align="center" >
+                                        <table class="replyTable" align="center"  width=900>
 
                                             <!-- 로그인 한 회원이 볼 화면  -->
                                         
@@ -336,16 +357,14 @@
                                               <c:choose>
 	                                              	<c:when test="${not empty loginMember }">
 	                                        
-		                                                <th colspan="3"  >
+		                                                <th colspan="4"  >
 		                                                  <input type="text" placeholder="댓글을 입력하세요" style="padding-left: 10px;  width: 600px;" id="UJreply" >
 		                                                
+			                                                    <button type="button"  style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
 		                                                  
 		                                                </th>
 		                                                
-		                                                <td>
-			                                                    <button type="button"  style="width: 90px;" class="btn btn-primary" onclick="UJinsertReply();">작성</button>
-			                                                  
-			                                            </td>
+		                                               
 	                                                </c:when>
 	                                                
 	                                                <c:otherwise>
@@ -525,6 +544,59 @@
                                         		})
                                         		
                                         	}
+                                        	
+                                        	
+                                        	// 북마크 클릭했을 때 
+                                        	function bookmark(event){
+                                        		
+
+                                				
+                                        		
+                                        		$.ajax({
+                                        			url:"projectBookmark.pro",
+                                        			data:{pno:${pro.proNo}},
+                                        			success:function(data){
+                                        				
+                                        				console.log(data)
+                                        				
+                                        				
+                                        				if(data == "success"){
+                                        					
+                                        					const bookmark = $(event.target);
+                                                            const bookmarkUrl = bookmark.attr("src");
+                                        					
+                                        					
+                                                            
+                                        					if( bookmarkUrl.endsWith("https://holaworld.io/images/info/bookmark.png")){
+                                        						bookmark.attr("src", "https://holaworld.io/images/info/bookmark_filled.png") ;
+                                        						
+                                        						
+                                        						$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())+1);
+                                        						
+                                        						
+                                                            }else{
+                                                            	bookmark.attr("src", "https://holaworld.io/images/info/bookmark.png");
+                                                            	$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())-1) ;
+                                                            }
+                                        					
+                                        				}else{
+                                        					console.log("북마크 작동 실패!!")
+                                        				}
+                                        				
+                                        				
+                                        			},
+                                        			error:function(){
+                                        				console.log("북마크용 아작스 실패ㅠㅠ")
+                                        			}
+                                        			
+                                        		})
+                                        		
+                                        		
+                                        	};
+                                        	
+                                        	
+                                        	
+                                        	
                                         	
                                         	
                                         	

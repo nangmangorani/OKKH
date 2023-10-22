@@ -2,6 +2,7 @@ package com.kh.okkh.project.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
@@ -81,7 +82,19 @@ public interface ProjectService {
 	
 	// project 상세보기에서 댓글 삭제하기 (ajax)
 		int deleteReplyProject(int pno);
-	
+		
+		
+	// 프로젝트 리스트 조회할때 북마크도 같이 조회하는 메소드
+		Bookmark selectProBookmark(Bookmark b);
+		
+	// 북마크 개수 조회
+		int selectBookCount(int pno);
+		
+	// 프로젝트 북마크 삽입하는 메소드
+		int insertProBookmark(Bookmark b);
+		
+	// 프로젝트 북마크 삭제하는 메소드
+		int deleteProBookmark(Bookmark b);
 	
 	
 }
