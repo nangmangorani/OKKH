@@ -105,13 +105,13 @@ public class RepositoryController {
 	 * @param p => 내 프로젝트 추가에 필요한 객체
 	 */
 	@RequestMapping("insertMyProject.re")
-	public void insertMyProject(MyProject p) {
+	public String insertMyProject(MyProject p) {
 		
-		System.out.println(p);
+		// System.out.println(p);
 		
-//		int result = rService.insertMyProject(p);
+		int result = rService.insertMyProject(p);
 		
-//		return "repo/myProject";
+		return "repo/myProject";
 		
 	}
 	

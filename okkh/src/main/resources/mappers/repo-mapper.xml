@@ -17,6 +17,7 @@
 	<select id="selectMyProjectList" resultMap="myProjectResult">
 		select
 		       mypro_no
+		     , ref_pro_no  
 		     , mypro_title
 		     , mypro_type
 		     , mypro_status
@@ -30,6 +31,7 @@
 		select 
 			   mem_no
 			 , mem_id
+			 , team
 		  from member
 		 where team = (
 		              select

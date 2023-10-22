@@ -8,6 +8,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
+<style>
+	.forTeam {
+		display: none;
+	}
+</style>
 </head>
 
 <body>
@@ -75,6 +80,7 @@
 				                                </button>
 				                            </div>
 				                            <form action="insertMyProject.re">
+				                            	<input type="hidden" name="refProNo" value="">
 				                                <div class="modal-body">
 				                                    <label>Project Title:</label>
 				                                    <div class="form-group">
@@ -83,18 +89,17 @@
 				                                    </div>
 				                                    <label>Project Type:</label>
 				                                    <div class="form-group">
-								                        <input type="radio" class="btn-check" name="myproType" id="team" value="팀 프로젝트"
-								                            autocomplete="off" checked>
-								                        <label class="btn btn-outline-success" for="team">팀 프로젝트</label>
-								                        
 								                        <input type="radio" class="btn-check" name="myproType" id="solo" value="개인 프로젝트"
-								                            autocomplete="off" >
+								                            autocomplete="off" checked>
 								                        <label class="btn btn-outline-success" for="solo">개인 프로젝트</label>
+								                        
+								                        <input type="radio" class="btn-check" name="myproType" id="team" value="팀 프로젝트"
+								                            autocomplete="off">
+								                        <label class="btn btn-outline-success" for="team">팀 프로젝트</label>
 				                                    </div>
 				                                    <label class="forTeam">Project Member:</label>
 				                                    <div id="teamMate" class="form-group forTeam">
 								                    	<!-- 팀원 목록이 노출될 자리 -->
-								                    	<div>하이하이</div>
 				                                    </div>
 				                                </div>
 				                                <div class="modal-footer">
@@ -243,9 +248,13 @@
 	   					
 	   					let value = "";
 	   					
-	   					if(teamMate.length = 1) {
+	   					let teamArr = [];
+	   					
+	   					if(teamMate.length == 1) {
 	   						
-	   						value = "팀원이 없습니다.";
+	   						$("#team").attr("type", "hidden");
+	   						
+	   						$("label[for=team]").css("display", "none");
 	   						
 	   					}
 	   					else {
@@ -255,15 +264,20 @@
 		   						if(teamMate[i].memId != ${ loginMember.memId }) {
 		   							
 			   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='resources/images/samples/출근짱구.jpg' width='25' height='25' style='border-radius: 20px;''>"
-			   								+ teamMate[i].memId 
+			   								+ teamMate[i].memId
 			   								+ "</a>";
+			   								
+			   						teamArr[i] = teamMate[i].memId;
+	   					
 		   						}
 		   						
 		   					}
+		   					
+	   					$("#teamMate").html(value);
+	   					
+	   					$("input[name=teamMate]").val(teamArr);
 	   					
 	   					}
-	   					
-	   					$("#teamMate").html(value);
 	   					
 	   				},
 	   				error:() => {
@@ -276,6 +290,13 @@
 	   		$("#solo").click(() => {
 	   			
 	   			$(".forTeam").css("display", "none");
+	   			
+	   		})
+	   		
+	   		// 팀 프로젝트 버튼을 눌렀을 때 실행되는 function
+	   		$("#team").click(() => {
+	   			
+	   			$(".forTeam").css("display", "block");
 	   			
 	   		})
 	   		
