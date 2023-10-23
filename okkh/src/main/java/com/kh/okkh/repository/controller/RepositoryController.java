@@ -51,7 +51,7 @@ public class RepositoryController {
 	 * 
 	 */
 	@RequestMapping("myProject.re")
-	public ModelAndView selectMyProjectList(HttpSession session, ModelAndView mv) {
+	public String selectMyProjectList(HttpSession session, Model model) {
 		
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
@@ -78,9 +78,10 @@ public class RepositoryController {
 			
 		}
 		
-		mv.addObject("pIngList", pIngList).addObject("pEndList", pEndList).setViewName("repo/myProject");
+		model.addAttribute("pIngList", pIngList);
+		model.addAttribute("pEndList", pEndList);
 		
-		return mv;
+		return "repo/myProject";
 		
 	}
 	
@@ -105,13 +106,19 @@ public class RepositoryController {
 	 * @param p => 내 프로젝트 추가에 필요한 객체
 	 */
 	@RequestMapping("insertMyProject.re")
-	public String insertMyProject(MyProject p) {
+	public String insertMyProject(MyProject p, HttpSession session, Model model) {
 		
-		// System.out.println(p);
-		
+		 System.out.println(p);
+		 
 		int result = rService.insertMyProject(p);
 		
-		return "repo/myProject";
+		if(result > 0) {
+			return "redirect:/";
+		}
+		else {
+			return "common/errorPage";
+		}
+		
 		
 	}
 	

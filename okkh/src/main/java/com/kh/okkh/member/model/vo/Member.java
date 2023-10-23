@@ -27,5 +27,7 @@ public class Member {
 	private String stackName;
 	private Date createDate;
 	private String status;
+	private int teamNo;
+	private String teamStatus;
 	
 }

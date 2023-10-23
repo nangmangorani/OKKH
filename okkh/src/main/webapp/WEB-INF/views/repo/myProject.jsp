@@ -56,11 +56,14 @@
 		                                    aria-controls="profile" aria-selected="false">완료된 프로젝트</a>
 		                            </li>
 		                        </ul>
-		                        <!-- 프로젝트 추가 버튼 시작 -->
-		                        <button id="newProject" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
-				                    New Project
-				                </button>
-				                <!-- /프로젝트 추가 버튼 끝 -->
+		                        <!-- 로그인한 회원이 프로젝트의 팀장일 경우에 버튼 두두등장!! -->
+		                        <c:if test="${ loginMember.teamStatus eq 'L' }">
+			                        <!-- 프로젝트 추가 버튼 시작 -->
+			                        <button id="newProject" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+					                    New Project
+					                </button>
+					                <!-- /프로젝트 추가 버튼 끝 -->
+		                        </c:if>
 				                
 				                <br>
 				                
@@ -80,7 +83,8 @@
 				                                </button>
 				                            </div>
 				                            <form action="insertMyProject.re">
-				                            	<input type="hidden" name="refProNo" value="">
+				                            	<input type="hidden" name="refTeamNo" value="${ loginMember.teamNo }">
+				                            	<input type="hidden" name="myproMember" value="">
 				                                <div class="modal-body">
 				                                    <label>Project Title:</label>
 				                                    <div class="form-group">
@@ -131,7 +135,7 @@
 						                        		<!-- 진행중인 프로젝트 시작 -->
 							                        	<c:forEach var="pIng" items="${ pIngList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
-							                                	<a href="repoList.re?pno=1">
+							                                	<a href="repoList.re?pno=${ pIng.myproNo }">
 								                                	<div class="card" style="border: 1px solid #cecece;">
 								                                   		<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
@@ -177,7 +181,7 @@
 						                            	<!-- 완료된 프로젝트 시작 -->
 					                        			<c:forEach var="pEnd" items="${ pEndList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
-							                                	<a href="repoList.re?pno=1">
+							                                	<a href="repoList.re?pno=${ pEnd.myproNo }">
 								                                	<div class="card" style="border: 1px solid #cecece;">
 								                                   		<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
@@ -261,21 +265,23 @@
 	   						
 		   					for(let i in teamMate) {
 		   						
-		   						if(teamMate[i].memId != ${ loginMember.memId }) {
-		   							
-			   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='resources/images/samples/출근짱구.jpg' width='25' height='25' style='border-radius: 20px;''>"
-			   								+ teamMate[i].memId
-			   								+ "</a>";
-			   								
-			   						teamArr[i] = teamMate[i].memId;
-	   					
-		   						}
-		   						
+		   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='resources/images/samples/출근짱구.jpg' width='25' height='25' style='border-radius: 20px;''>"
+	   								+ teamMate[i].memId
+	   								+ "</a>";
+	   								
+	   							teamArr[i] = teamMate[i].memId;
+	   								
 		   					}
 		   					
 	   					$("#teamMate").html(value);
 	   					
-	   					$("input[name=teamMate]").val(teamArr);
+	   					console.log(teamArr);
+	   					
+	   					let members = teamArr.join();
+	   					
+	   					console.log(members);
+	   					
+	   					$("input[name=myproMember]").val(${ loginMember.memId } + "," + members);
 	   					
 	   					}
 	   					
@@ -290,6 +296,8 @@
 	   		$("#solo").click(() => {
 	   			
 	   			$(".forTeam").css("display", "none");
+	   			
+	   			$("input[name=myproMember]").val(${ loginMember.memId });
 	   			
 	   		})
 	   		

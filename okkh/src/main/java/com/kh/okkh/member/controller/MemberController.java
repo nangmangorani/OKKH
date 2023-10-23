@@ -43,7 +43,7 @@ public class MemberController {
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
-		System.out.println("난 멤컨 토큰 ㅌㅋㅌ" + token);
+//		System.out.println("난 멤컨 토큰 ㅌㅋㅌ" + token);
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
 		// id, 아바타, 닉넴, 토큰
@@ -56,6 +56,8 @@ public class MemberController {
         }else {
         	m = mService.selectMember(mToken);
         }
+        
+        System.out.println(m);
         
         session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", m); // db에 쌓인 정보

@@ -14,6 +14,8 @@
 		<result column="stack_name" property="stackName"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
+		<result column="team_no" property="teamNo"/>
+		<result column="team_status" property="teamStatus"/>
 	</resultMap>
 	
 	<resultMap type="Stack" id="stackSetResult">
@@ -43,6 +45,8 @@
 		      , stack_name
 		      , create_date
 		      , status
+		      , team_no
+		      , team_status
 		  from member
 		  where mem_id = #{memId}
 	</select>
