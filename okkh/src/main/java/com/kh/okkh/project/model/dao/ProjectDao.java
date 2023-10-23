@@ -12,6 +12,8 @@ import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
+
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.vo.Project;
 
 
@@ -206,6 +208,15 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 해당 게시글에 사용자가 북마크를 했는지 개수세는 메소드
+	 * @return
+	 */
+	public int selectBookCountPersonal(Bookmark b,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("projectMapper.selectBookCountPersonal", b);
+	}
+	
 	
 	/**
 	 * 북마크 삽입하러 가기
@@ -225,6 +236,15 @@ public class ProjectDao {
 		return sqlSession.delete("projectMapper.deleteProBookmark", b);
 	}
 	
+	
+	/**
+	 * 프로젝트 참여버튼을 눌렀을때 team테이블을 업데이트 하는 메소드
+	 * @return
+	 */
+	public int participateProject(Member m, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("projectMapper.participateProject", m);
+	}
 	
 	
 	

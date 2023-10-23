@@ -899,18 +899,28 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 	                      
 						 </c:choose>
 							
+						<!-- 북마크 이미지 -->
 						
-	        
-	                      	
-	                   
-	                   
-	                   
+				<!--  
+	                  <c:choose >
+                          <c:when test="${not empty book and book.memNo eq loginMember.memNo}">
+                         	 <img src="https://holaworld.io/images/info/bookmark_filled.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+						 </c:when>	
+						 
+						 <c:otherwise>
+							 <img src="https://holaworld.io/images/info/bookmark.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+						 </c:otherwise>
+										
+					 </c:choose>
+	            --> 
+	            
+	            
 	                    </div>
 	                    <!-- 마감일 , 북마크 -->
 	                    <div id="UJ-dateMark">
 	                        <div id="UJ-date">
 	                            마감일 : ${p.proDeadLine }
-	                           
+	                            
 	                        </div>
 	                       
 	                    </div>
@@ -959,7 +969,56 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                 
             </div>
 
+			
+			
+			<script>
+			// 북마크 클릭했을 때 
+        	function bookmark(event){
+        		
 
+        		$.ajax({
+        			url:"projectBookmark.pro",
+        			data:{pno:${pro.proNo}},
+        			success:function(data){
+        				
+        				console.log(data)
+        				
+        				
+        				if(data == "success"){
+        					
+        					const bookmark = $(event.target);
+                            const bookmarkUrl = bookmark.attr("src");
+        					
+        					
+                            
+        					if( bookmarkUrl.endsWith("https://holaworld.io/images/info/bookmark.png")){
+        						bookmark.attr("src", "https://holaworld.io/images/info/bookmark_filled.png") ;
+        						
+        						
+        						$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())+1);
+        						
+        						
+                            }else{
+                            	bookmark.attr("src", "https://holaworld.io/images/info/bookmark.png");
+                            	$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())-1) ;
+                            }
+        					
+        				}else{
+        					console.log("북마크 작동 실패!!")
+        				}
+        				
+        				
+        			},
+        			error:function(){
+        				console.log("북마크용 아작스 실패ㅠㅠ")
+        			}
+        			
+        		})
+        		
+        		
+        	};
+			
+			</script>
 		
 				
 

@@ -176,7 +176,7 @@
                                             	
                                             	
                                             	<c:otherwise>
-                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='insertProForm.pro'" >프로젝트 신청하기</button>
+                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" id="enrollProject" >프로젝트 신청하기</button>
                                             	</c:otherwise>
                                             </c:choose>
                                         </div>
@@ -187,10 +187,15 @@
                                         
                                         
                                         <div style="font-size: 17px;">
-                                            조회수 : ${pro.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : <span id="bookmarkCount">${count }</span>
+                                        
+                                        	
+                                            조회수 : ${pro.count }  &nbsp; | &nbsp; 
+                                            
+                                          
+                                            <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : <span id="bookmarkCount">${count }</span>
                                         </div>
                                         
-                                        <hr >
+                                        <hr>
                                         <br>
                         
                                     </div>
@@ -546,12 +551,11 @@
                                         	}
                                         	
                                         	
+                                        	
                                         	// 북마크 클릭했을 때 
                                         	function bookmark(event){
                                         		
-
-                                				
-                                        		
+	
                                         		$.ajax({
                                         			url:"projectBookmark.pro",
                                         			data:{pno:${pro.proNo}},
@@ -593,10 +597,58 @@
                                         		
                                         		
                                         	};
+                                                                                	
                                         	
+                                        	// 프로젝트 참여하기 눌렀을 때 실시간으로 게시글 작성자에게 알림가게 하기
+                                        	// member에 team컬럼들에 update치기
+                                          $("#enrollProject").click(function(){
+                                        	  $.ajax({
+    												
+                                      			url:"alarmProject.pro",
+                                      			data:{
+                                      				refProNo:${pro.proNo},
+                                      				owner:${pro.memNo}
+                                      			
+                                      				
+                                      			},
+                                      			success:function(data){
+                                      				console.log(data + "프로젝트 참가버튼 용 ajax 결과!@!")
+                                      				if(data=="success"){
+                                      					
+                                      					console.log(data)
+                                      					if(${loginMember.memNo ne pro.memNo}){
+                                      				
+                                      					// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
+                                      					if(socket.readyState==1){
+                                      						// 소켓
+                                      						let socketMsg = "project,"+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+",${pro.proTitle}"; 
+                                      						console.log(socketMsg + "소켓메시지!!!!!!");
+                                      						socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
+                                      					}
+                                      		          }
+                                      							
+                                      				}else{
+                                      					console.log(" fail 프로젝트 참가용 ajax 결과 : " + data)
+                                      					//
+                                      				}
+                                      			},
+                                      				
+                                      				
+                                      				
+                                      				
+                                      				
+                                      			
+                                      			error:function(){
+                                      				console.log("프로젝트 참여용 아작스 실패용")
+                                      			}
+                                      			
+                                      		})
+                                      		
+                                          })
                                         	
-                                        	
-                                        	
+                                        		
+                                        		
+                                        
                                         	
                                         	
                                         	

@@ -34,6 +34,12 @@
 		<result column="status" property="status"/>
 		
 	</resultMap>
+	
+	
+	<resultMap type="Bookmark" id="bookmarkResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="pro_no" property="proNo"/>
+	</resultMap>
 
 
 	<select id="selectListCount" resultType="_int">
@@ -184,6 +190,57 @@
 	</update>
 	
 	
+	<select id="selectPrBookmark" resultMap="bookmarkResultSet">
+		select 
+		       pro_no
+		     , mem_no
+		  from bookmark
+		 where pro_no = #{proNo}
+		   and mem_no = #{memNo}      
+	</select>
+	
+	
+	
+	<select id="selectBookCount" resultType="_int">
+		select count(*)
+		  from bookmark
+		 where pro_no = #{proNo}
+	</select>
+	
+	
+	<select id="selectBookCountPersonal" resultType="_int">
+		select count(*)
+            from bookmark
+           where pro_no = #{proNo}
+             and mem_no = #{memNo}
+	</select>
+	
+	
+	
+	 
+	
+	<insert id="insertPrBookmark">
+		insert into 
+		       bookmark
+		       (
+		       	 pro_no
+		       , mem_no
+		       )
+		       values
+		       (
+		         #{proNo}
+		       , #{memNo}  
+		       )   
+	</insert>
+	
+	
+	
+	<delete id="deletePrBookmark">
+		delete from 
+		       bookmark
+		 where pro_no = #{proNo}
+		   and mem_no = #{memNo}      
+	</delete>
 	
 	
 	

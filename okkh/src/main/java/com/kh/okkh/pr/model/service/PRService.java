@@ -2,6 +2,7 @@ package com.kh.okkh.pr.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
@@ -61,6 +62,25 @@ public interface PRService {
 	
 	// 8. pr 상세보기에서 댓글 삭제하기 (ajax)
 		int deleteReplyPR(int pno);
+		
+		
+	// 북마크 관련 메소드들 
+		
+	// pr 상세조회할때 북마크도 같이 조회하는 메소드
+	Bookmark selectPrBookmark(Bookmark b);
+	
+	// 사용자가 해당 게시물에 북마크 했는지 개수 조회하는 메소드
+		int selectBookCountPersonal(Bookmark b);
+		
+	// 북마크 개수 조회
+		int selectBookCount(int pno);
+		
+	// pr 북마크 삽입하는 메소드
+		int insertPrBookmark(Bookmark b);
+		
+	// pr 북마크 삭제하는 메소드
+		int deletePrBookmark(Bookmark b);
+		
 		
 		
 		

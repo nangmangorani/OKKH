@@ -7,63 +7,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
-<!-- 
-<script>
-	var socket = null;
-	$(document).ready(function(){
-		if(${loginMember != null}) {
-			connect();
-			}
-	})
-	
-	//소켓
-	function connect(){
-		console.log("소켓 고고!!")
-		
-		var ws = new SockJS("ws://localhost:7777/okkh");
-		socket = ws;
-		
-		ws.onopen = function() {
-	 		console.log('Info: connection opened');
-		};
-	
-		ws.onmessage = function(event) {
-			console.log("onmessage"+ event.data);
-			let $socketAlert = $('div#socketAlert');
-			
-			$socketAlert.html(event.data);
-			$socketAlert.css('display', 'block');
-			
-			setTimeout(function() {
-				$socketAlert.css('display','none');
-			}, 5000);
-		};
-	
-		ws.onclose = function(event) {
-		    console.log('Info: connection closed');
-		};
-	};
-	//소켓끝
-	
-	$(documet).ready(function(){
-		$("#btnSend").on('click', function(evt){
-			evt.preventDefault();
-			if(socket.readyState !== 1) return;
-			
-			let msg = $("input#msg").val();
-			socket.send(msg);
-		});
-		connect();
-	})
-	
-</script>
-
- -->
 </head>
 
 <body>
+
+
     <header class="mb-3 card">
         <nav class="navbar navbar-expand navbar-light navbar-top">
             <div class="container-fluid">
@@ -80,8 +29,11 @@
                 </button>
                 <c:choose>
                     <c:when test="${ not empty loginMember }">
-                        <input type="text" id="msg" value="되나?">
-                        <button id="btnSend">send message</button>
+                        
+                        
+                         <div id="socketAlert" >
+                           	
+                           </div>
                         
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">

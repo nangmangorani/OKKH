@@ -22,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
 
@@ -126,15 +128,31 @@ public class PrController {
 	 * @return
 	 */
 	@RequestMapping("detailPr.pr")
-	public ModelAndView selectDetailPR(int pno, ModelAndView mv) {
+	public ModelAndView selectDetailPR(int pno, ModelAndView mv, HttpSession session) {
 		
 		// 조회수 증가
 		int count = prService.increaseCount(pno);
 		
+		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		
+		Bookmark b = new Bookmark();
+		b.setMemNo(memNo);
+		b.setProNo(pno);
+		
+				
+				
 		if(count>0) {
 			// 조회수 증가 성공하면 찐 pr조회하러 가기
 			PR pr = prService.selectDetailPR(pno);
 			
+			Bookmark book = prService.selectPrBookmark(b);
+			
+			int bookCount = prService.selectBookCount(pno);
+			
+			mv.addObject("bookCount", bookCount);
+			mv.addObject("book", book);
 			mv.addObject("pr", pr);
 			mv.setViewName("pr/detailPr");
 		}
@@ -334,6 +352,48 @@ public class PrController {
 	}
 	
 	
+	/**
+	 * pr 북마크 삽입/삭제하는 메소드
+	 * @param pno
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value= "prBookmark.pr")
+	public String prBookmark(int pno, HttpSession session) {
+		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		// 먼저 해당 게시글에 로그인한 회원이 북마크를 했는지 여부를 판단해서 
+		// 북마크 했으면 북마크 삭제하고, 북마크 없으면 삽입하기 
+		
+		Bookmark b = new Bookmark();
+		b.setMemNo(memNo);
+		b.setProNo(pno);
+		
+		
+		// 북마크 여부 판단
+		int count = prService.selectBookCountPersonal(b);
+		
+		
+		
+		int result;
+		
+		if(count == 0) {
+			// 북마크가 안돼있으면 삽입하기
+			 result = prService.insertPrBookmark(b);
+			 
+			
+		}else {
+			// 북마크가 돼있으면 삭제하기 
+			result = prService.deletePrBookmark(b);
+			
+		}
+		
+		
+		return result>0 ? "success" : "fail";
+		
+	}
 	
 	
 	

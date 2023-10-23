@@ -272,6 +272,17 @@
        from bookmark
       where pro_no = #{proNo}
       </select>
+      
+      
+      
+      <select id="selectBookCountPersonal" resultType="_int">
+		select count(*)
+            from bookmark
+           where pro_no = #{proNo}
+             and mem_no = #{memNo}
+	</select>
+  	
+  	
   	
   	<insert id="insertProBookmark">
   		insert into 
@@ -295,7 +306,12 @@
   		   and mem_no = #{memNo} 
   	</delete>
   	
-  	
+  	<update id="participateProject">
+  		update 
+  		       member
+  		   set team = #{team}
+  		 where mem_no = #{memNo}     
+  	</update>
   	
   	
   

@@ -140,6 +140,18 @@
                                 <div class="card-body">
 
                                     <div class="UJ-WriteHeader">
+                                          <c:choose >
+	                                         <c:when test="${not empty book and book.memNo eq loginMember.memNo}">
+	                                        	<img src="https://holaworld.io/images/info/bookmark_filled.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+											 </c:when>	
+											 
+											 <c:otherwise>
+												 <img src="https://holaworld.io/images/info/bookmark.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+											 </c:otherwise>
+										
+										</c:choose>
+                                     
+                                        
                                         
                                         <br>
                                         <!-- 제목 -->
@@ -155,7 +167,7 @@
                                         </div>
                                         
                                         <div style="font-size: 17px;">
-                                            조회수 : ${pr.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : 2
+                                            조회수 : ${pr.count }  &nbsp; | &nbsp; <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : <span id="bookmarkCount">${bookCount }</span>
                                         </div>
                                         
                                         <hr >
@@ -487,6 +499,45 @@
                                         			}
                                         		})
                                         	
+                                        	
+                                        }
+                                        
+                                        
+                                        
+                                        // 북마크 삽입/삭제하는 함수
+                                        function bookmark(event){
+                                        	
+                                        	$.ajax({
+                                        		url:"prBookmark.pr",
+                                        		data:{pno:${pr.prNo}},
+                                        		success:function(data){
+                                        			console.log(data)
+                                        			
+                                        			if(data == "success"){
+                                        			const bookmark = $(event.target);
+                                        			const bookmarkSrc = bookmark.attr("src");
+                                        			
+                                        			if( bookmarkSrc.endsWith("https://holaworld.io/images/info/bookmark.png")){
+                                						bookmark.attr("src", "https://holaworld.io/images/info/bookmark_filled.png") ;
+                                						
+                                						
+                                						$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())+1);
+                                						
+                                						
+                                                    }else{
+                                                    	bookmark.attr("src", "https://holaworld.io/images/info/bookmark.png");
+                                                    	$("#bookmarkCount").text(parseInt($("#bookmarkCount").text())-1) ;
+                                                    }
+                                        				
+                                        			}
+                                        			
+                                        			
+                                        			
+                                        		},
+                                        		error:function(){
+                                        			console.log("pr 북마크용 ajax 실패ㅠㅠ");
+                                        		}
+                                        	})
                                         	
                                         }
                                         

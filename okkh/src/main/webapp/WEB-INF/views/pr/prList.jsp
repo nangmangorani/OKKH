@@ -900,9 +900,13 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                         <div id="UJ-date">
                             작성일 : ${pr.createDate }
                         </div>
+                        
+                      <!--  
                         <div id="UJ-bookMark">
                             <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
                         </div>
+                        
+                       -->   
                     </div>
 
                     <!-- 제목 -->

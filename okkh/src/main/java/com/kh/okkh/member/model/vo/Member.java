@@ -27,5 +27,8 @@ public class Member {
 	private String stackName;
 	private Date createDate;
 	private String status;
+	private int team;  // 참가 희망하는 프로젝트 번호
+	private String team_status;  //참여상태 y확정, n임시 , 일단은 default 값이 n임
+	
 	
 }

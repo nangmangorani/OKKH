@@ -19,6 +19,7 @@ import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
+
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.service.ProjectServiceImpl;
@@ -191,6 +192,13 @@ public class ProjectController {
 			
 			session.setAttribute("alertMsg", "모집완료를 성공했습니다.");
 			
+			// 모집완료를 누르면 project의 status도 변경하고, member의 team_status도
+			// team_no가 예를 들어 5조 인 회원들의 status를 모두 y로 변경하기  
+			// update치기 
+			
+					
+					
+			
 		}else {
 			// 모집완료 실패하면 alert 띄우고 다시 상세페이지로 
 			session.setAttribute("alertMsg", "모집완료를 실패했습니다ㅠㅠ");
@@ -359,13 +367,15 @@ public class ProjectController {
 		b.setMemNo(memNo);
 		b.setProNo(pno);
 		
+		
+		
 		System.out.println(b  + "북마크 객체 뽑아봄");
 		 
 		
 		int result = 0;
 		
 		
-		int count = pservice.selectBookCount(pno);
+		int count = pservice.selectBookCountPersonal(b);
 		
 		if(count == 0) {
 			// 북마크 된 것이 없다면 북마크 하러 가기 
@@ -377,7 +387,7 @@ public class ProjectController {
 			result = pservice.deleteProBookmark(b);
 		}
 		
-		System.out.println(result + "   : 컨트롤러 단에서 북마크 result 화깅");
+		System.out.println(result + "   : 컨트롤러 단에서 북마크 result 확인");
 		
 		return result>0 ? "success" : "fail";
 		
@@ -386,7 +396,41 @@ public class ProjectController {
 	
 	
 	
+	/**
+	 * 로그인한 유저가 프로젝트 참여하기 누르면 게시글 작성자에게 알람가게 하는 메소드
+	 * @param refProNo
+	 * @param owner
+	 * @param session
+	 * @return
+	 */
+    @ResponseBody
+	@RequestMapping(value="alarmProject.pro")
+	public String alarmProject(int refProNo,int owner, HttpSession session) {
+		
+		
+		// 먼저 작성자에게 알람가게 하기 -> 여기 코드부분을 성공하면 ajax로 돌아가서 자동으로 
+		// 작성자에게 알람을 주는 듯 
+				
+		
+		
+		int memNo =((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		Member m = new Member();
+		
+		m.setMemNo(memNo);
+		m.setTeam(refProNo);
+		
+		//System.out.println(m + "멤버멤버메메멤");
 	
+		
+		int result = pservice.participateProject(m);
+		
+		System.out.println(result + " 컨트롤러 단에서 찍는 결과값");
+		
+		return result>0 ? "success":"fail";
+		
+		
+	}
 	
 	
 	

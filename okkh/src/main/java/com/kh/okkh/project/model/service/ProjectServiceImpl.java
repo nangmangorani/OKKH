@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.okkh.common.model.vo.Bookmark;
+import com.kh.okkh.common.model.vo.Notice;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.dao.ProjectDao;
 import com.kh.okkh.project.model.vo.Project;
 
@@ -222,6 +224,19 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.selectBookCount(pno, sqlSession);
 	}
+	
+	
+	
+	/**
+	 * 해당 게시글에 사용자가 북마크를 했는지 개수 세는 메소드
+	 */
+	@Override
+	public int selectBookCountPersonal(Bookmark b) {
+		
+		return pdao.selectBookCountPersonal(b, sqlSession);
+	}
+	
+	
 
 	/**
 	 * 북마크 삽입하는 메소드
@@ -244,6 +259,29 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.deleteProBookmark(b, sqlSession);
 	}
+
+
+
+	/**
+	 * 프로젝트 참여하는 메소드
+	 */
+	@Override
+	public int participateProject(Member m) {
+		
+		return pdao.participateProject(m, sqlSession);
+	}
+
+
+
+	@Override
+	public int alarmProject(Notice n) {
+		
+		return 0;
+	}
+
+
+
+
 
 
 
