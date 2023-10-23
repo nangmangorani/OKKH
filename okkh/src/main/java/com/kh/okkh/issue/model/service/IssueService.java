@@ -20,5 +20,6 @@ public interface IssueService {
 	
 	ArrayList<Milestone> getMilestone(String repository, HttpSession session);
 	
+	ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException;
 	
 }

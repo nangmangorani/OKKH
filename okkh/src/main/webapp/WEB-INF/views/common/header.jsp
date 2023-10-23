@@ -75,7 +75,6 @@
                 </button>
                 <c:choose>
                     <c:when test="${ not empty loginMember }">
-                        <input>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">
                                 <li class="nav-item dropdown me-1">

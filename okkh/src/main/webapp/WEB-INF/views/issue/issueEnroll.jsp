@@ -76,7 +76,7 @@
 											<fieldset class="form-group">
 												<select class="form-select" id="milestoneSelect" name="milestone">
 													<c:forEach var="m" items="${ mList }">
-														<option>${ m.title }</option>
+														<option value="${ m.number }">${ m.title }</option>
 													</c:forEach>
 													<option value="direct">직접 입력</option>
 												</select>

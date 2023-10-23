@@ -44,6 +44,17 @@
 		    border-radius: 50%;
 		}
         
+        #mileImg{
+        	width:13px;
+        	height:13px;
+        }
+        
+        #mileText{
+            font-size: 13px;
+            font-weight: 600;
+            color:#607080;
+            
+        }
         
     </style>
 </head>
@@ -100,14 +111,24 @@
                                                    <th>진행상태</th>
                                                </tr>
                                            </thead>
-                                           <tbody>
+                                           <tbody id="issueTableBody">
+                                           <input type="hidden" name="state" id="state" value="${state}">
+                                           
                                            
                                            	<c:forEach var="i" items="${ list }">
                                                 <tr id="Ilist">
                                                     <td class="text-bold-500">${ i.number }</td>
                                                     <td class="text-bold-500"><a href="detail.iss?bno=${ i.number }"
-                                                            style="color: black; font-weight: bold;">${ i.title }</a></td>
+                                                            style="color: black; font-weight: bold;">${ i.title }</a> &nbsp;&nbsp;
+                                                           <c:if test="${ i.milestone != null || not empty i.milestone }">
+                                                           		<a href="detail.mile?mno=${ i.milestoneNum }"> 
+	                                                            	<img src="resources/icons/milestone.png" id="mileImg">
+	                                                            	<span id="mileText" title="milestone">${ i.milestone }</span>
+	                                                            </a>
+                                                           	</c:if>
+                                                    </td>
                                                     <td>${ i.createdAt }</td>
+                                                    
                                                     <!-- 여기 td는 String으로 받은 여러 라벨들을 풀어서 보여줘야함. -->
                                                     
                                                     
@@ -158,75 +179,139 @@
         </div>
 
         <script>
-        	
-        
-        
-        
-        
-        
-        
-        
-            $(function () {
-            	$("#continueBtn").click(function () {
-                    if ($("#continue").text() === "진행중") {
-                        $("tbody tr").hide();
-                        $("tbody tr:has(td#continue:contains('진행중'))").show();
-                    }
-                })
-
-                // 진행완료 조회
-                $("#finishBtn").click(function () {
-                    $("tbody tr").hide();
-                    $("tbody tr:has(td#continue:contains('진행완료'))").show();
-                });
-            	
-            	
-            	$("#continueBtn").click(function () {
-                    sendRequest("open");
-                });
-
-            	
-            	
-            	
-                // When the "진행완료" button is clicked
-                $("#finishBtn").click(function () {
-                    sendRequest("closed");
-                });
-
-                // Function to send an HTTP GET request to the controller
-                function sendRequest(state) {
-                    // Replace 'your_controller_url' with the actual URL of your controller
-                    var url = "list.iss?state=" + state;
-
-                    $.get(url, function (data) {
-                        // Handle the response from the controller if needed
-                        console.log("Request sent with state: " + state);
-                    });
-                }
-                
-                
-                $('.choices').on('change', function () {
-                    var selectedLabels = $(this).val();
-
-                    if (selectedLabels && selectedLabels.length > 0) {
-                        // 모든 행 숨기기
-                        $("tbody tr").hide();
-
-                        // 각 선택된 라벨에 대해 확인
-                        selectedLabels.forEach(function (selectedLabel) {
-                            // 선택된 라벨과 일치하는 행 보이기
-                            $("tbody tr:has(td span.labelSpan:contains('" + selectedLabel + "'))").show();
-                        });
-                    } else {
-                        // 선택한 라벨이 없으면 모든 행 보이기
-                        $("tbody tr").show();
-                    }
-                });
-                
-                
-               
+        $(function () {
+            $("#continueBtn").click(function () {
+                var state = "open";
+                console.log(state);
+                sendAjaxRequest(state);
             });
-          
+
+            $("#finishBtn").click(function () {
+                var state = "closed";
+                console.log(state);
+                sendAjaxRequest(state);
+            });
+
+            function sendAjaxRequest(state) {
+                $.ajax({
+                    url: "ajaxIssue",
+                    data: { state: state },
+                    success: function(data) {
+                        ajaxIssueFunction(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX 오류: " + error);
+                    }
+                });
+            }
+
+            function ajaxIssueFunction(data) {
+                var tableBody = $("#issueTableBody");
+                tableBody.empty();  // 테이블 몸체 초기화
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+
+                    // 이하부터 데이터를 동적으로 생성
+                    var row = $("<tr>");
+					
+                    var numberCell = $("<td>").text(item.number);
+                    var titleCell = $("<td>").addClass("text-bold-500");
+                    var titleLink = $("<a>")
+                        .attr("href", "detail.iss?bno=" + item.number)
+                        .css({ "color": "black", "font-weight": "bold" })
+                        .text(item.title);
+                    
+                    if (item.milestone && item.milestoneNum) {
+                        var milestoneLink = $("<a>")
+                            .attr("href", "detail.mile?mno=" + item.milestoneNum);
+                        var milestoneImg = $("<img>")
+                            .attr("src", "resources/icons/milestone.png")
+                            .attr("id", "mileImg");
+                        var milestoneText = $("<span>")
+                            .attr("id", "mileText")
+                            .text(item.milestone);
+                        titleLink.append(milestoneImg, milestoneText);
+                    }
+
+                    titleCell.append(titleLink);
+                    
+                    var createdAtCell = $("<td>").text(item.createdAt);
+                    
+                    var userCell = $("<td>").addClass("text-bold-500");
+                    var userAvatarGroup = $("<div>").addClass("avatar-group");
+                    var userAvatar = $("<span>")
+                        .attr("title", item.user)
+                        .addClass("avatar avatar-sm pull-up");
+                    var userAvatarImg = $("<img>")
+                        .attr("alt", "avatar")
+                        .attr("src", item.profile)
+                        .addClass("rounded-circle writerAvatar");
+                    userAvatar.append(userAvatarImg);
+                    userAvatarGroup.append(userAvatar);
+                    userCell.append(userAvatarGroup);
+
+                    var labelsCell = $("<td>").addClass("text-bold-500");
+                    $.each(item.labels, function(index, label) {
+                        $.each(item.lList, function(index, l) {
+                            if (label === l.name) {
+                                var labelSpan = $("<span>")
+                                    .addClass("labelSpan")
+                                    .css("background-color", "#" + l.color)
+                                    .text(l.name);
+                                labelsCell.append(labelSpan);
+                            }
+                        });
+                    });
+
+                    var assigneesCell = $("<td>").addClass("align-middle");
+                    var assigneesAvatarGroup = $("<div>").addClass("avatar-group");
+                    $.each(item.assigneeProfiles, function(index, j) {
+                        var assigneeAvatar = $("<span>")
+                            .attr("title", item.assignees[index])
+                            .addClass("avatar avatar-sm pull-up");
+                        var assigneeAvatarImg = $("<img>")
+                            .attr("alt", "avatar")
+                            .attr("src", j)
+                            .addClass("rounded-circle assigneesAvatar");
+                        assigneeAvatar.append(assigneeAvatarImg);
+                        assigneesAvatarGroup.append(assigneeAvatar);
+                    });
+                    assigneesCell.append(assigneesAvatarGroup);
+
+                    var stateCell = $("<td>").attr("id", "continue").text(item.state);
+
+                    var mailCell = $("<td>");
+                    var mailLink = $("<a>").attr("href", "#");
+                    var mailIcon = $("<i>")
+                        .addClass("badge-circle badge-circle-light-secondary font-medium-1")
+                        .attr("data-feather", "mail");
+                    mailLink.append(mailIcon);
+                    mailCell.append(mailLink);
+
+                    row.append(numberCell, titleCell, createdAtCell, userCell, labelsCell, assigneesCell, stateCell, mailCell);
+                    tableBody.append(row);
+                }
+            }
+
+            $('.choices').on('change', function () {
+                var selectedLabels = $(this).val();
+
+                if (selectedLabels && selectedLabels.length > 0) {
+                    // 모든 행 숨기기
+                    $("tbody tr").hide();
+
+                    // 각 선택된 라벨에 대해 확인
+                    selectedLabels.forEach(function (selectedLabel) {
+                        // 선택된 라벨과 일치하는 행 보이기
+                        $("tbody tr:has(td span.labelSpan:contains('" + selectedLabel + "'))").show();
+                    });
+                } else {
+                    // 선택한 라벨이 없으면 모든 행 보이기
+                    $("tbody tr").show();
+                }
+            });
+        });
         </script>
         
         
@@ -236,8 +321,8 @@
         <script src="resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
         <script src="resources/js/bootstrap.bundle.min.js"></script>
 
-        <script src="resources/vendors/apexcharts/apexcharts.js"></script>
-        <script src="resources/js/pages/dashboard.js"></script>
+<!--         <script src="resources/vendors/apexcharts/apexcharts.js"></script> -->
+<!--         <script src="resources/js/pages/dashboard.js"></script> -->
 
         <script src="resources/js/main.js"></script>
         <script src="resources/vendors/choices.js/choices.min.js"></script>

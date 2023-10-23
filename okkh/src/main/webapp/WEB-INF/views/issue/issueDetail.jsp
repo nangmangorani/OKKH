@@ -64,7 +64,7 @@
 	                            <div class="card-body">
 	                                <div class="iss-wrap">
 	                                    <div class="iss-time">
-	                                        <span style="padding-left: 5px;">작성자닉 comments 작성시간-현재시간?? minutes ago</span>
+	                                        <span style="padding-left: 5px;">${ userLogin } comments 작성시간-현재시간?? minutes ago</span>
 	                                    </div>
 	                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1"></span>
 	                                </div> 

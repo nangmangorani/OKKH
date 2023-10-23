@@ -59,7 +59,7 @@ public class GithubService {
 		
 		String response = webClient.get()
 				.uri(url)
-				.header(HttpHeaders.AUTHORIZATION, "Bearer "+token)
+				.header(HttpHeaders.AUTHORIZATION,"bearer "+token)
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.header(HttpHeaders.ACCEPT, "application/vnd.github+json")
 				.retrieve()
@@ -82,6 +82,7 @@ public class GithubService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+		System.out.println("m에 뭐들었나~" + m);
 		return m;
 	}
 	

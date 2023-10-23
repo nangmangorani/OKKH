@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 import com.kh.okkh.issue.model.dao.IssueDao;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.vo.Milestone;
 
 @Service
@@ -67,7 +68,6 @@ public class IssueServiceImpl implements IssueService{
 				Labels l = new Labels(id, name, color, description);
 				lList.add(l);
 			}
-			System.out.println("내가 서비스임플의 lList라면 믿을래? "+lList);
 			
 			// 여기까지하면 Labels 객체에 라벨관련된 내용들이 담겨있겠지??
 		} catch (JsonMappingException e) {
@@ -91,7 +91,7 @@ public class IssueServiceImpl implements IssueService{
 		URL requestUrl = new URL(url);
 	    HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 
-	    urlConnection.setRequestProperty("Authorization", "Bearer" + token);
+	    urlConnection.setRequestProperty("Authorization","Bearer"+token);
 	    urlConnection.setRequestMethod("GET");
 		
 	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
@@ -117,6 +117,11 @@ public class IssueServiceImpl implements IssueService{
 	    return list;
 	      
 	}
+	
+	
+	
+	
+	
 		
 	
 	@Override
@@ -134,7 +139,6 @@ public class IssueServiceImpl implements IssueService{
 			for (int i = 0; i < jsonNode.size(); i++) {
 	            String id = jsonNode.get(i).get("id").asText();
 	            String title = jsonNode.get(i).get("title").asText();
-	            
 	            String number = jsonNode.get(i).get("number").asText();
 	            String state = jsonNode.get(i).get("state").asText();
 	            Milestone m = new Milestone(id, title, number, state);
@@ -177,6 +181,9 @@ public class IssueServiceImpl implements IssueService{
 		git.setLabels(labels);
 		
 		JsonElement milestoneElem = issueObj.get("milestone");
+		System.out.println("milestone 어케생겼나보려고 ㅋㅋ" + milestoneElem);
+		
+		// 여기에서 milestone관련 필요한거만 쏙 넣어줌
 		if (!milestoneElem.isJsonNull()) {
 	         JsonObject milestoneObj = milestoneElem.getAsJsonObject();
 	         git.setMilestone(milestoneObj.get("title").getAsString());
@@ -227,6 +234,34 @@ public class IssueServiceImpl implements IssueService{
 		git.setProfile(userProfileUrl);
 		
 		return git;
+	}
+
+	
+	
+	/**
+	 * 마일스톤상세페이지 마일스톤 번호에 따른 이슈리스트 조회
+	 * @throws IOException 
+	 * 
+	 * */
+	@Override
+	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
+		
+		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
+		
+		ArrayList<Issue> iListAll = getIssues(repository, token, state);
+		
+		ArrayList<Issue> iList = new ArrayList<Issue>();
+		
+		for(Issue i : iListAll) {
+			if(i.getMilestoneNum() == mno) {
+				iList.add(i);
+			}
+		}
+		
+		return iList;
+		
+		
+		
 	}
 	
 	

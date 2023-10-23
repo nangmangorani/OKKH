@@ -1,6 +1,7 @@
 package com.kh.okkh.milestone.model.vo;
 
-import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,16 +20,17 @@ public class Milestone {
 	private String creator;
 	private String state;        
 	private String number;
-	private String[] issues;     
+	//private String[] issues;     
 	private String milestoneId;
 	private String createdAt;    
 	private String updatedAt;    
 	private String closedAt;     
-	private String user;       
 	private String profile;      
-	private String due_on;
+	private String dueOn;
 	private int openedIssues;
 	private int closedIssues;
+	private double finPercent;
+	
 	
 	public Milestone(String milestoneId, String title,  String number, String state) {
 		super();
