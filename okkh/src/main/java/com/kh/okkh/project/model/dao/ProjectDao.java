@@ -243,8 +243,46 @@ public class ProjectDao {
 	 */
 	public int participateProject(Member m, SqlSessionTemplate sqlSession) {
 		
+		
+		System.out.println(m.getTeam() + " : 팀 번호!!!");
+		
+		
+		
+		
 		return sqlSession.update("projectMapper.participateProject", m);
 	}
+	
+	
+	/**
+	 *  프로젝트 참여 취소용 메소드
+	 * @param memNo
+	 * @param sqlSession
+	 * @return
+	 */
+	public int deleteEnrollProject(int memNo,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("projectMapper.deleteEnrollProject", memNo);
+	}
+	
+	
+	
+	/**
+	 * 멤버 상세내용 조회하는 메소드
+	 * @return
+	 */
+	public Member selectMember(int memNo, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("projectMapper.selectMember", memNo);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

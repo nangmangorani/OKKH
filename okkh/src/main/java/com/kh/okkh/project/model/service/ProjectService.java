@@ -110,5 +110,12 @@ public interface ProjectService {
     // 프로젝트 참여버튼 누르면 게시글 작성자에게 알람가는 메소드
 		int alarmProject(Notice n);
 		
+	// 프로젝트 참여 취소용 메소드 
+		int deleteEnrollProject(int memNo);
+		
+		
+	// 세션에 있는 로그인 멤버를 조회하는 메소드
+		Member selectMember(int memNo);
+		
 	
 }

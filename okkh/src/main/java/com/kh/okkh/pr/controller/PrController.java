@@ -360,16 +360,17 @@ public class PrController {
 	 */
 	@ResponseBody
 	@RequestMapping(value= "prBookmark.pr")
-	public String prBookmark(int pno, HttpSession session) {
+	public String prBookmark(int proNo, HttpSession session) {
 		
 		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
 		
+		System.out.println(proNo + " : pr 컨트롤러 단에서 찍는 pno" );
 		// 먼저 해당 게시글에 로그인한 회원이 북마크를 했는지 여부를 판단해서 
 		// 북마크 했으면 북마크 삭제하고, 북마크 없으면 삽입하기 
 		
 		Bookmark b = new Bookmark();
 		b.setMemNo(memNo);
-		b.setProNo(pno);
+		b.setProNo(proNo);
 		
 		
 		// 북마크 여부 판단
@@ -390,6 +391,7 @@ public class PrController {
 			
 		}
 		
+		System.out.println(result + " prController에서 찍는 result값");
 		
 		return result>0 ? "success" : "fail";
 		

@@ -151,8 +151,14 @@
                                         
 
                                         <!-- 작성자/ 작성일 -->
-                                        <div style="font-size: 17px;">
+                                        <div style="font-size: 17px;" id="buttonArea">
                                             작성자 : ${pro.proWriter } &nbsp; | &nbsp; 마감일 : ${pro.proDeadLine } 
+                                            
+                                            
+                                            <script>
+                                            	console.log(${loginMember.team} + "팀@@@")
+                                            </script>
+                                            
                                             
                                             <c:choose>
                                             
@@ -174,10 +180,17 @@
                                             		<button style="float: right; border: 0; height: 50px; " class="btn btn-light-secondary" onclick="location.href='recruitReturn.pro?pno=' + ${pro.proNo }" >다시 모집하기</button>
                                             	</c:when>
                                             	
+                                            	<c:when test="${loginMember.team != pro.proNo  and loginMember.memNo ne pro.memNo}">
                                             	
-                                            	<c:otherwise>
                                             		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" id="enrollProject" >프로젝트 신청하기</button>
-                                            	</c:otherwise>
+                                            	</c:when>
+                                            	
+                                            	
+                                            	<c:when test="${ loginMember.team == pro.proNo and loginMember.memNo ne pro.memNo }">
+                                            	    <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary' id='deleteProject' >프로젝트 신청완료(취소하기)</button>
+                                            	</c:when>
+                                            	
+                                            	
                                             </c:choose>
                                         </div>
                                         
@@ -601,6 +614,7 @@
                                         	
                                         	// 프로젝트 참여하기 눌렀을 때 실시간으로 게시글 작성자에게 알림가게 하기
                                         	// member에 team컬럼들에 update치기
+                                     
                                           $("#enrollProject").click(function(){
                                         	  $.ajax({
     												
@@ -615,14 +629,22 @@
                                       				console.log(data + "프로젝트 참가버튼 용 ajax 결과!@!")
                                       				if(data=="success"){
                                       					
-                                      					console.log(data)
+                                      					
+                                      					
+                                      					
+                                      					alert("프로젝트 신청이 완료되었습니다.")
+                                      					console.log(data + " : 프로젝트 참가용")
+                                      					
+                                      					
+                                      					
+                                      					
                                       					if(${loginMember.memNo ne pro.memNo}){
                                       				
                                       					// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
                                       					if(socket.readyState==1){
                                       						// 소켓
-                                      						let socketMsg = "project,"+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+",${pro.proTitle}"; 
-                                      						console.log(socketMsg + "소켓메시지!!!!!!");
+                                      						let socketMsg = "project"+ ","+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+"," + ${pro.proTitle} + ",${loginMember.gitNick},"+ ${loginMember.team} + ", 프로젝트에 참여를 희망합니다!"; 
+                                      						console.log(socketMsg );
                                       						socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
                                       					}
                                       		          }
@@ -645,12 +667,44 @@
                                       		})
                                       		
                                           })
-                                        	
+                                 	
                                         		
+                                         
+                                          $("#buttonArea").on("click","#deleteProject",  function(){
+                                        	
+                                        	  $.ajax({
                                         		
-                                        
-                                        	
-                                        	
+                                        		  url:"deleteEnrollProject.pro",
+                                        		  data:{memNo:${loginMember.memNo}},
+                                        		  success:function(data){
+                                        			  
+                                        			  if(data == "success"){
+                                        				  alert("프로젝트 참여가 취소되었습니다!")
+                                        				  
+                                        				  
+
+                                        					if(${loginMember.memNo ne pro.memNo}){
+                                        				
+                                        					// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
+                                        					if(socket.readyState==1){
+                                        						// 소켓
+                                        						let socketMsg = "project"+ ","+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+",${pro.proTitle}" + ",${loginMember.gitNick}," + 0 + ", 프로젝트에 참여를 취소했습니다!"; 
+                                        						
+                                        						console.log(socketMsg + "소켓메시지!!!!!!");
+                                        						socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
+                                        					}
+                                        		          }
+                                        			  }
+                                        			  
+                                        			  
+                                        		  },
+                                        		  error:function(){
+                                        			  console.log("프로젝트 참여 취소용 아작스 실패ㅠㅠ")
+                                        		  }
+                                        		  
+                                        	  })
+                                        	  
+                                          })
                                         	
                                         
                                         </script>

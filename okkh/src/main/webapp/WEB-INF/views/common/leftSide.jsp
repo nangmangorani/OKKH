@@ -23,53 +23,7 @@
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
 
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
-	 <script >
-	 
-	 
-	 var socket = new SockJS('http://localhost:7777/okkh/websocket.do');
-		
-		
-		//소켓
-		
-		socket.onopen = function(event){
-			console.log("소켓이 열림!")
-		}
-				
-				
-		 socket.onmessage = function(event){
-			 var message = event.data;
-			 console.log('받은 메세지 : ' + message);
-			 
-			$("#messageContainer").html(message);
-		 };
-		 
-		 
-		 socket.onclose = function(event) {
-			    if (event.wasClean) {
-			        console.log('WebSocket 연결이 정상적으로 닫혔습니다.');
-			    } else {
-			        console.error('WebSocket 연결이 비정상적으로 닫혔습니다.');
-			    }
-			    // 연결이 끊어졌을 때 재연결 시도
-		        setTimeout(initializeWebSocket, 5000); // 예: 5초마다 재연결 시도
-			    
-			}; 
-						
-						
-			// WebSocket 에러 발생 시 실행될 함수
-			socket.onerror = function(error) {
-			    console.error('WebSocket 에러: ' + error.message);
-			};
-			
-			
-
-				
-			
-			
-	//소켓끝
-	</script>
 
 
 
@@ -244,7 +198,7 @@
                         
                     </ul>
                     
-                    <div id="messageContainer"></div>
+                   
                 </div>
                 <!-- 메뉴바 끝 -->
             </div>

@@ -425,6 +425,17 @@ public class ProjectController {
 		
 		int result = pservice.participateProject(m);
 		
+		if(result>0) {
+			
+			Member updateMember = pservice.selectMember(memNo);
+			
+			session.setAttribute("loginMemer", updateMember);
+			
+			
+			System.out.println( ((Member)session.getAttribute("loginMember")).getTeam()  + "    : 이건 프로젝트 참여하기 성공하고 나서 찍는 팀번호");
+		}
+		
+		
 		System.out.println(result + " 컨트롤러 단에서 찍는 결과값");
 		
 		return result>0 ? "success":"fail";
@@ -432,6 +443,42 @@ public class ProjectController {
 		
 	}
 	
+    
+    
+    /**
+     * 프로젝트 참여 취소용 메소드
+     * @param memNo
+     */
+    @ResponseBody
+    @RequestMapping("deleteEnrollProject.pro")
+    public String deleteEnrollProject(int memNo) {
+    	
+    	 int result = pservice.deleteEnrollProject(memNo);
+    	 
+    	 return result>0 ? "success" : "fail";
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 	
 	
 	

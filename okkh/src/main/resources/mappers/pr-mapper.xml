@@ -221,16 +221,16 @@
 	
 	<insert id="insertPrBookmark">
 		insert into 
-		       bookmark
-		       (
-		       	 pro_no
-		       , mem_no
-		       )
-		       values
-		       (
-		         #{proNo}
-		       , #{memNo}  
-		       )   
+  		       bookmark
+  		       (
+  		         pro_no
+  		       , mem_no 
+  		       )
+  		       values
+  		       (
+  		         #{proNo}
+  		       , #{memNo}  
+  		       )   
 	</insert>
 	
 	

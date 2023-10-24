@@ -51,6 +51,20 @@
 		<result column="pro_no" property="proNo"/>
 	</resultMap>
 	
+	<resultMap type="Member" id="memberResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="mem_id" property="memId"/>
+		<result column="git_nick" property="gitNick"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="mem_token" property="memToken"/>
+		<result column="mem_intro" property="memIntro"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="status" property="status"/>
+		<result column="team" property="team"/>
+
+	</resultMap>
+	
 	
   	
   	<select id="selectProjectListCount" resultType="_int">
@@ -307,12 +321,35 @@
   	</delete>
   	
   	<update id="participateProject">
-  		update 
+  	update 
   		       member
   		   set team = #{team}
-  		 where mem_no = #{memNo}     
+  		 where mem_no = #{memNo}     	
   	</update>
   	
+  	
+  	<update id="deleteEnrollProject">
+  		update
+  		       member
+  		   set team = 0
+  		 where mem_no = #{memNo}    
+  	</update>
+  	
+  	
+  	<select id="selectMember" resultMap="memberResultSet">
+		select 
+		        mem_no
+		      , mem_id
+		      , mem_token
+		      , mem_intro
+		      , stack_name
+		      , create_date
+		      , status
+		      , git_nick
+		      , team
+		  from member
+		  where mem_No = #{memNo}
+	</select>
   	
   
 </mapper>

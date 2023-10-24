@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
@@ -46,6 +47,7 @@ public class MemberController {
         
         session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", m); // db에 쌓인 정보
+        
         
 	    return "redirect:/";
 	}

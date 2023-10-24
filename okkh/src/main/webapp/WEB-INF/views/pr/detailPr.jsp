@@ -509,7 +509,7 @@
                                         	
                                         	$.ajax({
                                         		url:"prBookmark.pr",
-                                        		data:{pno:${pr.prNo}},
+                                        		data:{proNo:${pr.prNo}},
                                         		success:function(data){
                                         			console.log(data)
                                         			

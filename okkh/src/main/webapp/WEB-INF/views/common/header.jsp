@@ -7,7 +7,85 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
+	 <script type="text/javascript">
+	 
+	 console.log("zz")
+	 var socket = new SockJS('http://localhost:7777/okkh/websocket');
+	 //domRect = element.getBoundingClientRect();  // 이게 없다고 해서 추가했는데 왜 안돼...?
+		
+		//소켓
+		
+		socket.onopen = function(){
+			console.log("소켓이 열림!")
+			
+		};
+		
+		
+		
+		socket.onmessage  = function(event){
+			// console.log('받은 메세지 : ' + event.data);
+			 //var message = JSON.parse(event.data); // JSON 형식의 메시지를 파싱
+		
+			
+		 
+			var message = JSON.parse(event.data)
+			//  console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
+			
+			var nick = message.nickName;
+			var title = message.title;
+			var pno = message.pno;
+			var team = message.teamNo;
+			var content = message.content;
+			 
+			console.log(team + " : team번호!!")
+		
+			 // 메세지가 생성될 때마다 동적으로 a태그와 a태그 안에 div를 그릴 예정
+			 // 동적으로 그리지 않으면 메세지가 없는대도 메세지 띄워지는 창을 누르면 이동이 되어버림  
+			 var link = document.createElement('a');
+			 link.href = 'selectDetailPro.pro?pno=' + pno;
+			 link.style.color= 'black';
+			 
+	
+			 var div = document.createElement('div');
+			
+			 div.textContent = nick + ' 님이 '+ "'" + title   +"'  " + content;
+				 
+			
+			 
+			 var container = document.getElementById('messageArea');
+			 
+			 container.appendChild(link);
+			 link.appendChild(div);
+			 
+			 
+			 
+		
+		 };
+				
+				
+		 
+		 
+		 
+		 socket.onclose = function(event) {
+			    if (event.wasClean) {
+			        console.log('WebSocket 연결이 정상적으로 닫혔습니다.');
+			    } else {
+			        console.error('WebSocket 연결이 비정상적으로 닫혔습니다.');
+			    }
+			 
+			    
+			}; 
+						
+						
+			// WebSocket 에러 발생 시 실행될 함수
+			socket.onerror = function(error) {
+			    console.error('WebSocket 에러: ' + error.message);
+			};
+			
+	//소켓끝
+	</script>
 </head>
 
 <body>
@@ -58,28 +136,14 @@
                                         <li class="dropdown-header">
                                             <h6>Notifications</h6>
                                         </li>
-                                        <li class="dropdown-item notification-item">
-                                            <a class="d-flex align-items-center" href="#">
-                                                <div class="notification-icon bg-primary">
-                                                    <i class="bi bi-cart-check"></i>
-                                                </div>
-                                                <div class="notification-text ms-4">
-                                                    <p class="notification-title font-bold">Successfully check out</p>
-                                                    <p class="notification-subtitle font-thin text-sm">Order ID #256</p>
-                                                </div>
-                                            </a>
+                                        
+                                        
+                                        <li class="dropdown-item notification-item" id="messageArea">
+                                          	<!-- 실시간 메세지가 있으면 동적으로 a태그와 div를 그려서 메시지 나타낼 거임 -->
                                         </li>
-                                        <li class="dropdown-item notification-item">
-                                            <a class="d-flex align-items-center" href="#">
-                                                <div class="notification-icon bg-success">
-                                                    <i class="bi bi-file-earmark-check"></i>
-                                                </div>
-                                                <div class="notification-text ms-4">
-                                                    <p class="notification-title font-bold">Homework submitted</p>
-                                                    <p class="notification-subtitle font-thin text-sm">Algebra math homework</p>
-                                                </div>
-                                            </a>
-                                        </li>
+                                        
+                                        
+                                       
                                         <li>
                                             <p class="text-center py-2 mb-0"><a href="#">See all notification</a></p>
                                         </li>
@@ -143,7 +207,7 @@
 	                                    </button>
 	                                </div>
                                     <div class="modal-body">
-                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=Iv1.db86d544e357efa4">
+                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=d81caaa37ed07a86dd0e">
                                         	<img src="resources/images/logo/gitLogo.png" alt="" style="width: 20%; margin: auto; display: block;">
                                         </a>
                                     </div>

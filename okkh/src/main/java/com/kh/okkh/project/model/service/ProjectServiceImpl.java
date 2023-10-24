@@ -273,11 +273,35 @@ public class ProjectServiceImpl implements ProjectService{
 
 
 
+	/**
+	 * 프로젝트 참여 버튼을 누르면 작성자에게 알람가는 메소드
+	 * 근데 이걸 소켓으로 처리해서 여기 메소드 필요없을 수도
+	 */
 	@Override
 	public int alarmProject(Notice n) {
 		
 		return 0;
 	}
+
+
+
+	@Override
+	public int deleteEnrollProject(int memNo) {
+		
+		return pdao.deleteEnrollProject(memNo, sqlSession);
+	}
+
+
+
+	/**
+	 * 다시 멤버상세내용 조회하는 메소드
+	 */
+	@Override
+	public Member selectMember(int memNo) {
+		
+		return pdao.selectMember(memNo, sqlSession);
+	}
+
 
 
 
