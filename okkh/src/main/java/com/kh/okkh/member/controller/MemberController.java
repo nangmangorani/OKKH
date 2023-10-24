@@ -52,7 +52,7 @@ public class MemberController {
         }else {
         	m = mService.selectMember(mToken);
         }
-        
+        System.out.println(mToken + "!!!!!!!");
         session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", m); // db에 쌓인 정보
         

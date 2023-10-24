@@ -73,6 +73,20 @@ public class MilestoneController {
 	}
 	
 	
+	@RequestMapping(value="editForm.mile")
+	public String editFormMilestone(HttpSession session, Model model, int mno) {
+		
+		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
+		
+		String repository = "nangmangorani/01_java-workspace";
+		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
+		
+		model.addAttribute("milestone", milestone);
+		return "milestone/milestoneEdit";
+	}
+	
+	
+	
 	
 	
 

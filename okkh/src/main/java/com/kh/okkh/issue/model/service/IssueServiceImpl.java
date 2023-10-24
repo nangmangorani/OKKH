@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -38,6 +39,9 @@ public class IssueServiceImpl implements IssueService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	@Autowired
+	private WebClient webClient;
 
 	
 //	@Override
@@ -51,6 +55,7 @@ public class IssueServiceImpl implements IssueService{
 		String url = repository + "/labels";
 		// 여기서 git.api url로 변환해줌
 		// 라벨 전체url이 나올거임
+		// 2333333333
 		String labelResponse = iDao.getGitContentsByGet1(url, session);
 		
 		ObjectMapper obj = new ObjectMapper();
@@ -58,6 +63,7 @@ public class IssueServiceImpl implements IssueService{
 		ArrayList<Labels> lList = new ArrayList<Labels>();
 		// json으로 변환????
 		try {
+			System.out.println("dlrsfsdfsdfsdf" + obj);
 			jsonNode = obj.readTree(labelResponse);
 			for (int i = 0; i < jsonNode.size(); i++) {
 				String id = jsonNode.get(i).get("id").asText();
@@ -91,7 +97,7 @@ public class IssueServiceImpl implements IssueService{
 		URL requestUrl = new URL(url);
 	    HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 
-	    urlConnection.setRequestProperty("Authorization","Bearer"+token);
+	    urlConnection.setRequestProperty("Authorization","Bearer "+token);
 	    urlConnection.setRequestMethod("GET");
 		
 	    BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));

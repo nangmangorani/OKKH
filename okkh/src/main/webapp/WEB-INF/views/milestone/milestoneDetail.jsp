@@ -56,7 +56,7 @@
                                     <button type="button"
                                         class="btn btn-primary me-1 mb-1"
                                         style="width: 150px; float: right;"
-                                        onclick="location.href='milestoneEdit.html'">마일스톤 편집</button>
+                                        onclick="location.href='editForm.mile?mno=${milestone.number}'">마일스톤 편집</button>
                                 </div>
                                 <button class="btn btn-primary" id="continueMile">진행중</button>
                                 <button class="btn btn-primary" id="finishMile">진행완료</button>
@@ -133,15 +133,29 @@
             }
 
             function ajaxMileFunction(data) {
-                var tableBody = $("#mileTableBody");
+            	var tableBody = $("#mileTableBody");
                 tableBody.empty();
 
                 for (var i = 0; i < data.length; i++) {
                     var issue = data[i];
                     var tableRow = $('<tr>');
+
+                    // 번호 열
                     var numberCell = $('<td>').addClass('text-bold-500').text(issue.number);
+
+                    // 제목 열
                     var link = $('<a>').attr('href', 'issueDetail.html').css('color', 'black').css('font-weight', 'bold').text(issue.title);
-                    tableRow.append($('<td>').addClass('text-bold-500').append(link));
+                    var titleCell = $('<td>').addClass('text-bold-500').append(link);
+
+                    // 레이블 열
+                    var labelsCell = $('<td>');
+                    for (var j = 0; j < issue.labels.length; j++) {
+                        var label = issue.labels[j];
+                        var labelSpan = $('<span>').addClass('labelSpan').css('background-color', '#' + label.color).text(label.name);
+                        labelsCell.append(labelSpan);
+                    }
+
+                    tableRow.append(numberCell, titleCell, labelsCell);
                     tableBody.append(tableRow);
                 }
             }

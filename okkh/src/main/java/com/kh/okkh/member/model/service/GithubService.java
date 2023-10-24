@@ -29,6 +29,7 @@ public class GithubService {
 	
 	public String getToken(String code){
 		String url = "https://github.com/login/oauth/access_token";
+		System.out.println("code" + code);
 
 		String response = webClient.post()
 				.uri(url)
@@ -59,7 +60,7 @@ public class GithubService {
 		
 		String response = webClient.get()
 				.uri(url)
-				.header(HttpHeaders.AUTHORIZATION,"bearer "+token)
+				.header(HttpHeaders.AUTHORIZATION,"Bearer "+token)
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.header(HttpHeaders.ACCEPT, "application/vnd.github+json")
 				.retrieve()
@@ -85,5 +86,12 @@ public class GithubService {
 		System.out.println("m에 뭐들었나~" + m);
 		return m;
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,6 +18,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -71,7 +75,7 @@ public class IssueController {
 		
 		// 라벨만 받아온거잖아
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
-		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
+		String token = ((Member)(session.getAttribute("git"))).getMemToken();
 		
 		ArrayList<Issue> list;
 		
@@ -164,7 +168,7 @@ public class IssueController {
 			@RequestParam(required = false) String milestone) throws IOException{
 		// jsp에서 한명을 select할때마다 늘어나야돼. 그럼 배열로 받는게맞나?
 		
-		String token = ((Member)session.getAttribute("loginMember")).getMemToken();
+		String token = ((String)session.getAttribute("git"));
 		String repository = "nangmangorani/01_java-workspace";
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues";
 		System.out.println("apiUrl " + apiUrl);
@@ -204,7 +208,7 @@ public class IssueController {
 		System.out.println("issueJson에요" + issueJson);
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization","bearer"+token);
+		headers.set("Authorization","bearer "+token);
 		headers.set("Accept", "application/vnd.github+json");
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> requestEntity = new HttpEntity<String>(issueJson.toString(), headers);
@@ -212,15 +216,16 @@ public class IssueController {
 		System.out.println("requestEntity에요" + requestEntity);
 
 		RestTemplate restTemplate = new RestTemplate();
-		
 		// 여기서 예외발생중..
 		try {
 			ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
-			HttpStatus responseStatus = responseEntity.getStatusCode();
-			System.out.println("responseStatus에요 " + responseStatus);
-			if (responseStatus != HttpStatus.CREATED) {
-				throw new RuntimeException("Failed to create issue on GitHub API: " + responseStatus.toString());
-			}
+			if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
+		        // API 요청이 성공하면 JSON 응답을 파싱하여 필요한 정보를 추출합니다.
+		        String responseJson = responseEntity.getBody();
+		        ObjectMapper objectMapper = new ObjectMapper();
+		        Map<String, Object> responseMap = objectMapper.readValue(responseJson, new TypeReference<Map<String, Object>>() {});
+		        
+		    }
 			
 		} catch (Exception e) {
 			e.printStackTrace();
