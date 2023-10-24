@@ -2,6 +2,8 @@ package com.kh.okkh.repository.model.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.repository.model.vo.MyProject;
 import com.kh.okkh.repository.model.vo.Repo;
@@ -22,5 +24,8 @@ public interface RepoService {
 	
 	// 내 프로젝트 추가용 서비스
 	public int insertMyProject(MyProject p);
+	
+	// WebClient Test용 서비스
+	public String synHttpRequest(String path, HttpSession session, String method);
 	
 }

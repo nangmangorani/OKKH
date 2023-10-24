@@ -38,12 +38,12 @@ public class MemberController {
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
 		
-//		 System.out.println(code);
+		 System.out.println("code : " + code);
 		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
-//		System.out.println("난 멤컨 토큰 ㅌㅋㅌ" + token);
+		System.out.println("token : " + token);
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
 		// id, 아바타, 닉넴, 토큰
@@ -52,7 +52,11 @@ public class MemberController {
         // 저장된 멤버가 없을 경우 DB에 추가
         if(m == null) {
         	int result = mService.insertMember(mToken);
-        	m = mService.selectMember(mToken);
+        	
+        	if(result  > 0) {
+        		m = mService.selectMember(mToken);
+        	}
+        	
         }else {
         	m = mService.selectMember(mToken);
         }

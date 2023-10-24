@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -108,12 +109,12 @@ public class RepositoryController {
 	@RequestMapping("insertMyProject.re")
 	public String insertMyProject(MyProject p, HttpSession session, Model model) {
 		
-		 System.out.println(p);
+//		 System.out.println(p);
 		 
 		int result = rService.insertMyProject(p);
 		
 		if(result > 0) {
-			return "redirect:/";
+			return "redirect:myProject.re";
 		}
 		else {
 			return "common/errorPage";
@@ -128,7 +129,11 @@ public class RepositoryController {
 	 * @param pno => 프로젝트 번호
 	 */
 	@RequestMapping("repoList.re")
-	public String selectRepoList(int pno) {
+	public String selectRepoList(int pno, HttpSession session) {
+		
+		String response = rService.synHttpRequest("", session, "get");
+		
+		System.out.println(response);
 		
 		return "repo/repoList";
 		
