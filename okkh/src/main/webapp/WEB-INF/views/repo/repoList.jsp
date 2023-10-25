@@ -146,33 +146,11 @@
 						                                                <!-- <div class="stats-icon blue">
 						                                                    <i class="iconly-boldShow"></i>
 						                                                </div> -->
-						                                                <img src="resources/icons/spring.png" alt="" width="50" height="50">
+						                                                <img src="${ r.avatar }" width="50" height="50" style="border-radius: 50px;">
 						                                            </div>
 						                                            <div class="col-md-8">
-						                                                <h6 class="text-muted font-semibold">Spring</h6>
-						                                                <h6 class="font-extrabold mb-0">okkh</h6>
-						                                            </div>
-						                                        </div>
-						                                    </div>
-					                                    </a>
-					                                </div>
-					                            </div>
-					                            <!-- /레파지토리 끝 -->
-					                            <!-- 레파지토리 시작 -->
-					                            <div class="col-6 col-lg-3 col-md-6">
-					                                <div class="card" style="border: 1px solid #cecece;">
-					                                    <a href="repoDetail.re?rno=1">
-					                                    	<div class="card-body px-3 py-4-5">
-						                                        <div class="row">
-						                                            <div class="col-md-4">
-						                                                <!-- <div class="stats-icon blue">
-						                                                    <i class="iconly-boldShow"></i>
-						                                                </div> -->
-						                                                <img src="resources/icons/html.png" alt="" width="50" height="50">
-						                                            </div>
-						                                            <div class="col-md-8">
-						                                                <h6 class="text-muted font-semibold">HTML</h6>
-						                                                <h6 class="font-extrabold mb-0">okkh_html</h6>
+						                                                <h6 class="text-muted font-semibold">${ r.repoStatus }</h6>
+						                                                <h4 class="font-extrabold mb-0">${ r.repoTitle }</h4>
 						                                            </div>
 						                                        </div>
 						                                    </div>

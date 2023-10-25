@@ -56,14 +56,12 @@
 		                                    aria-controls="profile" aria-selected="false">완료된 프로젝트</a>
 		                            </li>
 		                        </ul>
-		                        <!-- 로그인한 회원이 프로젝트의 팀장일 경우에 버튼 두두등장!! -->
-		                        <c:if test="${ loginMember.teamStatus eq 'L' }">
+		                        
 			                        <!-- 프로젝트 추가 버튼 시작 -->
 			                        <button id="newProject" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
 					                    New Project
 					                </button>
 					                <!-- /프로젝트 추가 버튼 끝 -->
-		                        </c:if>
 				                
 				                <br>
 				                
@@ -259,6 +257,8 @@
 	   						$("#team").attr("type", "hidden");
 	   						
 	   						$("label[for=team]").css("display", "none");
+	   						
+	   						value = "팀원이 없습니다.";
 	   						
 	   					}
 	   					else {

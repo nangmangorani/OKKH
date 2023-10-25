@@ -129,11 +129,19 @@ public class RepositoryController {
 	 * @param pno => 프로젝트 번호
 	 */
 	@RequestMapping("repoList.re")
-	public String selectRepoList(int pno, HttpSession session) {
+	public String selectRepoList(int pno, HttpSession session, Model model) {
 		
-		String response = rService.synHttpRequest("", session, "get");
+		String token = (String)session.getAttribute("token");
 		
-		System.out.println(response);
+//		System.out.println("selectRepoList token : " + token);
+		
+//		System.out.println(pno);
+		
+		Repo r = gService.getRepositoryList(pno, token);
+		
+//		System.out.println(r);
+		
+		model.addAttribute("r", r);
 		
 		return "repo/repoList";
 		

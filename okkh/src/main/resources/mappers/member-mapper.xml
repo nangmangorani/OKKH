@@ -9,7 +9,6 @@
 		<result column="mem_id" property="memId"/>
 		<result column="git_nick" property="gitNick"/>
 		<result column="profile" property="profile"/>
-		<result column="mem_token" property="memToken"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="stack_name" property="stackName"/>
 		<result column="create_date" property="createDate"/>
@@ -40,7 +39,6 @@
 		select 
 		        mem_no
 		      , mem_id
-		      , mem_token
 		      , mem_intro
 		      , stack_name
 		      , create_date
@@ -57,7 +55,6 @@
 		    into member
 		    (	mem_no
 		      , mem_id
-		      , mem_token
 		      , create_date
 		      , status
 		    )
@@ -65,7 +62,6 @@
 		    (
 		    	seq_mem.nextval
 		      , #{memId}
-		      , #{memToken}
 		      , SYSDATE
 		      , 'Y'
 		    )

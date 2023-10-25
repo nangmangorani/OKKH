@@ -38,33 +38,30 @@ public class MemberController {
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
 		
-		 System.out.println("code : " + code);
-		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
-		System.out.println("token : " + token);
 		// access_token을 이용한 유저 정보 얻어오기
-		Member mToken = gService.getUserInfo(token);
-		// id, 아바타, 닉넴, 토큰
-        Member m = mService.selectMember(mToken);
+		Member githubInfo = gService.getUserInfo(token);
+		
+		// 우리 DB에 해당 유저 정보가 있는지 확인하기
+        Member loginMember = mService.selectMember(githubInfo);
         
         // 저장된 멤버가 없을 경우 DB에 추가
-        if(m == null) {
-        	int result = mService.insertMember(mToken);
+        if(loginMember == null) {
+        	int result = mService.insertMember(githubInfo);
         	
         	if(result  > 0) {
-        		m = mService.selectMember(mToken);
+        		loginMember = mService.selectMember(githubInfo);
         	}
         	
         }else {
-        	m = mService.selectMember(mToken);
+        	loginMember = mService.selectMember(githubInfo);
         }
         
-        System.out.println(m);
-        
-        session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
-        session.setAttribute("loginMember", m); // db에 쌓인 정보
+        session.setAttribute("token", token);				// api 활용에 필요한 access_token => session에 띄워서 어디서든 필요할 때 사용할 수 있게 설정
+        session.setAttribute("git", githubInfo); 			// github에서 가져온 정보 => gitNick, profile, bio 사용
+        session.setAttribute("loginMember", loginMember); 	// db에 쌓인 정보
         
 	    return "redirect:/";
 	}
