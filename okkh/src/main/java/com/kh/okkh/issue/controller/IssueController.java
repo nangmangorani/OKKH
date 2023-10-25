@@ -35,12 +35,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.service.LabelsServiceImpl;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.vo.Milestone;
+import com.kh.okkh.repository.model.vo.Repo;
 
 
 @Controller
@@ -52,6 +55,7 @@ public class IssueController {
 	@Autowired 
 	private LabelsServiceImpl lService;
 	
+	
 	/**
 	 * 이슈리스트 조회
 	 * @param model
@@ -60,8 +64,7 @@ public class IssueController {
 	 * @throws JsonMappingException 
 	 */
 	@RequestMapping("list.iss")
-	public String selectIssueList(Model model, HttpSession session, String state) throws JsonMappingException, IOException {
-
+	public String selectIssueList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session, String state) throws JsonMappingException, IOException {
 		
 		// repo.getUserName()+"/"+repo.getRepoName(); 
 		String repository = "nangmangorani/01_java-workspace";
@@ -79,7 +82,19 @@ public class IssueController {
 		
 		ArrayList<Issue> list;
 		
-		list = iService.getIssues(repository, token, state);
+		// 일단 repository의 open_issues_count값을 가져와서 listCon
+		
+		// 페이지네이션
+		// listCount는 총개수.. 근데 지금 열려있는거만이니까??? 이 레퍼지의 open_issues_count값을 가져오는게 맞는듯?
+		// pageLimit은 10
+		// boardLimit은 20
+		
+		int listCount = iService.issueCount(repository, token, session, state);
+		System.out.println("openIssueCount 나오면 지이이이ㅣㅇㄴ짜 대박!!" + listCount);
+		
+		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
+		
+		list = iService.getIssues(repository, token, state, pi);
 		
 		for(int i = 0; i<list.size(); i++) {
 			if(list.get(i).getState().equals("open")) {
@@ -89,7 +104,9 @@ public class IssueController {
 			}
 		}
 		
-
+		
+		
+		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
 		model.addAttribute("lList", lList);
 		
@@ -101,7 +118,9 @@ public class IssueController {
 	
 	@RequestMapping(value="ajaxIssue", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String ajaxIssue(HttpSession session, Member m, Model model, @RequestParam(required = false) String state,
+	public String ajaxIssue(HttpSession session, Member m, Model model, 
+			@RequestParam(value="cpage", defaultValue="1") int currentPage,
+			@RequestParam(required = false) String state,
 			@RequestParam(required = false) String label,
 			@RequestParam(required = false) Integer page, @RequestParam(required = false) String assign,
 			@RequestParam(required = false) String authorName, @RequestParam(required = false) String newTitle,
@@ -109,12 +128,22 @@ public class IssueController {
 		
 		String repository = "nangmangorani/01_java-workspace";
 
-
-		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
+		if(state == null) {
+			state = "open";
+		}
+		System.out.println("state 머게요? ㅋㅋ" + state);
+		System.out.println("cpage 입니다 " + currentPage);
+		
+		String token = ((Member)(session.getAttribute("git"))).getMemToken();
 
 		ArrayList<Issue> list;
 		
-		list = iService.getIssues(repository, token, state);
+		int listCount = iService.issueCount(repository, token, session, state);
+		System.out.println("아작스?에이작스?에이작? issueCount 나오면 지이이이ㅣㅇㄴ짜 대박!!" + listCount);
+		
+		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 5);
+		
+		list = iService.getIssues(repository, token, state, pi);
 
 		for(int i = 0; i<list.size(); i++) {
 			if(list.get(i).getState().equals("open")) {
@@ -125,18 +154,11 @@ public class IssueController {
 		}
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
+		
+		System.out.println("저는 json이라고합니다. ajaxIssue에있어요" + json);
 
 		return json;
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@RequestMapping("enrollForm.iss")
@@ -168,7 +190,7 @@ public class IssueController {
 			@RequestParam(required = false) String milestone) throws IOException{
 		// jsp에서 한명을 select할때마다 늘어나야돼. 그럼 배열로 받는게맞나?
 		
-		String token = ((String)session.getAttribute("git"));
+		String token = ((Member)session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues";
 		System.out.println("apiUrl " + apiUrl);

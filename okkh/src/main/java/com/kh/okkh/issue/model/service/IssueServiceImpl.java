@@ -25,12 +25,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.issue.model.dao.IssueDao;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.vo.Milestone;
+import com.kh.okkh.repository.model.vo.Repo;
 
+/**
+ * @author user1
+ *
+ */
 @Service
 public class IssueServiceImpl implements IssueService{
 	
@@ -85,14 +91,68 @@ public class IssueServiceImpl implements IssueService{
 		
 		return lList;
 	}
+	
+	/**
+	 * issue리스트 페이징 처리위한 count 추출
+	 * 
+	 * */
+	@Override
+	public int issueCount(String repository, String token, HttpSession session, String state) {
+
+		
+		if(state.equals("open")) {
+			
+			String repoState = repository;
+			System.out.println("repoState란 무엇일까..? " + repoState);
+			
+			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
+			
+			ObjectMapper obj = new ObjectMapper();
+			JsonNode jsonNode;
+			int count = 0;
+			try {
+				jsonNode = obj.readTree(repoResponse);
+				
+				count = jsonNode.get("open_issues_count").asInt();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
+			return count;
+		} else {
+			String repoState = repository + "/issues?state=closed";	
+			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
+			System.out.println("repoResponse 딱대숑 ㅋ" + repoResponse);
+			ObjectMapper obj = new ObjectMapper();
+	      	JsonNode jsonNode;
+	      	int count = 0;
+	      	try {
+				jsonNode = obj.readTree(repoResponse);
+				count = jsonNode.size();
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+	      	
+	      	System.out.println("closed일때 count " + count);
+	      	return count;
+	
+		}
+		
+		
+		
+		
+		
+	}
+	
 
 	@Override
-	public ArrayList<Issue> getIssues(String repository, String token ,String state) 
+	public ArrayList<Issue> getIssues(String repository, String token, String state, PageInfo pi) 
 			throws IOException {
 		
 		String url = "";
 		
-		url = "https://api.github.com/repos/" + repository + "/issues?state=" + state + "&page=1";
+		url = "https://api.github.com/repos/" + repository + "/issues?state=" + state + "&page=" + pi.getCurrentPage() + "&per_page=" + pi.getBoardLimit();
+		System.out.println("url 잘 나오길 간절히 기도중" + url);
 		
 		URL requestUrl = new URL(url);
 	    HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -242,6 +302,13 @@ public class IssueServiceImpl implements IssueService{
 		return git;
 	}
 
+	@Override
+	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno)
+			throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 	/**
@@ -249,26 +316,30 @@ public class IssueServiceImpl implements IssueService{
 	 * @throws IOException 
 	 * 
 	 * */
-	@Override
-	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
-		
-		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
-		
-		ArrayList<Issue> iListAll = getIssues(repository, token, state);
-		
-		ArrayList<Issue> iList = new ArrayList<Issue>();
-		
-		for(Issue i : iListAll) {
-			if(i.getMilestoneNum() == mno) {
-				iList.add(i);
-			}
-		}
-		
-		return iList;
-		
-		
-		
-	}
+//	@Override
+//	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
+//		
+//		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
+//		
+//		ArrayList<Issue> iListAll = getIssues(repository, token, state);
+//		
+//		ArrayList<Issue> iList = new ArrayList<Issue>();
+//		
+//		for(Issue i : iListAll) {
+//			if(i.getMilestoneNum() == mno) {
+//				iList.add(i);
+//			}
+//		}
+//		
+//		return iList;
+//		
+//		
+//		
+//	}
+
+
+
+	
 	
 	
 	

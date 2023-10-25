@@ -34,7 +34,7 @@ public class IssueDao {
 		System.out.println("path" + path);
 		String response = webClient
 				.get()
-				.uri("http://api.github.com/repos/"+path)
+				.uri("https://api.github.com/repos/"+path)
 				.header(HttpHeaders.AUTHORIZATION,"Bearer "+token)
 				.header(HttpHeaders.ACCEPT, "application/vnd.github+json")
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

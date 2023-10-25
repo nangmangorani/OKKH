@@ -44,7 +44,7 @@ public class MemberController {
 		Member mToken = gService.getUserInfo(token);
 		// id, 아바타, 닉넴, 토큰
         Member m = mService.selectMember(mToken);
-        
+        System.out.println("mToken.getMemToken()이에요 " + mToken.getMemToken());
         // 저장된 멤버가 없을 경우 DB에 추가
         if(m == null) {
         	int result = mService.insertMember(mToken);
