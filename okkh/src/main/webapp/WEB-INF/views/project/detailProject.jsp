@@ -151,7 +151,7 @@
                                         
 
                                         <!-- 작성자/ 작성일 -->
-                                        <div style="font-size: 17px;" id="buttonArea">
+                                        <div style="font-size: 17px; " id="buttonArea">
                                             작성자 : ${pro.proWriter } &nbsp; | &nbsp; 마감일 : ${pro.proDeadLine } 
                                             
                                             
@@ -163,32 +163,53 @@
                                             <c:choose>
                                             
                                             	<c:when test="${empty loginMember }">
+                                            		<!-- 아직 로그인을 안했을 경우 -->
                                             		<button style="float: right; border: 0; height: 60px; " class="btn btn-primary" disabled >프로젝트 신청하기(로그인 후 신청가능)</button>
                                             	</c:when>
                                             
                                             	<c:when test="${pro.memNo ne loginMember.memNo and pro.proStatus == 'N'  }">
+		                                             <!-- 프로젝트 모집이 마감이 되었을 경우 -->
+		                                             
 		                                             <button style="float: right; border: 0; height: 50px; " class="btn btn-primary" disabled>프로젝트 모집마감</button>
                                             	
                                             	</c:when>
                                             	
                                             	<c:when test="${pro.memNo eq loginMember.memNo and pro.proStatus == 'Y'}">
+                                            		<!-- 작성자고, 프로젝트 아직 모집 미완료일때 -->
+                                            		
                                             		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" onclick="location.href='recruitDone.pro?pno=' + ${pro.proNo }" >모집 완료하기</button>
                                             	</c:when>
                                             	
                                             	<c:when test="${pro.memNo eq loginMember.memNo and pro.proStatus == 'N'}">
+                                            		<!-- 작성자고, 모집이 완료되었을 경우 재모집버튼이 보임 -->
                                             	
                                             		<button style="float: right; border: 0; height: 50px; " class="btn btn-light-secondary" onclick="location.href='recruitReturn.pro?pno=' + ${pro.proNo }" >다시 모집하기</button>
                                             	</c:when>
                                             	
-                                            	<c:when test="${loginMember.team != pro.proNo  and loginMember.memNo ne pro.memNo}">
+                                            	<c:when test="${ loginMember.team eq 0 and loginMember.memNo ne pro.memNo}">
+                                            	<!-- 신청한 프로젝트가 아직 없는데 로그인 회원이 게시글 작성자가 아닌 경우 -->
                                             	
-                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary" id="enrollProject" >프로젝트 신청하기</button>
+                                            		<button style="float: right; border: 0; height: 50px; " class="btn btn-primary"  id="enrollProject" >프로젝트 신청하기</button>
+                                            	</c:when>
+                                            	
+                                            
+                                            	<c:when test="${ loginMember.team ne 0 and  loginMember.team ne pro.proNo  and loginMember.memNo ne pro.memNo}">
+                                             	<!-- 신청한 프로젝트가 있고, 로그인 멤버의 팀과 게시글 번호가 같고(즉, 회원이 신청한 프로젝트 게시물인 경우), 로그인 회원이 게시글 작성자가 아닌 경우 -->
+                                            	
+                                            	    <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary'  disabled > 이미 참여한 다른 프로젝트가 있습니다</button>
+                                            		
+                                            		
                                             	</c:when>
                                             	
                                             	
-                                            	<c:when test="${ loginMember.team == pro.proNo and loginMember.memNo ne pro.memNo }">
-                                            	    <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary' id='deleteProject' >프로젝트 신청완료(취소하기)</button>
+                                              <c:when test="${ loginMember.team ne 0 and loginMember.team == pro.proNo  and loginMember.memNo ne pro.memNo}">
+                                            	 <!--  프로젝트 게시글 작성자가 아니고, 프로젝트에 참여한 회원인 경우 -->
+                                            	
+                                             
+                                            	    <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary'  onclick="deleteProject();" >프로젝트 신청완료(취소하기)</button>
                                             	</c:when>
+                                            	
+                                            	
                                             	
                                             	
                                             </c:choose>
@@ -207,7 +228,7 @@
                                           
                                             <img  style="width: 20px; height: 20px;" src="https://holaworld.io/images/info/bookmark_filled.png" alt=""> : <span id="bookmarkCount">${count }</span>
                                         </div>
-                                        
+                                        <br>
                                         <hr>
                                         <br>
                         
@@ -614,8 +635,12 @@
                                         	
                                         	// 프로젝트 참여하기 눌렀을 때 실시간으로 게시글 작성자에게 알림가게 하기
                                         	// member에 team컬럼들에 update치기
-                                     
-                                          $("#enrollProject").click(function(){
+                                        	
+                                        	
+                                        	
+
+											function enrollProject(){
+                                         
                                         	  $.ajax({
     												
                                       			url:"alarmProject.pro",
@@ -627,12 +652,21 @@
                                       			},
                                       			success:function(data){
                                       				console.log(data + "프로젝트 참가버튼 용 ajax 결과!@!")
-                                      				if(data=="success"){
+                                      				if(data == 1){
                                       					
                                       					
                                       					
                                       					
-                                      					alert("프로젝트 신청이 완료되었습니다.")
+                                      					alert("프로젝트 신청이 완료되었습니!!!")
+                                      					
+                                      					
+                                      					let value="";
+                                      					
+                                      					value += " <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary'  id='deleteProject' >프로젝트 신청완료(취소하기)</button>";
+                                      					
+                                      					$(".card-body #buttonArea").html(value);
+                                      					
+                                      					
                                       					console.log(data + " : 프로젝트 참가용")
                                       					
                                       					
@@ -643,7 +677,8 @@
                                       					// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
                                       					if(socket.readyState==1){
                                       						// 소켓
-                                      						let socketMsg = "project"+ ","+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+"," + ${pro.proTitle} + ",${loginMember.gitNick},"+ ${loginMember.team} + ", 프로젝트에 참여를 희망합니다!"; 
+                                      						// 메세지 보낼 때 , 무조건 포함시키고 String형은 무조건 ""안에다가 작성하기 
+                                      						let socketMsg = "project"+ ","+ ${loginMember.memNo}+","+${pro.memNo}+","+ ${pro.proNo}+",${pro.proTitle},${loginMember.gitNick},"+ ${loginMember.team} + ", 프로젝트에 참여를 희망합니다!"; 
                                       						console.log(socketMsg );
                                       						socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
                                       					}
@@ -651,7 +686,7 @@
                                       							
                                       				}else{
                                       					console.log(" fail 프로젝트 참가용 ajax 결과 : " + data)
-                                      					//
+                                      					
                                       				}
                                       			},
                                       				
@@ -666,23 +701,30 @@
                                       			
                                       		})
                                       		
-                                          })
+                                      		
+											};
                                  	
                                         		
                                          
-                                          $("#buttonArea").on("click","#deleteProject",  function(){
+                                         function deleteProject(){
                                         	
                                         	  $.ajax({
                                         		
                                         		  url:"deleteEnrollProject.pro",
-                                        		  data:{memNo:${loginMember.memNo}},
+                                        		// data:{memNo:${loginMember.memNo}},
                                         		  success:function(data){
-                                        			  
-                                        			  if(data == "success"){
+                                        			   
+                                        			  if(data == 1){
                                         				  alert("프로젝트 참여가 취소되었습니다!")
                                         				  
+                                        				
+                                        				  let value = "";
                                         				  
+                                        				  value= "<button style='float: right; border: 0; height: 50px' class='btn btn-primary'  id='enrollProject' >프로젝트 신청하기</button>"
+                                        					  $(".card-body #buttonArea").html(value);
+                                        				
 
+                                        				
                                         					if(${loginMember.memNo ne pro.memNo}){
                                         				
                                         					// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
@@ -704,36 +746,70 @@
                                         		  
                                         	  })
                                         	  
-                                          })
+                                         };
+                                         
+                                         
+                                         
+                                         
+                                         
+                                         // 위에서 만든 enrollProject 함수와 deleteProject 함수를 재 사용하는 부분 
+                                         
+                                         // 원래 있던 프로젝트 신청하기 버튼을 눌렀을 경우 enrollProject 함수 호출
+                                         $("#enrollProject").click(function(){
+                                       	  enrollProject();
+                                         })
                                         	
-                                        
+                                          // 동적으로 만든 프로젝트 신청 버튼을 눌렀을 때 enrollProject함수 호출 
+                                          $("#buttonArea").on("click","#enrollProject", function(){
+                                        	  
+                                        	  enrollProject();
+                                        	  
+                                          })
+                                          
+                                          
+                                          // 동적으로 만든 프로젝트 참여 취소 버튼을 눌렀을 경우 deleteProject 함수 호출
+                                          $("#buttonArea").on("click","#deleteProject", function(){
+                                        	  deleteProject();
+                                          })
+                                         
+                                          
+                                         
+                                          
+                                      
                                         </script>
                                 
                                 </div>
+                                
                             </div>
+                            
                         </div>
+                        
+                        
                     </div>
+                    
                 </div>
+                
 				
 			</div>
-
-					<jsp:include page="../common/rightSide.jsp"></jsp:include>
+					
+					<!-- 오른쪽에 위에는 친구/프로젝트 팀원들 모아놓는 card 이고 하단에는 프로젝트 참여신청한 임시 회원들 목록이 있는 card임-->
+					<jsp:include page="../common/projectRightSide.jsp"></jsp:include>
             
+					
+   
             
             </section>
 
-         
 			
 
+            <jsp:include page="../common/footer.jsp"></jsp:include>
         </div>
 
 
        
-        
-   
-            <jsp:include page="../common/footer.jsp"></jsp:include>
 
         </div>
+         
     </div>
 
     

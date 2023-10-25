@@ -25,13 +25,13 @@
 		
 		
 		socket.onmessage  = function(event){
-			// console.log('받은 메세지 : ' + event.data);
+			//console.log('jsonObject로 받은 메세지 : ' + event.data);
 			 //var message = JSON.parse(event.data); // JSON 형식의 메시지를 파싱
 		
 			
 		 
 			var message = JSON.parse(event.data)
-			//  console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
+			console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
 			
 			var nick = message.nickName;
 			var title = message.title;

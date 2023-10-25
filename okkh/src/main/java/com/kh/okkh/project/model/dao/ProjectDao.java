@@ -277,13 +277,33 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 프로젝트 작성자가 프로젝트 모집 작성 후 팀번호 입력하는 메소드
+	 * @return
+	 */
+	public int insertTeam(Member m,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("projectMapper.insertTeam", m);
+	}
 	
 	
 	
+	/**
+	 * 작성자가 모집 완료하면 member테이블의 team컬럼 상태 변경하는 메소드
+	 * @return
+	 */
+	public int updateMemberTeam(int pno, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("projectMapper.updateMemberTeam", pno);
+	}
 	
 	
-	
-	
+	/**
+	 * 작성자가 재모집하면 member테이블에 team_status도 다시 변경해주는 메소드
+	 * @return
+	 */
+	public int reUpdateMemberTeam(int pno, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("projectMapper.reUpdateMemberTeam", pno);
+	}
 	
 	
 }

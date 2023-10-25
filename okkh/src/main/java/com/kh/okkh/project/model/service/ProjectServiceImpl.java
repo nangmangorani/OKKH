@@ -285,6 +285,9 @@ public class ProjectServiceImpl implements ProjectService{
 
 
 
+	/**
+	 *  프로젝트 참여를 취소하는 메소드
+	 */
 	@Override
 	public int deleteEnrollProject(int memNo) {
 		
@@ -300,6 +303,39 @@ public class ProjectServiceImpl implements ProjectService{
 	public Member selectMember(int memNo) {
 		
 		return pdao.selectMember(memNo, sqlSession);
+	}
+
+
+
+	/**
+	 * 작성자가 프로젝트 작성완료 후 작성자의 member테이블의 팀컬럼에 게시글 번호 입력하는 메소드
+	 */
+	@Override
+	public int insertTeam(Member m) {
+		
+		return pdao.insertTeam(m ,sqlSession);
+	}
+
+
+
+	/**
+	 * 작성자가 프로젝트 모집 완료했을 경우 member 테이블의 team컬럼의 상태도 변경하는 메소드
+	 */
+	@Override
+	public int updateMemberTeam(int pno) {
+		
+		return pdao.updateMemberTeam(pno, sqlSession);
+	}
+
+
+
+	/**
+	 * 작성자가 프로젝트 모집 완료했을 경우 member 테이블의 team컬럼의 상태도 변경하고 팀원들에게 알람도 보내는 메소드
+	 */
+	@Override
+	public int reUpdateMemberTeam(int pno) {
+		
+		return pdao.reUpdateMemberTeam(pno, sqlSession);
 	}
 
 

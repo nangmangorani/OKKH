@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,10 @@ import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.service.ProjectServiceImpl;
 import com.kh.okkh.project.model.vo.Project;
 
+/**
+ * @author 유정
+ *
+ */
 @Controller
 public class ProjectController {
 
@@ -112,6 +117,8 @@ public class ProjectController {
 			mv.addObject("pro", pro);
 			mv.setViewName("project/detailProject");
 			
+			System.out.println(((Member)session.getAttribute("loginMember")).getTeam()+ "  : 이건 로그인 세션 팀번호");
+			System.out.println(pro.getTeam() + " : 이건  프로젝트 상세조회한 팀");
 			
 		}else {
 			// 조회수 증가 실패하면.... 에러메시지 띄우기 
@@ -121,6 +128,8 @@ public class ProjectController {
 			mv.addObject("errorMsg", "프로젝트 조회수 증가를 실패했습니다.");
 			mv.setViewName("common/errorPage");
 		}
+		
+		
 		
 		
 		return mv;
@@ -159,9 +168,21 @@ public class ProjectController {
 		
 		int result = pservice.insertProject(p);
 		
+		int memNo =  Integer.parseInt( p.getProWriter());
+		int proNo = p.getProNo();
+		
+		Member m = new Member();
+		m.setMemNo(memNo);
+		m.setTeam(proNo);
+		
 		if(result>0) {
 			// 프로젝트 작성 성공하면 
+			// 작성자의 member 테이블의 team을 프로젝트 번호로 넣어주기
+			
+			int result2 = pservice.insertTeam(m);
+			
 			// alert 띄우고 목록으로 가기 
+			
 			session.setAttribute("alertMsg", "프로젝트 작성을 성공했습니다.");
 			return "redirect:recruitList.pro";
 			
@@ -178,6 +199,7 @@ public class ProjectController {
 	
 	/**
 	 * 프로젝트 모집작성자가 프로젝트 모집 완료하는 메소드
+	 * (프로젝트의 모집 status도 변경
 	 * @param pno
 	 * @param session
 	 * @return
@@ -188,16 +210,10 @@ public class ProjectController {
 		int result = pservice.recruitDonePro(pno);
 		
 		if(result>0) {
-			// 모집완료 성공하면 alert 띄우고 다시 상세페이지로 돌아가기 
-			
-			session.setAttribute("alertMsg", "모집완료를 성공했습니다.");
-			
-			// 모집완료를 누르면 project의 status도 변경하고, member의 team_status도
-			// team_no가 예를 들어 5조 인 회원들의 status를 모두 y로 변경하기  
-			// update치기 
-			
-					
-					
+			// 모집완료 성공
+						
+				session.setAttribute("alertMsg", "모집완료를 성공했습니다.");
+						
 			
 		}else {
 			// 모집완료 실패하면 alert 띄우고 다시 상세페이지로 
@@ -220,9 +236,13 @@ public class ProjectController {
 		int result = pservice.recruitReplayPro(pno);
 		
 		if(result>0) {
-			// 재모집 성공하면 alert띄우고 다시 상세페이지로 
+			// 재모집 성공하면 다시 member테이블의 team_status도 변경하기 
 			
-			session.setAttribute("alertMsg", "프로젝트 재 모집을 성공했습니다.");
+			
+			
+				 session.setAttribute("alertMsg", "프로젝트 재 모집을 성공했습니다.");
+				 
+		
 			
 			
 		}else {
@@ -403,9 +423,10 @@ public class ProjectController {
 	 * @param session
 	 * @return
 	 */
+    
     @ResponseBody
 	@RequestMapping(value="alarmProject.pro")
-	public String alarmProject(int refProNo,int owner, HttpSession session) {
+	public int alarmProject(int refProNo, HttpSession session) {
 		
 		
 		// 먼저 작성자에게 알람가게 하기 -> 여기 코드부분을 성공하면 ajax로 돌아가서 자동으로 
@@ -427,18 +448,31 @@ public class ProjectController {
 		
 		if(result>0) {
 			
+		
 			Member updateMember = pservice.selectMember(memNo);
 			
-			session.setAttribute("loginMemer", updateMember);
+			// System.out.println(updateMember + "플젝 참여 후 업데이트 멤버의 정보 출력!!!!!!!!!!!!");
 			
 			
-			System.out.println( ((Member)session.getAttribute("loginMember")).getTeam()  + "    : 이건 프로젝트 참여하기 성공하고 나서 찍는 팀번호");
+			// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!! -> 필요없어졌음...또르륵....ㅠㅠ
+			session.setAttribute("loginMember", updateMember);
+			
+			
+			///session.setAttribute("alertMsg", "프로젝트 참여 신청이 완료되었습니다! zj");
+			
+			
+			// System.out.println( ((Member)session.getAttribute("loginMember")).getTeam()  + "    : 이건 프로젝트 참여하기 성공하고 나서 찍는 팀번호");
+		
+			return 1;
+			
+		}else {
+			session.setAttribute("alertMsg", "프로젝트 참여 신청이 실패했습니다ㅠㅠ");
+			return 0;
 		}
 		
 		
-		System.out.println(result + " 컨트롤러 단에서 찍는 결과값");
+		//System.out.println(result + " 컨트롤러 단에서 찍는 결과값");
 		
-		return result>0 ? "success":"fail";
 		
 		
 	}
@@ -450,12 +484,31 @@ public class ProjectController {
      * @param memNo
      */
     @ResponseBody
-    @RequestMapping("deleteEnrollProject.pro")
-    public String deleteEnrollProject(int memNo) {
+    @RequestMapping(value ="deleteEnrollProject.pro" )
+    public int deleteEnrollProject( HttpSession session) {
+    	
+    	int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
     	
     	 int result = pservice.deleteEnrollProject(memNo);
     	 
-    	 return result>0 ? "success" : "fail";
+    	 if(result>0) {
+    		 
+    		//session.setAttribute("alertMsg", "프로젝트 참여를 취소했습니다!");
+    		 
+    		 Member updateMember = pservice.selectMember(memNo);
+    		 
+    		// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!!
+    		 session.setAttribute("loginMember", updateMember);
+    		 
+    		 return 1; 
+ 			
+ 			// System.out.println(updateMember + " 플젝 참여 취소 후 업데이트 멤버의 정보 출력!!!!!!!!!!!!");
+    	 }else {
+    		 session.setAttribute("alertMsg", "프로젝트 참여 취소를 실패했습니다ㅠㅠ");
+    		 return 0;
+    	 }
+    	 
+    	  
     	
     }
     

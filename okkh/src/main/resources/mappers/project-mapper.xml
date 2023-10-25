@@ -19,6 +19,8 @@
   		<result column="mem_no" property="memNo"/>
   		<result column="bookmark_pro_no" property="bookmarkProNo"/>
   		<result column="bookmark_mem_no" property="bookmarkMemNo"/>
+  		<result column="team" property="team"/>
+  		
   		
   	</resultMap>
   	
@@ -130,6 +132,7 @@
 	     , count
 	     , p.create_date
 	     , mem_no
+	     , team
 	  from project p
 	  join member m on (pro_writer = m.mem_no)
 	 where pro_no = #{proNo}
@@ -184,6 +187,14 @@
    
   	
   	</insert>
+  	
+  	
+  <update id="insertTeam">
+  	update 
+  	       member 
+  	   set team = seq_pro.currval
+  	 where mem_no = #{memNo}      
+  </update>
   	
   	
   	<update id="recruitDonePro">
@@ -350,6 +361,25 @@
 		  from member
 		  where mem_No = #{memNo}
 	</select>
+  	
+  	
+  	<update id="updateMemberTeam">
+  		update 
+  		       member 
+  		   set team_status = 'Y'
+  		 where team = #{team}      
+  	
+  	</update>
+  	
+  	<update id="reUpdateMemberTeam">
+  	    update 
+  		       member 
+  		   set team_status = 'N'
+  		 where team = #{team} 
+  	</update>
+  	
+  	
+  	
   	
   
 </mapper>

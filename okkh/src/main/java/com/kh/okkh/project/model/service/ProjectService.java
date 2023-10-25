@@ -48,9 +48,15 @@ public interface ProjectService {
 	
 		// 4. 프로젝트 모집완료하기 (프로젝트 번호 넘어옴)
 		int recruitDonePro(int pno);
+			// 모집 완료했을 때 member테이블의 team이 게시글 번호 인 것들의 상태도 변경해주기 
+		    int updateMemberTeam(int pno);
+		
 		
 		// 5. 프로젝트 재모집하기 (프로젝트 번호)
 		int recruitReplayPro(int pno);
+		
+			// 재 모집하면 member테이블의 team이 게시글 번호 인 것들의 상태도 변경하기 
+			int reUpdateMemberTeam(int pno);
 		
 	// 작성폼으로 갈때 기술스택 같이 조회해서가는 메소드
 	ArrayList<Stack> selectStackList();	
@@ -58,6 +64,9 @@ public interface ProjectService {
 	
 	// 프로젝트 작성하기 (사용자가 입력한 값들이 넘어옴)
 	int insertProject(Project p);
+	
+	// 프로젝트 작성 완료 후 작성자의 team도 프로젝트 번호로 입력해주는 작업
+	int insertTeam(Member m);
 	
 	
 	
@@ -114,7 +123,7 @@ public interface ProjectService {
 		int deleteEnrollProject(int memNo);
 		
 		
-	// 세션에 있는 로그인 멤버를 조회하는 메소드
+	// 세션에 있는 로그인 멤버를 조회하는 메소드 (세션 바꿔치기용) -> 필요없어졌음..
 		Member selectMember(int memNo);
 		
 	
