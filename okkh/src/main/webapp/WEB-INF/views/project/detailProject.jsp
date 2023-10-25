@@ -120,6 +120,8 @@
                                 <div class="card-body">
 
                                     <div class="UJ-WriteHeader" >
+                                    
+                                    	<!-- 북마크 -->
                                         <c:choose >
 	                                         <c:when test="${not empty book and book.memNo eq loginMember.memNo}">
 	                                        	<img src="https://holaworld.io/images/info/bookmark_filled.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
@@ -655,14 +657,15 @@
                                       				if(data == 1){
                                       					
                                       					
+                                      				
                                       					
-                                      					
-                                      					alert("프로젝트 신청이 완료되었습니!!!")
+                                      					alert("프로젝트 신청이 완료되었습니다!!!")
                                       					
                                       					
                                       					let value="";
                                       					
-                                      					value += " <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary'  id='deleteProject' >프로젝트 신청완료(취소하기)</button>";
+                                      					value += "작성자 :  ${pro.proWriter}   &nbsp; | &nbsp; 마감일 : ${pro.proDeadLine }"
+                                      					      + " <button style='float: right; border: 0; height: 50px;' class='btn btn-light-secondary'  id='deleteProject' >프로젝트 신청완료(취소하기)</button>";
                                       					
                                       					$(".card-body #buttonArea").html(value);
                                       					
@@ -720,8 +723,10 @@
                                         				
                                         				  let value = "";
                                         				  
-                                        				  value= "<button style='float: right; border: 0; height: 50px' class='btn btn-primary'  id='enrollProject' >프로젝트 신청하기</button>"
-                                        					  $(".card-body #buttonArea").html(value);
+                                        				  value += "안녕"
+                                        				        + "<button style='float: right; border: 0; height: 50px' class='btn btn-primary'  id='enrollProject' >프로젝트 신청하기</button>"
+                                        					  
+                                        				  $(".card-body #buttonArea").html(value);
                                         				
 
                                         				
@@ -794,13 +799,13 @@
 					
 					<!-- 오른쪽에 위에는 친구/프로젝트 팀원들 모아놓는 card 이고 하단에는 프로젝트 참여신청한 임시 회원들 목록이 있는 card임-->
 					<jsp:include page="../common/projectRightSide.jsp"></jsp:include>
-            
+            	
 					
    
             
             </section>
-
-			
+	
+	
 
             <jsp:include page="../common/footer.jsp"></jsp:include>
         </div>

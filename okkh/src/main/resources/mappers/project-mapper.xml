@@ -64,6 +64,7 @@
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
 		<result column="team" property="team"/>
+		<result column="team_status" property="teamStatus"/>
 
 	</resultMap>
 	
@@ -193,6 +194,7 @@
   	update 
   	       member 
   	   set team = seq_pro.currval
+  	     , team_status = 'Y'
   	 where mem_no = #{memNo}      
   </update>
   	
@@ -379,7 +381,30 @@
   	</update>
   	
   	
+  	<!-- 해당 프로젝트에 참여를 희망하는 회원들의 리스트를 뽑음 (단, 작성자 본인은 제외한 리스트임) -->
+  	<select id="selectProjectTeamMateList" resultMap="memberResultSet">
   	
+  	         select 
+			        mem_no
+			      , mem_id
+			      , mem_intro
+			      , stack_name
+			      , team
+			      , team_status
+			      , git_nick
+			   from member 
+			   join project on (team = pro_no)
+			  where team = ${team}
+			    and team_status = 'N'
+  	</select>
+  	
+  	<update id="updateTeamNo">
+  		update 
+  		       member
+  		   set team = 0
+  		     , team_status = 'N'
+  		 where mem_no = #{memNo}       
+  	</update>
   	
   
 </mapper>

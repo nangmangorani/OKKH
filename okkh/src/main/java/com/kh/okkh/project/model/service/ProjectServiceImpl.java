@@ -170,6 +170,16 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.deleteProject(pno, sqlSession);
 	}
+	
+	/**
+	 * 프로젝트 삭제할 때 작성자의 team번호도 0으로 업뎃하기
+	 */
+	@Override
+	public int updateTeamNo(int memNo) {
+		
+		return pdao.updateTeamNo(memNo, sqlSession);
+	}
+
 
 	/**
 	 * 프로젝트 상세페이지에 댓글 작성하기
@@ -337,6 +347,20 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return pdao.reUpdateMemberTeam(pno, sqlSession);
 	}
+
+
+
+	/**
+	 * 프로젝트 참여를 희망한 회원목록을 조회하는 메소드 
+	 */
+	@Override
+	public ArrayList<Member> selectProjectTeamMateList(int pno) {
+		
+		return pdao.selectProjectTeamMateList(pno, sqlSession);
+	}
+
+
+
 
 
 

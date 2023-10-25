@@ -81,7 +81,8 @@ public interface ProjectService {
 	
 	// 프로젝트 삭제하기 (게시글 번호 넘어옴)
 		int deleteProject(int pno);
-	
+		// 프로젝트 삭제할 때 작성자의 team번호도 0으로 업뎃하기 
+		int updateTeamNo(int memNo);
 	
 	
 	// project 상세페이지에서 댓글 작성(ajax로)
@@ -122,9 +123,17 @@ public interface ProjectService {
 	// 프로젝트 참여 취소용 메소드 
 		int deleteEnrollProject(int memNo);
 		
+	// 프로젝트에 참여하기를 신청한 회원들만 조회하는 메소드
+		ArrayList<Member> selectProjectTeamMateList(int pno);
+		
 		
 	// 세션에 있는 로그인 멤버를 조회하는 메소드 (세션 바꿔치기용) -> 필요없어졌음..
 		Member selectMember(int memNo);
+		
+		
+		
+		
+		
 		
 	
 }

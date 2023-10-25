@@ -148,6 +148,14 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 프로젝트 삭제할 때 작성자의 team번호도 0으로 업뎃
+	 * @return
+	 */
+	public int updateTeamNo(int memNo,SqlSessionTemplate sqlSession) {
+		return sqlSession.update("projectMapper.updateTeamNo", memNo);
+	}
+	
 	
 	/**
 	 * 댓글 작성하는 메소드
@@ -304,6 +312,25 @@ public class ProjectDao {
 	public int reUpdateMemberTeam(int pno, SqlSessionTemplate sqlSession) {
 		return sqlSession.update("projectMapper.reUpdateMemberTeam", pno);
 	}
+	
+	
+	/**
+	 * 프로젝트 상세페이지에서 오른쪽에 팀원 추가하기 card에서 필요한 참여희망을 신청하는 회원 목록 조회하는 메소드
+	 * @return
+	 */
+	public ArrayList<Member> selectProjectTeamMateList(int pno,SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("projectMapper.selectProjectTeamMateList", pno);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

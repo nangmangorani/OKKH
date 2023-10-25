@@ -41,7 +41,7 @@ public class ProjectController {
 	 * leftBar에서 Recruit 누르자마자 일단 전체 프로젝트list 조회하는 메소드
 	 */
 	@RequestMapping("recruitList.pro")
-	public ModelAndView selectProjectList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
+	public ModelAndView selectProjectList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 		
 
 		// 프로젝트 전체 조회리스트로 갈 때 
@@ -60,6 +60,7 @@ public class ProjectController {
 		
 		// 페이징 처리 후 찐 프로젝트 조회하러 가기 
 		ArrayList<Project> list = pservice.selectProjectList(pi);
+		
 		
 		
 		
@@ -92,14 +93,21 @@ public class ProjectController {
 		
 		Bookmark b = new Bookmark(memNo, pno);
 		
-		
-	
-		
+		// 이건 projectRightSide.jsp에서 친구 목록 조회할 때 필요해서 조회하고, session에도 담음 
+		 ArrayList<Member> teamList = pservice.selectProjectTeamMateList(pno);
+				
+		 session.setAttribute("teamList", teamList);
+		 
+		 
+		// 다시 상세조회 하는 코드로 넘어오장 
+		 // 조회수 증가 성공하면 찐 프로젝트 상세내용 조회하러 가자
 		if(result>0) {
 			
 			System.out.println(result + "      result 결과!!");
 			// 조회수 증가 성공했으면 찐으로 상세 조회하러 가기
 			Project pro = pservice.selectDetailPro(pno);
+			session.setAttribute("projectSession", pro);  
+			// 이건 projectRightSide.jsp에서 필요해서 세션에 담음(프로젝트 참여 희망자 목록 페이지)
 			
 			
 			Bookmark book = pservice.selectProBookmark(b);
@@ -264,8 +272,12 @@ public class ProjectController {
 		
 		int result = pservice.deleteProject(pno);
 		
+		
 		if(result>0) {
+			// 프로젝트 삭제성공하면 team도 0으로 다시 바꾸기 
 			
+			int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+			int update = pservice.updateTeamNo(memNo);
 			session.setAttribute("alertMsg", "프로젝트 삭제를 성공했습니다.");
 			return "redirect:recruitList.pro";
 			
@@ -515,7 +527,9 @@ public class ProjectController {
     
     
     
-    
+    public void selectProjectTeamMateList(int pno) {
+    	
+    }
     
     
     
