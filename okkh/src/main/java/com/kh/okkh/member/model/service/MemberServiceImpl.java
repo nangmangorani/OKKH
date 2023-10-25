@@ -11,6 +11,7 @@ import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.member.model.dao.MemberDao;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -42,8 +43,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<PR> myPRList(PageInfo pi) {
-		return mDao.myPRList(sqlSession, pi);
+	public ArrayList<Project> myPJList(Member m) {
+		return mDao.myPJList(sqlSession, m);
 	}
+	
+	@Override
+	public ArrayList<PR> myPRList(Member m) {
+		return mDao.myPRList(sqlSession, m);
+	}
+
 
 }

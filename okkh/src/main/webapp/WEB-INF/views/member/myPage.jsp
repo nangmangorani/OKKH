@@ -86,30 +86,30 @@
 
 /* 날짜 */
 #UJ-dateMark>#UJ-date{
-width: 231px;
-height: 64px;
-padding-left: 20px;
-padding-top: 20px;
-font-weight: 900;
-/* border: 1px solid black; */
+	width: 231px;
+	height: 64px;
+	padding-left: 20px;
+	padding-top: 20px;
+	font-weight: 900;
+	/* border: 1px solid black; */
 }
 
 /* 북마크 */
 #UJ-dateMark>#UJ-bookMark{
-width: 99px;
-height: 64px;
-/* border: 1px solid black; */
-padding-top: 20px;
+	width: 99px;
+	height: 64px;
+	/* border: 1px solid black; */
+	padding-top: 20px;
 }
 
 /* 프로젝트 제목 */
 .UJ-ProjectContent>#UJ-title{
-width: 330px;
-height: 96px;
-/* border: 1px solid red; */
-padding-left: 20px;
-padding-top: 20px;
-font-weight: 900;
+	width: 330px;
+	height: 96px;
+	/* border: 1px solid red; */
+	padding-left: 20px;
+	padding-top: 20px;
+	font-weight: 900;
 }
 
 /* 프로젝트 기술 */
@@ -247,11 +247,11 @@ font-weight: 900;
 							                    <div class="card-body" style="padding:12px;">
 							                        <ul class="nav nav-tabs" id="myTab" role="tablist">
 							                            <li class="nav-item" role="presentation">
-							                                <a class="nav-link active" id="ing-tab" data-bs-toggle="tab" href="myRecruit.me" role="tab"
+							                                <a class="nav-link active" id="ing-tab" data-bs-toggle="tab" href="#ing" role="tab"
 							                                    aria-controls="home" aria-selected="true">Recruit List</a>
 							                            </li>
 							                            <li class="nav-item" role="presentation">
-							                                <a class="nav-link" id="fin-tab" data-bs-toggle="tab" href="myPr.me" role="tab"
+							                                <a class="nav-link" id="fin-tab" data-bs-toggle="tab" href="#fin" role="tab"
 							                                    aria-controls="profile" aria-selected="false">Pr List</a>
 							                            </li>
 							                        </ul>
@@ -259,17 +259,17 @@ font-weight: 900;
 							                        
 						                                <!-- Recruit List 시작 -->
 							                            <div class="tab-pane fade show active" id="ing" role="tabpanel" aria-labelledby="ing-tab">
-							                            	<br><br>
-						                                	<c:choose>
-						                                		<c:when test="${not empty list }">
+							                                <input type="hidden" name="memNo" value="${loginMember.memNo }">
+															<c:choose>
+						                                		<c:when test="${ not empty pjList }">
 						                                			<div class="UJ-content" >
-															            <c:forEach var="pr" items="${list }">
-															            	<input type="hidden" name="prNo" value="${pr.prNo }" >
-															                <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pr.prNo }" >
+															            <c:forEach var="pj" items="${pjList }">
+															            	<input type="hidden" name="prNo" value="${pj.proNo }" >
+															                <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pj.proNo }" >
 															                    <!-- 마감일 , 북마크 -->
 															                    <div id="UJ-dateMark">
 															                        <div id="UJ-date">
-															                            작성일 : ${pr.createDate }
+															                            작성일 : ${pj.createDate }
 															                        </div>
 															                        <div id="UJ-bookMark">
 															                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
@@ -278,14 +278,14 @@ font-weight: 900;
 															
 															                    <!-- 제목 -->
 															                    <div id="UJ-title">
-															                       ${pr.prTitle }
+															                       ${pj.proTitle }
 															                    </div>
 															                    
 															                    <!-- 기술 이미지 , 기술 스택을,로 구분지어서 자른다음에 이미지 주소에 넣음-->
 															                   <div id="UJ-techImg">
-																				    <c:set var="techStacks" value="${fn:split(pr.stackName, ',') }" />
+																				    <c:set var="techStacks" value="${fn:split(pj.proStack, ',') }" />
 																				    <c:forEach items="${techStacks }" var="techStack">
-																				    <c:set var="src" value="https://holaworld.io/images/languages/${techStack }.svg"/>
+																				    	<c:set var="src" value="https://holaworld.io/images/languages/${techStack }.svg"/>
 																				        <img src="${src }" alt="${src }">
 																				    </c:forEach>
 																				    <hr>
@@ -294,39 +294,14 @@ font-weight: 900;
 																				<br>
 																				 <!-- 조회수 -->
 															                    <div style="padding-left:20px; font-weight: 900;" >
-															                        조회수 :  ${pr.count }
+															                        조회수 :  ${pj.count }
 															                    </div>
 															                    
 															                    <!-- 작성자 -->
 															                    <div id="UJ-writer">
-															                    	작성자 : ${pr.prWriter }
+															                    	작성자 : ${git.gitNick }
 															                    </div>
 													                    	</div>
-													                    	<div id="pagingArea">
-																                <ul class="pagination">
-																               		<c:choose>
-																               			<c:when test="${ pi.currentPage eq 1 }">
-																	                    	<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
-																	                    </c:when>
-																	                    <c:otherwise>
-																	                    	<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage-1 }">Previous</a></li>
-																	                    </c:otherwise>
-																	                </c:choose>
-																	                
-																                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.maxPage }">
-																                   		<li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }">${ p }</a></li>
-																                   	</c:forEach>
-																                   	
-																                    <c:choose>
-																               			<c:when test="${ pi.currentPage eq pi.maxPage }">
-																	                    	<li class="page-item disabled"><a class="page-link" href="">Next</a></li>
-																	                    </c:when>
-																	                    <c:otherwise>
-																	                    	<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage+1 }">Next</a></li>
-																	                    </c:otherwise>
-																	                </c:choose>
-																                </ul>
-																            </div>
 																		</c:forEach>
 														            </div>
 						                                		</c:when>
@@ -334,20 +309,16 @@ font-weight: 900;
 						                                			<div>작성한 게시글이 없습니다</div>
 						                                		</c:otherwise>
 						                                	</c:choose>
-						                                	
 							                            </div>
 						                            	<!-- /Recruit List 끝 -->
 							                            
 						                            	<!-- Pr List 시작 -->
 							                            <div class="tab-pane fade" id="fin" role="tabpanel" aria-labelledby="fin-tab">
-							                                <br><br>
+							                                <input type="hidden" name="memNo" value="${loginMember.memNo }">
 															<c:choose>
-						                                		<c:when test="${ empty list }">
-						                                			<div>작성한 게시글이 없습니다</div>
-						                                		</c:when>
-						                                		<c:otherwise>
+						                                		<c:when test="${ not empty prList }">
 						                                			<div class="UJ-content" >
-															            <c:forEach var="pr" items="${list }">
+															            <c:forEach var="pr" items="${prList }">
 															            	<input type="hidden" name="prNo" value="${pr.prNo }" >
 															                <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pr.prNo }" >
 															                    <!-- 마감일 , 북마크 -->
@@ -369,7 +340,7 @@ font-weight: 900;
 															                   <div id="UJ-techImg">
 																				    <c:set var="techStacks" value="${fn:split(pr.stackName, ',') }" />
 																				    <c:forEach items="${techStacks }" var="techStack">
-																				    <c:set var="src" value="https://holaworld.io/images/languages/${techStack }.svg"/>
+																				    	<c:set var="src" value="https://holaworld.io/images/languages/${techStack }.svg"/>
 																				        <img src="${src }" alt="${src }">
 																				    </c:forEach>
 																				    <hr>
@@ -383,36 +354,14 @@ font-weight: 900;
 															                    
 															                    <!-- 작성자 -->
 															                    <div id="UJ-writer">
-															                    	작성자 : ${pr.prWriter }
+															                    	작성자 : ${git.gitNick }
 															                    </div>
 													                    	</div>
 																		</c:forEach>
 														            </div>
-														            <div id="pagingArea">
-														                <ul class="pagination">
-														               		<c:choose>
-														               			<c:when test="${ pi.currentPage eq 1 }">
-															                    	<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
-															                    </c:when>
-															                    <c:otherwise>
-															                    	<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage-1 }">Previous</a></li>
-															                    </c:otherwise>
-															                </c:choose>
-															                
-														                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.maxPage }">
-														                   		<li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }">${ p }</a></li>
-														                   	</c:forEach>
-														                   	
-														                    <c:choose>
-														               			<c:when test="${ pi.currentPage eq pi.maxPage }">
-															                    	<li class="page-item disabled"><a class="page-link" href="">Next</a></li>
-															                    </c:when>
-															                    <c:otherwise>
-															                    	<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage+1 }">Next</a></li>
-															                    </c:otherwise>
-															                </c:choose>
-														                </ul>
-														            </div>
+						                                		</c:when>
+						                                		<c:otherwise>
+						                                			<div>작성한 게시글이 없습니다</div>
 						                                		</c:otherwise>
 						                                	</c:choose>
 							                            </div>
@@ -431,7 +380,7 @@ font-weight: 900;
                     <!-- 회원정보 끝 -->
                 </div>
             </section>
-
+			
             <!-- 푸터바 시작 -->
             <jsp:include page="../common/footer.jsp"></jsp:include>
             <!-- 푸터바 끝 -->
@@ -440,6 +389,9 @@ font-weight: 900;
     </div>
     <!-- 전체 끝 -->
     
+	<!--여기 두개가 다중 select박스인듯-->    
+	<script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+	<script src="resources/assets/static/js/pages/form-element-select.js"></script>
 </body>
 
 </html>

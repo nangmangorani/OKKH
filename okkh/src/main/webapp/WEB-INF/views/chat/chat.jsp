@@ -8,6 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <link rel="stylesheet" href="resources/css/widgets/chat.css">
+    <!--멀티 select 박스위해서 이건 꼭 필요함... 지우면 안됨-->
+	<link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 </head>
 
 <body>
@@ -38,17 +41,18 @@
                                                         <div class="card-header">
                                                             <div class="media d-flex align-items-center">
                                                                 <div class="avatar me-3">
-                                                                    <img src="../../resources/images/faces/1.jpg" alt="" srcset="">
+                                                                    <img src="${git.profile }" alt="">
                                                                     <span class="avatar-status bg-success"></span>
                                                                 </div>
                                                                 <div class="name flex-grow-1">
-                                                                    <h6 class="mb-0">Fred</h6>
+                                                                    <h6 class="mb-0">${git.gitNick }</h6>
                                                                     <span class="text-xs">Online</span>
                                                                 </div>
                                                                 <button class="btn btn-sm">
                                                                     <i data-feather="x"></i>
                                                                 </button>
                                                             </div>
+                                                        <hr>
                                                         </div>
                                                         <!-- 채팅 상대방 프로필끝 -->
 
@@ -104,7 +108,7 @@
                                                             <div class="col-12">
                                                                 <div class="card">
                                                                     <div class="card-header">
-                                                                        <span class="card-title" style="font-weight: bold;">채팅방 목록</span>
+                                                                        <span class="card-title" style="font-weight: bolder; font-size: 20px">채팅방 목록</span>
 
                                                                         <!-- 채팅방 추가 모달 -->
                                                                         <button class="btn btn-primary" style="float: right;" id="addChat"
@@ -116,54 +120,31 @@
                                                                         <!-- table hover -->
                                                                         <div class="table-responsive">
                                                                             <table class="table table-hover mb-0">
-                                                                                
                                                                                 <tbody>
-                                                                                    <tr>
-                                                                                        <td class="text-bold-500" style="width: 50px;">
-                                                                                            <img src="../../resources/images/faces/1.jpg"
-                                                                                            alt="avtar img holder" width="30" height="30"
-                                                                                            class="rounded-circle"> <br>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <span style="font-weight: bold;">Y-MOOK</span> <br>
-                                                                                            <span style="font-size: 14px;">마지막대화....</span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-bold-500">
-                                                                                            <img src="../../resources/images/faces/1.jpg"
-                                                                                            alt="avtar img holder" width="30" height="30"
-                                                                                            class="rounded-circle"> <br>
-                                                                                        </td>
-                                                                                        <td colspan="5">
-                                                                                            <span style="font-weight: bold;">Y-MOOK</span> <br>
-                                                                                            <span style="font-size: 14px;">마지막대화....</span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-bold-500">
-                                                                                            <img src="../../resources/images/faces/1.jpg"
-                                                                                            alt="avtar img holder" width="30" height="30"
-                                                                                            class="rounded-circle"> <br>
-                                                                                        </td>
-                                                                                        <td colspan="5">
-                                                                                            <span style="font-weight: bold;">Y-MOOK</span> <br>
-                                                                                            <span style="font-size: 14px;">마지막대화....</span>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="text-bold-500">
-                                                                                            <img src="../../resources/images/faces/1.jpg"
-                                                                                            alt="avtar img holder" width="30" height="30"
-                                                                                            class="rounded-circle"> <br>
-                                                                                        </td>
-                                                                                        <td colspan="5">
-                                                                                            <span style="font-weight: bold;">Y-MOOK</span> <br>
-                                                                                            <span style="font-size: 14px;">마지막대화....</span>
-                                                                                        </td>
-                                                                                    </tr>
-
+                                                                                	<c:forEach var="cr" items="${crList }">
+			                                                                            <input type="hidden" name="memNo" value="${loginMember.memNo }">
+	                                                                                    <tr>
+	                                                                                        <td class="text-bold-500" style="width: 50px;">
+	                                                                                            <img src="resources/images/faces/1.jpg"
+	                                                                                            alt="avtar img holder" width="30" height="30"
+	                                                                                            class="rounded-circle"> <br>
+	                                                                                        </td>
+	                                                                                        <c:if test="${not empty cr.lastChat }">
+		                                                                                        <td>
+		                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> /
+		                                                                                            <span style="font-weight: 14px;">${cr.roomMem }</span> <br>
+		                                                                                            <span style="font-size: 14px;">${cr.lastChat }</span>
+		                                                                                        </td>
+	                                                                                        </c:if>
+	                                                                                        <td>
+	                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> /
+	                                                                                            <span style="font-weight: 14px;">${cr.roomMem }</span> <br>
+	                                                                                            <span style="font-size: 14px;">주고받은 메시지가 없습니다.</span>
+	                                                                                        </td>
+	                                                                                    </tr>
+                                                                                    </c:forEach>
                                                                                 </tbody>
+                                                                                
                                                                             </table>
                                                                         </div>
                                                                     </div>
@@ -196,7 +177,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalCenterTitle">채팅방 생성</h5>
+              <h5 class="modal-title" id="invite">채팅방 생성</h5>
               <button
                 type="button"
                 class="btn-close"
@@ -204,45 +185,62 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col mb-3">
-                <form  action="groupRoom.ih" method="post">
-                  <label for="nameWithTitle" class="form-label">채팅방 이름</label>
-                  <input
-                    type="text"
-                    id="nameWithTitle"
-                    class="form-control"
-                    name="roomTitle"
-                    placeholder="Enter Name"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="row g-2">
-                <div class="col mb-0">
-                 <label for="" class="form-label">초대할 친구</label>
-                      <input type="text"
-                             name="" 
-                             id=""
-                             class="form-control">
-                </div>
-               <input type="hidden" name="uno" value="">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                Close
-              </button>
-              <button type="submit" class="btn btn-primary">Create</button>
-            </div>
+            <form action="enrollChat.ch" method="post">
+	            <div class="modal-body">
+	              <div class="row">
+	                <div class="col mb-3">
+	                  <label for="nameWithTitle" class="form-label">채팅방 이름</label>
+	                  <input
+	                    type="text"
+	                    id="nameWithTitle"
+	                    class="form-control"
+	                    name="roomTitle"
+	                    placeholder="Enter Name"
+	                    required
+	                  />
+	                </div>
+	              </div>
+	              <div class="row g-2">
+	                <div class="col mb-0">
+	                 <label for="" class="form-label">초대할 친구</label>
+                      	  <input type="hidden" name="memNo" value="${loginMember.memNo }">
+	                      <select class="choices form-select multiple-remove" multiple id="multiSelect" name="roomMem">
+                              <c:forEach var="fr" items="${flist }">
+                                  <option value="${fr.gitNick}">${fr.gitNick}</option>
+                              </c:forEach>
+                          </select>
+                          <script>
+				    		const mem = "${fr.gitNick}";
+				    		
+						    $("#multiSelect option").each(function() {
+						        const optionText = $(this).text();
+						        const values = mem.split(',');
+						        
+						        if (values.includes(optionText.trim())) {
+						            $(this).prop("selected", true);
+						        }
+						    });
+					    </script>
+	                </div>
+	               <!-- <input type="hidden" name="uno" value=""> -->
+	              </div>
+	            </div>
+	            <div class="modal-footer">
+	              <button type="submit" class="btn btn-primary">Create</button>
+	              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+	                Close
+	              </button>
+	            </div>
             </form>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
+      
+	
+	<!--여기 두개가 다중 select박스인듯-->    
+	<script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+	<script src="resources/assets/static/js/pages/form-element-select.js"></script>
+	
 </body>
 
 </html>

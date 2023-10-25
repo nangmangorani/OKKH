@@ -22,4 +22,5 @@ public class ChatRoom {
 		private String lastChat;
 		private Date lastDate;
 		private int fileNo;
+		private int memNo;
 }

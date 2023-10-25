@@ -10,18 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Stack;
-import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
-import com.kh.okkh.pr.model.service.PRService;
-import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 @Controller
 public class MemberController {
@@ -31,9 +27,6 @@ public class MemberController {
 	
 	@Autowired
 	private GithubService gService;
-	
-	@Autowired
-	private PRServiceImpl pService;
 	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
@@ -70,8 +63,21 @@ public class MemberController {
 	}
 	
 	@RequestMapping("myPage.me")
-	public String myPage() {
-		return "member/myPage";
+	public ModelAndView myPage(ModelAndView mv, HttpSession session) {
+//		int listCount = pService.selectListCount();
+//		
+//		PageInfo pi = new PagiNation().getPageInfo(listCount, currentPage, 5, 12);
+		Member m = (Member)session.getAttribute("loginMember");
+		
+		ArrayList<Project> pjList = mService.myPJList(m);
+		ArrayList<PR> prList = mService.myPRList(m);
+		
+		mv.addObject("pjList", pjList).addObject("prList", prList).setViewName("member/myPage");
+		System.out.println("프로젝트" + pjList);
+		System.out.println("pr" + prList);
+		
+		return mv;
+		
 	}
 	
 	@RequestMapping("updateForm.me")
@@ -80,7 +86,6 @@ public class MemberController {
 		
 		mv.addObject("list", list);
 		mv.setViewName("member/updateMem");
-		System.out.println(list);
 		
 		return mv;
 	}
@@ -89,7 +94,6 @@ public class MemberController {
 	public String updateMember(Member m, Model model, HttpSession session) {
 		
 		int result = mService.updateMember(m);
-		System.out.println(m);
 		
 		if(result > 0) {
 			Member updateMem = mService.selectMember(m);
@@ -104,45 +108,6 @@ public class MemberController {
 			model.addAttribute("errorMsg", "회원정보 수정 실패");
 			return "common/errorPage";
 		}
-	}
-	
-	
-	// 깃허브 연동 안되어있는 계정 토큰 직접입력 
-	@RequestMapping(value="enrollToken", produces = "text/html; charset=utf-8")
-	@ResponseBody
-	public String enrollToken(Member m, HttpSession session) {
-		
-		m.setMemNo(((Member)session.getAttribute("loginUser")).getMemNo());
-		
-		int result = mService.enrollToken(m);
-		
-		if(result>0) {
-			((Member)session.getAttribute("loginUser")).setMemToken(m.getMemToken());
-			return "토큰 등록에 성공했습니다.";
-		}else {
-			return "토큰 등록에 실패했습니다. 다시 등록해주세요";
-		}
-		
-	}
-
-	@RequestMapping("myPr.me")
-	public ModelAndView myPRList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
-		int listCount = pService.selectListCount();
-		
-		PageInfo pi = new PagiNation().getPageInfo(listCount, currentPage, 5, 12);
-		
-		ArrayList<PR> list = mService.myPRList(pi);
-		mv.addObject("list", list).addObject("pi", pi).setViewName("member/myPage");
-		return mv;
-	}
-	
-	@RequestMapping("logout.me")
-	public String logout(HttpSession session) {
-		
-		session.invalidate();
-		
-		return "redirect:/";
-		
 	}
 	
 }

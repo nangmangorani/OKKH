@@ -31,33 +31,33 @@
                         <div class="card">
                             <div class="card-body">
                                 <form action="update.me" method="post">
-                                    <input type="hidden" name="memId" id="memId" value="${ loginMember.memId }">
+                                    <input type="hidden" name="memId" id="memId" value="${loginMember.memId }">
                                     <div class="form-group">
                                         <label for="Avatar" class="form-label">Profile picture</label>
                                         <div class="d-flex justify-content-center flex-column">
                                             <div class="avatar avatar-xl">
-                                                <img src="${ git.profile }" style="width:150px; height:150px" alt="Avatar">
+                                                <img src="${git.profile }" style="width:150px; height:150px" alt="Avatar">
                                             </div>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="form-group">
                                         <label for="gitNick" class="form-label">NickName</label>
-                                        <input type="text" name="gitNick" id="gitNick" class="form-control" value="${ git.gitNick }" disabled>
+                                        <input type="text" name="gitNick" id="gitNick" class="form-control" value="${git.gitNick }" disabled>
                                     </div>
                                     <br>
                                     <div class="form-group">
                                         <label for="country-floating">기술 스택</label>
                                         <select class="choices form-select multiple-remove" multiple id="multiSelect" name="stackName">
-                                            <c:forEach var="mem" items="${ list }">
-                                                <option value="${ mem.stackName }">${ mem.stackName }</option>
+                                            <c:forEach var="mem" items="${list }">
+                                                <option value="${mem.stackName }">${mem.stackName }</option>
                                             </c:forEach>
                                         </select>
                                     </div>
                                     <br>
                                     <div class="form-group mb-3">
                                         <label for="memIntro" class="form-label">Self-Introduction</label>
-                                        <textarea class="form-control" name="memIntro" id="memIntro" rows="5" style="resize:none;" placeholder="자신을 소개해주세요~!">${ loginMember.memIntro }</textarea>
+                                        <textarea class="form-control" name="memIntro" id="memIntro" rows="5" style="resize:none;" placeholder="자신을 소개해주세요~!">${loginMember.memIntro }</textarea>
                                     </div>
                                     
                                     <script>
@@ -75,7 +75,7 @@
 								    
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Save</button>
-                                        <button type="reset" class="btn btn-danger" onclick="history.back()">Cancel</button>
+                                        <button type="button" class="btn btn-danger" onclick="history.back()">Cancel</button>
                                     </div>
                                 </form>
                             </div>
@@ -94,6 +94,9 @@
     </div>
     <!-- 전체 끝 -->
     
+    <!--여기 두개가 다중 select박스인듯-->    
+	<script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+	<script src="resources/assets/static/js/pages/form-element-select.js"></script>
 </body>
 
 </html>

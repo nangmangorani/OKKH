@@ -20,7 +20,7 @@
 	function connect(){
 		console.log("소켓 고고!!")
 		
-		var ws = new SockJS("ws://localhost:7777/okkh");
+		var ws = new SockJS("http://localhost:7777/okkh");
 		socket = ws;
 		
 		ws.onopen = function() {
@@ -187,7 +187,7 @@
 	                                    </button>
 	                                </div>
                                     <div class="modal-body">
-                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=Iv1.db86d544e357efa4">
+                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=d81caaa37ed07a86dd0e">
                                         	<img src="resources/images/logo/gitLogo.png" alt="" style="width: 20%; margin: auto; display: block;">
                                         </a>
                                     </div>
