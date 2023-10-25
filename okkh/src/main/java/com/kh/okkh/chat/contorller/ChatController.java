@@ -29,10 +29,8 @@ public class ChatController {
 		
 		Member m = (Member)session.getAttribute("loginMember");
 		ChatMember chMem = cService.selectChatMember(m);
-		ArrayList<ChatRoom> crList = cService.selectChatRoom(chMem);
+		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(chMem);
 		ArrayList<Friend> flist = cService.searchMember(m);
-		System.out.println("crlist : " + crList);
-		System.out.println("flist : " + flist);
 		mv.addObject("crList", crList).addObject("flist",flist).setViewName("chat/chat");
 		return mv;
 	}
@@ -53,6 +51,13 @@ public class ChatController {
 			model.addAttribute("errorMsg", "채팅방 개설을 실패했습니다.");
 			return "common/errorPage";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="chatting.room", produces="application/json; charset=utf-8")
+	public String chattingRoom(HttpSession session, int rno) {
+		ChatRoom cr = cService.selectChatRoomRno(rno);
+		return new Gson().toJson(cr);
 	}
 	
 }

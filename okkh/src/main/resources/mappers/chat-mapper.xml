@@ -47,7 +47,7 @@
 		 where mem_no = #{memNo}
 	</select>
 	
-	<select id="selcetChatRoom" resultMap="chatRoomResultSet">
+	<select id="selcetChatRoomList" resultMap="chatRoomResultSet">
 		select room_no
 		     , room_title
 		     , room_mem
@@ -120,4 +120,15 @@
 		where m.status = 'Y'
 	</insert>
 	
+	<select id="selectChatRoomRno" resultMap="chatRoomResultSet">
+		select room_no
+		     , room_title
+		     , room_mem
+		     , last_chat
+		     , last_date
+		  from chat_room
+		  join chat_member using (room_no)
+		 where status = 'Y'
+		   and room_no = #{room_no}
+	</select>
 </mapper>

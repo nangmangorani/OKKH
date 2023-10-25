@@ -17,8 +17,8 @@ public class ChatDao {
 		return sqlSession.selectOne("chatMapper.selectChatMember", m);
 	}
 	
-	public ArrayList<ChatRoom> selcetChatRoom(SqlSessionTemplate sqlSession, ChatMember chMem) {
-		return (ArrayList)sqlSession.selectList("chatMapper.selcetChatRoom", chMem);
+	public ArrayList<ChatRoom> selcetChatRoomList(SqlSessionTemplate sqlSession, ChatMember chMem) {
+		return (ArrayList)sqlSession.selectList("chatMapper.selcetChatRoomList", chMem);
 	}
 
 	public ArrayList<Friend> searchMember(SqlSessionTemplate sqlSession, Member m) {
@@ -35,6 +35,10 @@ public class ChatDao {
 	
 	public int insertChatMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("chatMapper.insertChatMember", m);
+	}
+	
+	public ChatRoom selectChatRoomRno(SqlSessionTemplate sqlSession, int rno) {
+		return sqlSession.selectOne("chatMapper.selectChatRoomRno", rno);
 	}
 
 

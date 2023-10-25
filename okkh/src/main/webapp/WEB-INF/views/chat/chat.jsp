@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="resources/css/widgets/chat.css">
     <!--멀티 select 박스위해서 이건 꼭 필요함... 지우면 안됨-->
 	<link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
+	
+	<style>
+		#roomList:hover {
+			cursor: pointer;
+		}
+	</style>
 </head>
 
 <body>
@@ -119,7 +125,7 @@
                                                                     <div class="card-content">
                                                                         <!-- table hover -->
                                                                         <div class="table-responsive">
-                                                                            <table class="table table-hover mb-0">
+                                                                            <table class="table table-hover mb-0" id="roomList">
                                                                                 <tbody>
                                                                                 	<c:forEach var="cr" items="${crList }">
 			                                                                            <input type="hidden" name="memNo" value="${loginMember.memNo }">
@@ -235,6 +241,25 @@
           </div>
         </div>
       </div>
+	
+	<script>
+		$("#roomList").click(function(){
+			$.ajax({
+				url:"chatting.room",
+				data:{rno:${cr.roomNo }},
+				success:function(data){
+					console.log("작동하나유?")
+					
+					
+					
+				}, error:function(){
+					console.log("채팅방 ajax 에러!ㅠ")
+				}
+			})
+		})
+		
+	
+	</script>
       
 	
 	<!--여기 두개가 다중 select박스인듯-->    

@@ -26,8 +26,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
-	public ArrayList<ChatRoom> selectChatRoom(ChatMember chMem) {
-		return cDao.selcetChatRoom(sqlSession, chMem);
+	public ArrayList<ChatRoom> selcetChatRoomList(ChatMember chMem) {
+		return cDao.selcetChatRoomList(sqlSession, chMem);
 	}
 
 	@Override
@@ -49,5 +49,12 @@ public class ChatServiceImpl implements ChatService {
 	public int insertChatMember(Member m) {
 		return cDao.insertChatMember(sqlSession,m);
 	}
+
+	@Override
+	public ChatRoom selectChatRoomRno(int rno) {
+		return cDao.selectChatRoomRno(sqlSession, rno);
+	}
+	
+	
 
 }
