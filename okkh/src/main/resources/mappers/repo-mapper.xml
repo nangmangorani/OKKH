@@ -15,6 +15,10 @@
 		<result column="mem_id" property="memId"/>
 	</resultMap>
 	
+	<resultMap type="Repo" id="repoResult">
+		<result column="" property=""/>
+	</resultMap>
+	
 	<select id="selectMyProjectList" resultMap="myProjectResult">
 		select
 		       mypro_no
@@ -62,5 +66,13 @@
 		     , #{myproMember}
 		     )
 	</insert>
+	
+	<select id="selectMyProjectTitle" resultMap="myProjectResult">
+		select 
+			   distinct(mypro_title) as "mypro_title"
+		  from repo
+		  join my_project on (ref_pno = mypro_no)
+		 where ref_pno = #{myproNo}
+	</select>
 
 </mapper>

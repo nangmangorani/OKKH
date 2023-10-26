@@ -23,5 +23,9 @@ public class RepoDao {
 	public int insertMyProject(SqlSessionTemplate sqlSession, MyProject p) {
 		return sqlSession.insert("repoMapper.insertMyProject", p);
 	}
+	
+	public String selectMyProjectTitle(SqlSessionTemplate sqlSession, int myproNo) {
+		return sqlSession.selectOne("repoMapper.selectMyProjectTitle", myproNo);
+	}
 
 }

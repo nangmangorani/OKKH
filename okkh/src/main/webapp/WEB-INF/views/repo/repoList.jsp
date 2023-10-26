@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <!-- 전체 div 시작 -->
     <div id="app">
         <!-- 사이드바 시작 -->
@@ -47,8 +46,16 @@
 		                    	<!-- 프로젝트명 시작 -->
 		                        <ul class="nav nav-tabs" id="myTab" role="tablist" style="float: left; width: 50%;">
 		                            <li class="nav-item" role="presentation">
-		                                <a class="nav-link active" id="ing-tab" data-bs-toggle="tab" href="#ing" role="tab"
-		                                    aria-controls="home" aria-selected="true">OKKH</a>
+		                                <a class="nav-link active" id="ing-tab" data-bs-toggle="tab" href="#ing" role="tab" aria-controls="home" aria-selected="true">
+		                                    <c:choose>
+		                                    	<c:when test="${ not empty myproTitle }">
+		                                    		${ myproTitle }
+		                                    	</c:when>
+		                                    	<c:otherwise>
+		                                    		New Project
+		                                    	</c:otherwise>
+		                                    </c:choose>
+	                                  	</a>
 		                            </li>
 		                        </ul>
 		                        <!-- /프로젝트명 끝 -->
@@ -130,39 +137,48 @@
 				                    </div>
 				                </div>
 				                <!--/레파지 추가 form Modal 끝 -->
-		                        <!-- 레파지토리 리스트 시작 -->
-		                        <div class="tab-content" id="myTabContent">
-		                            <div class="tab-pane fade show active" id="ing" role="tabpanel" aria-labelledby="ing-tab">
-		                            	<br><br>
-					                    <div class="col-12 col-lg-9">
-					                        <div class="row">
-					                            <!-- 레파지토리 시작 -->
-					                            <div class="col-6 col-lg-3 col-md-6">
-					                                <div class="card" style="border: 1px solid #cecece;">
-					                                    <a href="repoDetail.re?rno=1">
-					                                    	<div class="card-body px-3 py-4-5">
-						                                        <div class="row">
-						                                            <div class="col-md-4">
-						                                                <!-- <div class="stats-icon blue">
-						                                                    <i class="iconly-boldShow"></i>
-						                                                </div> -->
-						                                                <img src="${ r.avatar }" width="50" height="50" style="border-radius: 50px;">
-						                                            </div>
-						                                            <div class="col-md-8">
-						                                                <h6 class="text-muted font-semibold">${ r.repoStatus }</h6>
-						                                                <h4 class="font-extrabold mb-0">${ r.repoTitle }</h4>
-						                                            </div>
-						                                        </div>
-						                                    </div>
-					                                    </a>
-					                                </div>
-					                            </div>
-					                            <!-- /레파지토리 끝 -->
-					                        </div>
-					                    </div>
-		                            </div>
-		                        </div>
-		                        <!-- /레파지토리 리스트 끝 -->
+				                <c:choose>
+				                	<c:when test="${ not empty repoList }">
+				                		<!-- 레파지토리 리스트 시작 -->
+				                        <div class="tab-content" id="myTabContent">
+				                            <div class="tab-pane fade show active" id="ing" role="tabpanel" aria-labelledby="ing-tab">
+				                            	<br><br>
+							                    <div class="col-12 col-lg-9">
+							                        <div class="row">
+							                        	<c:forEach var="r" items="${ repoList }">
+								                            <!-- 레파지토리 시작 -->
+								                            <div class="col-6 col-lg-3 col-md-6">
+								                                <div class="card" style="border: 1px solid #cecece; height: 150px;">
+								                                    <a href="repoDetail.re?rno=1">
+								                                    	<div class="card-body px-3 py-4-5">
+									                                        <div class="row">
+									                                            <div class="col-md-4">
+									                                                <!-- <div class="stats-icon blue">
+									                                                    <i class="iconly-boldShow"></i>
+									                                                </div> -->
+									                                                <img src="${ r.owner.avatar_url }" width="50" height="50" style="border-radius: 50px;">
+									                                            </div>
+									                                            <div class="col-md-8">
+									                                                <h6 class="text-muted font-semibold">${ r.visibility }</h6>
+									                                                <h4 class="font-extrabold mb-0">${ r.name }</h4>
+									                                            </div>
+									                                        </div>
+									                                    </div>
+								                                    </a>
+								                                </div>
+								                            </div>
+								                            <!-- /레파지토리 끝 -->
+							                           	</c:forEach>
+							                        </div>
+							                    </div>
+				                            </div>
+				                        </div>
+				                        <!-- /레파지토리 리스트 끝 -->
+				                	</c:when>
+				                	<c:otherwise>
+				                		<div>레파지토리가 없습니다.</div>
+				                	</c:otherwise>
+				                </c:choose>
 		                    </div>
 		                </div>
 		            </div>
@@ -185,6 +201,12 @@
         <!-- /메인 끝 -->
     </div>
 	<!-- /전체 div 끝 -->
+	
+	<script>
+	
+		console.log(${ response });
+	
+	</script>
 </body>
 
 </html>

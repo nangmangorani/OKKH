@@ -1,5 +1,12 @@
 package com.kh.okkh.common.model.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.servlet.http.HttpSession;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -57,7 +64,7 @@ public class GithubService {
 				.bodyToMono(String.class)
 				.block();
 		
-		System.out.println("getToken response : " + response);
+//		System.out.println("getToken response : " + response);
 
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    JsonNode jsonNode;
@@ -84,7 +91,7 @@ public class GithubService {
 				.bodyToMono(String.class)
 				.block();
 		
-		System.out.println("getUserInfo response : " + response);
+//		System.out.println("getUserInfo response : " + response);
 		
 		ObjectMapper objecMapper = new ObjectMapper();
 		JsonNode jsonNode = null;
@@ -111,59 +118,6 @@ public class GithubService {
 		//int result = rdao.insertRepo(sqlSession, r);
 		
 		//return result;
-		
-	}
-	
-	/**
-	 * 레파지토리 전체조회용 서비스
-	 * 
-	 * @param pno => 레파지토리가 위치해있는 프로젝트 번호, session => token 호출을 위한 session
-	 * @return 
-	 * @author 윤관현
-	 */
-	public Repo getRepositoryList(int pno, String token) {
-		
-//		System.out.println("repo 조회 컨트롤러");
-		
-		/* 헤더 비교하려고 가져왔음
-		curl -L \
-		  -X POST \
-		  -H "Accept: application/vnd.github+json" \
-		  -H "Authorization: Bearer <YOUR-TOKEN>" \
-		  -H "X-GitHub-Api-Version: 2022-11-28" \
-		  https://api.github.com/user/repos \
-		  -d '{"name":"Hello-World","description":"This is your first repo!","homepage":"https://github.com","private":false,"is_template":true}'
-		  */
-		
-		String response = webClient
-				.get()
-				.uri("https://api.github.com/user/repos")
-				.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.header(HttpHeaders.ACCEPT, "application/vnd.github+json")
-				.retrieve()
-				.bodyToMono(String.class)
-				.block();
-		
-		System.out.println("getRepository response : " + response);
-		
-		ObjectMapper objecMapper = new ObjectMapper();
-		JsonNode jsonNode;
-		Repo r = new Repo();
-		
-		// login => nickname
-		try {
-			jsonNode = objecMapper.readTree(response);
-			
-			r.setRepoTitle(jsonNode.get("name").asText());
-			r.setRepoContent(jsonNode.get("description").asText());
-			r.setRepoStatus(jsonNode.get("visibility").asText());
-			r.setAvatar(jsonNode.get("owner").get("avatar_url").asText());
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return r;
 		
 	}
 	

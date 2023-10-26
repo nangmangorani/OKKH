@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.repository.model.service.RepoImpl;
+import com.kh.okkh.repository.model.vo.GithubRepo;
 import com.kh.okkh.repository.model.vo.MyProject;
 import com.kh.okkh.repository.model.vo.Repo;
 
@@ -127,22 +128,35 @@ public class RepositoryController {
 	 * 레파지토리 조회용 컨트롤러
 	 *
 	 * @param pno => 프로젝트 번호
+	 * @throws IOException 
 	 */
 	@RequestMapping("repoList.re")
-	public String selectRepoList(int pno, HttpSession session, Model model) {
+	public String selectRepoList(int pno, HttpSession session, Model model) throws IOException {
 		
+//		System.out.println(pno);
+		
+		// 레파지토리가 담겨있는 프로젝트의 이름 조회
+		String myproTitle = rService.selectMyProjectTitle(pno);
+		
+		// api 사용을 위해 session에 있는 token 호출
 		String token = (String)session.getAttribute("token");
 		
 //		System.out.println("selectRepoList token : " + token);
 		
 //		System.out.println(pno);
 		
-		Repo r = gService.getRepositoryList(pno, token);
+		// 서비스단으로 꼬고!!
+		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
 		
 //		System.out.println(r);
 		
-		model.addAttribute("r", r);
+//		model.addAttribute("r", r);
 		
+		// DB에서 조회한 프로젝트명과 깃허브에서 조회한 repoListd를 레포 조회 페이지로 보낸다잉
+		model.addAttribute("myproTitle", myproTitle);
+		model.addAttribute("repoList", repoList);
+		
+		// 레포 페이지로 이동
 		return "repo/repoList";
 		
 	}
@@ -177,9 +191,9 @@ public class RepositoryController {
 	@RequestMapping("insertRepo.re")
 	public void insertRepo(Repo r) {
 		
-		// System.out.println(r);
+		 System.out.println(r);
 		
-		gService.insertRepo(r);
+//		gService.insertRepo(r);
 		
 	}
 	
