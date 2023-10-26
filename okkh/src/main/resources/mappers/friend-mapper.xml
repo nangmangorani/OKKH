@@ -12,18 +12,111 @@
  </resultMap>
  
  
+ <resultMap type="Member" id="memberResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="mem_id" property="memId"/>
+		<result column="git_nick" property="gitNick"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="mem_token" property="memToken"/>
+		<result column="mem_intro" property="memIntro"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="status" property="status"/>
+		<result column="team" property="team"/>
+		<result column="team_status" property="teamStatus"/>
+
+	</resultMap>
  
  
+ <!-- 특정 회원의 친구 상태가 'Y'(친구) 인 회원들의 목록 조회 -->
  <select id="selectFriendList" resultMap="friendResultSet">
      select 
 	        bf_giver
 	      , bf_taker
 	      , status
 	      , to_char(request_date,'YYYY-MM-DD') as "request_date"
-	  from friend
-	 where bf_taker = #{bfTaker} 
+	   from friend
+	  where bf_taker = #{bfTaker}
+        and status = 'Y'
+	  order by request_date desc
  
  </select>
+ 
+ <!-- 특정 회원의 친구 목록 개수를 조회하는 쿼리 -->
+ <select id="listCount" resultType="_int">
+ 	select 
+ 	       count(*)
+ 	  from friend
+ 	 where BF_TAKER = #{memNo}      
+ </select>
+
+
+
+ <!-- 특정 회원의 친구 아님 목록 개수 -->
+ <select id="noneFriendListCount" resultType="_int">
+ 		select 
+	 	       count(*)
+	 	  from friend
+	 	 where BF_TAKER = #{memNo} 
+	 	   and status != 'Y'     
+ 
+ </select>
+ 
+ <!-- 특정 회원의 친구아님 목록 -->
+ 
+ <select id="selectNoneFriendList" resultMap="friendResultSet">
+ 
+   select 
+	        bf_giver
+	      , bf_taker
+	      , status
+	      , to_char(request_date,'YYYY-MM-DD') as "request_date"
+	   from friend
+	  where bf_taker = #{bfTaker}
+        and status != 'Y'
+	  order by request_date desc
+ </select>
+ 
+ 
+ <!-- 모든 회원의 리스트 개수 -->
+ <select id="allMemberListCount" resultType="_int">
+  select 
+         count(*)
+    from member     
+   where status = 'Y'      
+ 
+ </select>
+ 
+ 
+ <select id="selectMemberList" resultMap="memberResultSet">
+   
+  select 
+         mem_no
+       , mem_id
+       , mem_token
+       , mem_intro
+       , to_char(create_date , 'YYYY-MM-DD') as "create_date"
+       , status
+       , stack_name
+       , team
+       , team_status
+       , git_nick
+  from member 
+ where status = 'Y'
+ 
+ </select>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  
  
