@@ -1,6 +1,11 @@
 package com.kh.okkh.milestone.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -122,11 +127,31 @@ public class MilestoneController {
 	@RequestMapping(value="enroll.mile")
 	public String enrollMilestone(HttpSession session,
 		   @RequestParam String title,
-		   @RequestParam(required = false) String dueOn,
+		   @RequestParam(required = false) String dueOnDate,
 		   @RequestParam(required = false) String content) {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
+		String dueOn = null;
+		
+		if (dueOnDate != null && !dueOnDate.isEmpty()) {
+	        // 현재 날짜와 시간 정보 얻기
+	        LocalDateTime currentDateTime = LocalDateTime.now();
+
+	        // 현재 시간에 5시간을 더하기
+	        LocalDateTime dueOnDateTime = currentDateTime.plusHours(5);
+
+	        // 분과 초를 0으로 설정
+	        dueOnDateTime = dueOnDateTime.withMinute(0).withSecond(0);
+
+	        // UTC(Z) 타임존 정보를 추가
+	        ZonedDateTime zonedDateTime = dueOnDateTime.atZone(ZoneOffset.UTC);
+
+	        // ISO 8601 형식으로 변환
+	        dueOn = zonedDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
+	    }
+		
+		System.out.println("dueOn 봐줄만해..?" + dueOn);
 		
 		mService.enrollMilestone(token, repository, title, dueOn, content);
 		

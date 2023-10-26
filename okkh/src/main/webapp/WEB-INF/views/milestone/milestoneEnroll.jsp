@@ -33,7 +33,7 @@
 		                                </div>
 		                                <label for="mileDate">Due date(optional)</label>
 		                                <div class="form-group">
-		                                    <input type="date" class="form-control" name="" id="mileDate" name="dueOn">
+		                                    <input type="date" class="form-control" id="mileDate" name="dueOnDate">
 		                                </div>
 		                                <div class="form-group mb-3">
 		                                    <label for="exampleFormControlTextarea1" class="form-label">Content</label>
