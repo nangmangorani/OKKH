@@ -6,6 +6,7 @@
 		<head>
 			<meta charset="UTF-8">
 			<title>Insert title here</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 			<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 			<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
@@ -65,25 +66,31 @@
 											<br>
 											<h6>라벨</h6>
 											<fieldset class="form-group">
-												<select class="form-select" id="basicSelect" name="label">
+												<select class="form-select" id="basicSelect" name="label" onchange="selectLabel();">
+													<option value="">선택안함</option>
 													<c:forEach var="l" items="${ lList }">
 														<option>${ l.name }</option>
 													</c:forEach>
+													<input type="hidden" name="labelSet" id="labelSet" value="">
 												</select>
 											</fieldset>
+											<div class="labelSpan"></div>
 											<br>
 											<h6>마일스톤</h6>
 											<fieldset class="form-group">
 												<select class="form-select" id="milestoneSelect" name="milestone">
+													<option value="">선택안함</option>
 													<c:forEach var="m" items="${ mList }">
 														<option value="${ m.number }">${ m.title }</option>
 													</c:forEach>
-													<option value="direct">직접 입력</option>
+													<option value="direct">직접입력</option>
 												</select>
 											</fieldset>
 											<div class="form-group">
 												<input type="text" class="form-control" id="mileInput"
 													style="display: none;" placeholder="직접 입력해주세요">
+												<br>
+												<button id="mileInputBtn" style="display: none; float:right" class="btn btn-primary">생성하기</button>
 											</div>
 										</div>
 									</div>
@@ -93,7 +100,8 @@
 						</form>
 					</section>
 
-
+					<input type="hidden" id="labList" value="${ lList }">
+					<input type="hidden" id="issist" value="${ iList }">
 					<jsp:include page="../common/footer.jsp"></jsp:include>
 				</div>
 			</div>
@@ -111,6 +119,40 @@
 			
 			
 				<script>
+			        var labelSet = null;
+					
+			        function selectLabel() {
+			            var basicSelect = document.getElementById("basicSelect");
+			            var label = basicSelect.options[basicSelect.selectedIndex].value;
+			            console.log(label);
+
+			            if (labelSet !== null && labelSet !== undefined) {
+			                labelSet += "," + label;
+			            } else {
+			                labelSet = label;
+			            }
+			            document.getElementById("labelSet").value = labelSet;
+			            
+			            let str = createLabel(label);
+			        }
+			        
+			        function createLabel(label) {
+			            let labelSpan = document.querySelector(".labelSpan");
+			            let spacer = document.createElement("span");
+			            spacer.style.margin = "5px";
+			            let span = document.createElement("span");
+			            span.className = "label-badge";
+			            span.style.backgroundColor = "yellow"; 
+			            span.innerText = label;
+			           	
+			            labelSpan.appendChild(span);
+			            labelSpan.appendChild(spacer);
+			            
+			        }
+			       	
+
+			        
+					
 					$(function () {
 						$("#milestoneSelect").change(function () {
 							var selectedOption = $(this).find(":selected").val();
@@ -118,11 +160,11 @@
 
 							if (selectedOption === "direct") {
 								$("#mileInput").show();
+								$("#mileInputBtn").show();
 								$(this).removeAttr("name");
-								console.log("directInput 표시");
 							} else {
 								$("#mileInput").hide();
-								console.log("directInput 숨김");
+								$("#mileInputBtn").hide();
 							}
 						});
 						
@@ -130,6 +172,11 @@
 					         var markdown = editor.getMarkdown();
 					         $("input[name='body']").val(markdown);
 						});
+						
+
+						
+						
+						
 					});
 				</script>
 

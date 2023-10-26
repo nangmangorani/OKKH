@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <div id="app">
+<div id="app">
         <!-- 사이드바 시작 -->
         <jsp:include page="../common/leftSide.jsp"></jsp:include>
         
@@ -18,30 +18,34 @@
             <!-- 상단바 끝 -->
 
             <section class="section">
-                <form action="edit.mile?mno="${ milestone.number }>
+                <form action="">
                     <div class="row">
-                        <div class="card" style="height: 600px;">
-                            <div class="card-header">
-                                <h4 class="card-title">마일스톤 수정하기</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="basicInput">제목</label>
-                                    <input type="text" class="form-control" id="basicInput" value="${ milestone.title }">
-                                </div>
-                                <label for="mileDate">마감일(선택)</label>
-                                <div class="form-group">
-                                    <input type="date" class="form-control" name="" id="mileDate" value="${ milestone.dueOn }">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label for="exampleFormControlTextarea1" class="form-label">내용</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                        rows="3" style="height: 300px;">${ milestone.content }</textarea>
-                                </div>
-                            </div>
+                    	<div class="col-12">
+	                        <div class="card" style="height: 600px;">
+	                            <div class="card-header">
+	                                <h4 class="card-title">마일스톤 생성하기</h4>
+	                            </div>
+	                            <div class="card-content">
+		                            <div class="card-body">
+		                                <div class="form-group">
+		                                    <label for="basicInput">Title</label>
+		                                    <input type="text" class="form-control" id="basicInput" value="${ milestone.title }">
+		                                </div>
+		                                <label for="mileDate">Due date(optional)</label>
+		                                <div class="form-group">
+		                                    <input type="date" class="form-control" name="" id="mileDate" value="">
+		                                </div>
+		                                <div class="form-group mb-3">
+		                                    <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+		                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+		                                        rows="3" style="height: 300px;"></textarea>
+		                                </div>
+		                             </div>
+		                       	</div>
+		                    </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" style="float: right">수정하기</button>
+                    <button class="btn btn-primary" style="float: right">등록하기</button>
                 </form>
             </section>
             <jsp:include page="../common/footer.jsp"></jsp:include>

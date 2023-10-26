@@ -29,7 +29,6 @@ public class GithubService {
 	
 	public String getToken(String code){
 		String url = "https://github.com/login/oauth/access_token";
-		System.out.println("code" + code);
 
 		String response = webClient.post()
 				.uri(url)
@@ -83,7 +82,6 @@ public class GithubService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("m에 뭐들었나~" + m);
 		return m;
 	}
 	

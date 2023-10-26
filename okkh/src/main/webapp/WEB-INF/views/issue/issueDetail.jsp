@@ -50,11 +50,11 @@
 	                                
 									<c:choose>
 									    <c:when test="${state eq 'open'}">
-									        <span class="badge bg-danger"
+									        <span class="badge bg-success"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Open</span>
 									    </c:when>
 									    <c:otherwise>
-									        <span class="badge bg-success"
+									        <span class="badge bg-danger"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Closed</span>
 									    </c:otherwise>
 									</c:choose>

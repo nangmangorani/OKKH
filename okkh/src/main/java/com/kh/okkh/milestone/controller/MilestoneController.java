@@ -16,6 +16,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.dao.IssueDao;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
 import com.kh.okkh.issue.model.vo.Issue;
@@ -32,13 +34,53 @@ public class MilestoneController {
 	@Autowired
 	IssueServiceImpl iService;
 	
+	
+	@RequestMapping("list.mile")
+	public String milestoneList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
+	HttpSession session, Model model, String state) {
+		
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+		
+		if(state == null) {
+			state = "open";
+		}
+		
+		// open이 디폴트
+		String repository = "nangmangorani/01_java-workspace";
+		
+		int listCount = mService.milestoneCount(repository, token, session, state);
+		System.out.println("listCount" + listCount);
+		
+		ArrayList<Milestone> mList;
+		
+		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
+		
+		mList = mService.getMilestone(repository, session, state, pi);
+		
+		for(int i = 0; i<mList.size(); i++) {
+			if(mList.get(i).getState().equals("open")) {
+				mList.get(i).setState("진행중");
+			} else {
+				mList.get(i).setState("진행완료");
+			}
+		}
+		
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("mList", mList);
+		
+		return "milestone/milestoneList";
+	}
+	
+	
+	
 	/**
 	 * 마일스톤 상세페이지
 	 * */
 	@RequestMapping("detail.mile")
 	public String milstoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
 		
-		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
+		String token = ((Member) session.getAttribute("git")).getMemToken();
 		
 		String repository = "nangmangorani/01_java-workspace";
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
@@ -61,7 +103,6 @@ public class MilestoneController {
 	public String ajaxMilestoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
 		
 		String repository = "nangmangorani/01_java-workspace";
-		System.out.println("state 넘어와유??" + state);
 		if(state == null) {
 			state = "open";
 		}
@@ -72,11 +113,17 @@ public class MilestoneController {
 		return json;
 	}
 	
+	@RequestMapping(value="enrollForm.mile")
+	public String enrollMilestone(HttpSession session, Model model) {
+		
+		return "milestone/milestoneEnroll";
+	}
+	
 	
 	@RequestMapping(value="editForm.mile")
 	public String editFormMilestone(HttpSession session, Model model, int mno) {
 		
-		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
+		String token = ((Member) session.getAttribute("git")).getMemToken();
 		
 		String repository = "nangmangorani/01_java-workspace";
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
@@ -84,6 +131,15 @@ public class MilestoneController {
 		model.addAttribute("milestone", milestone);
 		return "milestone/milestoneEdit";
 	}
+	
+	
+	
+//	@RequestMapping(value="edit.mile")
+//	public String editMilestone(HttpSession session, Model model, int mno) {
+//		String token = ((Member) session.getAttribute("git")).getMemToken();
+//
+//		String repository = 
+//	}
 	
 	
 	

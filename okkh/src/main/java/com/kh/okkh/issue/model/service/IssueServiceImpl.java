@@ -69,7 +69,6 @@ public class IssueServiceImpl implements IssueService{
 		ArrayList<Labels> lList = new ArrayList<Labels>();
 		// json으로 변환????
 		try {
-			System.out.println("dlrsfsdfsdfsdf" + obj);
 			jsonNode = obj.readTree(labelResponse);
 			for (int i = 0; i < jsonNode.size(); i++) {
 				String id = jsonNode.get(i).get("id").asText();
@@ -103,7 +102,6 @@ public class IssueServiceImpl implements IssueService{
 		if(state.equals("open")) {
 			
 			String repoState = repository;
-			System.out.println("repoState란 무엇일까..? " + repoState);
 			
 			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
 			
@@ -122,7 +120,6 @@ public class IssueServiceImpl implements IssueService{
 		} else {
 			String repoState = repository + "/issues?state=closed";	
 			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
-			System.out.println("repoResponse 딱대숑 ㅋ" + repoResponse);
 			ObjectMapper obj = new ObjectMapper();
 	      	JsonNode jsonNode;
 	      	int count = 0;
@@ -133,15 +130,9 @@ public class IssueServiceImpl implements IssueService{
 				e.printStackTrace();
 			}
 	      	
-	      	System.out.println("closed일때 count " + count);
 	      	return count;
 	
 		}
-		
-		
-		
-		
-		
 	}
 	
 
@@ -152,7 +143,6 @@ public class IssueServiceImpl implements IssueService{
 		String url = "";
 		
 		url = "https://api.github.com/repos/" + repository + "/issues?state=" + state + "&page=" + pi.getCurrentPage() + "&per_page=" + pi.getBoardLimit();
-		System.out.println("url 잘 나오길 간절히 기도중" + url);
 		
 		URL requestUrl = new URL(url);
 	    HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -247,7 +237,6 @@ public class IssueServiceImpl implements IssueService{
 		git.setLabels(labels);
 		
 		JsonElement milestoneElem = issueObj.get("milestone");
-		System.out.println("milestone 어케생겼나보려고 ㅋㅋ" + milestoneElem);
 		
 		// 여기에서 milestone관련 필요한거만 쏙 넣어줌
 		if (!milestoneElem.isJsonNull()) {
@@ -302,13 +291,6 @@ public class IssueServiceImpl implements IssueService{
 		return git;
 	}
 
-	@Override
-	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
 	
 	/**
@@ -316,26 +298,25 @@ public class IssueServiceImpl implements IssueService{
 	 * @throws IOException 
 	 * 
 	 * */
-//	@Override
-//	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
-//		
-//		String token = ((Member)(session.getAttribute("loginMember"))).getMemToken();
-//		
-//		ArrayList<Issue> iListAll = getIssues(repository, token, state);
-//		
-//		ArrayList<Issue> iList = new ArrayList<Issue>();
-//		
-//		for(Issue i : iListAll) {
-//			if(i.getMilestoneNum() == mno) {
-//				iList.add(i);
-//			}
-//		}
-//		
-//		return iList;
-//		
-//		
-//		
-//	}
+	@Override
+	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
+		
+		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		
+		String iListAll = iDao.getIssuesByMno(repository, token, state, mno);
+		
+		 // 제이슨 배열로 파싱작업
+	    JsonArray arr = JsonParser.parseString(iListAll).getAsJsonArray();
+	    // arr을 추가할 issue 제네릭의 list
+	    ArrayList<Issue> list = new ArrayList<Issue>();
+	    
+	    for (int i = 0; i < arr.size(); i++) {
+	         JsonObject issueObj = arr.get(i).getAsJsonObject();
+	         Issue git = createGitIssueFromJsonObject(issueObj);
+	         list.add(git);
+	      }
+	    return list;
+	}
 
 
 

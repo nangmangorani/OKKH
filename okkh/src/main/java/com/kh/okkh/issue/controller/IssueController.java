@@ -90,7 +90,6 @@ public class IssueController {
 		// boardLimit은 20
 		
 		int listCount = iService.issueCount(repository, token, session, state);
-		System.out.println("openIssueCount 나오면 지이이이ㅣㅇㄴ짜 대박!!" + listCount);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
 		
@@ -131,15 +130,12 @@ public class IssueController {
 		if(state == null) {
 			state = "open";
 		}
-		System.out.println("state 머게요? ㅋㅋ" + state);
-		System.out.println("cpage 입니다 " + currentPage);
 		
 		String token = ((Member)(session.getAttribute("git"))).getMemToken();
 
 		ArrayList<Issue> list;
 		
 		int listCount = iService.issueCount(repository, token, session, state);
-		System.out.println("아작스?에이작스?에이작? issueCount 나오면 지이이이ㅣㅇㄴ짜 대박!!" + listCount);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 5);
 		
@@ -155,7 +151,6 @@ public class IssueController {
 		Gson gson = new Gson();
 		String json = gson.toJson(list);
 		
-		System.out.println("저는 json이라고합니다. ajaxIssue에있어요" + json);
 
 		return json;
 	}
@@ -175,6 +170,9 @@ public class IssueController {
 		model.addAttribute("lList", lList);
 		model.addAttribute("mList", mList);
 
+		for(Labels l : lList) {
+		}
+		
 		return "issue/issueEnroll";
 		
 	}
@@ -186,14 +184,13 @@ public class IssueController {
 	@RequestMapping(value = "enroll.iss", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public String enrollIssue(HttpSession session, Model model, 
 			@RequestParam String title, @RequestParam(required = false) String body, 
-			@RequestParam String assignee, @RequestParam(required = false) String label, 
+			@RequestParam String assignee, @RequestParam(required = false) String labelSet, 
 			@RequestParam(required = false) String milestone) throws IOException{
 		// jsp에서 한명을 select할때마다 늘어나야돼. 그럼 배열로 받는게맞나?
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues";
-		System.out.println("apiUrl " + apiUrl);
 		JSONObject issueJson = new JSONObject();
 		issueJson.put("title", title);
 		issueJson.put("body", body);
@@ -211,7 +208,6 @@ public class IssueController {
 	        for (String s : assignees) {
 	            assigneesArray.add(s);
 	        }
-	        System.out.println("assigneesArray" + assigneesArray);
 	       
 	        
 	        // jsonObject 객체의 assignees에 넣어줌.
@@ -219,15 +215,14 @@ public class IssueController {
 	    }
 		
 		
-		if (label != null && !label.isEmpty()) {
-	        String[] labels = label.split(",");
+		if (labelSet != null && !labelSet.isEmpty()) {
+	        String[] labels = labelSet.split(",");
 	        JSONArray labelsArray = new JSONArray();
 	        for (String s : labels) {
 	            labelsArray.add(s);
 	        }
 	        issueJson.put("labels", labelsArray);
 	    }
-		System.out.println("issueJson에요" + issueJson);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization","bearer "+token);
@@ -235,7 +230,6 @@ public class IssueController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> requestEntity = new HttpEntity<String>(issueJson.toString(), headers);
 		
-		System.out.println("requestEntity에요" + requestEntity);
 
 		RestTemplate restTemplate = new RestTemplate();
 		// 여기서 예외발생중..
@@ -261,14 +255,12 @@ public class IssueController {
 	public String detailIssue(HttpSession session, Model model, int bno) throws IOException {
 		try {
 		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
-		System.out.println("디토큰 " + token);
 		String repository = "nangmangorani/01_java-workspace";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
 		
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues/" + bno;
-		System.out.println("apiUrl이 멀까요" + apiUrl);
 		
 		
 		RestTemplate restTemplate = new RestTemplate();
@@ -296,7 +288,6 @@ public class IssueController {
 
 		String state = issueJson.get("state").getAsString();
 		String createDateTime = issueJson.get("created_at").getAsString();
-		System.out.println("createDateTime" + createDateTime);
 		JsonArray assigneesArray = issueJson.getAsJsonArray("assignees");
 		ArrayList<Member> assignees = new ArrayList<Member>();
 		
@@ -330,7 +321,6 @@ public class IssueController {
 		JsonElement userElement = issueJson.get("user");
 		JsonObject userObject = userElement.getAsJsonObject();
 		String userLogin = userObject.get("login").getAsString();
-		System.out.println("userLogin입니다. " + userLogin);
 		
 		JsonElement milestoneElement = issueJson.get("milestone");
 		ArrayList<Milestone> milestoneList = new ArrayList<Milestone>();

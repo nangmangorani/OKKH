@@ -91,7 +91,6 @@ public class PrController {
 	public String insertPR(PR pr,  HttpSession session, Model model) {
 		
 		
-		System.out.println(pr); // 값 잘 넘어옴
 		 int result = prService.insertPR(pr);
 		
 		 if(result>0) {
@@ -167,7 +166,6 @@ public class PrController {
 	public ModelAndView updateFormPR(int pno, ModelAndView mv ) {
 		
 		
-		// System.out.println(pno);
 		PR pr = prService.selectDetailPR(pno);
 		ArrayList<Stack> list = prService.selectStackList();
 		
@@ -191,7 +189,6 @@ public class PrController {
 	public String updatePR(PR pr, HttpSession session, Model model) {
 		
 	
-		System.out.println(pr);
 		
 		int pno = pr.getPrNo();
 		

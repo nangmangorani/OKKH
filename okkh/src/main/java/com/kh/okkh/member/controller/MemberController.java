@@ -39,12 +39,10 @@ public class MemberController {
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 	    
-		System.out.println("난 멤컨 토큰 ㅌㅋㅌ" + token);
 		// access_token을 이용한 유저 정보 얻어오기
 		Member mToken = gService.getUserInfo(token);
 		// id, 아바타, 닉넴, 토큰
         Member m = mService.selectMember(mToken);
-        System.out.println("mToken.getMemToken()이에요 " + mToken.getMemToken());
         // 저장된 멤버가 없을 경우 DB에 추가
         if(m == null) {
         	int result = mService.insertMember(mToken);
@@ -52,7 +50,6 @@ public class MemberController {
         }else {
         	m = mService.selectMember(mToken);
         }
-        System.out.println(mToken + "!!!!!!!");
         session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", m); // db에 쌓인 정보
         
@@ -76,7 +73,6 @@ public class MemberController {
 		
 		mv.addObject("list", list);
 		mv.setViewName("member/updateMem");
-		System.out.println(list);
 		
 		return mv;
 	}
@@ -85,7 +81,6 @@ public class MemberController {
 	public String updateMember(Member m, Model model, HttpSession session) {
 		
 		int result = mService.updateMember(m);
-		System.out.println(m);
 		
 		if(result > 0) {
 			Member updateMem = mService.selectMember(m);

@@ -257,6 +257,13 @@
 		    <artifactId>commons-lang3</artifactId>
 		    <version>3.4</version>
 		</dependency>
+		
+	  <!-- org.json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20210307</version> <!-- 원하는 버전으로 변경 -->
+		</dependency>
 		 
 	</dependencies>
 	

@@ -32,7 +32,6 @@ public class EchoHandler extends TextWebSocketHandler{
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 소켓에 메세지를 보낼 때
-		System.out.println(session);
 		
 		logger.info("ssesion"+currentUserName(session));
 		
