@@ -1,6 +1,7 @@
 package com.kh.okkh.project.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -357,6 +358,28 @@ public class ProjectServiceImpl implements ProjectService{
 	public ArrayList<Member> selectProjectTeamMateList(int pno) {
 		
 		return pdao.selectProjectTeamMateList(pno, sqlSession);
+	}
+
+
+
+	/**
+	 * 프로젝트에 팀원 추가하는 메소드
+	 */
+	@Override
+	public int enrollTeamMate(List<Integer>memNo) {
+		
+		return pdao.enrollTeamMate(memNo, sqlSession);
+	}
+
+
+
+	/**
+	 * 팀원 해제하는 메소드
+	 */
+	@Override
+	public int deleteTeamMate(List<Integer> memNo) {
+		
+		return pdao.deleteTeamMate(memNo, sqlSession);
 	}
 
 

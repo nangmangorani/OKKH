@@ -345,6 +345,7 @@
   		update
   		       member
   		   set team = 0
+  		     , team_status ='N'
   		 where mem_no = #{memNo}    
   	</update>
   	
@@ -395,7 +396,7 @@
 			   from member 
 			   join project on (team = pro_no)
 			  where team = ${team}
-			    and team_status = 'N'
+			    and pro_writer != mem_no
   	</select>
   	
   	<update id="updateTeamNo">
@@ -405,6 +406,32 @@
   		     , team_status = 'N'
   		 where mem_no = #{memNo}       
   	</update>
+  	
+  	
+<update id="enrollTeamMate">
+ 
+        <if test="list != null and list.size() > 0">
+            <foreach collection="list" item="memNo" open="UPDATE member SET team_status = 'Y' WHERE mem_no IN (" separator="," close=")">
+                #{memNo}
+            </foreach>
+         </if>
+</update>
+
+<update id="deleteTeamMate">
+   
+        <if test="list != null and list.size() > 0">
+            
+            <foreach collection="list" item="memNo" open="UPDATE member SET team_status = 'N' WHERE mem_no IN (" separator="," close=")">
+            #{memNo}
+           </foreach>
+       
+        </if>
+</update>
+  	
+  	
+  	
+  	
+  	
   	
   
 </mapper>

@@ -32,7 +32,7 @@ import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
 
 /**
- * @author 유정
+ * @author 유정(호빵)
  *
  */
 @Controller

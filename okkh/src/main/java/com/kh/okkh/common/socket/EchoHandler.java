@@ -75,7 +75,7 @@ public class EchoHandler extends TextWebSocketHandler {
 			if(strs != null && strs.length == 8) {
 				
 				String cmd = strs[0];
-				String projectWriter = strs[1];  // 친추나 프로젝트 참여의사를 보인 사람의 회원번호 담겨있음
+				String wantWriter = strs[1];  // 친추나 프로젝트 참여의사를 보인 사람의 회원번호 담겨있음
 				String boardWriter = strs[2];  // 게시글 작성자
 				String bno = strs[3];  // 게시글 번호
 				String title = strs[4];  // 게시글 제목 
@@ -83,21 +83,29 @@ public class EchoHandler extends TextWebSocketHandler {
 				String team =  strs[6];  // 참여중인 프로젝트 게시글 번호
 				String content = strs[7];
 				
+				
+				// 내가 실시간 알람보낼 한 명의 user!
 				WebSocketSession targetSession = userSessionsMap.get(boardWriter);
 				
-				System.out.println(nick);
-				System.out.println(boardWriter);
+				// 여기서 친구 목록이나 프로젝트 참여 인원들 모두에게 소켓 메세지 보내려면 
+				// 위에 있는 sessions 사용해야 할 듯
+				// 내가 실시간 알람 보낼 다수의 user정보가 있고 이걸 통해서 보내면 될 듯 
+				//WebSocketSession allSessions = sessions.get(Integer.parseInt(boardWriter));
 				
-				System.out.println(userSessionsMap.get(boardWriter));
+				
+				//System.out.println(nick);
+				//System.out.println(boardWriter);
+				
+				//System.out.println(userSessionsMap.get(boardWriter));
 				userSessionsMap.put(boardWriter,session);
 				
 				
-				WebSocketSession replyWriterSession = userSessionsMap.get(nick);
+				WebSocketSession replyWriterSession = userSessionsMap.get(wantWriter);
 				WebSocketSession boardWriterSession = userSessionsMap.get(boardWriter);
 				
-				System.out.println(boardWriterSession);
+				//System.out.println(boardWriterSession);
 				
-				System.out.println(cmd + "프로젝트?");
+				//System.out.println(cmd + "프로젝트?");
 				
 				
 				// 프로젝트 참여누르면 여기 메시지 보냄
@@ -137,14 +145,30 @@ public class EchoHandler extends TextWebSocketHandler {
 					
 				}
 				
-				//스크랩
-//				else if("scrap".equals(cmd) && boardWriterSession != null) {
+				// 프로젝트 회원 상태변경 했을 경우
+//				else if("updateTeamStatus".equals(cmd) && replyWriterSession != null) {
 //					//replyWriter = 스크랩누른사람 , boardWriter = 게시글작성자
-//					TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "&bgno="+bgno+"'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 글을 스크랩했습니다!</a>");
+//					// 변수를 하나하나 담아서 jsonObject에 담기
+//					String nickName = strs[5];
+//					int pno = Integer.parseInt(strs[3]);
+//					String title1 =  strs[4];
+//					int teamNo = Integer.parseInt(strs[6]);
+//					String contents = strs[7];
+//					
+//					// 이제 담자
+//					JSONObject obj = new JSONObject();
+//					obj.put("nickName", nickName);
+//					obj.put("pno", pno);
+//					obj.put("title", title1);
+//					obj.put("teamNo", teamNo);
+//					obj.put("content",contents);
+//					
+//					String objString = obj.toString();
+//					
+//					// 이제 메시지에 담자
+//					TextMessage tmpMsg = new TextMessage(objString);
 //
-//					boardWriterSession.sendMessage(tmpMsg);
+//					replyWriterSession.sendMessage(tmpMsg);
 //					
 //				}
 				
@@ -229,7 +253,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	private String currentUserName(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
 		Member loginMember = (Member)httpSession.get("loginMember");
-		System.out.println("여기는 currentUserName : " + loginMember);
+		//System.out.println("여기는 currentUserName : " + loginMember);
 		String memNo = "0";
 		if(loginMember != null) {
 			

@@ -148,7 +148,8 @@
                           
                          
 		                            <p>
-		                                프로젝트에 추가할 팀원을 선택한 후 하단에 '팀원 추가하기' 버튼을 눌러주세요!
+		                                프로젝트에 추가할 팀원을 선택한 후 하단에 '팀원 추가하기' 버튼을 눌러주세요! <br>
+		                                (체크가 된 회원은 프로젝트 팀원입니다)
 		                            </p>
 		                            
 		                      
@@ -170,15 +171,31 @@
 					                                    <li class="list-group-item">
 					
 					                                        <div class="upDiv">
-					                                            <input id="checkbox-2" class="form-check-input me-1" type="checkbox"
-					                                                name="git_nick" aria-label="...">
-					
-					
-					                                            <label for="checkbox-2">${team.gitNick} </label>
-					
-					                                            <a style="float: right; "
-					                                                class="btn btn-sm btn-light-primary" href="#">PR 보러가기</a>
-					
+					                                          <c:choose>
+					                                          	<c:when test="${team.teamStatus eq 'Y' }">
+						                                          	 <input  class="form-check-input me-1" type="checkbox"
+						                                                name="memNo"    value="${team.memNo }" checked>
+								
+						                                            <label for="checkbox-2">${team.gitNick} </label>
+						                                             <a style="float: right; "
+						                                                class="btn btn-sm btn-light-primary" href="#">PR 보러가기</a>
+					                                          	
+					                                          	</c:when>
+					                                          	
+					                                          	<c:otherwise>
+						                                          	<input  class="form-check-input me-1" type="checkbox"
+						                                                name="memNo"    value="${team.memNo }">
+								
+						                                            <label for="checkbox-2">${team.gitNick} </label>
+						
+						                                            <a style="float: right; "
+						                                                class="btn btn-sm btn-light-primary" href="#">PR 보러가기</a>
+						
+					                                          	</c:otherwise>
+					                                          	
+					                                          	
+					                                          </c:choose>
+					                                            
 					
 					                                        </div>
 					
@@ -208,18 +225,116 @@
 										<c:if test="${not empty teamList }">
 		                             	
 			                                <div align="center">
-			                                    <button type="submit" class="btn btn-primary">팀원 추가하기</button>
+			                                    <button type="button" class="btn btn-primary" id="enrollTeamMate">팀원 추가하기</button>
 			
 			                                </div>
 			                            </c:if>  
 			                                
 		                                
-		                           
-		                   
-									                            
-                            
-
                             </form>
+                            
+                            
+                            <script>
+                             
+                            	
+                                
+                            	 // 팀원 추가하기 버튼을 눌렀을 경우 실행할 함수	
+                            	 
+                            	 /*
+                            	 // 이렇게 작성하니까 체크해제해도 계속 db에는 team_status가 Y임....
+                                $("#enrollTeamMate").click(function(){   
+		                            	$("input[name='memNo']:checked").each(function(){
+		                            		
+		                                        checkbox.push($(this).val());
+		
+		                            	});
+		
+		                                // 중복값 제거 (filter이용 i는 index값 v는 찐 값)
+		                                // checkbox의 i번째 인덱스의 값이 v랑 같을 때? 걸러라 의미
+		                                let check = checkbox.filter((i,v) => checkbox.indexOf(i) === v);
+		                            	
+		                               //console.log(check + "과연될까아아앙")
+		                                
+		                        */
+		                        
+		                        // 체크된 회원만 team_status를 y로 하고 체크해지되면 n으로 하기
+		                        $("#enrollTeamMate").click(function () {
+		                            
+		                        	var checkbox = [];
+		                        	var checkedMembers = [];
+		                            var uncheckedMembers = [];
+
+		                            $("input[name='memNo']").each(function () {
+		                                if ($(this).is(":checked")) {
+		                                    checkedMembers.push($(this).val());
+		                                    
+		                                } else {
+		                                    uncheckedMembers.push($(this).val());
+		                                }
+		                            })
+		                            
+		                            // console.log(checkedMembers  + "체크체크");
+		                           // console.log( uncheckedMembers + "   노체크");
+		                            
+		                              
+		                           
+		                           
+		                           
+		                                
+		                                $.ajax({
+	                            			url:"enrollTeamMate.pro",
+	                            			data:{
+	                            				checkedMembers: checkedMembers,
+	                            	            uncheckedMembers: uncheckedMembers
+	                            			},
+	                            			success:function(data){
+	                            				if(data=="success"){
+	                            					alert("프로젝트 회원 상태 변경을 성공했습니다!")
+	                            					
+	                            					// 상태 변경 성공하면 회원들에게 실시간 알람가게 하기 -> 그냥 안할래...ㅠㅠ
+	                            					/*
+													if (${ loginMember.memNo ne projectSession.memNo }) {
+
+														// 만약 게시글 작성자와 현재 로그인한 회원의 번호가 다르다면?
+														if (socket.readyState == 1) {
+															// 소켓
+															// 메세지 보낼 때 , 무조건 포함시키고 String형은 무조건 ""안에다가 작성하기 
+															let socketMsg = "updateTeamStatus" + "," + ${ loginMember.memNo }+"," + ${ projectSession.memNo } +"," + ${ projectSession.proNo } +",${projectSession.proTitle},${loginMember.gitNick}," + ${ loginMember.team } + ", 팀원 상태를 변경했습니다!";
+															console.log(socketMsg);
+															socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
+														}
+													}
+	                            					*/
+	                            					
+	                            					
+	                            					
+	                            					
+	                            				}else{
+	                            					alert("프로젝트 회원 상태 변경을 실패했습니다ㅠㅠ")
+	                            				}
+	                            			},
+	                            			error:function(){
+	                            				console.log("프로젝트 팀원 추가용 ajax실패ㅠㅠ")
+	                            			}
+	                            		})
+		
+		                            
+		
+		                                })
+		                                
+		                                
+		                                
+		                    
+		                     
+		                    	  
+		                      
+		                                
+		                                
+		                                
+		                                
+                           
+                            </script>
+                            
                         </div>
                     </div>
                 </div>

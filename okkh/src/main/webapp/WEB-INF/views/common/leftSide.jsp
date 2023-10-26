@@ -181,7 +181,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="friendList.f" class='sidebar-link'>
                                 <i class="fa-solid fa-user-group fa-sm"></i>
                                 <span>Friends</span>
                             </a>

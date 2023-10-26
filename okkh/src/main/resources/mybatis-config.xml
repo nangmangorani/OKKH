@@ -15,6 +15,7 @@
 	<typeAlias type="com.kh.okkh.repository.model.vo.Repo" alias="Repo"/>
 	<typeAlias type="com.kh.okkh.repository.model.vo.MyProject" alias="MyProject"/>
 	<typeAlias type="com.kh.okkh.common.model.vo.Bookmark" alias="Bookmark"/>
+	<typeAlias type="com.kh.okkh.friend.model.vo.Friend" alias="Friend"/>
 </typeAliases>
 
 <mappers>
@@ -22,6 +23,7 @@
 	<mapper resource="/mappers/pr-mapper.xml"/>
 	<mapper resource="/mappers/member-mapper.xml"/>
 	<mapper resource="/mappers/repo-mapper.xml"/>
+	<mapper resource="/mappers/friend-mapper.xml"/>
 </mappers>
 
 </configuration>

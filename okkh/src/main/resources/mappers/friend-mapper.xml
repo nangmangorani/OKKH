@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="friendMapper">
+ 
+ <resultMap type="Friend" id="friendResultSet">
+ 
+    <result column="bf_giver"  property="bfGiver"/>
+    <result column="bf_taker"  property="bfTaker"/>
+    <result column="status"  property="status"/>
+    <result column="request_date"  property="requestDate"/>
+ 
+ </resultMap>
+ 
+ 
+ 
+ 
+ <select id="selectFriendList" resultMap="friendResultSet">
+     select 
+	        bf_giver
+	      , bf_taker
+	      , status
+	      , to_char(request_date,'YYYY-MM-DD') as "request_date"
+	  from friend
+	 where bf_taker = #{bfTaker} 
+ 
+ </select>
+ 
+ 
+ 
+</mapper>

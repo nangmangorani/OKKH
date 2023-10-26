@@ -1,8 +1,11 @@
 package com.kh.okkh.project.controller;
 
 import java.awt.print.Book;
+import java.net.http.HttpRequest;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpSession;
 
 import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
@@ -26,8 +29,10 @@ import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.project.model.service.ProjectServiceImpl;
 import com.kh.okkh.project.model.vo.Project;
 
+import io.netty.handler.codec.http.HttpHeaders.Values;
+
 /**
- * @author 유정
+ * @author 유정(호빵)
  *
  */
 @Controller
@@ -95,7 +100,9 @@ public class ProjectController {
 		
 		// 이건 projectRightSide.jsp에서 친구 목록 조회할 때 필요해서 조회하고, session에도 담음 
 		 ArrayList<Member> teamList = pservice.selectProjectTeamMateList(pno);
-				
+		 	
+		 
+		 
 		 session.setAttribute("teamList", teamList);
 		 
 		 
@@ -103,7 +110,7 @@ public class ProjectController {
 		 // 조회수 증가 성공하면 찐 프로젝트 상세내용 조회하러 가자
 		if(result>0) {
 			
-			System.out.println(result + "      result 결과!!");
+			//System.out.println(result + "      result 결과!!");
 			// 조회수 증가 성공했으면 찐으로 상세 조회하러 가기
 			Project pro = pservice.selectDetailPro(pno);
 			session.setAttribute("projectSession", pro);  
@@ -115,7 +122,7 @@ public class ProjectController {
 			int count = pservice.selectBookCount(pno);
 			
 			
-			System.out.println( pno + " 게시글 번호닷" + book + "  book이당");
+			//System.out.println( pno + " 게시글 번호닷" + book + "  book이당");
 			
 			
 			// System.out.println(pro + "    컨트롤러 pro");
@@ -125,8 +132,8 @@ public class ProjectController {
 			mv.addObject("pro", pro);
 			mv.setViewName("project/detailProject");
 			
-			System.out.println(((Member)session.getAttribute("loginMember")).getTeam()+ "  : 이건 로그인 세션 팀번호");
-			System.out.println(pro.getTeam() + " : 이건  프로젝트 상세조회한 팀");
+			//System.out.println(((Member)session.getAttribute("loginMember")).getTeam()+ "  : 이건 로그인 세션 팀번호");
+			//System.out.println(pro.getTeam() + " : 이건  프로젝트 상세조회한 팀");
 			
 		}else {
 			// 조회수 증가 실패하면.... 에러메시지 띄우기 
@@ -401,7 +408,7 @@ public class ProjectController {
 		
 		
 		
-		System.out.println(b  + "북마크 객체 뽑아봄");
+		//System.out.println(b  + "북마크 객체 뽑아봄");
 		 
 		
 		int result = 0;
@@ -419,7 +426,7 @@ public class ProjectController {
 			result = pservice.deleteProBookmark(b);
 		}
 		
-		System.out.println(result + "   : 컨트롤러 단에서 북마크 result 확인");
+		//System.out.println(result + "   : 컨트롤러 단에서 북마크 result 확인");
 		
 		return result>0 ? "success" : "fail";
 		
@@ -504,13 +511,13 @@ public class ProjectController {
     	 int result = pservice.deleteEnrollProject(memNo);
     	 
     	 if(result>0) {
-    		 
+    	
     		//session.setAttribute("alertMsg", "프로젝트 참여를 취소했습니다!");
     		 
     		 Member updateMember = pservice.selectMember(memNo);
     		 
-    		// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!!
-    		 session.setAttribute("loginMember", updateMember);
+    		// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!! -> 도루묵..ㅠㅠ
+    		 //session.setAttribute("loginMember", updateMember);
     		 
     		 return 1; 
  			
@@ -527,7 +534,44 @@ public class ProjectController {
     
     
     
-    public void selectProjectTeamMateList(int pno) {
+    /**
+     * 프로젝트에 팀원 추가하는 메소드
+     * @param memNo
+     */
+    // ******** 주의!!! 아주 중요 **************
+    //  ajax에서 배열로 보낸 값은 그냥 가져올 수 없음 
+    // @RequestParam(value="ajax에서 준 키 값[]")List<String> 형으로 받아야함!!!!!!!!!!!!
+    //   (이때 List는 java.util에 있는 걸 import하기!!!)
+    @ResponseBody
+    @RequestMapping("enrollTeamMate.pro")
+    public String enrollTeamMate(@RequestParam(value="checkedMembers[]", required = false)List<Integer> checkedMembers,
+    							 @RequestParam(value="uncheckedMembers[]", required = false)List<Integer>uncheckedMembers) {
+    	
+    	// System.out.println(memNo); // [10,6]값 아주 잘 넘어옴 예~!
+    	
+    	
+    	int result = 1;
+
+        if (!checkedMembers.isEmpty()) {
+            result += pservice.enrollTeamMate(checkedMembers);
+        }
+
+        if (!uncheckedMembers.isEmpty()) {
+            result += pservice.deleteTeamMate(uncheckedMembers);
+        }
+        
+        if(!checkedMembers.isEmpty() && uncheckedMembers.isEmpty() ) {
+        	
+        	 result += pservice.enrollTeamMate(checkedMembers);
+        }
+        
+        if(!uncheckedMembers.isEmpty() && checkedMembers.isEmpty()) {
+        	 result += pservice.deleteTeamMate(uncheckedMembers);
+        }
+
+        return result > 0 ? "success" : "fail";
+    
+    	
     	
     }
     

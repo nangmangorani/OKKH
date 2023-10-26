@@ -2,6 +2,7 @@ package com.kh.okkh.project.model.dao;
 
 import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -252,7 +253,7 @@ public class ProjectDao {
 	public int participateProject(Member m, SqlSessionTemplate sqlSession) {
 		
 		
-		System.out.println(m.getTeam() + " : 팀 번호!!!");
+		//System.out.println(m.getTeam() + " : 팀 번호!!!");
 		
 		
 		
@@ -325,10 +326,23 @@ public class ProjectDao {
 	
 	
 	
+	/**
+	 * 프로젝트에 팀원 추가하는 메소드
+	 */
+	public  int enrollTeamMate(List<Integer>memNo, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("projectMapper.enrollTeamMate", memNo);
+	}
+
 	
 	
-	
-	
+	/**
+	 * 프로젝트에 팀원 해제하는 메소드
+	 * @return
+	 */
+	public int deleteTeamMate(List<Integer> memNo, SqlSessionTemplate sqlSession) {
+		return sqlSession.update("projectMapper.deleteTeamMate", memNo);
+	}
 	
 	
 	

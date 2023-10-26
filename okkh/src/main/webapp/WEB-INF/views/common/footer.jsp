@@ -9,7 +9,11 @@
 <title>OKKH - 이곳에서 꿈을</title>
 </head>
 <body>
+
+<!-- 
 ${ loginMember }
+
+ -->
     <!-- 푸터바 시작 -->
     <footer>
         <div class="footer clearfix mb-0 text-muted">

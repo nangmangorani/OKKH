@@ -1,6 +1,7 @@
 package com.kh.okkh.project.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.Notice;
@@ -130,9 +131,11 @@ public interface ProjectService {
 	// 세션에 있는 로그인 멤버를 조회하는 메소드 (세션 바꿔치기용) -> 필요없어졌음..
 		Member selectMember(int memNo);
 		
+	// 프로젝트에 팀원 추가하는 메소드 
+		int enrollTeamMate(List<Integer>memNo);
 		
-		
-		
+	// 프로젝트에 팀원 해제하는 메소드
+		int deleteTeamMate(List<Integer>memNo);
 		
 		
 	
