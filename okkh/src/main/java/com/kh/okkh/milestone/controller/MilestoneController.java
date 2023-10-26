@@ -65,7 +65,6 @@ public class MilestoneController {
 			}
 		}
 		
-		
 		model.addAttribute("pi", pi);
 		model.addAttribute("mList", mList);
 		
@@ -114,10 +113,28 @@ public class MilestoneController {
 	}
 	
 	@RequestMapping(value="enrollForm.mile")
-	public String enrollMilestone(HttpSession session, Model model) {
+	public String enrollFormMilestone(HttpSession session, Model model) {
 		
 		return "milestone/milestoneEnroll";
+		
 	}
+	
+	@RequestMapping(value="enroll.mile")
+	public String enrollMilestone(HttpSession session,
+		   @RequestParam String title,
+		   @RequestParam(required = false) String dueOn,
+		   @RequestParam(required = false) String content) {
+		
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String repository = "nangmangorani/01_java-workspace";
+		
+		mService.enrollMilestone(token, repository, title, dueOn, content);
+		
+		
+		return "redirect:/list.mile";
+	}
+	
+	
 	
 	
 	@RequestMapping(value="editForm.mile")
@@ -130,6 +147,7 @@ public class MilestoneController {
 		
 		model.addAttribute("milestone", milestone);
 		return "milestone/milestoneEdit";
+		
 	}
 	
 	

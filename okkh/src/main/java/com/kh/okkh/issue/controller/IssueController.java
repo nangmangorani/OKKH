@@ -186,7 +186,6 @@ public class IssueController {
 			@RequestParam String title, @RequestParam(required = false) String body, 
 			@RequestParam String assignee, @RequestParam(required = false) String labelSet, 
 			@RequestParam(required = false) String milestone) throws IOException{
-		// jsp에서 한명을 select할때마다 늘어나야돼. 그럼 배열로 받는게맞나?
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";

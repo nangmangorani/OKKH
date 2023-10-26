@@ -18,7 +18,7 @@
             <!-- 상단바 끝 -->
 
             <section class="section">
-                <form action="">
+                <form action="enroll.mile" method="post">
                     <div class="row">
                     	<div class="col-12">
 	                        <div class="card" style="height: 600px;">
@@ -29,16 +29,16 @@
 		                            <div class="card-body">
 		                                <div class="form-group">
 		                                    <label for="basicInput">Title</label>
-		                                    <input type="text" class="form-control" id="basicInput" value="${ milestone.title }">
+		                                    <input type="text" class="form-control" id="basicInput" name="title">
 		                                </div>
 		                                <label for="mileDate">Due date(optional)</label>
 		                                <div class="form-group">
-		                                    <input type="date" class="form-control" name="" id="mileDate" value="">
+		                                    <input type="date" class="form-control" name="" id="mileDate" name="dueOn">
 		                                </div>
 		                                <div class="form-group mb-3">
 		                                    <label for="exampleFormControlTextarea1" class="form-label">Content</label>
 		                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-		                                        rows="3" style="height: 300px;"></textarea>
+		                                        rows="3" style="height: 300px;" name="content"></textarea>
 		                                </div>
 		                             </div>
 		                       	</div>

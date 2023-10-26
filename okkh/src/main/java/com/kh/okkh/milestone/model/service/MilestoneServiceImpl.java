@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.issue.model.dao.IssueDao;
+import com.kh.okkh.milestone.model.dao.MilestoneDao;
 import com.kh.okkh.milestone.model.vo.Milestone;
 
 @Service
@@ -22,6 +23,9 @@ public class MilestoneServiceImpl implements MilestoneService {
 	
 	@Autowired
 	private IssueDao iDao;
+	
+	@Autowired
+	private MilestoneDao mDao;
 	
 	
 	@Override
@@ -209,10 +213,15 @@ public class MilestoneServiceImpl implements MilestoneService {
 		} catch (JsonProcessingException e){
 			e.printStackTrace();
 		}
-		
 			return null;
-		
+	}
 
+	@Override
+	public void enrollMilestone(String token, String repository, String title, String dueOn, String content) {
+		
+		String url = repository + "/milestones";
+		
+		mDao.enrollMilestone(token, url, title, dueOn, content);
 		
 	}
 

@@ -14,4 +14,6 @@ public interface MilestoneService {
 	Milestone getMilestoneByMno(String repository, HttpSession session, int mno);
 
 	ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state, PageInfo pi);
+	
+	void enrollMilestone(String token, String repository, String title, String dueOn, String content);
 }
