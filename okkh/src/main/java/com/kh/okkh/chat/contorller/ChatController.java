@@ -25,15 +25,32 @@ public class ChatController {
 	private ChatServiceImpl cService;
 	
 	@RequestMapping("chat.ch")
-	public ModelAndView chatPage(HttpSession session, ModelAndView mv) {
+	public ModelAndView chatPage(ModelAndView mv, HttpSession session) {
 		
 		Member m = (Member)session.getAttribute("loginMember");
-		ChatMember chMem = cService.selectChatMember(m);
-		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(chMem);
-		ArrayList<Friend> flist = cService.searchMember(m);
-		mv.addObject("crList", crList).addObject("flist",flist).setViewName("chat/chat");
+		
+		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(m);
+		ArrayList<Friend> frList = cService.searchMemberList(m);
+		
+		mv.addObject("crList", crList).addObject("frList",frList).setViewName("chat/chat");
+		
 		return mv;
 	}
+	
+	@RequestMapping("chatRoom.ch")
+	public ModelAndView chatRoomPage(int crno, ModelAndView mv, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginMember");
+		
+		ChatRoom cr = cService.selectChatRoomRno(crno);
+//		ChatMember cm = cService.selectChatMember(m);
+		ArrayList<ChatMember> cmList = cService.selectChatMemberList(crno);
+		System.out.println(cmList);
+		mv.addObject("cr", cr).addObject("cmList", cmList).setViewName("chat/chatRoom");
+		
+		return mv;
+	}
+	
 	
 	@RequestMapping("enrollChat.ch")
 	public String insertChatRoom(ChatRoom chRoom, Model model, HttpSession session) {
@@ -44,20 +61,13 @@ public class ChatController {
 		int result2 = cService.insertChatMaker(m);
 		int result3 = cService.insertChatMember(m);
 		
-		if(result1 > 0 && result2 > 0) {
+		if(result1 > 0 && result2 > 0 && result3 > 0) {
 			session.setAttribute("alertMsg", "성공적으로 채팅방이 개설되었습니다.");
 			return "redirect:chat.ch";
 		} else {
 			model.addAttribute("errorMsg", "채팅방 개설을 실패했습니다.");
 			return "common/errorPage";
 		}
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="chatting.room", produces="application/json; charset=utf-8")
-	public String chattingRoom(HttpSession session, int rno) {
-		ChatRoom cr = cService.selectChatRoomRno(rno);
-		return new Gson().toJson(cr);
 	}
 	
 }

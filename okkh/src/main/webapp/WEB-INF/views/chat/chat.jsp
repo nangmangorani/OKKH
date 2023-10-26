@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 	
 	<style>
-		#roomList:hover {
+		#room:hover {
 			cursor: pointer;
 		}
 	</style>
@@ -41,74 +41,9 @@
                                     <div class="card-body">
                                         <section class="section">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="card">
-                                                        <!--채팅 상대방 프로필-->
-                                                        <div class="card-header">
-                                                            <div class="media d-flex align-items-center">
-                                                                <div class="avatar me-3">
-                                                                    <img src="${git.profile }" alt="">
-                                                                    <span class="avatar-status bg-success"></span>
-                                                                </div>
-                                                                <div class="name flex-grow-1">
-                                                                    <h6 class="mb-0">${git.gitNick }</h6>
-                                                                    <span class="text-xs">Online</span>
-                                                                </div>
-                                                                <button class="btn btn-sm">
-                                                                    <i data-feather="x"></i>
-                                                                </button>
-                                                            </div>
-                                                        <hr>
-                                                        </div>
-                                                        <!-- 채팅 상대방 프로필끝 -->
-
-                                                        <!-- 채팅 메세지들 -->
-                                                        <div class="card-body pt-4 bg-grey">
-                                                            <div class="chat-content">
-                                                                <div class="chat">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">Hi Alfy, how can i help you?</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat chat-left">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">I'm looking for the best admin dashboard
-                                                                            template</div>
-                                                                        <div class="chat-message">With bootstrap certainly</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">I recommend you to use Mazer Dashboard</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat chat-left">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">That"s great! I like it so much :)</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- 채팅 메세지들끝 -->
-
-                                                        <!--채팅 전송폼-->
-                                                        <div class="card-footer">
-                                                            <div class="message-form d-flex flex-direction-column align-items-center">
-                                                                <a href="http://" class="black"><i data-feather="smile"></i></a>
-                                                                <form action="">
-                                                                    <div class="d-flex flex-grow-1 ml-4">
-                                                                        <input type="text" class="form-control" placeholder="Type your message.." style="width: 380px;">
-                                                                        <button class="btn btn-primary" style="width: 110px;">등록하기</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                        <!--채팅 전송폼-->
-                                                    </div>
-                                                </div>
 
                                                 <!--채팅방 목록-->
-                                                <div class="col-md-6">
+                                                <div class="col-md-12" style="margin:auto;">
                                                     <section class="section">
                                                         <div class="row" id="table-hover-row">
                                                             <div class="col-12">
@@ -125,34 +60,48 @@
                                                                     <div class="card-content">
                                                                         <!-- table hover -->
                                                                         <div class="table-responsive">
-                                                                            <table class="table table-hover mb-0" id="roomList">
-                                                                                <tbody>
-                                                                                	<c:forEach var="cr" items="${crList }">
-			                                                                            <input type="hidden" name="memNo" value="${loginMember.memNo }">
-	                                                                                    <tr>
-	                                                                                        <td class="text-bold-500" style="width: 50px;">
-	                                                                                            <img src="resources/images/faces/1.jpg"
-	                                                                                            alt="avtar img holder" width="30" height="30"
-	                                                                                            class="rounded-circle"> <br>
-	                                                                                        </td>
-	                                                                                        <c:if test="${not empty cr.lastChat }">
-		                                                                                        <td>
-		                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> /
-		                                                                                            <span style="font-weight: 14px;">${cr.roomMem }</span> <br>
-		                                                                                            <span style="font-size: 14px;">${cr.lastChat }</span>
+                                                                           	<input type="hidden" name="memNo" value="${loginMember.memNo }">
+                                                                           	<c:choose>
+	                                                                           	<c:when test="${not empty loginMember }">
+		                                                                            <table class="table table-hover mb-0" id="roomList">
+		                                                                               	<c:forEach var="cr" items="${crList }">
+		                                                                               		<tbody>
+		                                                                                    <tr id="room">
+		                                                                                    	<td class="crno" style="display:none;">${cr.roomNo }</td>
+		                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
+		                                                                                            <img src="resources/images/faces/1.jpg" alt="avtar img holder" width="30" height="30" class="rounded-circle">
 		                                                                                        </td>
-	                                                                                        </c:if>
-	                                                                                        <td>
-	                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> /
-	                                                                                            <span style="font-weight: 14px;">${cr.roomMem }</span> <br>
-	                                                                                            <span style="font-size: 14px;">주고받은 메시지가 없습니다.</span>
-	                                                                                        </td>
-	                                                                                    </tr>
-                                                                                    </c:forEach>
-                                                                                </tbody>
-                                                                                
-                                                                            </table>
+		                                                                                        <c:choose>
+			                                                                                        <c:when test="${not empty cr.lastChat }">
+				                                                                                        <td>
+				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
+				                                                                                            <span style="font-size: 14px;">${cr.lastChat }</span>
+				                                                                                        </td>
+			                                                                                        </c:when>
+			                                                                                        <c:otherwise>
+				                                                                                        <td>
+				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
+				                                                                                            <span style="font-size: 14px;">주고받은 메시지가 없습니다.</span>
+				                                                                                        </td>
+			                                                                                        </c:otherwise>
+		                                                                                        </c:choose>
+		                                                                                    </tr>
+		                                                                                    </tbody>
+		                                                                                   </c:forEach>
+		                                                                            </table>
+	                                                                            </c:when>
+	                                                                            <c:otherwise>
+	                                                                            	존재하는 채팅방이 없습니다.
+	                                                                            </c:otherwise>
+                                                                            </c:choose>
                                                                         </div>
+                                                                        <script>
+																			$(function(){
+																				$("#roomList>tbody>tr").click(function(){
+																					location.href = "chatRoom.ch?crno=" + $(this).children(".crno").text();
+																				})
+																			})
+																		</script>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -209,9 +158,8 @@
 	              <div class="row g-2">
 	                <div class="col mb-0">
 	                 <label for="" class="form-label">초대할 친구</label>
-                      	  <input type="hidden" name="memNo" value="${loginMember.memNo }">
 	                      <select class="choices form-select multiple-remove" multiple id="multiSelect" name="roomMem">
-                              <c:forEach var="fr" items="${flist }">
+                              <c:forEach var="fr" items="${frList }">
                                   <option value="${fr.gitNick}">${fr.gitNick}</option>
                               </c:forEach>
                           </select>
@@ -228,7 +176,6 @@
 						    });
 					    </script>
 	                </div>
-	               <!-- <input type="hidden" name="uno" value=""> -->
 	              </div>
 	            </div>
 	            <div class="modal-footer">
@@ -242,29 +189,10 @@
         </div>
       </div>
 	
-	<script>
-		$("#roomList").click(function(){
-			$.ajax({
-				url:"chatting.room",
-				data:{rno:${cr.roomNo }},
-				success:function(data){
-					console.log("작동하나유?")
-					
-					
-					
-				}, error:function(){
-					console.log("채팅방 ajax 에러!ㅠ")
-				}
-			})
-		})
-		
 	
-	</script>
-      
-	
-	<!--여기 두개가 다중 select박스인듯-->    
-	<script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
-	<script src="resources/assets/static/js/pages/form-element-select.js"></script>
+<!--여기 두개가 다중 select박스인듯-->    
+<script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+<script src="resources/assets/static/js/pages/form-element-select.js"></script>
 	
 </body>
 

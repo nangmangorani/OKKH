@@ -12,6 +12,8 @@ import lombok.Setter;
 @Setter
 @ToString
 public class ChatMember {
-	private int memNo;
 	private int roomNo;
+	private int memNo;
+	
+	private String gitNick;
 }

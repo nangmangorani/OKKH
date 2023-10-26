@@ -3,6 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chatMapper">
+		
+	<resultMap type="ChatMember" id="chatMemberResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="room_no" property="roomNo"/>
+		<result column="git_nick" property="gitNick"/>
+	</resultMap>
 	
 	<resultMap type="Member" id="memberResultSet">
 		<result column="mem_no" property="memNo"/>
@@ -15,42 +21,30 @@
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
 	</resultMap>
-	
-	<resultMap type="ChatMember" id="chatMemberResultSet">
-		<result column="mem_no" property="memNo"/>
-		<result column="room_no" property="roomNo"/>
-	</resultMap>
 
 	<resultMap type="ChatRoom" id="chatRoomResultSet">
 		<result column="room_no" property="roomNo"/>
 		<result column="room_title" property="roomTitle"/>
-		<result column="room_mem" property="roomMem"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
 		<result column="last_chat" property="lastChat"/>
 		<result column="last_date" property="lastDate"/>
 		<result column="file_no" property="fileNo"/>
-	</resultMap>
-	
-	<resultMap type="Friend" id="friendResultSet">
-		<result column="bf_giver" property="bfGiver"/>
-		<result column="bf_taker" property="bfTaker"/>
-		<result column="status" property="status"/>
-		<result column="request_date" property="requestDate"/>
+		<result column="mem_no" property="memNo"/>
 	</resultMap>
 	
 	<select id="selectChatMember" resultMap="chatMemberResultSet">
 		select mem_no
 			 , room_no
 		  from chat_member
-		  join member m using (mem_no)
+		  join member using (mem_no)
 		 where mem_no = #{memNo}
+		   and rownum = 1
 	</select>
-	
+
 	<select id="selcetChatRoomList" resultMap="chatRoomResultSet">
 		select room_no
 		     , room_title
-		     , room_mem
 		     , last_chat
 		     , last_date
 		  from chat_room
@@ -77,7 +71,6 @@
 			(
 			room_no,
 			room_title,
-			room_mem,
 			create_date,
 			status
 			)
@@ -85,7 +78,6 @@
 			(
 			seq_chat.nextval,
 			#{roomTitle},
-			#{roomMem},
 			sysdate,
 			'Y'
 			)
@@ -123,12 +115,20 @@
 	<select id="selectChatRoomRno" resultMap="chatRoomResultSet">
 		select room_no
 		     , room_title
-		     , room_mem
 		     , last_chat
 		     , last_date
 		  from chat_room
-		  join chat_member using (room_no)
 		 where status = 'Y'
 		   and room_no = #{room_no}
 	</select>
+	
+	<select id="selectChatMemberList" resultMap="chatMemberResultSet">
+		select mem_no
+		     , room_no
+		     , git_nick
+		  from chat_member
+		  join member using (mem_no)
+		 where room_no = #{roomNo}
+	</select>
+	
 </mapper>

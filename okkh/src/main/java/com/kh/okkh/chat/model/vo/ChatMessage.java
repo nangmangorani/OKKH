@@ -19,5 +19,12 @@ public class ChatMessage {
 	private Date createDate;
 	private String invite;
 	private String status;
+	
+	public enum MessageType {
+		ENTER, TALK, QUIT
+	}
 	private int roomNo;
+	private MessageType type;
+	private String sender;
+	private String message;
 }

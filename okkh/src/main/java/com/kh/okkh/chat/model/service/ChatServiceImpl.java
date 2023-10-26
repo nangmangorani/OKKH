@@ -19,19 +19,19 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Autowired
 	private ChatDao cDao;
-	
+
 	@Override
 	public ChatMember selectChatMember(Member m) {
 		return cDao.selectChatMember(sqlSession, m);
 	}
 	
 	@Override
-	public ArrayList<ChatRoom> selcetChatRoomList(ChatMember chMem) {
-		return cDao.selcetChatRoomList(sqlSession, chMem);
+	public ArrayList<ChatRoom> selcetChatRoomList(Member m) {
+		return cDao.selcetChatRoomList(sqlSession, m);
 	}
 
 	@Override
-	public ArrayList<Friend> searchMember(Member m) {
+	public ArrayList<Friend> searchMemberList(Member m) {
 		return cDao.searchMember(sqlSession, m);
 	}
 	
@@ -51,9 +51,15 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ChatRoom selectChatRoomRno(int rno) {
-		return cDao.selectChatRoomRno(sqlSession, rno);
+	public ChatRoom selectChatRoomRno(int crno) {
+		return cDao.selectChatRoomRno(sqlSession, crno);
 	}
+
+	@Override
+	public ArrayList<ChatMember> selectChatMemberList(int crno) {
+		return cDao.selectChatMemberList(sqlSession, crno);
+	}
+
 	
 	
 
