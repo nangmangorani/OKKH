@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -179,8 +180,7 @@ public class IssueController {
 	
 	/**
 	 * 이슈 등록
-	 * @throws UnsupportedEncodingException 
-	 */
+	 * */
 	@RequestMapping(value = "enroll.iss", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public String enrollIssue(HttpSession session, Model model, 
 			@RequestParam String title, @RequestParam(required = false) String body, 
@@ -189,66 +189,32 @@ public class IssueController {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
-		String apiUrl = "https://api.github.com/repos/" + repository + "/issues";
-		JSONObject issueJson = new JSONObject();
-		issueJson.put("title", title);
-		issueJson.put("body", body);
+		
+		Map<String, Object> requestBody = new HashMap<>();
+		
+		requestBody.put("title", title);
+		requestBody.put("body", body);
 		
 		
 		if (milestone != null && !milestone.isEmpty()) {
-			issueJson.put("milestone", Integer.parseInt(milestone));
+			requestBody.put("milestone", milestone);
 	    }
 		
 		if (assignee != null && !assignee.isEmpty()) {
-	        String[] assignees = assignee.split(",");
-	        JSONArray assigneesArray = new JSONArray();
-	        
-	        // String Array -> JSONArray로 바꿔줌
-	        for (String s : assignees) {
-	            assigneesArray.add(s);
-	        }
-	       
-	        
-	        // jsonObject 객체의 assignees에 넣어줌.
-	        issueJson.put("assignees", assigneesArray);
+			String[] assignees = assignee.split(",");
+			requestBody.put("assignees", assignees);
 	    }
-		
-		
+	       
 		if (labelSet != null && !labelSet.isEmpty()) {
 	        String[] labels = labelSet.split(",");
-	        JSONArray labelsArray = new JSONArray();
-	        for (String s : labels) {
-	            labelsArray.add(s);
-	        }
-	        issueJson.put("labels", labelsArray);
+			requestBody.put("labels", labels);
 	    }
 		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization","bearer "+token);
-		headers.set("Accept", "application/vnd.github+json");
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> requestEntity = new HttpEntity<String>(issueJson.toString(), headers);
-		
-
-		RestTemplate restTemplate = new RestTemplate();
-		// 여기서 예외발생중..
-		try {
-			ResponseEntity<String> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, String.class);
-			if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
-		        // API 요청이 성공하면 JSON 응답을 파싱하여 필요한 정보를 추출합니다.
-		        String responseJson = responseEntity.getBody();
-		        ObjectMapper objectMapper = new ObjectMapper();
-		        Map<String, Object> responseMap = objectMapper.readValue(responseJson, new TypeReference<Map<String, Object>>() {});
-		        
-		    }
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		iService.enrollIssue(token, repository, requestBody);
 		
 		return "redirect:list.iss";
 	}
-	
+
 	
 	@RequestMapping("detail.iss")
 	public String detailIssue(HttpSession session, Model model, int bno) throws IOException {
@@ -320,13 +286,14 @@ public class IssueController {
 		JsonElement userElement = issueJson.get("user");
 		JsonObject userObject = userElement.getAsJsonObject();
 		String userLogin = userObject.get("login").getAsString();
-		
+		String a = null;
 		JsonElement milestoneElement = issueJson.get("milestone");
 		ArrayList<Milestone> milestoneList = new ArrayList<Milestone>();
 		if (milestoneElement != null && !milestoneElement.isJsonNull()) {
 			JsonObject milestoneObject = milestoneElement.getAsJsonObject();
 			String milestoneTitle = milestoneObject.get("title").getAsString();
-			String milestoneNumber = milestoneObject.get("number").getAsString();
+			a = milestoneTitle;
+			int milestoneNumber = milestoneObject.get("number").getAsInt();
 			Milestone m = new Milestone();
 
 			m.setTitle(milestoneTitle);
@@ -349,12 +316,35 @@ public class IssueController {
 		model.addAttribute("milestoneList", milestoneList);
 		
 		return "issue/issueDetail";
-	} catch (Exception e) {
-		e.printStackTrace();
-		return "common/error500";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "common/error500";
+		}
 	}
-}
 	
+//	public String detailIssue(HttpSession session, Model model, int bno) {
+//		String token = ((Member)session.getAttribute("git")).getMemToken();
+//		String repository = "nangmangorani/01_java-workspace";
+//		
+//		Issue issue = iService.getIssueByBno(repository, token, bno);
+//		
+//		model.addAttribute("issue", issue);
+//		
+//		return "issue/issueDetail";
+//	}
+	
+	
+	@RequestMapping("editForm.iss")
+	public String editIssueForm(HttpSession session, Model model, String state, Integer ino) {
+		
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+		
+		String repository = "nangmangorani/01_java-workspace";
+		
+		
+		
+		return "issue/issueEdit";
+	}
 	
 	
 	

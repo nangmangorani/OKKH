@@ -2,6 +2,7 @@ package com.kh.okkh.issue.model.dao;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -69,6 +71,37 @@ public class IssueDao {
 		return response;
 
 	}
+	
+	public void toGitIssue(String token, String url, Map<String, Object> requestBody, String method) {
+		
+		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
+				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+		String response = null;
+		
+		if(method.equals("post")) {
+			response = client.post().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
+		} else if(method.equals("patch")) {
+			response = client.patch().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
+		}
+	}
+	
+	
+	public String toGitGetIssue(String url, String token, int bno) {
+		
+		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
+				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+		
+		String response = null;
+		
+		response = client.get().uri(url).retrieve().bodyToMono(String.class).block();
+		
+		return response;
+	}
+	
 	
 	
 

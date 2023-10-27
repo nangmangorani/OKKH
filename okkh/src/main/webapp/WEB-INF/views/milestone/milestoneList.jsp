@@ -6,6 +6,19 @@
         <head>
             <meta charset="UTF-8">
             <title>Insert title here</title>
+            
+            <style>
+            	.pull-up {
+                        transition: all 0.25s ease;
+                    }
+
+                    .pull-up:hover {
+                        transform: translateY(-4px) scale(1.02);
+                        box-shadow: 0 0.25rem 1rem rgba(161, 172, 184, 0.45);
+                        z-index: 30;
+                        border-radius: 50%;
+                    }
+            </style>
         </head>
 
         <body>
@@ -86,7 +99,15 @@
 
                                                             <td>${ m.openedIssues }</td>
                                                             <td>${ m.closedIssues }</td>
-                                                            <td>나</td>
+                                                            <td>
+	                                                            <div class="avatar-group">
+		                                                            <span title="${ m.creator }"
+		                                                                class="avatar avatar-sm pull-up">
+		                                                                <img alt="avatar" src="${ m.profile }"
+		                                                                    class="rounded-circle writerAvatar">
+		                                                            </span>
+		                                                        </div>    
+                                                            </td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -138,24 +159,45 @@
             </div>
 
             <script>
+            // 아직 ajax안함!!
                 $(function () {
-                    // 전체조회
-                    $("#mileAllBtn").click(function () {
-                        $("tbody tr").show();
-                    });
 
-                    // 진행완료 조회
-                    $("#mileCloseBtn").click(function () {
-                        $("tbody tr").hide();
-                        $("tbody tr:has(td#mileContinue:not(:contains('No due date')))").show();
-                    });
-
-                    // 진행중 조회
+					var state = "open";
+					
                     $("#mileOpenBtn").click(function () {
-                        $("tbody tr").hide();
-                        $("tbody tr:has(td#mileContinue:contains('No due date'))").show();
+                    	state = "open";
+                    	sendAjaxRequest(state);
                     });
 
+
+                    $("#mileCloseBtn").click(function () {
+                    	state = "closed";
+                    	sendAjaxRequest(state);
+                    });
+                    
+                    
+                    function sendAjaxRequest(state) {
+                    	
+                    	$.ajax({
+                    		url: "ajaxMilestone",
+                    		data: {
+                    			state:state,
+                    			cpage:currentPage
+                    		},
+                    		success: function(data) {
+                    			ajaxMileFunction(data);
+                    		},
+                    		error: function(xhr,status,error) {
+                    			console.log("AJAX 오류 : " + error);
+                    		}
+                    	})
+                    }
+                    
+                    function ajaxMileFunction(data) {
+                    	
+                    }
+                    
+                    
                 });
             </script>
 

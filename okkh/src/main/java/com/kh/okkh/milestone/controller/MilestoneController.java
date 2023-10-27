@@ -7,6 +7,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -153,8 +155,18 @@ public class MilestoneController {
 		
 		System.out.println("dueOn 봐줄만해..?" + dueOn);
 		
-		mService.enrollMilestone(token, repository, title, dueOn, content);
+		Map<String, Object> requestBody = new HashMap<>();
+	    requestBody.put("title", title);
+	    
+	    if (dueOn != null) {
+	        requestBody.put("due_on", dueOn);
+	    }
+	    
+	    if (content != null) {
+	        requestBody.put("description", content);
+	    }
 		
+		mService.enrollMilestone(token, repository, requestBody);
 		
 		return "redirect:/list.mile";
 	}
@@ -177,12 +189,37 @@ public class MilestoneController {
 	
 	
 	
-//	@RequestMapping(value="edit.mile")
-//	public String editMilestone(HttpSession session, Model model, int mno) {
-//		String token = ((Member) session.getAttribute("git")).getMemToken();
-//
-//		String repository = 
-//	}
+	@RequestMapping(value="edit.mile")
+	public String editMilestone(Model model, HttpSession session, Integer mno,
+			String title,
+			@RequestParam(required = false) String state, 
+			@RequestParam(required = false) String content,
+			@RequestParam(required = false) String dueOnDate) {
+			
+		String token = ((Member) session.getAttribute("git")).getMemToken();
+		System.out.println("mno인데 내가 없어도 너무 슬퍼하지마" + mno);
+		String repository = "nangmangorani/01_java-workspace";
+		
+		System.out.println("state넘어옴? " + state);
+		Map<String, Object> requestBody = new HashMap<>();
+		requestBody.put("title", title);
+		
+		if(content != null) {
+			requestBody.put("content", content);
+		}
+		
+		if(dueOnDate != null) {
+			requestBody.put("dueOnDate", dueOnDate);
+		}
+		
+		if(state.equals("closed")) {
+			requestBody.put("state", state);
+		}
+		
+		mService.editMilestone(repository, requestBody, token, mno);
+		
+		return "redirect:/list.mile";
+	}
 	
 	
 	

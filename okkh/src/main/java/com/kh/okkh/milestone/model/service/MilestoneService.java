@@ -1,6 +1,7 @@
 package com.kh.okkh.milestone.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,5 +16,7 @@ public interface MilestoneService {
 
 	ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state, PageInfo pi);
 	
-	void enrollMilestone(String token, String repository, String title, String dueOn, String content);
+	void enrollMilestone(String token, String repository, Map<String, Object> requestBody);
+	
+	void editMilestone(String repository, Map<String, Object> requestBody, String token, int mno);
 }

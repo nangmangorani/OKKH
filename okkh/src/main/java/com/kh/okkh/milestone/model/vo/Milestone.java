@@ -19,10 +19,10 @@ public class Milestone {
 	private String title;
 	private String creator;
 	private String state;        
-	private String number;
+	private int number;
 	//private String[] issues;
 	private String content;
-	private String milestoneId;
+	private int milestoneId;
 	private String createdAt;    
 	private String updatedAt;    
 	private String closedAt;     
@@ -33,7 +33,7 @@ public class Milestone {
 	private double finPercent;
 	
 	
-	public Milestone(String milestoneId, String title,  String number, String state) {
+	public Milestone(int milestoneId, String title,  int number, String state) {
 		super();
 		this.milestoneId = milestoneId;
 		this.title = title;
@@ -42,7 +42,7 @@ public class Milestone {
 	}
 
 
-	public Milestone(String title, String creator, String state, String number, String milestoneId,
+	public Milestone(String title, String creator, String state, int number, int milestoneId,
 			String createdAt, String updatedAt, String closedAt, String profile, String dueOn, int openedIssue,
 			int closedIssues, double finPercent) {
 		

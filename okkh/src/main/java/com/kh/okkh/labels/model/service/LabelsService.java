@@ -6,6 +6,6 @@ import com.kh.okkh.labels.model.vo.Labels;
 
 public interface LabelsService {
 
-	ArrayList<Labels> selectLabList();
+	ArrayList<Labels> labelList(String repository, String token);
 	
 }

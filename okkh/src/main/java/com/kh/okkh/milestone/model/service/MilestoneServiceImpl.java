@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -87,9 +88,9 @@ public class MilestoneServiceImpl implements MilestoneService {
 				
 				String title = jsonNode.get(i).get("title").asText();
 				String creator = jsonNode.get(i).get("creator").get("login").asText();
-				String number = jsonNode.get(i).get("number").asText();
+				int number = jsonNode.get(i).get("number").asInt();
 				String content = jsonNode.get(i).get("description").asText();
-				String milestoneId = jsonNode.get(i).get("id").asText();
+				int milestoneId = jsonNode.get(i).get("id").asInt();
 				SimpleDateFormat s1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				SimpleDateFormat s2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -164,8 +165,8 @@ public class MilestoneServiceImpl implements MilestoneService {
 				String title = milestoneData.get("title").asText();
 				String creator = milestoneData.get("creator").get("login").asText();
 				String state = milestoneData.get("state").asText();
-				String number = milestoneData.get("number").asText();
-				String milestoneId = milestoneData.get("id").asText();
+				int number = milestoneData.get("number").asInt();
+				int milestoneId = milestoneData.get("id").asInt();
 				String content = milestoneData.get("description").asText();
 				SimpleDateFormat s1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 				SimpleDateFormat s2 = new SimpleDateFormat("yyyy-MM-dd");
@@ -208,7 +209,7 @@ public class MilestoneServiceImpl implements MilestoneService {
 				int closedIssues = milestoneData.get("closed_issues").asInt();
 				double finPercent = Math.round(((double)closedIssues / (double)(openedIssue + closedIssues) * 100.0) * 10.0) / 10.0;
 	            
-	            return new Milestone(title, creator, state, number, content, milestoneId, createdAt, updatedAt, closedAt, profile, dueOn, openedIssue, closedIssues, finPercent);
+				return new Milestone(title, creator, state, number, content, milestoneId, createdAt, updatedAt, closedAt, profile, dueOn, openedIssue, closedIssues, finPercent);
 			}
 		} catch (JsonProcessingException e){
 			e.printStackTrace();
@@ -217,11 +218,24 @@ public class MilestoneServiceImpl implements MilestoneService {
 	}
 
 	@Override
-	public void enrollMilestone(String token, String repository, String title, String dueOn, String content) {
+	public void enrollMilestone(String token, String repository, Map<String, Object> requestBody) {
 		
 		String url = repository + "/milestones";
 		
-		mDao.enrollMilestone(token, url, title, dueOn, content);
+		String method = "post";
+		
+		mDao.toGitMilestone(token, url, requestBody, method);
+		
+	}
+
+	@Override
+	public void editMilestone(String repository, Map<String, Object> requestBody, String token, int mno) {
+		
+		String url = repository + "/milestones/" + mno;
+
+		String method = "patch";
+		
+		mDao.toGitMilestone(token, url, requestBody, method);
 		
 	}
 

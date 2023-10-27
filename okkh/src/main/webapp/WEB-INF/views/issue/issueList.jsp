@@ -73,6 +73,9 @@
                                         <div class="card-header">
                                             <h4 class="card-title">Issue</h4>
                                             <div class="form-group">
+                                            	<button type="submit" class="btn btn-primary me-1 mb-1"
+                                                    style="width: 100px; float: right;"
+                                                    onclick="location.href='list.lab'">라벨</button>
                                                 <button type="submit" class="btn btn-primary me-1 mb-1"
                                                     style="width: 100px; float: right;"
                                                     onclick="location.href='enrollForm.iss'">이슈등록</button>
