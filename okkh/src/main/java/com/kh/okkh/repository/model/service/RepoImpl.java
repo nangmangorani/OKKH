@@ -101,7 +101,7 @@ public class RepoImpl implements RepoService {
 		
 		// HttpURLConnection 방식
 		// 요청할 url 설정
-		String url = "https://api.github.com/user/repos";
+		String url = "https://api.github.com/orgs/kh05final/repos?direction=desc";
 		
 		// url에 연결할 준비
 		URL requestUrl = new URL(url);

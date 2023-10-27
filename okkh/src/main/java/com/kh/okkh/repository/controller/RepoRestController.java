@@ -31,9 +31,6 @@ import com.kh.okkh.repository.model.service.RepoImpl;
 @RestController
 public class RepoRestController {
 	
-	@Autowired
-	private RepoImpl rService;
-	
 	/**
 	 * 프로젝트 등록시 프로젝트명과 조직의 owner명이 일치하는지 대조하는 Controller
 	 * 
@@ -50,7 +47,7 @@ public class RepoRestController {
 		// api에 접근할 때 필요한 토큰
 		String token = (String)session.getAttribute("token");
 		
-		// 기본 url 뒤에 붙을 uri
+		// 기본 url 뒤에 붙을 uri (조직 정보 조회 API)
 		String uri = "/orgs/" + checkTitle;
 		
 		// GET => checkTitle에 들어있는 이름이 있는지 조회를 해야하기 때문
@@ -67,6 +64,7 @@ public class RepoRestController {
 		String result = "";
 		
 		try {
+			// GitHubTemplate을 static으로 올려서 사용 => api url을 작성해주는 template
 			// 조회한 결과를 result에 담는다
 			result = getGitHubAPIValue(g);
 		} catch (FileNotFoundException e) {

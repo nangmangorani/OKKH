@@ -69,10 +69,9 @@
 	
 	<select id="selectMyProjectTitle" resultMap="myProjectResult">
 		select 
-			   distinct(mypro_title) as "mypro_title"
-		  from repo
-		  join my_project on (ref_pno = mypro_no)
-		 where ref_pno = #{myproNo}
+		       mypro_title
+		  from my_project
+		 where mypro_no = #{myproNo}
 	</select>
 
 </mapper>

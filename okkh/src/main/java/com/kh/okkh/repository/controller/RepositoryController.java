@@ -1,12 +1,11 @@
 package com.kh.okkh.repository.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,7 +21,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import static com.kh.okkh.common.model.service.GitHubTemplate.*;
 import com.kh.okkh.common.model.service.GithubService;
+import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.repository.model.service.RepoImpl;
 import com.kh.okkh.repository.model.vo.GithubRepo;
@@ -40,11 +43,6 @@ import com.kh.okkh.repository.model.vo.Repo;
 @Controller
 public class RepositoryController {
 	
-	// 깃허브에 붙는 작업들은 깃허브 서비스로 보냄
-	@Autowired
-	private GithubService gService;
-	
-	// local DB에 붙는 작업들은 레포 서비스로 보냄
 	@Autowired
 	private RepoImpl rService;
 	
@@ -138,6 +136,8 @@ public class RepositoryController {
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
 		MyProject mypro = rService.selectMyProjectTitle(pno);
 		
+//		System.out.println(mypro.getMyproTitle());
+		
 		// api 사용을 위해 session에 있는 token 호출
 		String token = (String)session.getAttribute("token");
 		
@@ -146,7 +146,30 @@ public class RepositoryController {
 //		System.out.println(pno);
 		
 		// 서비스단으로 꼬고!!
-		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
+//		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
+		
+		// URL에 들어갈 값들을 담아줄 객체 생성
+		GitHub g = new GitHub();
+		
+		// 요청 방식
+		g.setMethod("GET");
+		// 토큰 가져옴
+		g.setToken(token);
+		// Base URL 뒤에 붙일 URI (조직에 속한 레포 조회 API)
+		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
+		// 파라미터 값 담기 (여러개가 올 경우에 누적합으로 담기 위해 변수에 따로 담은 후 객체에 저장)
+		String param = "?direction=desc";
+		param += "&type=all";
+		g.setParam(param);
+		
+		// GitHubTemplate에서 넘어온 JSON 값을 받는다
+		String response = getGitHubAPIValue(g);
+		
+		// Json을 변환하여 담을 ArrayList 준비
+		Type type = new TypeToken<ArrayList<GithubRepo>>() {}.getType();
+		
+		// Gson 객체를 생성해서 Json을 ArrayList로 변환하여 차곡차곡 옮겨담기
+		ArrayList<GithubRepo> repoList = new Gson().fromJson(response, type);
 		
 //		System.out.println(r);
 		
