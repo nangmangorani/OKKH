@@ -48,8 +48,8 @@
 		                            <li class="nav-item" role="presentation">
 		                                <a class="nav-link active" id="ing-tab" data-bs-toggle="tab" href="#ing" role="tab" aria-controls="home" aria-selected="true">
 		                                    <c:choose>
-		                                    	<c:when test="${ not empty myproTitle }">
-		                                    		${ myproTitle }
+		                                    	<c:when test="${ not empty mypro }">
+		                                    		${ mypro.myproTitle }
 		                                    	</c:when>
 		                                    	<c:otherwise>
 		                                    		New Project
@@ -143,7 +143,7 @@
 				                        <div class="tab-content" id="myTabContent">
 				                            <div class="tab-pane fade show active" id="ing" role="tabpanel" aria-labelledby="ing-tab">
 				                            	<br><br>
-							                    <div class="col-12 col-lg-9">
+							                    <div class="col-12">
 							                        <div class="row">
 							                        	<c:forEach var="r" items="${ repoList }">
 								                            <!-- 레파지토리 시작 -->
@@ -156,11 +156,11 @@
 									                                                <!-- <div class="stats-icon blue">
 									                                                    <i class="iconly-boldShow"></i>
 									                                                </div> -->
-									                                                <img src="${ r.owner.avatar_url }" width="50" height="50" style="border-radius: 50px;">
+									                                                <img src="${ r.owner.avatar_url }" width="50" height="50" style="border-radius: 50px; border: 1px solid #cecece;">
 									                                            </div>
 									                                            <div class="col-md-8">
 									                                                <h6 class="text-muted font-semibold">${ r.visibility }</h6>
-									                                                <h4 class="font-extrabold mb-0">${ r.name }</h4>
+									                                                <h5 class="font-extrabold mb-0">${ r.name }</h5>
 									                                            </div>
 									                                        </div>
 									                                    </div>

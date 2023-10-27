@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<!--  
 <script>
 	var socket = null;
 	
@@ -57,6 +58,7 @@
 	})
 	
 </script>
+-->
 </head>
 
 <body>
@@ -137,7 +139,7 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                <img src="${ git.profile }">
+                                                <img src="${ git.profile }" style="border: 1px solid #cecece;">
                                             </div>
                                         </div>
                                     </div>

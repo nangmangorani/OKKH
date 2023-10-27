@@ -80,14 +80,18 @@
 				                                    <i data-feather="x"></i>
 				                                </button>
 				                            </div>
-				                            <form action="insertMyProject.re">
+				                            <form action="insertMyProject.re" id="enrollForm">
 				                            	<input type="hidden" name="refTeamNo" value="${ loginMember.teamNo }">
 				                            	<input type="hidden" name="myproMember" value="">
 				                                <div class="modal-body">
 				                                    <label>Project Title:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="프로젝트명을 입력해주세요."
-				                                            class="form-control" name="myproTitle">
+				                                        class="form-control" name="myproTitle">
+				                                        <br>
+				                                    	<div id="checkResult" style="font-size:0.8em; display: none;">
+                    										<!-- 프로젝트 이름 유효성 검사 결과가 출력될 자리 -->
+                    									</div>
 				                                    </div>
 				                                    <label>Project Type:</label>
 				                                    <div class="form-group">
@@ -111,7 +115,7 @@
 				                                        <span class="d-none d-sm-block">Cancel</span>
 				                                    </button>
 				                                    <button type="submit" class="btn btn-primary ml-1"
-				                                        data-bs-dismiss="modal">
+				                                        data-bs-dismiss="modal" disabled>
 				                                        <i class="bx bx-check d-block d-sm-none"></i>
 				                                        <span class="d-none d-sm-block">Create</span>
 				                                    </button>
@@ -121,11 +125,62 @@
 				                    </div>
 				                </div>
 				                <!--/프로젝트 추가 form Modal 끝 -->
+				                
+				                <!-- 프로젝트명 유효성 검사 시작 -->
+				                <script>
+							    	$(function() {
+							    		// 프로젝트명을 입력하는 input 요소객체 변수에 담아두기
+							    		const $titleInput = $("#enrollForm input[name=myproTitle]");
+							    		
+							    		$titleInput.keyup(function() {
+							    			//console.log($titleInput.val());
+							    			
+							    			// 최소 5글자 이상으로 입력이 되어있을 때만 ajax를 요청해서 중복체크 하도록
+							    			if($titleInput.val().length >= 5) {
+								    			$.ajax({
+								    				url:"titleCheck.re",
+								    				data:{
+								    					checkTitle:$titleInput.val()
+								    				},
+								    				success:function(result) {
+								    					
+								    					console.log(result);
+								    					
+								    					// => 초록색 메세지 (사용가능) 출력
+							    						$("#checkResult").show();
+							    						$("#checkResult").css("color", "#198754").text("아이디가 있네요!! 등록이 가능합니다.");	  
+							    						
+							    						// => 버튼 활성화
+							    						$("#enrollForm :submit").removeAttr("disabled");
+								    					
+								    				},
+								    				error:function() {
+								    					
+								    					// => 빨간색 메세지 (사용불가능) 출력
+							    						$("#checkResult").show();
+							    						$("#checkResult").css("color", "#dc3545").text("해당하는 아이디가 없어요ㅠㅠ 계정 생성 후에 다시 시도해 주세요.");	    						
+							    						
+							    						// => 버튼 비활성화
+							    						$("#enrollForm :submit").attr("disabled", true);
+							    						
+								    				}
+								    			});
+							    			}
+							    			else { // 5글자 미만일 경우 => 메시지 숨기기, 버튼 비활성화
+							    				$("#checkResult").hide();
+							    			
+							    				$("#enrollForm :submit").attr("disabled", true);
+							    			}
+							    		});
+							    	})
+							    </script>
+							    <!-- /프로젝트명 유효성 검사 끝 -->
+				                
 		                        <div class="tab-content" id="myTabContent">
 		                            <div class="tab-pane fade show active" id="ing" role="tabpanel" aria-labelledby="ing-tab">
 		                            	<br><br>
 		                                <!-- 진행중인 프로젝트 리스트 시작 -->
-					                    <div class="col-12 col-lg-9">
+					                    <div class="col-12">
 					                        <div class="row">
 					                        	<c:choose>
 					                        		<c:when test="${ not empty loginMember and not empty pIngList }">
@@ -134,7 +189,7 @@
 							                        	<c:forEach var="pIng" items="${ pIngList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
 							                                	<a href="repoList.re?pno=${ pIng.myproNo }">
-								                                	<div class="card" style="border: 1px solid #cecece;">
+								                                	<div class="card" style="border: 1px solid #cecece; height: 120px;">
 								                                   		<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
@@ -171,7 +226,7 @@
 		                            <div class="tab-pane fade" id="fin" role="tabpanel" aria-labelledby="fin-tab">
 		                                <br><br>
 		                                <!-- 완료된 프로젝트 리스트 시작 -->
-					                    <div class="col-12 col-lg-9">
+					                    <div class="col-12">
 					                        <div class="row">
 					                        	<c:choose>
 					                        		<c:when test="${ not empty loginMember and not empty pEndList }">
@@ -180,7 +235,7 @@
 					                        			<c:forEach var="pEnd" items="${ pEndList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
 							                                	<a href="repoList.re?pno=${ pEnd.myproNo }">
-								                                	<div class="card" style="border: 1px solid #cecece;">
+								                                	<div class="card" style="border: 1px solid #cecece; height: 120px;">
 								                                   		<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
 									                                            <div class="col-md-4">

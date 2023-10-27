@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import javax.servlet.http.HttpSession;
@@ -64,8 +65,6 @@ public class GithubService {
 				.bodyToMono(String.class)
 				.block();
 		
-//		System.out.println("getToken response : " + response);
-
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    JsonNode jsonNode;
 	    

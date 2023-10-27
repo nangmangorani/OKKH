@@ -66,22 +66,8 @@ public class RepoImpl implements RepoService {
 	 */
 	public ArrayList<GithubRepo> getRepositoryList(int myproNo, String token) throws IOException {
 		
-//		System.out.println("repo 조회 컨트롤러");
-		
-		/* 헤더 비교하려고 가져왔음
-		curl -L \
-		  -X POST \
-		  -H "Accept: application/vnd.github+json" \
-		  -H "Authorization: Bearer <YOUR-TOKEN>" \
-		  -H "X-GitHub-Api-Version: 2022-11-28" \
-		  https://api.github.com/user/repos \
-		  -d '{"name":"Hello-World","description":"This is your first repo!","homepage":"https://github.com","private":false,"is_template":true}'
-		  */
 		/*
-		System.out.println("pno : " + pno);
-		System.out.println("token : " + token);
-		
-		// mono 방식
+		// WebClient 방식
 		String response = webClient
 				.get()
 				.uri("https://api.github.com/repos/YoonTarget/test")
@@ -112,16 +98,8 @@ public class RepoImpl implements RepoService {
 		
 		return r;
 		*/
-		/*
-		curl -L \
-		  -H "Accept: application/vnd.github+json" \
-		  -H "Authorization: Bearer <YOUR-TOKEN>" \
-		  -H "X-GitHub-Api-Version: 2022-11-28" \
-		  https://api.github.com/user/repos
-		*/
 		
-//		System.out.println("here i am");
-		
+		// HttpURLConnection 방식
 		// 요청할 url 설정
 		String url = "https://api.github.com/user/repos";
 		
@@ -182,8 +160,17 @@ public class RepoImpl implements RepoService {
 	 * 레포가 담긴 프로젝트명 조회용 서비스
 	 */
 	@Override
-	public String selectMyProjectTitle(int myproNo) {
+	public MyProject selectMyProjectTitle(int myproNo) {
 		return rdao.selectMyProjectTitle(sqlSession, myproNo);
+	}
+
+	@Override
+	public int titleCheck(String checkTitle, HttpSession session) {
+		
+		
+		
+		return 0;
+
 	}
 
 }

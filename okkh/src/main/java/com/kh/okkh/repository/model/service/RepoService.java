@@ -24,6 +24,9 @@ public interface RepoService {
 	// 내 팀원 조회용 서비스
 	public ArrayList<Member> selectTeamMateList(int memNo);
 	
+	// 조직명 조회용 서비스
+	public int titleCheck(String checkTitle, HttpSession session);
+	
 	// 내 프로젝트 추가용 서비스
 	public int insertMyProject(MyProject p);
 	
@@ -34,6 +37,6 @@ public interface RepoService {
 	public ArrayList<GithubRepo> getRepositoryList(int pno, String token) throws IOException;
 	
 	// 레포가 담긴 프로젝트명 조회용 서비스
-	public String selectMyProjectTitle(int pno);
+	public MyProject selectMyProjectTitle(int pno);
 	
 }

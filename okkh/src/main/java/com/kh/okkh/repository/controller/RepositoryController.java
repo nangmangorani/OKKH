@@ -34,7 +34,7 @@ import com.kh.okkh.repository.model.vo.Repo;
  * 
  * **프로젝트 모집은 projectController로 가주세용~!~!**
  * 
- * @author 윤관현
+ * @author Target
  *
  */
 @Controller
@@ -136,7 +136,7 @@ public class RepositoryController {
 //		System.out.println(pno);
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
-		String myproTitle = rService.selectMyProjectTitle(pno);
+		MyProject mypro = rService.selectMyProjectTitle(pno);
 		
 		// api 사용을 위해 session에 있는 token 호출
 		String token = (String)session.getAttribute("token");
@@ -153,7 +153,7 @@ public class RepositoryController {
 //		model.addAttribute("r", r);
 		
 		// DB에서 조회한 프로젝트명과 깃허브에서 조회한 repoListd를 레포 조회 페이지로 보낸다잉
-		model.addAttribute("myproTitle", myproTitle);
+		model.addAttribute("mypro", mypro);
 		model.addAttribute("repoList", repoList);
 		
 		// 레포 페이지로 이동

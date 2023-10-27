@@ -105,23 +105,24 @@
                                                     <div>
                                                         <div id="pr">
                                                             <p>마감일  |  2023.11.07</p>
-                                                            <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
+                                                            <h5 class="font-semibold">Spring으로 협업 페이지 만들어 봅시다~!~!</h5>
                                                             <span class="badge bg-primary">프론트</span>
                                                             <span class="badge bg-primary">백엔드</span>
                                                             <br>
                                                             <br>
                                                             <div class="avatar avatar-lg me-3">
-                                                                <img src="resources/stackImages/back/java.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/front/javascript.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/back/spring.svg" alt="" srcset="">
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="avatar avatar-sm" style="align-items: center;">
-                                                            <img src="resources/compiled/jpg/4.jpg">
-                                                            <span>작성자</span>
+                                                            <img src="https://avatars.githubusercontent.com/u/126389803?v=4">
+                                                            <span>YoonTarget</span>
                                                         </div>
                                                         <div style="float: right;">
-                                                            <i class="fa-regular fa-eye"></i> <span>6</span> /
-                                                            <i class="fa-regular fa-comment"></i> <span>6</span> /
+                                                            <i class="fa-regular fa-eye"></i> <span>115</span> /
+                                                            <i class="fa-regular fa-comment"></i> <span>75</span> /
                                                             <i class="fa-regular fa-thumbs-up"></i>
                                                         </div>
                                                     </div> 
@@ -134,24 +135,25 @@
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
                                                         <div id="pr">
-                                                            <p>마감일  |  2023.11.07</p>
-                                                            <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
+                                                            <p>마감일  |  2023.10.28</p>
+                                                            <h5 class="font-semibold">쇼핑몰 프로젝트 팀원 구합니다!!</h5>
                                                             <span class="badge bg-primary">프론트</span>
                                                             <span class="badge bg-primary">백엔드</span>
                                                             <br>
                                                             <br>
                                                             <div class="avatar avatar-lg me-3">
-                                                                <img src="resources/stackImages/back/java.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/front/react.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/back/nodejs.svg" alt="" srcset="">
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="avatar avatar-sm" style="align-items: center;">
-                                                            <img src="resources/compiled/jpg/4.jpg">
-                                                            <span>작성자</span>
+                                                            <img src="https://avatars.githubusercontent.com/u/134485591?v=4">
+                                                            <span>HoBBang1004</span>
                                                         </div>
                                                         <div style="float: right;">
-                                                            <i class="fa-regular fa-eye"></i> <span>6</span> /
-                                                            <i class="fa-regular fa-comment"></i> <span>6</span> /
+                                                            <i class="fa-regular fa-eye"></i> <span>55</span> /
+                                                            <i class="fa-regular fa-comment"></i> <span>46</span> /
                                                             <i class="fa-regular fa-thumbs-up"></i>
                                                         </div>
                                                     </div> 
@@ -164,24 +166,23 @@
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
                                                         <div id="pr">
-                                                            <p>마감일  |  2023.11.07</p>
-                                                            <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
+                                                            <p>마감일  |  2023.11.10</p>
+                                                            <h5 class="font-semibold">!긴급!게임 커뮤니티 사이트 프론트 2명 구합니다!!</h5>
                                                             <span class="badge bg-primary">프론트</span>
-                                                            <span class="badge bg-primary">백엔드</span>
                                                             <br>
                                                             <br>
                                                             <div class="avatar avatar-lg me-3">
-                                                                <img src="resources/stackImages/back/java.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/front/typescript.svg" alt="" srcset="">
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="avatar avatar-sm" style="align-items: center;">
-                                                            <img src="resources/compiled/jpg/4.jpg">
-                                                            <span>작성자</span>
+                                                            <img src="https://avatars.githubusercontent.com/u/134485713?v=4">
+                                                            <span>JMOOK0816</span>
                                                         </div>
                                                         <div style="float: right;">
-                                                            <i class="fa-regular fa-eye"></i> <span>6</span> /
-                                                            <i class="fa-regular fa-comment"></i> <span>6</span> /
+                                                            <i class="fa-regular fa-eye"></i> <span>45</span> /
+                                                            <i class="fa-regular fa-comment"></i> <span>24</span> /
                                                             <i class="fa-regular fa-thumbs-up"></i>
                                                         </div>
                                                     </div> 
@@ -194,24 +195,25 @@
                                                 <div class="card" style="padding: 10px; margin: 0;">
                                                     <div>
                                                         <div>
-                                                            <p>마감일  |  2023.11.07</p>
-                                                            <h5 class="font-semibold">이곳은은 제목이 들어가는 자리입니다</h5>
+                                                            <p>마감일  |  2023.10.31</p>
+                                                            <h5 class="font-semibold">자그마한 사이드 프로젝트 팀원 구해요~!~!</h5>
                                                             <span class="badge bg-primary">프론트</span>
                                                             <span class="badge bg-primary">백엔드</span>
                                                             <br>
                                                             <br>
                                                             <div class="avatar avatar-lg me-3">
-                                                                <img src="resources/stackImages/back/java.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/front/javascript.svg" alt="" srcset="">
+                                                                <img src="resources/stackImages/back/python.svg" alt="" srcset="">
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <div class="avatar avatar-sm" style="align-items: center;">
-                                                            <img src="resources/compiled/jpg/4.jpg">
-                                                            <span>작성자</span>
+                                                            <img src="https://avatars.githubusercontent.com/u/134485724?v=4">
+                                                            <span>nangmangorani</span>
                                                         </div>
                                                         <div style="float: right;">
-                                                            <i class="fa-regular fa-eye"></i> <span>6</span> /
-                                                            <i class="fa-regular fa-comment"></i> <span>6</span> /
+                                                            <i class="fa-regular fa-eye"></i> <span>51</span> /
+                                                            <i class="fa-regular fa-comment"></i> <span>20</span> /
                                                             <i class="fa-regular fa-thumbs-up"></i>
                                                         </div>
                                                     </div> 
