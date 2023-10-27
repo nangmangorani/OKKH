@@ -431,7 +431,7 @@
                                     		})
                                         }else{
                                         	// 만약 댓글에 공백만 있다면 
-                                        	alert("댓글 작성 후 등록해주세요")
+                                        	alertify.alert("댓글 작성 후 등록해주세요")
                                         }	
                                         	
                                       };
@@ -487,10 +487,10 @@
                                         					// 댓글 삭제 성공하면 alert띄우고
                                         					// 댓글 조회 함수 호출
                                         					
-                                        					alert("댓글 삭제 성공!")
+                                        					alertify.alert("댓글 삭제 성공!")
                                         					selectPrReplyList();
                                         				}else{
-                                        					alert("댓글 삭제 실패ㅠㅠ")
+                                        					alertify.alert("댓글 삭제 실패ㅠㅠ")
                                         				}
                                         				
                                         			},

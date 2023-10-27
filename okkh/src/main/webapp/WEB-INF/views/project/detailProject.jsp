@@ -589,7 +589,7 @@
                                         	  
                                         		
                                         	                }else {
-																	alert("댓글 작성 후 등록해주세요")
+																	alertyfi.alert("댓글 작성 후 등록해주세요")
 
 																}
                                         	  
@@ -647,11 +647,11 @@
 
 																			if (result == "success") {
 
-																				alert("댓글 삭제를 성공했습니다.")
+																				alertify.alert("댓글 삭제를 성공했습니다.")
 																				selectProjectReply();
 
 																			} else {
-																				alert("댓글 삭제를 실패했습니다.")
+																				alertify.alert("댓글 삭제를 실패했습니다.")
 																			}
 																		},
 																		error: function () {
@@ -735,7 +735,7 @@
 
 
 
-																		alert("프로젝트 신청이 완료되었습니다!!!")
+																		alertify.alert("프로젝트 신청이 완료되었습니다!!!")
 
 
 																		let value = "";
@@ -794,7 +794,7 @@
 																		success: function (data) {
 
 																			if (data == 1) {
-																				alert("프로젝트 참여가 취소되었습니다!")
+																				alertify.alert("프로젝트 참여가 취소되었습니다!")
 
 
 																				let value = "";

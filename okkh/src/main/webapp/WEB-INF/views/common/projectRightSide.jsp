@@ -289,7 +289,7 @@
 	                            			},
 	                            			success:function(data){
 	                            				if(data=="success"){
-	                            					alert("프로젝트 회원 상태 변경을 성공했습니다!")
+	                            					alertify.alert("프로젝트 회원 상태 변경을 성공했습니다!")
 	                            					
 	                            					// 상태 변경 성공하면 회원들에게 실시간 알람가게 하기 -> 그냥 안할래...ㅠㅠ
 	                            					/*
@@ -310,7 +310,7 @@
 	                            					
 	                            					
 	                            				}else{
-	                            					alert("프로젝트 회원 상태 변경을 실패했습니다ㅠㅠ")
+	                            					alertify.alert("프로젝트 회원 상태 변경을 실패했습니다ㅠㅠ")
 	                            				}
 	                            			},
 	                            			error:function(){

@@ -26,9 +26,9 @@ public interface FriendService {
 	   
 	   
 	
-	// 모든 사용자 조회 (근데 이건 teamList session에다가 담은 듯..?)
-	 //ArrayList<Member> selectMemberList(PageInfo pi);
-	 ArrayList<Member> selectMemberList();
+	// 모든 사용자 조회 
+	 //ArrayList<Member> selectMemberList(PageInfo pi);  // 페이징 처리 버전
+	ArrayList<Member> selectMemberList(int memNo);   // 페이징 처리 안한 버전
 	
 	// 모든 사용자의 목록 개수 
 	int allMemberListCount();

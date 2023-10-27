@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.friend.model.service.FriendServiceImpl;
@@ -27,6 +28,8 @@ public class FriendController {
 	@Autowired
 	private FriendServiceImpl fservice;
 	
+	@Autowired
+	private HttpSession session;
 	
 	/**
 	 * leftSideBar에서 friends 누르자마자 실행되는 메소드 (페이징처리하기)
@@ -43,7 +46,7 @@ public class FriendController {
 	 */
 
 	@RequestMapping("friendList.f")
-	public ModelAndView selectFriendList(@RequestParam(value="cpage", defaultValue = "1") int currentPage,  HttpSession session, ModelAndView mv) {
+	public ModelAndView selectFriendList(@RequestParam(value="cpage", defaultValue = "1") int currentPage, ModelAndView mv) {
 		
 		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
 		
@@ -71,25 +74,72 @@ public class FriendController {
 		    
 			
 			
-		//==================== 전체 회원 조회 ============================
-			int allMemberListCount = fservice.allMemberListCount();
-			PageInfo pi3 = new PagiNation().getPageInfo(allMemberListCount, currentPage, 3, 5);	
-			//ArrayList<Member> allMemberList = fservice.selectMemberList(pi3);
-			ArrayList<Member> allMemberList = fservice.selectMemberList();  // 이건 페이징바 구현안하고
-			
-		 System.out.println(allMemberList);
-			
+	
 	   // 친구목록은 필요해서 세션에 담기
 			session.setAttribute("myBfList", myBfList);
-			session.setAttribute("allMemberList", allMemberList);
+			
 			session.setAttribute("noneBfList", noneBfList);
 		
-			 mv.addObject("pi1", pi1).addObject("pi2", pi2).addObject("pi3", pi3).setViewName("friend/friend");
+			 mv.addObject("pi1", pi1).addObject("pi2", pi2).setViewName("friend/friend");
 		
 		return mv;
 		
 		
 	}
+	
+	
+	/**.
+	 * 모든 회원의 리스트 조회하는 메소드 -> 페이징 처리 안함 버전
+	 * @param currentPage
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("allMemberList.fri")
+	public String selectMemberList(@RequestParam(value="cpage",defaultValue = "1") int currentPage,int memNo) {
+		
+		//==================== 전체 회원 조회 ============================
+		int allMemberListCount = fservice.allMemberListCount();
+		
+		//PageInfo pi3 = new PagiNation().getPageInfo(allMemberListCount, currentPage, 3, 5);	
+		
+		//ArrayList<Member> allMemberList = fservice.selectMemberList(pi3);
+		ArrayList<Member> allMemberList = fservice.selectMemberList(memNo);
+		
+		
+		 //System.out.println(allMemberList);
+		 
+		 // 혹시 몰라서 세션에 태움
+		 //session.setAttribute("allMemberList", allMemberList);
+		 
+		 
+		 return new Gson().toJson(allMemberList);
+		 
+		 
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

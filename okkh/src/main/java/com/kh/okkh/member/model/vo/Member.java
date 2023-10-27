@@ -29,6 +29,7 @@ public class Member {
 	private String status;
 	private int team;  // 참가 희망하는 프로젝트 번호
 	private String teamStatus;  //참여상태 y확정, n임시 , 일단은 default 값이 n임
-	
-	
+	private String friendStatus;  // 친구 상태를 위해서 필요한 컬럼
+	private String me;
+	private String fri;
 }

@@ -1,3 +1,4 @@
+<%@page import="com.kh.okkh.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -168,7 +169,7 @@
                                 <!-- Button trigger for login form modal -->
                                 <button type="button"
                                     style="border-radius: 10px; background-color: #435ebe; margin-bottom: 20px; color: white; float: right; margin-right: 70px;"
-                                    data-bs-toggle="modal" data-bs-target="#inlineForm">
+                                    data-bs-toggle="modal" data-bs-target="#inlineForm" id="selectFriBTN">
                                     친구 찾기
                                 </button>
 
@@ -198,7 +199,7 @@
                                                             <span class="input-group-text" id="basic-addon1"><i
                                                                     class="bi bi-search"></i></span>
                                                             <input type="text" class="form-control"
-                                                                style="width: 200px;" placeholder="친구 이름을 검색하세요."
+                                                                style="width: 200px;" placeholder="검색할 친구의 닉네임을 검색하세요."
                                                                 aria-label="Recipient's username"
                                                                 aria-describedby="button-addon2">
                                                             <button class="btn btn-outline-secondary" type="button"
@@ -208,7 +209,7 @@
                                                         <div>
 
 
-                                                            <table class="table mb-0">
+                                                            <table class="table mb-0" id="modalTable">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>No</th>
@@ -221,40 +222,7 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 
-                                                                
-                                                              <c:forEach var="member" items="${allMemberList}">
-                                                                    <tr>
-                                                                        <td >${member.memNo}</td>
-                                                                        <td>${member.gitNick}</td>
-                                                                        <td class="text-bold-500">
-                                                                            <button class="friendBTN">친구 신청</button>
-                                                                        </td>
-
-
-                                                                        <td class="friend-menu">
-
-                                                                            <button class="dropdown-toggle"
-                                                                                type="button" class="dropdownMenuButton"
-                                                                                data-bs-toggle="dropdown"
-                                                                                aria-haspopup="true"
-                                                                                aria-expanded="false"
-                                                                                style="border: 0; background-color: white; width: 40px; height: 40px;">
-                                                                                ⁝
-                                                                            </button>
-                                                                            <div class="dropdown-menu"
-                                                                                aria-labelledby="dropdownMenuButton">
-                                                                                <a class="dropdown-item" href="#">친구
-                                                                                    수락</a>
-                                                                                <a class="dropdown-item" href="#">친구
-                                                                                    차단</a>
-
-                                                                            </div>
-
-
-                                                                        </td>
-                                                                    </tr>
-															</c:forEach>
-                                                                  
+                                                           			<!-- ajax로 조회한 내용 여기에 그릴거임 -->
 
                                                                 </tbody>
 
@@ -270,53 +238,7 @@
                                                     </div>
 
 													
-													 <!-- 페이징바 
-														<nav aria-label="Page navigation example">
-															<ul class="pagination pagination-primary  justify-content-center ">
-															
-															<c:choose>
-															
-																<c:when test="${pi3.currentPage eq 1}">
-																    <li class="page-item disabled"><a class="page-link" href="#">
-																		<span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-																	</a></li>
-		
-																</c:when>
-																
-																<c:otherwise>
-																    <li class="page-item"><a class="page-link" href="${pi3.currentPage -1 }">
-																		<span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-																	</a></li>
-																</c:otherwise>
-																
-																
-															</c:choose>
-																	
-																<c:forEach var="i" begin="${pi3.startPage }" end="${pi3.endPage }" >
-																		<li class="page-item "><a class="page-link" href="${i }">${i }</a></li>
-																
-																</c:forEach>
-		
-																		
-																		
-																		
-																		
-															<c:choose>
-															    <c:when test="${pi3.currentPage eq pi3.maxPage }">	
-																	<li class="page-item disabled"><a class="page-link" href="#">
-																		<span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-																	</a></li>
-																</c:when>	
-																
-																<c:otherwise>
-															        <li class="page-item"><a class="page-link" href="${pi3.currentPage +1 }">
-																		<span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-																	</a></li>
-																</c:otherwise>
-															</c:choose>		
-														</ul>
-													</nav>
-											-->
+													 
 												
 
                                                 </div>
@@ -653,8 +575,7 @@
 							</div>
 
 
-
-
+						
 
 
 
@@ -699,6 +620,16 @@
                                 //         }
                                 //     });
                                 // });
+                                
+                                
+                                
+                                //------------------------------------------------------------------------------------
+                                
+                                
+                               
+                                
+                                
+                                
                             </script>
 
                         </div>
@@ -715,6 +646,136 @@
 			
         </div>
     </div>
+    
+    
+    				<script>
+							
+						
+							
+							 // 친구 찾기 버튼을 눌렀을 때 나오는 모달 창내에서 실행할 ajax
+                            function selectAllFriend(){
+                            	
+								 const loginMember = <% ((Member)session.getAttribute("loginMember")).getMemNo();%>
+								 
+								 
+								 
+                            	$.ajax({
+                            		url: "allMemberList.fri",
+                            		data:{
+                            			memNo : ${loginMember.memNo}
+                            		},
+                            		success:function(list){
+                            			
+                            			console.log(list)
+                            			
+                            			
+                            			let value="";
+                            			
+                            			
+                            			if(list.length != 0){
+	                            			for(var i in list){
+	                            				
+	                        
+	                            				
+	                            				value += "<tr>"
+	                                             	  + "<td>" + list[i].memNo +"</td>"
+	                                                  + "<td>" + list[i].gitNick +"</td>"
+	                                                  + "<td class='text-bold-500'>";
+	                                                  
+			                            				if(list[i].friendStatus == 'Y'){
+		                                                  	value += "<button class='friendBTN' type='button'>친구</button>";
+		                                                  	
+		                                                  }else if(list[i].friendStatus == 'N'){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 아님</button>";  
+		                                                	
+		                                                  }else if(list[i].friendStatus == 'A' && list[i].me != null && list[i].fri == null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 요청함</button>";  
+		                                                	
+		                                                  }else if(list[i].friendStatus == 'A' && list[i].me == null && list[i].fri != null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 요청받음</button>"; 
+		                                                	
+		                                                  } else if(list[i].friendStatus == 'B' && list[i].me != null && list[i].fri == null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 거절함</button>";
+		                                                	
+		                                                  }else if(list[i].friendStatus == 'B' && list[i].me == null && list[i].fri != null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 거절됨</button>"; 
+		                                                	
+		                                                  } else if(list[i].friendStatus == 'D' && list[i].me != null && list[i].fri == null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 차단함</button>";  
+		                                                	
+		                                                  }else if(list[i].friendStatus == 'D' && list[i].me == null && list[i].fri != null){
+		                                                	value +=  "<button class='friendBTN' type='button'>친구 차단됨</button>";  
+		                                                  }
+			                            				
+	                                           value =+"</td>"
+	                                                  + "<td class='friend-menu'>"
+	                                                  + "<button class='dropdown-toggle' type='button' class='dropdownMenuButton' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='border: 0; background-color: white; width: 40px; height: 40px;'>"
+	                                                  + " ⁝ "
+	                                                  + "</button>"
+	                                                  + "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
+	                                                  
+	                                                  if(list[i].friendStatus =='Y'){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 삭제</a> ";
+		                                                         + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+	                                                  
+	                                                  }else if(list[i].friendStatus == 'N'){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 추가</a> ";
+	                                                            + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+	                                                            
+	                                                  }else if(list[i].friendStatus == 'A' && loginMember == list[i].bfGiver){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 요청 취소</a> ";
+                                                          + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+                                                          
+                                                      }else if(list[i].friendStatus == 'A' && loginMember == list[i].bfTaker){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 수락</a> ";
+                                                          + "<a class='dropdown-item' href='#'>친구 거절</a> ";
+                                                          
+                                                      }else if(list[i].friendStatus == 'B' && loginMember == list[i].bfGiver){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 차단 취소</a> ";
+	                                                	  
+                                                          
+                                                      }else if(list[i].friendStatus == 'D' && loginMember == list[i].bfGiver){
+	                                                	  value += "<a class='dropdown-item' href='#'>친구 거절 취소</a> ";
+                                                          + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+                                                          
+                                                      }
+	                                                 
+		                                       
+	                                                  + "</div>"
+	                                                  + "</td>"
+	                                                  + "</tr>"
+		                            				
+		                            			} // for문
+		                            			
+		                            			
+		                            			
+		                            			
+		                            		  } else{
+		                            				value += "<td colspan='4'> 조회된 회원이 없습니다 </td>"
+		                            		} // if문 끝
+                            			
+		                            		$("#modalTable tbody").html(value);
+		                            		
+                            		},
+                            		error:function(){
+                            			console.log("모든 친구리스트 조회용 ajax실패")
+                            		}
+                            		
+                            		
+                            	})
+                            	
+                            }// 모달창에 모든 친구 찾는 함수 끝
+                            
+                            
+                            $("#selectFriBTN").click(function(){
+                            	selectAllFriend();
+                            })
+                            
+                            
+							</script>
+    
+    
+    
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 
 

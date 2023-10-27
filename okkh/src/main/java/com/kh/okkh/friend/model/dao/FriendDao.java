@@ -90,7 +90,7 @@ public class FriendDao {
 	
 	
 	/**
-	 * 전체 회원 조회하는 메소드
+	 * 전체 회원 조회하는 메소드 -> 페이징 처리
 	 * @return
 	 */
 	/*
@@ -103,21 +103,16 @@ public class FriendDao {
 		
 		return (ArrayList)sqlsession.selectList("friendMapper.selectMemberList", null, rowBounds);
 	}
-	
 	*/
 	
+	
 	/**
-	 * 전체 회원 조회하는 메소드
+	 * 전체 회원 조회하는 메소드 -> 페이징 처리 안함 
 	 * @return
 	 */
-	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlsession){
-//		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit(); // 게시글 몇 개 건너뛸건지
-//	    int limit = pi.getBoardLimit();
+	public ArrayList<Member> selectMemberList(int memNo,SqlSessionTemplate sqlsession){
 		
-		
-		//RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return (ArrayList)sqlsession.selectList("friendMapper.selectMemberList");
+		return (ArrayList)sqlsession.selectList("friendMapper.selectMemberList",memNo);
 	}
 	
 	

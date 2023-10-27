@@ -24,6 +24,10 @@
 		<result column="status" property="status"/>
 		<result column="team" property="team"/>
 		<result column="team_status" property="teamStatus"/>
+		<result column="f_status" property="friendStatus"/>
+		<result column="me" property="me"/>
+		<result column="fri" property="fri"/>
+		
 
 	</resultMap>
  
@@ -87,23 +91,21 @@
  
  </select>
  
- 
+ <!-- 모든 회원 조회 -->
  <select id="selectMemberList" resultMap="memberResultSet">
-   
-  select 
-         mem_no
-       , mem_id
-       , mem_token
-       , mem_intro
-       , to_char(create_date , 'YYYY-MM-DD') as "create_date"
-       , status
-       , stack_name
-       , team
-       , team_status
-       , git_nick
-  from member 
- where status = 'Y'
- 
+    select *
+		from member
+		    left join 
+		        (
+		        select nvl(a.bf_taker, nvl(b.bf_giver, a.bf_taker)) user_no, a.status ME, b.status FRI
+		        from (select * from friend where bf_giver = #{memNo}) a
+		        full outer join (select * from friend where bf_taker = #{memNo}) b on (a.bf_taker = b.bf_giver)
+		        )
+		    on (mem_no = user_no)
+		where status = 'Y'
+            and (FRI != 'Y' or FRI is null)
+		    and user_no != #{memNo}
+		    and nvl(ME, FRI) is not null
  </select>
  
  

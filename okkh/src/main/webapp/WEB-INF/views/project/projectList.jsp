@@ -857,15 +857,11 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                     </select>
 
 
-				<c:choose>
-					<c:when test="${empty loginMember }">
-                    	<button class="btn btn-primary" style="margin-left: 50px; width: 170px; height:60px; border-radius: 10px;" disabled >프로젝트 작성하기(로그인 필수)</button>
-					</c:when>
 					
-					<c:otherwise>
+					<c:if test="${not empty loginMember }">
 						<button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="location.href='insertProjectForm.pro'" >프로젝트 작성하기</button>
-					</c:otherwise>
-				</c:choose>
+					</c:if>
+			
                 
                 
             </div>
@@ -873,14 +869,15 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             <!-- 메인 내용 -->
             <!-- 첫번째 있는 div만 남기고 나머지는 다 지우기  -->
             <!-- 어차피 반복문으로 돌릴거임 -->
-            <div class="UJ-content">
+            <div class="UJ-content" >
             
             	
             
             
             <c:forEach var="p" items="${list }">
-            
-	                <div  class="UJ-ProjectContent" onclick="location.href='selectDetailPro.pro?pno=' + ${p.proNo}">
+               <c:choose>
+            		<c:when test="${not empty loginMember }">
+	                <div  class="UJ-ProjectContent" onclick="location.href='selectDetailPro.pro?pno=' + ${p.proNo}" >
 	
 						<input type="hidden" value="${p.proNo }" id="proNo">
 	
@@ -964,14 +961,128 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
 	                    </div>
 	
 	                </div>
+	                </c:when>
+	                
+	                
+	                <c:otherwise>
+	                 <div  class="UJ-ProjectContent" onclick="notLogin();">
+	
+						<input type="hidden" value="${p.proNo }" id="proNo">
+	
+	                    <div style="padding-top: 7px; padding-left: 10px;">
+	                    
+	                      <!-- 모집중/ 모집완료표시 -->
+	                      <c:choose>
+		                      	<c:when test="${p.proStatus eq 'Y' }">
+		                        	<button style="border:0; width: 80px; height: 35px; border-radius: 50px; margin-left:10px" class="btn btn-primary">모집중</button>
+		                      	
+		                      	</c:when>
+		                      	
+		                      	<c:otherwise>
+		                      		<button style="border:0; width: 100px; height: 35px; border-radius: 50px; margin-left:10px" class="btn btn-light-secondary">모집 완료</button>
+		                      	</c:otherwise>
+	                      
+						 </c:choose>
+							
+						<!-- 북마크 이미지 -->
+						
+				<!--  
+	                  <c:choose >
+                          <c:when test="${not empty book and book.memNo eq loginMember.memNo}">
+                         	 <img src="https://holaworld.io/images/info/bookmark_filled.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+						 </c:when>	
+						 
+						 <c:otherwise>
+							 <img src="https://holaworld.io/images/info/bookmark.png" style="float:right; padding-right: 40px; " onclick="bookmark(event);" class="bookmark"> 
+						 </c:otherwise>
+										
+					 </c:choose>
+	            --> 
+	            
+	            
+	                    </div>
+	                    <!-- 마감일 , 북마크 -->
+	                    <div id="UJ-dateMark">
+	                        <div id="UJ-date">
+	                            마감일 : ${p.proDeadLine }
+	                            
+	                        </div>
+	                       
+	                    </div>
+	
+	                    <!-- 제목 -->
+	                    <div id="UJ-title">
+	                        ${p.proTitle }
+	                    </div>
+	                    
+	                    <!-- 기술 -->
+	                    <div id="UJ-tech">
+	                    	<!-- 모집 기술분야는 ,로 구분지어서 하나씩 값을 버튼 사이 text에 넣어주기 -->
+		                    	<c:set var="position" value="${fn:split(p.proPosition,',') }"/>
+		                    	
+		                    	<c:forEach var="po" items="${position }">
+		                        	<button style="width: 65px; font-size: 12px;">${po}</button>
+		                        </c:forEach>
+	                    </div>
+	
+	                    <!-- 기술 이미지 -->
+	                    <div id="UJ-techImg">
+	                    
+	                    	<c:set var="stacks" value="${fn:split(p.proStack,',') }"/>
+	                    	<c:forEach var="stack" items="${stacks }">
+	                    		<c:set var="src" value="https://holaworld.io/images/languages/${stack}.svg" />
+	                    	
+			                        <img src="${src }" alt="${src }">
+	                    	
+	                    	</c:forEach>
+	                    
+	                     
+	                        <br>
+	                        <hr>
+	
+	                    </div>
+	                    
+	                    <!-- 작성자 -->
+	                    <div id="UJ-writer" style="padding-top: 10px;">
+	                     조회수 : ${p.count } <br>
+	                     작성자 : ${p.proWriter }
+	                    </div>
+	
+	                </div>
+	                
+	                </c:otherwise>
+	            </c:choose>
+	            
+	                
 
 			</c:forEach>
                 
             </div>
 
 			
+			<script>
+			function notLogin(){
+				alertify.alert("로그인 후에 이용가능한 서비스입니다.")
+        	};
+			
+			
+			
+			</script>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			<script>
+			
+
+        	
 			// 북마크 클릭했을 때 
         	function bookmark(event){
         		
@@ -1017,6 +1128,8 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
         		
         		
         	};
+        	
+        	
 			
 			</script>
 		

@@ -64,19 +64,24 @@ public class FriendServiceImpl implements FriendService {
 
 
 	/**
-	 * 모든 회원 조회
+	 * 모든 회원 조회 -> 페이징 처리 함
 	 */
-//	@Override
-//	public ArrayList<Member> selectMemberList(PageInfo pi) {
-//		
-//		return fdao.selectMemberList(pi, sqlsession);
-//	}
-//	
-	
+	/*
 	@Override
-	public ArrayList<Member> selectMemberList() {
+	public ArrayList<Member> selectMemberList(PageInfo pi) {
 		
-		return fdao.selectMemberList( sqlsession);
+		return fdao.selectMemberList(pi, sqlsession);
+	}
+	*/
+	
+	/**\
+	 *  모든 회원 조회인데 페이징 처리 안함
+	 * @return
+	 */
+	@Override
+	public ArrayList<Member> selectMemberList(int memNo) {
+		
+		return fdao.selectMemberList( memNo,sqlsession);
 	}
 
 

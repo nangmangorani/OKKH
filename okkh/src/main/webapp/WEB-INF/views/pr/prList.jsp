@@ -871,30 +871,32 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                         <option value="1">즐겨찾기 순</option>
                         <option value="2">최신 순</option>
                     </select>
-			<c:choose>
-				<c:when test="${not empty loginMember }">
+		
+				<c:if test="${not empty loginMember }">
                     <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="location.href='enrollPRFr.pr'" >PR 작성하기</button>
 				
-				</c:when>
+				</c:if>
 				
-				<c:otherwise>
 				
-				 <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="enrollPRFr.pr" disabled >PR 작성하기</button>
-				</c:otherwise>
                 
-             </c:choose>   
+                
             </div>
 
             <!-- 메인 내용 -->
             <!-- 첫번째 있는 div만 남기고 나머지는 다 지우기  -->
             <!-- 어차피 반복문으로 돌릴거임 -->
-            
-            
+
             <div class="UJ-content" >
             <c:forEach var="pr" items="${list }">
             	<input type="hidden" name="prNo" value="${pr.prNo }" >
             
+             <c:choose>
+               <c:when test="${not empty loginMember }">
                 <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pr.prNo}" >
+                  
+               
+                  
+                  
                     <!-- 마감일 , 북마크 -->
                     <div id="UJ-dateMark">
                         <div id="UJ-date">
@@ -940,6 +942,65 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                     
                     
                   </div>
+                  </c:when>
+                  
+                  <c:otherwise>
+                  <div  class="UJ-ProjectContent" onclick="notLogin();" >
+                  
+               
+                  
+                  
+                    <!-- 마감일 , 북마크 -->
+                    <div id="UJ-dateMark">
+                        <div id="UJ-date">
+                            작성일 : ${pr.createDate }
+                        </div>
+                        
+                      <!--  
+                        <div id="UJ-bookMark">
+                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
+                        </div>
+                        
+                       -->   
+                    </div>
+
+                    <!-- 제목 -->
+                    <div id="UJ-title">
+                       ${pr.prTitle }
+                    </div>
+                    
+                    <!-- 기술 이미지 , 기술 스택을,로 구분지어서 자른다음에 이미지 주소에 넣음-->
+                   <div id="UJ-techImg">
+					    <c:set var="techStacks" value="${fn:split(pr.stackName, ',')}" />
+					    <c:forEach items="${techStacks}" var="techStack">
+					    <c:set var="src" value="https://holaworld.io/images/languages/${techStack}.svg"/>
+					        <img src="${src }" alt="${src}">
+					    </c:forEach>
+					    <hr>
+					</div>
+					
+					<br>
+					 <!-- 조회수 -->
+                    <div style="padding-left:20px; font-weight: 900;" >
+                        조회수 :  ${pr.count }
+                    </div>
+                    
+                    <!-- 작성자 -->
+                    <div id="UJ-writer">
+                       
+                     작성자 : ${pr.prWriter}
+                    </div>
+
+                    
+                    
+                    
+                  </div>
+                  
+                  </c:otherwise>
+                  
+                  
+                  
+                 </c:choose> 
 			</c:forEach>
                 
           
@@ -996,6 +1057,11 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
             
      </script>
      
+     <script>
+     	function notLogin(){
+     		alertify.alert("로그인 후에 이용가능한 서비스 입니다")
+     	}
+     </script>
     
 	
     
