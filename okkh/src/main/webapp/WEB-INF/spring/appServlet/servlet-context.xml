@@ -33,14 +33,4 @@
 	<context:component-scan base-package="com.kh.okkh" />
 	
 	
-	<!-- websocket handler -->
-	<beans:bean id="myHandler" class="com.kh.okkh.chat.contorller.ChatWebsocketHandler"/>
-	<websocket:handlers>
-		<websocket:mapping handler="myHandler" path="/chat"/>
-		<websocket:handshake-interceptors>
-	         <beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
-	      </websocket:handshake-interceptors>
-		<websocket:sockjs websocket-enabled="true"/>
-	</websocket:handlers>
-	
 </beans:beans>

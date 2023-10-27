@@ -10,20 +10,18 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-  @Override
-  public void configureMessageBroker(MessageBrokerRegistry config) {
-    config.enableSimpleBroker("/topic"); // 클라이언트가 서버로부터 메시지를 받기위한 URL의 prefix 설정
-    config.setApplicationDestinationPrefixes("/app"); // 클라이언트가 서버에게 메시지를 보내기 위한 URL의 prefix 설정
-  }
+    @Override
+    //메시지를 중간에서 라우팅할 때 사용하는 메시지 브로커를 구성한다.
+    public void configureMessageBroker(MessageBrokerRegistry registry){
+        registry.enableSimpleBroker("/sub"); //해당 주소를 구독하는 클라이언트에게 메시지를 보낸다
+        registry.setApplicationDestinationPrefixes("/pub"); // /pub로 시작하는 메시지만 해당 Broker에서 받아서 처리한다.
+    }
 
-  @Override
-  public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/chat"); // 클라이언트와 서버가 connection(handshake)을 만들기 위한 endpoint 설정
-    registry.addEndpoint("/chat")
-    		.setAllowedOrigins("http://localhost:7777")
-    		.withSockJS();
-    		
-    // /chat으로 시작하는 URL의 요청은 @Controller 클래스의 @MessageMapping 메소드로 전달된다.
-  }
-
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry){
+        registry.addEndpoint("/okkh/chat") // ex) ws//localhost:7777/okkh/chatting
+        		.setAllowedOrigins("*")
+        		.withSockJS(); // .withSockJS();
+    }
+    
 }

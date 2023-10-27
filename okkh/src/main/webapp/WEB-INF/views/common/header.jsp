@@ -8,45 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script>
-	var socket = null;
-	$(document).ready(function(){
-		if(${loginMember != null}) {
-			connect();
-			}
-	})
-	
-	//소켓
-	function connect(){
-		console.log("소켓 고고!!")
-		
-		var ws = new SockJS("http://localhost:7777/okkh/chat");
-		socket = ws;
-		
-		ws.onopen = function() {
-	 		console.log('연결 됨');
-		};
-	
-		ws.onmessage = function(event) {
-			console.log("onmessage"+ event.data);
-			
-			
-			
-			
-			
-			
-			setTimeout(function() {
-				$socketAlert.css('display','none');
-			}, 5000);
-		};
-	
-		ws.onclose = function(event) {
-		    console.log('연결 끝');
-		};
-	};
-	//소켓끝
-	
-</script>
+
 </head>
 
 <body>

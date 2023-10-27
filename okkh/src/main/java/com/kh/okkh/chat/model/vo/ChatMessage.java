@@ -14,17 +14,21 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ChatMessage {
-	private int msgNo;
-	private String chatContent;
-	private Date createDate;
-	private String invite;
-	private String status;
+//	private int msgNo;
+//	private String chatContent;
+//	private Date createDate;
+//	private String invite;
+//	private String status;
+//	private String today;
+//	private String gitNick;
+//	private int roomNo;
 	
 	public enum MessageType {
-		ENTER, TALK, QUIT
+		ENTER, TALK
 	}
-	private int roomNo;
+	
 	private MessageType type;
+	private String roomId;
 	private String sender;
 	private String message;
 }
