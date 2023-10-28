@@ -1,6 +1,7 @@
 package com.kh.okkh.labels.model.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.kh.okkh.labels.model.vo.Labels;
 @Service
 public class LabelsServiceImpl implements LabelsService {
 
+	@Autowired
 	private LabelsDao lDao;
 	
 	@Override
@@ -24,8 +26,13 @@ public class LabelsServiceImpl implements LabelsService {
 		
 		String url = repository + "/labels";
 		
-		String response = lDao.toGitLabel(url, token);
+		System.out.println("url 라벨리스트" + url);
 		
+		String method = "get";
+		
+		String response = lDao.toGitLabel(url, token, method);
+		
+		System.out.println("response 나오려나? " + response);
 		ObjectMapper obj = new ObjectMapper();
 		JsonNode jsonNode;
 		
@@ -49,6 +56,28 @@ public class LabelsServiceImpl implements LabelsService {
 		}
 		
 		return lList;
+	}
+
+	@Override
+	public void editLabel(String repository, String token, Map<String, Object> requestBody, String originName) {
+		
+		String url = repository + "/labels/" + originName;
+		
+		String method = "patch";
+		
+		lDao.toGitLabel(url, token, method, requestBody);
+		
+	}
+
+	@Override
+	public void labelEnroll(String repository, String token, Map<String, Object> requestBody) {
+		
+		String url = repository +  "/labels";
+		
+		String method = "post";
+
+		lDao.toGitLabel(url, token, method, requestBody);
+
 	}
 	
 	

@@ -38,7 +38,8 @@ public class IssueDao {
 	
 	public String getGitContentsByGet1(String path, HttpSession session) {
 		
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+		System.out.println("겟깃 토큰 왜 널뜸? " + token);
 		String response = webClient
 				.get()
 				.uri("https://api.github.com/repos/"+path)

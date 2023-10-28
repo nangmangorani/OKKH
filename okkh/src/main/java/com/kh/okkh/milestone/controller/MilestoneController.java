@@ -204,6 +204,10 @@ public class MilestoneController {
 		Map<String, Object> requestBody = new HashMap<>();
 		requestBody.put("title", title);
 		
+		if(state == null) {
+			state = "open";
+		}
+		
 		if(content != null) {
 			requestBody.put("content", content);
 		}

@@ -104,7 +104,9 @@ public class IssueController {
 			}
 		}
 		
-		
+//		<span class="labelSpan"
+//                style="background-color: #${l.color};">${
+//                l.name }</span>
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
