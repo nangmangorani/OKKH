@@ -118,7 +118,16 @@ public class FriendDao {
 	
 	
 	
-	
+	/**
+	 * 친구 요청(추가)하는 메소드
+	 * @return
+	 */
+	public int addFriend(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.insert("friendMapper.addFriend", f);
+		
+		
+	}
 	
 	
 	

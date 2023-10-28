@@ -94,7 +94,7 @@ public class FriendController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("allMemberList.fri")
+	@RequestMapping(value="allMemberList.fri", produces="application/json; charset=UTF-8")
 	public String selectMemberList(@RequestParam(value="cpage",defaultValue = "1") int currentPage,int memNo) {
 		
 		//==================== 전체 회원 조회 ============================
@@ -106,7 +106,7 @@ public class FriendController {
 		ArrayList<Member> allMemberList = fservice.selectMemberList(memNo);
 		
 		
-		 //System.out.println(allMemberList);
+		 System.out.println(allMemberList  +"    이건 컨트롤러에서 찍는 리스트이당");
 		 
 		 // 혹시 몰라서 세션에 태움
 		 //session.setAttribute("allMemberList", allMemberList);
@@ -120,6 +120,36 @@ public class FriendController {
 	
 	
 	
+	/**
+	 * 친구 추가하는 메소드
+	 * @param bfTaker  : 친구 요청 보낼 사용자
+	 * @param bfGiver  : 친구 요청보내는 사용자
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("addFriend.fri")
+	public String addFriend(int bfTaker, int bfGiver, HttpSession session) {
+		
+		// memNo는 내가 요청을 보낼 회원
+		// login은 내 회원번호
+		
+		
+		
+		Friend f = new Friend();
+		f.setBfTaker(bfTaker+"");
+		f.setBfGiver(bfGiver+"");
+		
+		
+		
+		int result = fservice.addFriend(f);
+		
+		if(result>0) {
+			session.setAttribute("alert", "친구 요청을 성공했습니다!");
+		}
+		
+		return result>0 ? "success" : "fail";
+		
+	}
 	
 	
 	

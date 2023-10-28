@@ -62,16 +62,17 @@
 	
 	
 		/* div 맨 앞으로 옮기는 스타일 */
+		
 		#targetDiv {
 		    position: absolute;
 		    z-index: 999;
 		  }
-		
+	
 		  /* ul{
 		    list-style: none;
 		    display: inline-flex;
-		  } */
-		
+		  } 
+		 */
 		
 		  .friendBTN{
 		    width: 80px;
@@ -80,6 +81,7 @@
 		    background-color: lightskyblue;
 		    color: white;
 		    border: 0;
+            border-radius: 20px;
 		   
 		  }
 		
@@ -176,10 +178,10 @@
 								<!--===================== 모달모달모달모달 =======================-->
                                 <!--login form Modal -->
                                 <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
-                                    aria-labelledby="myModalLabel33" aria-hidden="true" >
+                                    aria-labelledby="myModalLabel33" aria-hidden="true"  >
                                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
                                         role="document" >
-                                        <div class="modal-content">
+                                        <div class="modal-content" >
                                             <div class="modal-header">
                                                 <h4 class="modal-title" id="myModalLabel33">친구 찾기 </h4>
                                                 <button type="button" class="close" data-bs-dismiss="modal"
@@ -193,7 +195,7 @@
                                             <form action="#">
 
                                                 <!-- 모달 내용 작성하는 부분 -->
-                                                <div class="modal-body">
+                                                <div class="modal-body" style="height:800px;">
                                                     <div class="col-md-6 mb-1" style="width: 100%;">
                                                         <div class="input-group mb-3">
                                                             <span class="input-group-text" id="basic-addon1"><i
@@ -209,14 +211,14 @@
                                                         <div>
 
 
-                                                            <table class="table mb-0" id="modalTable">
+                                                            <table class="table mb-0" id="modalTable" style="height:700px; ">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>No</th>
-                                                                        <th>Name</th>
-                                                                        <th> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Status</th>
+                                                                        <th style="text-align:center;">Name</th>
+                                                                        <th  > &nbsp;&nbsp;&nbsp; Status</th>
 
-                                                                        <th></th>
+                                                                        <th ></th>
 
                                                                     </tr>
                                                                 </thead>
@@ -575,63 +577,6 @@
 							</div>
 
 
-						
-
-
-
-
-
-
-
-
-
-                            <script>
-                                // 버튼 요소와 대상 div 요소를 가져옵니다.
-                                const button = document.getElementById("toggleButton");
-                                const targetDiv = document.getElementById("targetDiv");
-
-                                // 버튼 클릭 이벤트 핸들러를 추가합니다.
-                                button.addEventListener("click", () => {
-                                    // 현재 div 요소의 표시 상태를 확인하고 토글합니다.
-                                    if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
-                                        targetDiv.style.display = "block"; // div를 엽니다.
-                                    } else {
-                                        targetDiv.style.display = "none"; // div를 닫습니다.
-                                    }
-                                });
-
-
-
-
-
-
-                                // 모든 toggleButton 클래스를 가진 td 요소를 선택합니다.
-                                // const toggleButtons = document.querySelectorAll(".toggleButton");
-
-                                // // 각 td에 대한 클릭 이벤트 핸들러를 추가합니다.
-                                // toggleButtons.forEach((button) => {
-                                //     button.addEventListener("click", () => {
-                                //         // 클릭된 td 요소의 다음 형제 요소인 div를 찾아서 토글합니다.
-                                //         const targetDiv = button.querySelector(".targetDiv");
-                                //         if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
-                                //             targetDiv.style.display = "block"; // div를 엽니다.
-                                //         } else {
-                                //             targetDiv.style.display = "none"; // div를 닫습니다.
-                                //         }
-                                //     });
-                                // });
-                                
-                                
-                                
-                                //------------------------------------------------------------------------------------
-                                
-                                
-                               
-                                
-                                
-                                
-                            </script>
-
                         </div>
 
                     </div>
@@ -650,14 +595,17 @@
     
     				<script>
 							
+    				  $(function(){
+    					  selectAllFriend();
+    				  })
+    				
+    				
+    				
 						
 							
 							 // 친구 찾기 버튼을 눌렀을 때 나오는 모달 창내에서 실행할 ajax
                             function selectAllFriend(){
                             	
-								 const loginMember = <% ((Member)session.getAttribute("loginMember")).getMemNo();%>
-								 
-								 
 								 
                             	$.ajax({
                             		url: "allMemberList.fri",
@@ -666,83 +614,122 @@
                             		},
                             		success:function(list){
                             			
-                            			console.log(list)
-                            			
-                            			
+                            		
+                            			//console.log(list[i] + "    반복문 안에서!!")
+                            			 
+                            		
                             			let value="";
                             			
                             			
                             			if(list.length != 0){
-	                            			for(var i in list){
+	                            			for(let i in list){
 	                            				
-	                        
+	                            			  console.log(list[i])
 	                            				
 	                            				value += "<tr>"
-	                                             	  + "<td>" + list[i].memNo +"</td>"
-	                                                  + "<td>" + list[i].gitNick +"</td>"
-	                                                  + "<td class='text-bold-500'>";
+	                                             	  + "<td >" + list[i].memNo +"</td>"
+	                                                  + "<td >" + list[i].gitNick +"</td>"
 	                                                  
-			                            				if(list[i].friendStatus == 'Y'){
-		                                                  	value += "<button class='friendBTN' type='button'>친구</button>";
+	                                                  
+	                                                  + "<td class='text-bold-500' >"
+	                                              
+	                                                 
+			                            				if(list[i].userNo != 0 && list[i].ISent == 'Y' && list[i].FriSent == 'Y'){
+			                            					// 나와 친구일 때
+			                            					
+		                                                  	value += "<button class='friendBTN' type='button' style='background-color:#435EBE; '>친구</button>"
 		                                                  	
-		                                                  }else if(list[i].friendStatus == 'N'){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 아님</button>";  
+		                                                  }else if(list[i].userNo == 0){
+		                                                	  // 나와 친구가 아닐 때
+		                                                	  
+		                                                	value +=  "<button class='friendBTN' type='button' style='background-color:#5ce5cf; '>친구 아님</button>"
 		                                                	
-		                                                  }else if(list[i].friendStatus == 'A' && list[i].me != null && list[i].fri == null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 요청함</button>";  
+		                                                  }else if(list[i].userNo != 0 && list[i].ISent == 'A' && (list[i].FriSent == null || list[i].FriSent == 'B' || list[i].FriSent == 'D')){
+		                                                	  // 내가 친구 요청
+		                                                	  
+		                                                	value +=  "<button class='friendBTN' type='button'; >친구 요청함</button>" 
 		                                                	
-		                                                  }else if(list[i].friendStatus == 'A' && list[i].me == null && list[i].fri != null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 요청받음</button>"; 
+		                                                  }else if(list[i].userNo != 0 && (list[i].ISent == null || list[i].ISent == 'B' || list[i].ISent == 'D') && list[i].FriSent == 'A'){
+		                                                	// 친구가 나한테 친추 보냈을 경우
+		                                                	  
+		                                                	  value +=  "<button class='friendBTN' type='button'; style=' '>친구 요청옴</button>" 
 		                                                	
-		                                                  } else if(list[i].friendStatus == 'B' && list[i].me != null && list[i].fri == null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 거절함</button>";
+		                                                  } else if(list[i].userNo != 0 && list[i].ISent == 'B' && list[i].FriSent == 'A'){
+		                                                	  // 내가 친추 거절했을 때
+		                                                	  
+		                                                	value +=  "<button class='friendBTN' type='button'; style='background-color:#ff033e; '>친구 거절함</button>"
 		                                                	
-		                                                  }else if(list[i].friendStatus == 'B' && list[i].me == null && list[i].fri != null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 거절됨</button>"; 
+		                                                  }else if(list[i].userNo != 0 && list[i].ISent == 'A' && list[i].FriSent == 'B'){
+		                                                	  // 친구가 내 친추 거절했을 때
+		                                                	  
+		                                                	value +=  "<button class='friendBTN' type='button'; style='background-color:#ff033e;'>친구 거절됨</button>"
 		                                                	
-		                                                  } else if(list[i].friendStatus == 'D' && list[i].me != null && list[i].fri == null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 차단함</button>";  
+		                                                  } else if(list[i].userNo != 0 && list[i].ISent == 'D' && (list[i].FriSent == 'A' || list[i].FriSent == 'Y' || list[i].FriSent == null)){
+		                                                	  // 내가 친구 차단했을 때
+		                                                	  
+		                                                	value +=  "<button class='friendBTN' type='button'; style='background-color:lightgray;'>친구 차단함</button>" 
 		                                                	
-		                                                  }else if(list[i].friendStatus == 'D' && list[i].me == null && list[i].fri != null){
-		                                                	value +=  "<button class='friendBTN' type='button'>친구 차단됨</button>";  
+		                                                  }else if(list[i].userNo != 0 && (list[i].ISent == 'Y' || list[i].ISent == 'A' || list[i].ISent == null ) && list[i].FriSent == 'D' ){
+		                                                	// 친구가 나를 차단했을 때
+		                                                	  
+		                                                	  value +=  "<button class='friendBTN' type='button'; style='background-color:lightgray;'>친구 차단됨</button>"  
 		                                                  }
 			                            				
-	                                           value =+"</td>"
+	                                           value +="</td>"
+	                                           
+	                                           
 	                                                  + "<td class='friend-menu'>"
+
+	                                               
+	                                                  
+	                                                  
 	                                                  + "<button class='dropdown-toggle' type='button' class='dropdownMenuButton' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false' style='border: 0; background-color: white; width: 40px; height: 40px;'>"
 	                                                  + " ⁝ "
 	                                                  + "</button>"
 	                                                  + "<div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>";
 	                                                  
-	                                                  if(list[i].friendStatus =='Y'){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 삭제</a> ";
-		                                                         + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+	                                                  if(list[i].userNo != 0 && list[i].ISent == 'Y' && list[i].FriSent == 'Y'){
+	                                                	  // 친구일 때 친구 삭제하거나, 친구 차단하거나
+	                                                	  
+	                                                	  value += "<button class='dropdown-item' onclick='deleteFriend();'>친구 삭제</button> "
+		                                                         + "<button class='dropdown-item' onclick='blockFriend();'>친구 차단</button> "
 	                                                  
-	                                                  }else if(list[i].friendStatus == 'N'){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 추가</a> ";
-	                                                            + "<a class='dropdown-item' href='#'>친구 차단</a> ";
-	                                                            
-	                                                  }else if(list[i].friendStatus == 'A' && loginMember == list[i].bfGiver){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 요청 취소</a> ";
-                                                          + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+	                                                  }else if(list[i].userNo != 0 && list[i].ISent == 'A' && (list[i].FriSent == null || list[i].FriSent == 'B' || list[i].FriSent == 'D')){
+	                                                	  // 친구 요청보냈을 때 친구 요청취소하거나, 친구 차단하거나
+	                                                	  
+	                                                	  value += "<button class='dropdown-item' onclick='cancleAddFriend();'>친구 요청 취소</button> "
+                                                                + "<button class='dropdown-item' onclick='blockFriend();'>친구 차단</button> "
+                                                         
+                                                      }else if(list[i].userNo != 0 && (list[i].ISent == null || list[i].ISent == 'B' || list[i].ISent == 'D') && list[i].FriSent == 'A'){
+                                                    	  // 친구 요청왔을 때 친구 수락하거나 친구 거절하거나
+                                                    	  
+	                                                	  value += "<button class='dropdown-item' onclick='acceptFriend(" + list[i].memNo "," + ${loginMember.memNo} + ");'>친구 수락</button> "
+                                                                 + "<button class='dropdown-item' onclick='refuseFriend();'>친구 거절</button> "
                                                           
-                                                      }else if(list[i].friendStatus == 'A' && loginMember == list[i].bfTaker){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 수락</a> ";
-                                                          + "<a class='dropdown-item' href='#'>친구 거절</a> ";
-                                                          
-                                                      }else if(list[i].friendStatus == 'B' && loginMember == list[i].bfGiver){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 차단 취소</a> ";
+                                                      }else if(list[i].userNo != 0 && list[i].ISent == 'D' && (list[i].FriSent == 'A' || list[i].FriSent == 'Y' || list[i].FriSent == null)){
+                                                    	  // 친구 차단했을 때
+                                                    	  
+	                                                	  value += "<button class='dropdown-item' onclick='cancleBlockFriend();'>친구 차단 취소</button> "
 	                                                	  
                                                           
-                                                      }else if(list[i].friendStatus == 'D' && loginMember == list[i].bfGiver){
-	                                                	  value += "<a class='dropdown-item' href='#'>친구 거절 취소</a> ";
-                                                          + "<a class='dropdown-item' href='#'>친구 차단</a> ";
+                                                      }else if(list[i].userNo != 0 && list[i].ISent == 'B' && list[i].FriSent == 'A'){
+                                                    	  // 친구 거절 했을 때 거절 취소하거나 친구 차단하거나 (친추 왔을 때만 거절)
+                                                    	  
+	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend();'>친구 거절 취소</button> "
+                                                          + "<button class='dropdown-item' onclick='blockFriend();'>친구 차단</button> "
                                                           
+                                                      }else {
+	                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
+	                                                	  
+	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 추가</button> "
+	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend();'>친구 차단</button> "
+	                                               
                                                       }
-	                                                 
-		                                       
 	                                                  + "</div>"
+	                                                 
 	                                                  + "</td>"
+	                                                  
+	                                                  
 	                                                  + "</tr>"
 		                            				
 		                            			} // for문
@@ -770,6 +757,111 @@
                             $("#selectFriBTN").click(function(){
                             	selectAllFriend();
                             })
+                            
+                            
+                            
+                            // 친구 요청(추가)하는 함수
+                            function addFriend(memNo, login){
+                            	
+                            	$.ajax({
+                            		url:"addFriend.fri",
+                            		data:{
+                            			bfTaker : memNo,
+                            			bfGiver : login
+                            		},
+                            		success:function(result){
+                            			
+                            			if(result == "success"){
+                            				
+                            				
+                            				
+            								if (${ loginMember.memNo}){
+            									// 내가 로그인 했을 때... 이거 필요없나..?
+
+												
+												if (socket.readyState == 1) {
+													// 소켓
+													// echoHandler에서 소켓 메세지에 보내야하는 양식이 있음 
+													// 안보내도 되는 메세지 값은 걍 아무거나 보내셈... 어차피 안쓸거임
+													let socketMsg = "friend" + "," + ${ loginMember.memNo }+"," + memNo +"," + 5 +",제목" + ",${loginMember.gitNick}," + 0 + ", 친구 요청을 보냈습니다!";
+
+													console.log(socketMsg + "소켓메시지!!!!!!");
+													socket.send(socketMsg);  // 찐으로 소켓에게 메시지 보내기
+												}
+											}
+                            				
+                            				
+                            				
+                            			}else{
+                            				alertify.alert("친구 요청을 실패했습니다.ㅠㅠ")
+                            				
+                            			}
+                            			
+                            			
+                            		},
+                            		error:function(){
+                            			console.log("친구 추가용 아작스 실패ㅠㅠㅠ")
+                            		}
+                            	})
+                            	
+                            }
+                            
+                            
+                            // 친구 요청 취소하는 함수
+                            function cancleAddFriend(){
+                            	
+                            }
+                            
+                            
+                            // 친구 수락하는 함수
+                            function acceptFriend(memNo, login){
+                            	$.ajax({
+                            		url:"acceptFriend.fri",
+                            		data:{
+                            			bfTaker: memNo,  // 친추 수락 받을 사람
+                            			bfGiver : login  // 친추 수락할 사람
+                            		},
+                            		success:function(){
+                            			
+                            		},
+                            		
+                            		error:function(){
+                            			console.log("친구 수락용 아작스 실패ㅠㅠ")
+                            		}
+                            	})
+                            	
+                            	
+                            }
+                            
+                            
+                            // 친구 거절하는 함수
+                            function refuseFriend(){
+                            	
+                            }
+                            
+                            
+                            // 친구 거절 취소하는 함수
+                            function cancleRefuseFriend(){
+                            	
+                            }
+                            
+                            
+                            // 친구 차단하는 함수 
+                            function blockFriend(){
+                            	
+                            }
+                            
+                            // 친구 차단 취소하는 함수 
+                            function cancleBlockFriend(){
+                            	
+                            }
+                            
+                            
+                            // 친구 삭제하는 함수 -> 필요할지 몰겄음...
+                            function deleteFriend(){
+                            	
+                            }
+                            
                             
                             
 							</script>

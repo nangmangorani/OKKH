@@ -31,26 +31,45 @@
 			
 		 
 			var message = JSON.parse(event.data)
-			console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
-			
-			var nick = message.nickName;
-			var title = message.title;
-			var pno = message.pno;
-			var team = message.teamNo;
-			var content = message.content;
+				console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
+				
+				var category = message.category;
+				var nick = message.nickName;
+				var title = message.title;
+				var pno = message.pno;
+				var team = message.teamNo;
+				var content = message.content;
 			 
-			console.log(team + " : team번호!!")
+				console.log(category + " : 카테고리명!!!!")
 		
-			 // 메세지가 생성될 때마다 동적으로 a태그와 a태그 안에 div를 그릴 예정
-			 // 동적으로 그리지 않으면 메세지가 없는대도 메세지 띄워지는 창을 누르면 이동이 되어버림  
-			 var link = document.createElement('a');
-			 link.href = 'selectDetailPro.pro?pno=' + pno;
-			 link.style.color= 'black';
+				 // 메세지가 생성될 때마다 동적으로 a태그와 a태그 안에 div를 그릴 예정
+				 // 동적으로 그리지 않으면 메세지가 없는대도 메세지 띄워지는 창을 누르면 이동이 되어버림  
+				 var link = document.createElement('a');
+
+				
+			// url설정을 category별로 따로 설정
+			if(category == "project"){
+			     link.href = 'selectDetailPro.pro?pno=' + pno;
+				
+			}else if(category =="friend"){
+				 link.href = 'friendList.f';
+			}
+			
+			 	link.style.color= 'black';
 			 
 	
 			 var div = document.createElement('div');
 			
-			 div.textContent = nick + ' 님이 '+ "'" + title   +"'  " + content;
+			 
+			 // 카테고리별로 메세지 다르게 보낼거임
+			 if(category == "project"){
+				 
+				 div.textContent = nick + ' 님이 '+ "'" + title   +"'  " + content;
+				 
+			 }else if(category == "friend"){
+				
+				 div.textContent = nick + ' 님이 '+ content;
+			 }
 				 
 			
 			 

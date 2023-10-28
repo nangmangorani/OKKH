@@ -95,11 +95,84 @@ public class FriendServiceImpl implements FriendService {
 	}
 
 
+	
+
+
 	/**
-	 * 친구 추가하기
+	 * 친구 추가(요청)하는 메소드
 	 */
 	@Override
-	public int insertFriend(Friend f) {
+	public int addFriend(Friend f) {
+		
+		return fdao.addFriend(f, sqlsession);
+	}
+
+
+	/** 
+	 * 친구 요청 취소
+	 */
+	@Override
+	public int cancleAddFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/**
+	 * 친구 수락하는 메소드
+	 */
+	@Override
+	public int acceptFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/**
+	 * 친구 차단
+	 */
+	@Override
+	public int blockFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/**
+	 * 친구 차단 취소
+	 */
+	@Override
+	public int cancleBlockFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/**
+	 * 친구 요청 거절
+	 */
+	@Override
+	public int refuseFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/**
+	 * 친구 요청 거절 취소
+	 */
+	@Override
+	public int cancleRefuseFriend(int memNo) {
+		
+		return 0;
+	}
+
+
+	/** 
+	 * 친구 삭제
+	 */
+	@Override
+	public int deleteFriend(int memNo) {
 		
 		return 0;
 	}

@@ -34,12 +34,29 @@ public interface FriendService {
 	int allMemberListCount();
 	
 	// 친구 추가하기(요청?)
-	int insertFriend(Friend f);
+	int addFriend(Friend f);
+	
+	// 친구 요청 취소
+	int cancleAddFriend(int memNo);
+	
+	// 친구 수락하기 
+	int acceptFriend(int memNo);
+	
+	// 친구 차단
+	int blockFriend(int memNo);
+	
+	// 친구 차단 취소 
+	int cancleBlockFriend(int memNo);
 	
 	// 친구 거절하기
-
+	int refuseFriend(int memNo);
 	
-	// 친구 차단하기 
+	// 친구 거절 취소하기
+	int cancleRefuseFriend(int memNo);
+	
+	// 친구 삭제하기
+	int deleteFriend(int memNo);
+	
 	
 	
 	

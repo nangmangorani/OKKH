@@ -114,6 +114,7 @@ public class EchoHandler extends TextWebSocketHandler {
 						logger.info("onmessage되나?");
 						
 						// 변수를 하나하나 담아서 jsonObject에 담기
+						String category = strs[0];
 						String nickName = strs[5];
 						int pno = Integer.parseInt(strs[3]);
 						String title1 =  strs[4];
@@ -122,6 +123,7 @@ public class EchoHandler extends TextWebSocketHandler {
 						
 						// 이제 담자
 						JSONObject obj = new JSONObject();
+						obj.put("category", category);
 						obj.put("nickName", nickName);
 						obj.put("pno", pno);
 						obj.put("title", title1);
@@ -145,32 +147,37 @@ public class EchoHandler extends TextWebSocketHandler {
 					
 				}
 				
-				// 프로젝트 회원 상태변경 했을 경우
-//				else if("updateTeamStatus".equals(cmd) && replyWriterSession != null) {
-//					//replyWriter = 스크랩누른사람 , boardWriter = 게시글작성자
-//					// 변수를 하나하나 담아서 jsonObject에 담기
-//					String nickName = strs[5];
-//					int pno = Integer.parseInt(strs[3]);
-//					String title1 =  strs[4];
-//					int teamNo = Integer.parseInt(strs[6]);
-//					String contents = strs[7];
-//					
-//					// 이제 담자
-//					JSONObject obj = new JSONObject();
-//					obj.put("nickName", nickName);
-//					obj.put("pno", pno);
-//					obj.put("title", title1);
-//					obj.put("teamNo", teamNo);
-//					obj.put("content",contents);
-//					
-//					String objString = obj.toString();
-//					
-//					// 이제 메시지에 담자
-//					TextMessage tmpMsg = new TextMessage(objString);
-//
-//					replyWriterSession.sendMessage(tmpMsg);
-//					
-//				}
+				// 친구 추가 / 삭제/ 차단 등등 했을 경우
+				else if("friend".equals(cmd) && targetSession != null) {
+					// targetSession = 메세지 받는 사람
+					// 변수를 하나하나 담아서 jsonObject에 담기
+					
+					// 여기서 필요한 건 닉네임과 contents 뿐이지만 일단 모두 담아서 보냄
+					// 필요한 거만 꺼내서 쓸거임
+					String category = strs[0];
+					String nickName = strs[5];  // 메세지 보내는 사람
+					int pno = Integer.parseInt(strs[3]);
+					String title1 =  strs[4];
+					int teamNo = Integer.parseInt(strs[6]);
+					String contents = strs[7];   // 메세지 내용
+					
+					// 이제 담자
+					JSONObject obj = new JSONObject();
+					obj.put("category", category);
+					obj.put("nickName", nickName);
+					obj.put("pno", pno);
+					obj.put("title", title1);
+					obj.put("teamNo", teamNo);
+					obj.put("content",contents);
+					
+					String objString = obj.toString();
+					
+					// 이제 메시지에 담자
+					TextMessage tmpMsg = new TextMessage(objString);
+
+					targetSession.sendMessage(tmpMsg);
+					
+				}
 				
 //				//좋아요
 //				else if("like".equals(cmd) && boardWriterSession != null) {
