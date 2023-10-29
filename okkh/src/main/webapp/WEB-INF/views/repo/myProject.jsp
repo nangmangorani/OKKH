@@ -188,9 +188,9 @@
 						                        		<!-- 진행중인 프로젝트 시작 -->
 							                        	<c:forEach var="pIng" items="${ pIngList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
-							                                	<a href="repoList.re?pno=${ pIng.myproNo }">
-								                                	<div class="card" style="border: 1px solid #cecece; height: 120px;">
-								                                   		<div class="card-body px-3 py-4-5">
+							                                	<div class="card" style="border: 1px solid #cecece; height: 120px;">
+							                                   		<div class="card-body px-3 py-4-5">
+						                                				<a href="repoList.re?pno=${ pIng.myproNo }">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
 									                                                <!-- <div class="stats-icon blue">
@@ -203,14 +203,18 @@
 									                                                <h6 class="font-extrabold mb-0">${ pIng.myproTitle }</h6>
 									                                            </div>
 									                                        </div>
-								                                    	</div>
-								                                	</div>
-							                                    </a>
+									                                    </a>
+									                                    <form action="updateIngToFin.re" method="post" style="float: right;">
+								                                    		<input type="hidden" name="myproNo" value="${ pIng.myproNo }">
+							                                                <button class="btn btn-sm btn-outline-success">완료</button>
+									                                    </form>
+							                                    	</div>
+							                                	</div>
 								                            </div>
 							                        	</c:forEach>
 								                        <!-- /진행중인 프로젝트 끝 -->
 					                        		</c:when>
-					                        		<c:when test="${ not empty loginMember and empty pEndList }">
+					                        		<c:when test="${ not empty loginMember and empty pIngList }">
 					                        			<!-- 로그인을 했지만 해당 유저의 진행중인 프로젝트가 없다면 진행중인 프로젝트가 없다는 문구 출력 -->
 					                        			<div>진행중인 프로젝트가 없습니다.</div>
 					                        		</c:when>
@@ -223,6 +227,7 @@
 					                    </div>
 					                    <!-- /진행중인 프로젝트 리스트 끝 -->
 		                            </div>
+		                            
 		                            <div class="tab-pane fade" id="fin" role="tabpanel" aria-labelledby="fin-tab">
 		                                <br><br>
 		                                <!-- 완료된 프로젝트 리스트 시작 -->
@@ -234,9 +239,9 @@
 						                            	<!-- 완료된 프로젝트 시작 -->
 					                        			<c:forEach var="pEnd" items="${ pEndList }">
 								                            <div class="col-6 col-lg-3 col-md-6">
-							                                	<a href="repoList.re?pno=${ pEnd.myproNo }">
-								                                	<div class="card" style="border: 1px solid #cecece; height: 120px;">
-								                                   		<div class="card-body px-3 py-4-5">
+						                                		<div class="card" style="border: 1px solid #cecece; height: 120px;">
+							                                   		<div class="card-body px-3 py-4-5">
+							                                			<a href="repoList.re?pno=${ pEnd.myproNo }">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
 									                                                <!-- <div class="stats-icon blue">
@@ -248,10 +253,14 @@
 									                                                <h6 class="text-muted font-semibold">${ pEnd.myproType }</h6>
 									                                                <h6 class="font-extrabold mb-0">${ pEnd.myproTitle }</h6>
 									                                            </div>
-									                                        </div>
-								                                    	</div>
-								                                	</div>
-							                                    </a>
+								                                        	</div>
+							                                    		</a>
+							                                    		<form action="insertFinPro.re" method="post" style="float: right;">
+							                                    			<input type="hidden" name="myproNo" value="${ pEnd.myproNo }">
+							                                    			<button class="btn btn-sm btn-outline-success">게시</button>
+							                                    		</form>
+							                                    	</div>
+							                                	</div>
 								                            </div>
 							                            </c:forEach>
 							                            <!-- /완료된 프로젝트 끝 -->
@@ -270,6 +279,7 @@
 					                    <!-- /완료된 프로젝트 리스트 끝 -->
 		                            </div>
 		                        </div>
+		                        
 		                    </div>
 		                </div>
 		            </div>
@@ -364,6 +374,8 @@
 	   		})
 	   		
 	   	})
+	   	
+	   	
 	   
    </script>
 	

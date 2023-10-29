@@ -20,12 +20,12 @@ public class RepoDao {
 		return (ArrayList)sqlSession.selectList("repoMapper.selectTeamMateList", memNo);
 	}
 	
-	// 윤씨 버거 맛있게 먹었어??
-	// 우린 이수 엔젤 가볼게
-	// 올려면 와
-	// 화이팅하고 울지말고
 	public int insertMyProject(SqlSessionTemplate sqlSession, MyProject p) {
 		return sqlSession.insert("repoMapper.insertMyProject", p);
+	}
+	
+	public int updateIngToFin(SqlSessionTemplate sqlSession, int myproNo) {
+		return sqlSession.update("repoMapper.updateIngToFin", myproNo);
 	}
 	
 	public MyProject selectMyProjectTitle(SqlSessionTemplate sqlSession, int myproNo) {

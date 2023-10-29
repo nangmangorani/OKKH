@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import static com.kh.okkh.common.model.service.GitHubTemplate.*;
+
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.member.model.vo.Member;
@@ -123,6 +124,26 @@ public class RepositoryController {
 	}
 	
 	/**
+	 * 프로젝트 완료 처리하는 Controller
+	 * 
+	 * @param myproNo
+	 * @return 내 프로젝트 페이지
+	 */
+	@RequestMapping("updateIngToFin.re")
+	public String updateIngToFin(int myproNo) {
+		
+		int result = rService.updateIngToFin(myproNo);
+		
+		if(result > 0) {
+			return "redirect:/myProject.re";
+		}
+		else {
+			return "common/errorPage";
+		}
+		
+	}
+	
+	/**
 	 * 레파지토리 조회용 컨트롤러
 	 *
 	 * @param pno => 프로젝트 번호
@@ -190,7 +211,7 @@ public class RepositoryController {
 	 * @param rno => 레파지토리 번호
 	 */
 	@RequestMapping("repoDetail.re")
-	public String selectRepo(int rno) {
+	public String selectRepo(String rnm) {
 		
 		return "repo/repoDetail";
 		
@@ -210,13 +231,33 @@ public class RepositoryController {
 	
 	/**
 	 * 레파지토리 추가용 컨트롤러
+	 * @throws IOException 
 	 */
 	@RequestMapping("insertRepo.re")
-	public void insertRepo(Repo r) {
+	public void insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
 		
-		 System.out.println(r);
+		MyProject mypro = rService.selectMyProjectTitle(myproNo);
 		
-//		gService.insertRepo(r);
+		String token = (String)session.getAttribute("token");
+		
+		GitHub g = new GitHub();
+		
+		g.setMethod("POST");
+		g.setToken(token);
+		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
+		
+		String param = "?name=" + r.getRepoTitle();
+//		param += "&description=" + r.getRepoContent();
+//		param += "&visibility=" +r.getRepoStatus();
+//		param += "&auto_init=true";
+		
+		g.setParam(param);
+		
+		String response = getGitHubAPIValue(g);
+		
+		System.out.println(response);
+		
+//		return "repo/repoList";
 		
 	}
 	

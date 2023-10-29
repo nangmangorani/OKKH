@@ -30,6 +30,9 @@ public interface RepoService {
 	// 내 프로젝트 추가용 서비스
 	public int insertMyProject(MyProject p);
 	
+	// 프로젝트 완료 처리용 서비스
+	public int updateIngToFin(int myproNo);
+	
 	// WebClient Test용 서비스
 	public String synHttpRequest(String path, HttpSession session, String method);
 	

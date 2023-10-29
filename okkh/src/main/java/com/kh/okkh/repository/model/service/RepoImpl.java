@@ -173,4 +173,9 @@ public class RepoImpl implements RepoService {
 
 	}
 
+	@Override
+	public int updateIngToFin(int myproNo) {
+		return rdao.updateIngToFin(sqlSession, myproNo);
+	}
+
 }

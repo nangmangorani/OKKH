@@ -67,9 +67,18 @@
 		     )
 	</insert>
 	
+	<update id="updateIngToFin">
+		update
+			   my_project
+		   set mypro_status = 'N'
+		 where mypro_no = #{myproNo}
+		   and status = 'Y'
+	</update>
+	
 	<select id="selectMyProjectTitle" resultMap="myProjectResult">
 		select 
-		       mypro_title
+			   mypro_no
+		     , mypro_title
 		  from my_project
 		 where mypro_no = #{myproNo}
 	</select>

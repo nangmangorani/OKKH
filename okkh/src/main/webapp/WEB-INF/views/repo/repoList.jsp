@@ -64,9 +64,7 @@
 				                    New Repository
 				                </button>
 				                <!-- /레파지 추가 버튼 끝 -->
-				                
 				                <br>
-				
 				                <!--레파지 추가 form Modal 시작 -->
 				                <div class="modal fade text-left" id="inlineForm" tabindex="-1"
 				                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -83,6 +81,7 @@
 				                                </button>
 				                            </div>
 				                            <form action="insertRepo.re">
+				                            	<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
 				                                <div class="modal-body">
 				                                    <label>Repository Name*:</label>
 				                                    <div class="form-group">
@@ -149,7 +148,7 @@
 								                            <!-- 레파지토리 시작 -->
 								                            <div class="col-6 col-lg-3 col-md-6">
 								                                <div class="card" style="border: 1px solid #cecece; height: 150px;">
-								                                    <a href="repoDetail.re?rno=1">
+								                                    <a href="repoDetail.re?rnm=${ r.name }">
 								                                    	<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
