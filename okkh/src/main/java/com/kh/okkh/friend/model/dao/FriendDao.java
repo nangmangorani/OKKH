@@ -1,7 +1,9 @@
 package com.kh.okkh.friend.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.apache.ibatis.javassist.tools.framedump;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -130,8 +132,114 @@ public class FriendDao {
 	}
 	
 	
+	/**
+	 *  친구 요청 취소하는 메소드
+	 * @return
+	 */
+	public int cancleAddFriend(Friend f,SqlSessionTemplate sqlsession) {
+		return sqlsession.delete("friendMapper.deleteFriend", f);
+	}
 	
 	
+	
+	
+	/**
+	 * 친구 추가 수락하는 메소드(나의 상태 변경)
+	 * @return
+	 */
+	public int acceptFriend(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.insert("friendMapper.acceptFriend", f);
+		
+	}
+	
+	
+	/**
+	 * 친구 수락받는 사람의 상태도 변경하기
+	 * @return
+	 */
+	public int acceptMyFriend(Friend f,SqlSessionTemplate  sqlsession) {
+		return sqlsession.update("friendMapper.acceptMyFriend", f);
+	}
+	
+	
+	
+	/**
+	 * 내꺼의 친구 상태를 삭제
+	 * @return
+	 */
+	public int deleteFriend(Friend f,SqlSessionTemplate sqlsession) {
+		return sqlsession.delete("friendMapper.deleteFriend", f);
+	}
+	
+	
+	/**
+	 * 친구의 상태를 삭제
+	 * @return
+	 */
+	public int deleteMyFriend(Friend f,SqlSessionTemplate sqlsession) {
+		return sqlsession.delete("friendMapper.deleteMyFriend", f);
+				
+	}
+	
+	
+	
+	
+	/**
+	 * 친구 차단하는 메소드 (기존에 친구였거나, 친구요청이 왔는데 거절했다가 차단하고 싶을 때) -> update하기
+	 * @return
+	 */
+	public int blockOldFriend(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.update("friendMapper.blockOldFriend", f);
+				
+	}
+	
+	
+	/**
+	 * 친구 아닌데 그냥 차단하고 싶을 때 -> insert하기
+	 * @return
+	 */
+	public int blockNoneFriend(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.insert("friendMapper.blockNoneFriend", f);
+	}
+	
+	
+	
+	/**
+	 * 친구 거절하는 메소드
+	 * @return
+	 */
+	public int refuseFriend(Friend f,SqlSessionTemplate sqlsession) {
+		return sqlsession.insert("friendMapper.refuseFriend", f);
+	}
+	
+	
+	/**
+	 * 친구 거절 취소용 메소드
+	 * @return
+	 */
+	public int cancleRefuseFriend(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.delete("friendMapper.cancleRefuseFriend", f);
+		
+	}
+	
+	
+	/**
+	 * 검색어로 친구 검색하는 메소드
+	 * @return
+	 */
+	public ArrayList<Member> searchMember(String search, int memNo,SqlSessionTemplate sqlsession){
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("search", search);
+		map.put("memNo", memNo + "");
+		
+		return (ArrayList)sqlsession.selectList("friendMapper.searchMember", map);
+		
+	}
 	
 	
 	

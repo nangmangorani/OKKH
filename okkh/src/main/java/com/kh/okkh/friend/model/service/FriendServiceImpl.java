@@ -27,7 +27,7 @@ public class FriendServiceImpl implements FriendService {
 	 * 나의 모든 친구 조회하는 메소드
 	 */
 	@Override
-	public ArrayList<Friend> selectMyFriendList(int memNo, PageInfo pi) {
+	public ArrayList<Friend> selectFriendList(int memNo, PageInfo pi) {
 		
 		return fdao.selectFriendList(memNo,pi, sqlsession);
 	}
@@ -112,37 +112,65 @@ public class FriendServiceImpl implements FriendService {
 	 * 친구 요청 취소
 	 */
 	@Override
-	public int cancleAddFriend(int memNo) {
+	public int cancleAddFriend(Friend f) {
 		
-		return 0;
+		return fdao.cancleAddFriend(f, sqlsession);
 	}
 
 
 	/**
-	 * 친구 수락하는 메소드
+	 * 친구 수락하는 메소드(나의 상태 변경)
 	 */
 	@Override
-	public int acceptFriend(int memNo) {
+	public int acceptFriend(Friend f) {
 		
-		return 0;
+		return fdao.acceptFriend(f, sqlsession);
 	}
 
 
 	/**
-	 * 친구 차단
+	 * 친구 수락받는 친구의 상태도 변경하기
 	 */
 	@Override
-	public int blockFriend(int memNo) {
+	public int acceptMyFriend(Friend f) {
 		
-		return 0;
+		return fdao.acceptMyFriend(f, sqlsession);
+		
+	}
+	
+	
+	
+	
+	
+	/**
+	 * 친구 차단  (기존에 친구였거나, 친구요청이 왔는데 거절했다가 차단하고 싶을 때)
+	 */
+	@Override
+	public int blockOldFriend(Friend f) {
+		
+		return fdao.blockOldFriend(f, sqlsession);
 	}
 
 
+
+	/**
+	 * 친구 차단  (친구가 아닌데 걍 차단하고싶을 때)
+	 */
+	@Override
+	public int blockNoneFriend(Friend f) {
+		
+		return fdao.blockNoneFriend(f, sqlsession);
+	}
+
+
+	
+	
+	
 	/**
 	 * 친구 차단 취소
 	 */
 	@Override
-	public int cancleBlockFriend(int memNo) {
+	public int cancleBlockFriend(Friend f) {
 		
 		return 0;
 	}
@@ -152,9 +180,9 @@ public class FriendServiceImpl implements FriendService {
 	 * 친구 요청 거절
 	 */
 	@Override
-	public int refuseFriend(int memNo) {
+	public int refuseFriend(Friend f) {
 		
-		return 0;
+		return fdao.refuseFriend(f, sqlsession);
 	}
 
 
@@ -162,19 +190,39 @@ public class FriendServiceImpl implements FriendService {
 	 * 친구 요청 거절 취소
 	 */
 	@Override
-	public int cancleRefuseFriend(int memNo) {
+	public int cancleRefuseFriend(Friend f) {
 		
-		return 0;
+		return fdao.cancleRefuseFriend(f, sqlsession);
 	}
 
 
 	/** 
-	 * 친구 삭제
+	 * 친구 삭제 (내꺼를 삭제)
 	 */
 	@Override
-	public int deleteFriend(int memNo) {
+	public int deleteFriend(Friend f) {
 		
-		return 0;
+		return fdao.deleteFriend(f, sqlsession);
+	}
+
+
+	/**
+	 * 친구꺼 삭제
+	 */
+	@Override
+	public int deleteMyFriend(Friend f) {
+		
+		return fdao.deleteMyFriend(f, sqlsession);
+	}
+
+
+	/**
+	 * 검색어로 친구 검색하는 메소드
+	 */
+	@Override
+	public ArrayList<Member> searchMember(String search, int memNo) {
+		
+		return fdao.searchMember(search, memNo, sqlsession);
 	}
 	
 	

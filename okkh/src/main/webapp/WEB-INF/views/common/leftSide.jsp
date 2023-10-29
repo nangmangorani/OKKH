@@ -190,12 +190,40 @@
                                 <span>Project Output</span>
                             </a>
                         </li>
+                       
+                       
+                    <c:choose>    
+                      <c:when test="${not empty loginMember }"> 
                         <li class="sidebar-item">
                             <a href="friendList.f" class='sidebar-link'>
                                 <i class="fa-solid fa-user-group fa-sm"></i>
                                 <span>Friends</span>
                             </a>
                         </li>
+                        
+                        </c:when> 
+                        
+                        
+                        <c:otherwise>
+	                          <li class="sidebar-item">
+	                            <a onclick="notLogin();" class='sidebar-link'>
+	                                <i class="fa-solid fa-user-group fa-sm"></i>
+	                                <span>Friends</span>
+	                            </a>
+	                        </li>
+                        </c:otherwise>
+                     </c:choose>  
+                        
+                        <script>
+                        	function notLogin(){
+                        		alertify.alert("로그인 후 이용 가능한 서비스입니다!")
+                        	}
+                        
+                        </script>
+                        
+                        
+                        
+                        
                         <li class="sidebar-item">
                             <a href="chat.ch" class='sidebar-link'>
                                 <i class="fa-solid fa-comments fa-sm"></i>

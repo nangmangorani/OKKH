@@ -29,8 +29,8 @@ public class Friend {
 	private String bfTaker; // 친구 요청받는자 (닉네임보여줄거임)
 	private String fStatus; // 친구 요청 상태
 	private String requestDate; // 친구 요청일
-	private String ISent;   // 내가 친구에게 친구관련 샹태를 보냄
-	private String FriSent;  // 친구가 나한테 친구관련 샹태를 보냄
+	private String isent;   // 내가 친구에게 친구관련 샹태를 보냄
+	private String friSent;  // 친구가 나한테 친구관련 샹태를 보냄
 	private int userNo;
 	
 }
