@@ -6,6 +6,7 @@ import javax.websocket.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.io.IOException;
 
 import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.repository.model.service.RepoImpl;
+import com.kh.okkh.repository.model.vo.MyProject;
 
 /**
  * GitHub REST API용 Rest Controller
@@ -30,6 +32,9 @@ import com.kh.okkh.repository.model.service.RepoImpl;
  */
 @RestController
 public class RepoRestController {
+	
+	@Autowired
+	private RepoImpl rService;
 	
 	/**
 	 * 프로젝트 등록시 프로젝트명과 조직의 owner명이 일치하는지 대조하는 Controller
@@ -75,6 +80,34 @@ public class RepoRestController {
 //		System.out.println(result);
 		
 		return result;
+		
+	}
+	
+	/**
+	 * 레포지토리에 속한 컨텐츠 조회용 Controller
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
+	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) throws IOException {
+		
+		MyProject mypro = rService.selectMyProjectTitle(mpno);
+		
+		String token = (String)session.getAttribute("token");
+		
+		GitHub g = new GitHub();
+		
+		g.setMethod("GET");
+		g.setToken(token);
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+		
+		String response = getGitHubAPIValue(g);
+		
+		System.out.println(token);
+//		System.out.println(response);
+
+		return response;
 		
 	}
 

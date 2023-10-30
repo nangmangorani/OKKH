@@ -148,7 +148,7 @@
 								                            <!-- 레파지토리 시작 -->
 								                            <div class="col-6 col-lg-3 col-md-6">
 								                                <div class="card" style="border: 1px solid #cecece; height: 150px;">
-								                                    <a href="repoDetail.re?rnm=${ r.name }">
+								                                    <a href="repoDetail.re?pno=${ mypro.myproNo }&rnm=${ r.name }&vis=${ r.visibility }">
 								                                    	<div class="card-body px-3 py-4-5">
 									                                        <div class="row">
 									                                            <div class="col-md-4">

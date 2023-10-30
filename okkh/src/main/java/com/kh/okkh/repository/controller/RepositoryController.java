@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,10 @@ public class RepositoryController {
 	
 	@Autowired
 	private RepoImpl rService;
+	
+	private String token;
+	
+	private MyProject mypro;
 	
 	/**
 	 * 내 프로젝트 조회용 컨트롤러
@@ -155,12 +160,12 @@ public class RepositoryController {
 //		System.out.println(pno);
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
-		MyProject mypro = rService.selectMyProjectTitle(pno);
+		mypro = rService.selectMyProjectTitle(pno);
 		
 //		System.out.println(mypro.getMyproTitle());
 		
 		// api 사용을 위해 session에 있는 token 호출
-		String token = (String)session.getAttribute("token");
+		token = (String)session.getAttribute("token");
 		
 //		System.out.println("selectRepoList token : " + token);
 		
@@ -206,42 +211,20 @@ public class RepositoryController {
 	}
 	
 	/**
-	 * 레파지토리 상세조회용 컨트롤러
-	 * 
-	 * @param rno => 레파지토리 번호
-	 */
-	@RequestMapping("repoDetail.re")
-	public String selectRepo(String rnm) {
-		
-		return "repo/repoDetail";
-		
-	}
-	
-	/**
-	 * 레파지토리에 속한 코드 조회용 컨트롤러
-	 * 
-	 * @param rno => 레파지토리 번호
-	 */
-	@RequestMapping("codeDetail.re")
-	public String selectCode(int rno) {
-		
-		return "repo/codeDetail";
-		
-	}
-	
-	/**
 	 * 레파지토리 추가용 컨트롤러
 	 * @throws IOException 
 	 */
 	@RequestMapping("insertRepo.re")
 	public void insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
 		
-		MyProject mypro = rService.selectMyProjectTitle(myproNo);
-		
-		String token = (String)session.getAttribute("token");
-		
+		// 조직명(프로젝트명) 가져오기
+		mypro = rService.selectMyProjectTitle(myproNo);
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		// 템플릿에 요소들 담아서 보낼 vo 객체 생성
 		GitHub g = new GitHub();
 		
+		// 필요한 요소들 세팅
 		g.setMethod("POST");
 		g.setToken(token);
 		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
@@ -252,12 +235,29 @@ public class RepositoryController {
 //		param += "&auto_init=true";
 		
 		g.setParam(param);
-		
+		// 템플릿에서 얻은 결과값 받음
 		String response = getGitHubAPIValue(g);
 		
 		System.out.println(response);
 		
-//		return "repo/repoList";
+//		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+		
+	}
+	
+	/**
+	 * 레파지토리 상세조회용 컨트롤러
+	 * 
+	 * @param pno => 프로젝트 번호, rnm => 레파지토리명, vis => public/private
+	 * @throws IOException 
+	 */
+	@RequestMapping("repoDetail.re")
+	public String selectRepo(int pno, String rnm, String vis, Model model) {
+		
+		model.addAttribute("myproNo", pno);
+		model.addAttribute("repoName", rnm);
+		model.addAttribute("visibility", vis);
+		
+		return "repo/repoDetail";
 		
 	}
 	
