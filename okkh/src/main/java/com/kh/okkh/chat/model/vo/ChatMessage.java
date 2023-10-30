@@ -1,7 +1,5 @@
 package com.kh.okkh.chat.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,13 +20,11 @@ public class ChatMessage {
 //	private String today;
 //	private String gitNick;
 //	private int roomNo;
-	
-	public enum MessageType {
-		ENTER, TALK
+	public enum MessageType{
+		ENTER, TALK, JOIN
 	}
-	
 	private MessageType type;
 	private String roomId;
-	private String sender;
+	private String writer;
 	private String message;
 }

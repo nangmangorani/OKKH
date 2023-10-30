@@ -269,6 +269,22 @@
 			<version>1.313</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.webjars/vue -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>vue</artifactId>
+		    <version>2.5.16</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars.npm/axios -->
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>axios</artifactId>
+		    <version>0.17.1</version>
+		</dependency>
+				
+		
+		
 	</dependencies>
 	
     <build>

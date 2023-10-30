@@ -56,11 +56,9 @@
                                                         <!-- 채팅 상대방 프로필끝 -->
 
                                                         <!-- 채팅 메세지들 -->
-                                                        <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
-    													<th:block th:fragment="content">
-                                                       
                                                         <div class="card-body pt-4 bg-grey">
                                                             <div class="chat-content" id="msgArea">
+                                                            	<!-- 
                                                                 <div class="chat">
                                                                     <div class="chat-body">
                                                                         <div class="chat-message">Hi Alfy, how can i help you?</div>
@@ -72,10 +70,9 @@
                                                                             template</div>
                                                                     </div>
                                                                 </div>
+                                                                -->
                                                             </div>
                                                         </div>
-                                                        </th:block>
-														</th:block>
                                                         <!-- 채팅 메세지들끝 -->
 
                                                         <!--채팅 전송폼-->
@@ -145,9 +142,92 @@
             </div>
 
             <jsp:include page="../common/footer.jsp"></jsp:include>
-
         </div>
     </div>
+	<script>
+		
+	$(document).ready(function(){
+	    const username = ${loginMember.memNo};
+
+	    $("#button-send").on("click", () => {
+	        send();
+	    });
+
+	    // WebSocket 초기화
+	    const ws = new SockJS("http://localhost:7777/okkh/roomdetail?crno=${cr.roomNo}");
+	    
+	    ws.onmessage = onMessage;
+	    ws.onopen = onOpen;
+	    ws.onclose = onClose;
+	    ws.onerror = onError;  // 에러 처리를 위한 콜백
+
+	    function send() {
+	        let msg = document.getElementById("msg");
+	        console.log(username + ":" + msg.value);
+	        ws.send(username + ":" + msg.value);
+	        msg.value = '';
+	    }
+
+		//채팅창에 들어왔을 때
+		function onOpen(evt) {
+	        console.log("Connection established.");
+	        var str = username + ":님이 입장하셨습니다.";
+	        ws.send(str);
+	    }
+		
+		//채팅창에서 나갔을 때
+		function onClose(evt) {
+		    var str = username + ":님이 방을 나가셨습니다.";
+			console.log("Connection closed." + str);
+		    ws.send(str);
+		}
+		
+		function onError(error) {
+	        console.error("WebSocket Error: ", error);
+	        // 에러 처리 로직 (예: 사용자에게 에러 표시, 재연결 시도 등)
+	    }
+		
+		function onMessage(msg) {
+		    var data = msg.data;
+		    console.log(data);
+		    var sessionId = null;
+		    //데이터를 보낸 사람
+		    var message = null;
+		    var arr = data.split(":");
+		
+		    for(var i=0; i<arr.length; i++){
+		        console.log('arr[' + i + ']: ' + arr[i]);
+		    }
+		
+		    var cur_session = username;
+		
+		    //현재 세션에 로그인 한 사람
+		    console.log("cur_session : " + cur_session);
+		    sessionId = arr[0];
+		    message = arr[1];
+		
+		    console.log("sessionID : " + sessionId);
+		    console.log("cur_session : " + cur_session);
+		
+		    //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
+		    if(sessionId == cur_session){
+		        var str = "<div class='chat'>";
+		        str += "<div class='chat'>";
+		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
+		        str += "</div></div>";
+		        $("#msgArea").append(str);
+		    }
+		    else{
+		    	var str = "<div class='chat-left'>";
+		        str += "<div class='chat-body'>";
+		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
+		        str += "</div></div>";
+		        $("#msgArea").append(str);
+		    }
+		}
+		
+	})
+</script>
 	
 </body>
 
