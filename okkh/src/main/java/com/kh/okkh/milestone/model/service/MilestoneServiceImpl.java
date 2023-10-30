@@ -73,9 +73,9 @@ public class MilestoneServiceImpl implements MilestoneService {
 	}
 	
 	@Override
-	public ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state, PageInfo pi) {
+	public ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state) {
 		
-		String url = repository + "/milestones?state=" + state + "&page=" + pi.getCurrentPage() + "&per_page=" + pi.getBoardLimit();
+		String url = repository + "/milestones?state=" + state;
 		String milestoneResponse = iDao.getGitContentsByGet1(url, session);
 		
 		ObjectMapper obj = new ObjectMapper();
@@ -239,12 +239,6 @@ public class MilestoneServiceImpl implements MilestoneService {
 		
 	}
 
-	@Override
-	public ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state) {
-		
-		
-		
-	}
 
 
 	

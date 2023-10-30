@@ -289,10 +289,6 @@
                             console.log(pagination + "pagination")
 
                             
-
-
-
-                            
                             for (var i = 0; i < issues.length; i++) {
                                 var item = issues[i];
 
@@ -420,17 +416,19 @@
                                 selectedValues.push(selectElement.selectedOptions[i].value);
                                 
                             }
-                            console.log(selectedValues);
-                            console.log(currentPage);
-                            console.log(state);
+
+                            var selectedString = selectedValues.join(",");
+                            var requestData = {
+                            	    selectedString: selectedString,
+                            	    state: state,
+                            	    cpage: currentPage
+                            };
                             
 
                             $.ajax({
                                 type: "POST",
                                 url: "AjaxIssueByLabels.iss",
-                                data: { selectedValues : JSON.stringify(selectedValues),
-                                        state: state,
-                                        cpage: currentPage },
+                                data: { requestData },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 traditional: true,

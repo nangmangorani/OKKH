@@ -19,6 +19,14 @@
 				border-radius: 5px;
 				color: black;
         	}
+
+			.label-badge {
+				margin: 5px;
+				display: inline-block;
+				padding: 3px 5px;
+				border-radius: 5px;
+				color: white;
+			}
 			</style>
 		</head>
 
@@ -69,12 +77,14 @@
 												<select class="form-select" id="basicSelect" name="label" onchange="selectLabel();">
 													<option value="">선택안함</option>
 													<c:forEach var="l" items="${ lList }">
-														<option>${ l.name }</option>
+														<option data-color="#${l.color}">${ l.name }</option>
 													</c:forEach>
 													<input type="hidden" name="labelSet" id="labelSet" value="">
 												</select>
 											</fieldset>
-											<div class="labelSpan"></div>
+											<div class="labelSpan">
+
+											</div>
 											<br>
 											<h6>마일스톤</h6>
 											<fieldset class="form-group">
@@ -112,6 +122,7 @@
 				            el: document.querySelector('#editor'),
 				            height: '400px',
 				            initialEditType: 'markdown',
+							breaks: true
 				         });
 				
 				      editor.getMarkdown();
@@ -124,7 +135,8 @@
 			        function selectLabel() {
 			            var basicSelect = document.getElementById("basicSelect");
 			            var label = basicSelect.options[basicSelect.selectedIndex].value;
-			            console.log(label);
+						var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
+			            console.log(color);
 
 			            if (labelSet !== null && labelSet !== undefined) {
 			                labelSet += "," + label;
@@ -133,16 +145,16 @@
 			            }
 			            document.getElementById("labelSet").value = labelSet;
 			            
-			            let str = createLabel(label);
+			            let str = createLabel(label, color);
 			        }
 			        
-			        function createLabel(label) {
+			        function createLabel(label, color) {
 			            let labelSpan = document.querySelector(".labelSpan");
 			            let spacer = document.createElement("span");
 			            spacer.style.margin = "5px";
 			            let span = document.createElement("span");
 			            span.className = "label-badge";
-			            span.style.backgroundColor = "yellow"; 
+			            span.style.backgroundColor = color;
 			            span.innerText = label;
 			           	
 			            labelSpan.appendChild(span);

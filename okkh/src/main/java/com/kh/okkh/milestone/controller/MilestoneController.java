@@ -44,8 +44,7 @@ public class MilestoneController {
 	
 	
 	@RequestMapping("list.mile")
-	public String milestoneList(@RequestParam(value="cpage", defaultValue="1") int currentPage,
-	HttpSession session, Model model, String state) {
+	public String milestoneList(HttpSession session, Model model, String state) {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		
@@ -57,17 +56,13 @@ public class MilestoneController {
 		String repository = "nangmangorani/01_java-workspace";
 		
 		int listCount = mService.milestoneCount(repository, token, session, state);
-		System.out.println("listCount" + listCount);
 		
 		ArrayList<Milestone> mList;
 		
-		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
 		
-		mList = mService.getMilestone(repository, session, state, pi);
-		
+		mList = mService.getMilestone(repository, session, state);
 		
 		
-		model.addAttribute("pi", pi);
 		model.addAttribute("mList", mList);
 		
 		return "milestone/milestoneList";
@@ -101,17 +96,18 @@ public class MilestoneController {
 	
 	@RequestMapping(value="ajaxDetail.mile", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String ajaxMilestoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
+	public ArrayList<Issue> ajaxMilestoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
 		
+
+
 		String repository = "nangmangorani/01_java-workspace";
 		if(state == null) {
 			state = "open";
 		}
+		System.out.println("state" + state);
 		ArrayList<Issue> iList = iService.getIssuesByMno(repository, session, state, mno);
-		Gson gson = new Gson();
-		String json = gson.toJson(iList);
 		
-		return json;
+		return iList;
 	}
 	
 	@RequestMapping(value="enrollForm.mile")
@@ -231,9 +227,10 @@ public class MilestoneController {
 	// 	return "milestone/enrollIssueByMile";
 		
 	// }
-
-	@RequestMapping("ajaxMile.mile")
-	public String ajaxMile(HttpSession session, @RequestParam(required = false)String state) {
+	
+	@RequestMapping(value="ajaxMile.mile", produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public ArrayList<Milestone> ajaxMile(HttpSession session, @RequestParam(required = false)String state) {
 
 		String token = ((Member) session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
@@ -242,8 +239,9 @@ public class MilestoneController {
 			state = "open";
 		}
 
-		
 		ArrayList<Milestone> mList = mService.getMilestone(repository, session, state);
+
+		return mList;
 
 	}
 	

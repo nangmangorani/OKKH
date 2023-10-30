@@ -20,9 +20,9 @@
 </head>
 <body>
     <div id="app">
-        <jsp:include page="../common/leftSide.jsp"></jsp:include>
+        <jsp:include page="../common/leftSide.jsp"/>
         <div id="main">
-            <jsp:include page="../common/header.jsp"></jsp:include>
+            <jsp:include page="../common/header.jsp"/>
 
             <section class="section">
                 <div class="row" id="table-head">
@@ -71,6 +71,9 @@
                                             <tr>
                                                 <th>번호</th>
                                                 <th>제목</th>
+                                                <th>라벨</th>
+                                                <th>작성자</th>
+
                                             </tr>
                                         </thead>
                                         <tbody id="mileTableBody">
@@ -78,14 +81,21 @@
                                             <c:forEach var="i" items="${iList}">
                                                 <tr>
                                                     <td class="text-bold-500">${i.number}</td>
-                                                    <td class="text-bold-500"><a href="issueDetail.html" style="color: black; font-weight: bold;">${i.title}</a></td>
-                                                    <c:forEach var="j" items="${ i.labels }">
-                                                     	<c:forEach var="l" items="${ lList }">
-                                                     		<c:if test="${ j eq l.name }">
-                                                             	<span class="labelSpan" style="background-color: #${l.color};">${ l.name }</span>                                                            		
-                                                     		</c:if>
-                                                     	</c:forEach>
-                                                     </c:forEach>
+                                                    <td class="text-bold-500"><a href="detail.iss?bno=${ i.number }" style="color: black; font-weight: bold;">${i.title}</a></td>
+                                                    <td class="text-bold-500">
+                                                        <!-- <c:forEach var="j" items="${ i.labels }">
+                                                            <c:forEach var="l" items="${ lList }">
+                                                                <c:if test="${ j eq l.name }">
+                                                                    <span class="labelSpan"
+                                                                        style="background-color: #${l.color};">${
+                                                                        l.name }</span>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </c:forEach> -->
+                                                    </td>
+                                                    <td class="text-bold-500">
+
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
 
@@ -133,6 +143,7 @@
             }
 
             function ajaxMileFunction(data) {
+                console.log(data)
             	var tableBody = $("#mileTableBody");
                 tableBody.empty();
 

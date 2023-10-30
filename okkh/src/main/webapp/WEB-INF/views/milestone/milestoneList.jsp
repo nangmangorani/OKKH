@@ -6,18 +6,18 @@
         <head>
             <meta charset="UTF-8">
             <title>Insert title here</title>
-            
-            <style>
-            	.pull-up {
-                        transition: all 0.25s ease;
-                    }
 
-                    .pull-up:hover {
-                        transform: translateY(-4px) scale(1.02);
-                        box-shadow: 0 0.25rem 1rem rgba(161, 172, 184, 0.45);
-                        z-index: 30;
-                        border-radius: 50%;
-                    }
+            <style>
+                .pull-up {
+                    transition: all 0.25s ease;
+                }
+
+                .pull-up:hover {
+                    transform: translateY(-4px) scale(1.02);
+                    box-shadow: 0 0.25rem 1rem rgba(161, 172, 184, 0.45);
+                    z-index: 30;
+                    border-radius: 50%;
+                }
             </style>
         </head>
 
@@ -41,7 +41,7 @@
                                             <button class="btn btn-primary" id="mileOpenBtn">Opened</button>
                                             <button class="btn btn-primary" id="mileCloseBtn">Closed</button>
                                             <button class="btn btn-primary" id="enrollMileBtn" style="float:right"
-                                            onclick="location.href='enrollForm.mile'">마일스톤 생성</button>
+                                                onclick="location.href='enrollForm.mile'">마일스톤 생성</button>
                                         </div>
                                     </div>
 
@@ -66,12 +66,15 @@
                                                         <th>작성자</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="mileTableBody">
+
                                                     <c:forEach var="m" items="${ mList }">
                                                         <tr>
                                                             <td class="text-bold-500">${ m.number }</td>
-                                                            <td class="text-bold-500"><a href="detail.mile?mno=${ m.number }"
-                                                                    style="color: black; font-weight: bold;">${ m.title }</a>
+                                                            <td class="text-bold-500"><a
+                                                                    href="detail.mile?mno=${ m.number }"
+                                                                    style="color: black; font-weight: bold;">${ m.title
+                                                                    }</a>
                                                             </td>
                                                             <td>${ m.createdAt }</td>
                                                             <c:choose>
@@ -100,13 +103,13 @@
                                                             <td>${ m.openedIssues }</td>
                                                             <td>${ m.closedIssues }</td>
                                                             <td>
-	                                                            <div class="avatar-group">
-		                                                            <span title="${ m.creator }"
-		                                                                class="avatar avatar-sm pull-up">
-		                                                                <img alt="avatar" src="${ m.profile }"
-		                                                                    class="rounded-circle writerAvatar">
-		                                                            </span>
-		                                                        </div>    
+                                                                <div class="avatar-group">
+                                                                    <span title="${ m.creator }"
+                                                                        class="avatar avatar-sm pull-up">
+                                                                        <img alt="avatar" src="${ m.profile }"
+                                                                            class="rounded-circle writerAvatar">
+                                                                    </span>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
@@ -119,50 +122,110 @@
                         </div>
                     </section>
 
-                    
+
                     <jsp:include page="../common/footer.jsp" />
                 </div>
             </div>
 
             <script>
-            // 아직 ajax안함!!
+                
                 $(function () {
 
-					var state = "open";
-					
-                    $("#mileOpenBtn").click(function () {
-                    	state = "open";
-                    	sendAjaxRequest(state);
-                    });
+                    var state = "open";
 
+                    $("#mileOpenBtn").click(function () {
+                        state = "open";
+                        sendAjaxRequest(state);
+                    });
 
                     $("#mileCloseBtn").click(function () {
-                    	state = "closed";
-                    	sendAjaxRequest(state);
+                        state = "closed";
+                        sendAjaxRequest(state);
                     });
-                    
-                    
+
+
                     function sendAjaxRequest(state) {
-                    	
-                    	$.ajax({
-                    		url: "ajaxMile.mile",
-                    		data: {
-                    			state:state
-                    		},
-                    		success: function(data) {
-                    			ajaxMileFunction(data);
-                    		},
-                    		error: function(xhr,status,error) {
-                    			console.log("AJAX 오류 : " + error);
-                    		}
-                    	})
+
+                        $.ajax({
+                            url: "ajaxMile.mile",
+                            data: {
+                                state: state
+                            },
+                            success: function (data) {
+                                console.log("AJAX 잘됨 : ");
+                                ajaxMileFunction(data);
+
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("AJAX 오류 : " + error);
+                            }
+                        })
                     }
-                    
+
                     function ajaxMileFunction(data) {
-                    	
+                        var tableBody = $("#mileTableBody");
+                        tableBody.empty();
+
+                        for (var i = 0; i < data.length; i++) {
+                            var item = data[i];
+                            console.log(item.number);
+                            var row = $("<tr>");
+
+                                var numberCell = $("<td>").addClass("text-bold-500").text(item.number);
+                                var titleCell = $("<td>").addClass("text-bold-500");
+                                var titleLink = $("<a>")
+                                    .attr("href", "detail.mile?mno=" + item.number)
+                                    .css({ "color": "black", "font-weight": "bold" })
+                                    .text(item.title);
+                                titleCell.append(titleLink);
+
+                            
+                            var createDate = $("<td>").text(item.createdAt);
+
+                            var dueOnCell;
+                            if (item.dueOn == null || item.dueOn.length == 0) {
+                                dueOnCell = $("<td>").addClass("text-bold-500").attr("id", "mileContinue").text("No due Date");
+                            } else {
+                                dueOnCell = $("<td>").addClass("text-bold-500").attr("id", "mileContinue").text(item.dueOn);
+                            }
+
+                            var updatedAt = $("<td>").text(item.updatedAt);
+                            var progressCell = $("<td>").addClass("align-middle text-dark");
+                            var floatStart = $("<div>").addClass("float-start me-3").text(item.finPercent + "%");
+                            var mt2 = $("<div>").addClass("mt-2");
+                            var progressDiv = $("<div>").css("height", "5px").addClass("progress");
+                            var progressBar = $("<div>")
+                                .attr("role", "progressbar")
+                                .addClass("progress-bar")
+                                .css("width", item.finPercent + "%")
+                                .attr("aria-valuenow", item.finPercent)
+                                .attr("aria-valuemin", "0")
+                                .attr("aria-valuemax", "100");
+                            progressDiv.append(progressBar);
+                            progressCell.append(floatStart, mt2);
+                            var openedIssuesCell = $("<td>").text(item.openedIssues);
+                            var closedIssuesCell = $("<td>").text(item.closedIssues);
+                            var creatorCell = $("<td>");
+                            var avatarGroup = $("<div>").addClass("avatar-group");
+                            var avatarSpan = $("<span>")
+                                .attr("title", item.creator)
+                                .addClass("avatar avatar-sm pull-up");
+                            var avatarImg = $("<img>")
+                                .attr("alt", "avatar")
+                                .attr("src", item.profile)
+                                .addClass("rounded-circle writerAvatar");
+                            avatarSpan.append(avatarImg);
+                            avatarGroup.append(avatarSpan);
+                            creatorCell.append(avatarGroup);
+                                
+                            row.append(numberCell, titleCell, createDate, dueOnCell, updatedAt, progressCell, openedIssuesCell, closedIssuesCell, creatorCell);
+                            tableBody.append(row);
+                        }
                     }
-                    
-                    
+
+
+
+
                 });
             </script>
 

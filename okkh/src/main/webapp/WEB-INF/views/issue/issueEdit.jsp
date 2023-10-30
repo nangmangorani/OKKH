@@ -31,7 +31,7 @@
 					<!-- 상단바 끝 -->
 
 					<section class="section">
-						<form action="enroll.iss" method="post" id="issueEnrollForm">
+						<form action="edit.iss?bno=${ bno }" method="post" id="issueEnrollForm">
 							<div class="row">
 								<div class="col-12 col-md-8">
 									<div class="card" style="height: 600px;">
@@ -41,10 +41,10 @@
 										<div class="card-body">
 											<div class="form-group">
 												<label for="basicInput">Title</label>
-												<input type="text" class="form-control" id="basicInput" name="title">
+												<input type="text" class="form-control" id="basicInput" name="title" value="${ title }">
 											</div>
 											<span>Content</span>
-											<div id="editor"></div>
+											<div id="editor">${ body }</div>
                								<input type="hidden" name="body" value="">
 										</div>
 									</div>
@@ -52,7 +52,7 @@
 								<div class="col-12 col-md-4">
 									<div class="card" style="height: 600px;">
 										<div class="card-header">
-											<h4 class="card-title">이슈 등록하기</h4>
+											<h4 class="card-title">이슈 수정하기</h4>
 										</div>
 										<div class="card-body">
 											<h6>이슈 담당자</h6>
@@ -80,8 +80,15 @@
 											<fieldset class="form-group">
 												<select class="form-select" id="milestoneSelect" name="milestone">
 													<option value="">선택안함</option>
-													<c:forEach var="m" items="${ mListkkkk }">
-														<option value="${ m.number }">${ m.title }</option>
+													<c:forEach var="m" items="${ mList }">
+														<c:choose>
+															<c:when test="${ m.title eq milestoneOne.title }">
+																<option selected="selected" value="${ m.number }">${ m.title }</option>
+															</c:when>
+															<c:otherwise>
+																<option value="${ m.number }">${m.title}</option>
+															</c:otherwise>
+														</c:choose>
 													</c:forEach>
 													<option value="direct">직접입력</option>
 												</select>
@@ -96,7 +103,7 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-primary" style="float: right">등록하기</button>
+							<button class="btn btn-primary" style="float: right">수정하기</button>
 						</form>
 					</section>
 
@@ -132,6 +139,8 @@
 			                labelSet = label;
 			            }
 			            document.getElementById("labelSet").value = labelSet;
+			            
+			            console.log(labelSet)
 			            
 			            let str = createLabel(label);
 			        }

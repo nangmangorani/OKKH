@@ -24,6 +24,14 @@
             height: 30px;
             line-height: 28px;
         }
+        
+        .labelSpan {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 3px 5px;
+            border-radius: 5px;
+            color: white;
+        }
     </style>
     
 </head>
@@ -111,11 +119,12 @@
                                     <br><br>
                                     <h6>라벨</h6>
                                     <c:forEach var="l" items="${ labels }">
-                                    	${ l }
+                                    	<span class="labelSpan"
+                                    	style="background-color:#${l.color};">${ l.name }</span>
                                     </c:forEach>
                                     <br><br>
                                     <h6>마일스톤</h6>
-                                    
+                                    ${ milestoneOne.title }
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="directInput" style="display: none;"
                                             placeholder="직접 입력해주세요">

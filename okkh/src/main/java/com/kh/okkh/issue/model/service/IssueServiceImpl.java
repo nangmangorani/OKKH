@@ -211,112 +211,7 @@ public class IssueServiceImpl implements IssueService{
 		
 	}
 	
-	/**
-	 * 이슈 상세보기
-	 * */
-//	public Issue getIssueByBno(String repository, String token, int bno) {
-//	    String url = repository + "/issues/" + bno;
-//	    String response = iDao.toGitGetIssue(url, token, bno);
-//	    System.out.println(response);
-//	    ObjectMapper obj = new ObjectMapper();
-//	    JsonNode jsonNode;
-//	    Issue issue = null;
-//
-//	    try {
-//	        jsonNode = obj.readTree(response);
-//
-//	        String title = jsonNode.has("title") ? jsonNode.get("title").asText() : "";
-//	        
-//	        // "labels" 키의 값을 JSON 배열로 가져옵니다.
-//	        JsonNode labelsNode = jsonNode.has("labels") ? jsonNode.get("labels") : null;
-//	        ArrayList<String> labels = new ArrayList<>();
-//
-//	        if (labelsNode != null && labelsNode.isArray()) {
-//	            for (JsonNode labelNode : labelsNode) {
-//	                labels.add(labelNode.asText());
-//	            }
-//	        }
-//	        String[] labelsArray = labels.toArray(new String[0]);
-//	        
-//	        String state = jsonNode.has("state") ? jsonNode.get("state").asText() : "";
-//	        String milestone = jsonNode.has("milestone") ? jsonNode.get("milestone").asText() : "";
-//	        int number = jsonNode.has("number") ? jsonNode.get("number").asInt() : 0;
-//	        int milestoneNum = 0;
-//
-//	        if (jsonNode.has("milestone") && jsonNode.get("milestone").has("number")) {
-//	            milestoneNum = jsonNode.get("milestone").get("number").asInt();
-//	        }
-//	        
-//	        int id = jsonNode.has("id") ? jsonNode.get("id").asInt() : 0;
-//	        String user = jsonNode.has("user") ? jsonNode.get("user").asText() : "";
-//	        String userId = jsonNode.has("id") ? jsonNode.get("id").asText() : "";
-//	        String profile = jsonNode.has("user") && jsonNode.get("user").has("avatar_url") ? jsonNode.get("user").get("avatar_url").asText() : "";
-//
-//	        JsonNode assigneesNode = jsonNode.has("assignees") ? jsonNode.get("assignees") : null;
-//	        ArrayList<String> assignees = new ArrayList<>();
-//
-//	        if (assigneesNode != null && assigneesNode.isArray()) {
-//	            for (JsonNode assignee : assigneesNode) {
-//	                assignees.add(assignee.asText());
-//	            }
-//	        }
-//
-//	        String[] assigneesArray = assignees.toArray(new String[0]);
-//
-//	        JsonNode assigneeProfilesNode = jsonNode.has("assigneeProfiles") ? jsonNode.get("assigneeProfiles") : null;
-//	        ArrayList<String> assigneeProfiles = new ArrayList<>();
-//
-//	        if (assigneeProfilesNode != null && assigneeProfilesNode.isArray()) {
-//	            for (JsonNode assignee : assigneeProfilesNode) {
-//	                assigneeProfiles.add(assignee.asText());
-//	            }
-//	        }
-//
-//	        String[] assigneesProArray = assigneeProfiles.toArray(new String[0]);
-//
-//	        String login = jsonNode.has("login") ? jsonNode.get("login").asText() : "";
-//	        SimpleDateFormat s1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-//	        SimpleDateFormat s2 = new SimpleDateFormat("yyyy-MM-dd");
-//
-//	        String createdAt = null;
-//	        String updatedAt = null;
-//	        String closedAt = null;
-//
-//	        if (jsonNode.has("created_at") && !"null".equals(jsonNode.get("created_at").asText())) {
-//	            try {
-//	                Date createdAtBefore = s1.parse(jsonNode.get("created_at").asText());
-//	                createdAt = s2.format(createdAtBefore);
-//	            } catch (ParseException e) {
-//	                e.printStackTrace();
-//	            }
-//	        }
-//
-//	        if (jsonNode.has("updated_at") && !"null".equals(jsonNode.get("updated_at").asText())) {
-//	            try {
-//	                Date updatedAtBefore = s1.parse(jsonNode.get("updated_at").asText());
-//	                updatedAt = s2.format(updatedAtBefore);
-//	            } catch (ParseException e) {
-//	                e.printStackTrace();
-//	            }
-//	        }
-//
-//	        if (jsonNode.has("closed_at") && !"null".equals(jsonNode.get("closed_at").asText())) {
-//	            try {
-//	                Date closedAtBefore = s1.parse(jsonNode.get("closed_at").asText());
-//	                closedAt = s2.format(closedAtBefore);
-//	            } catch (ParseException e) {
-//	                e.printStackTrace();
-//	            }
-//	        }
-//
-//	        issue = new Issue(title, labelsArray, state, milestone, number, milestoneNum, createdAt, updatedAt, closedAt, id, user, userId, profile, assigneesArray, assigneesProArray, login);
-//
-//	    } catch (JsonProcessingException e) {
-//	        e.printStackTrace();
-//	    }
-//
-//	    return issue;
-//	}
+	
 
 	
 	
@@ -328,6 +223,16 @@ public class IssueServiceImpl implements IssueService{
 		String url = repository + "/issues";
 		
 		String method = "post";
+		
+		iDao.toGitIssue(token, url, requestBody, method);
+		
+	}
+	
+	public void editIssue(String token, String repository, Map<String, Object> requestBody, int bno) {
+		
+		String url = repository + "/issues/"+bno;
+		
+		String method = "patch";
 		
 		iDao.toGitIssue(token, url, requestBody, method);
 		

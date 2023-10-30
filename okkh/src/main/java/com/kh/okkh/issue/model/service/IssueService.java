@@ -2,6 +2,7 @@ package com.kh.okkh.issue.model.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,5 +26,7 @@ public interface IssueService {
 	ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException;
 	
 	int issueCount(String repository, String token, HttpSession session, String state);
+	
+	void editIssue(String token, String repository, Map<String, Object> requestBody, int bno);
 	
 }
