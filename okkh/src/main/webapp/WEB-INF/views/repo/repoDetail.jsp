@@ -112,6 +112,8 @@
                     
                     	$(() => {
                     		
+                    		let str = "";
+                    		
                     		selectRepoContents(str);	
                     		
                     		function selectRepoContents(str) {
@@ -139,6 +141,18 @@
               							}
               							
               							$("#repo tbody").html(value);
+              							
+              							$("#repo tbody>tr").click(() => {
+                                			
+                                			//selectRepoContents();
+                                			
+                                			console.log($(this).children());
+                                			
+                                			$("#source").toggle();
+                                			
+                                			$("#source h6").text("hihi");
+                                			
+                                		})
               
                     				},
                     				error:() => {
@@ -147,18 +161,6 @@
                     			})
                     		
                     		}
-                    		
-                    		$(document).on("click", "tbody>tr", () => {
-                    			
-                    			selectRepoContents("");
-                    			
-                    			console.log($(this));
-                    			
-                    			$("#source").toggle();
-                    			
-                    			$("#source h6").text("hihi");
-                    			
-                    		})
                     		
                     	})
                     

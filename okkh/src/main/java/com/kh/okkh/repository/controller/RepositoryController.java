@@ -229,12 +229,12 @@ public class RepositoryController {
 		g.setToken(token);
 		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
 		
-		String param = "?name=" + r.getRepoTitle();
+//		String param = "?name=" + r.getRepoTitle();
 //		param += "&description=" + r.getRepoContent();
 //		param += "&visibility=" +r.getRepoStatus();
 //		param += "&auto_init=true";
 		
-		g.setParam(param);
+		g.setParam(r.getRepoTitle());
 		// 템플릿에서 얻은 결과값 받음
 		String response = getGitHubAPIValue(g);
 		
