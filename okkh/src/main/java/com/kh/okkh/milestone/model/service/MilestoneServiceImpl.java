@@ -239,6 +239,13 @@ public class MilestoneServiceImpl implements MilestoneService {
 		
 	}
 
+	@Override
+	public ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state) {
+		
+		
+		
+	}
+
 
 	
 

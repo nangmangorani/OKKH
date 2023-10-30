@@ -18,7 +18,6 @@ public class PagiNation {
 		
 		return new PageInfo(listCount, currentPage, pageLimit, boardLimit, maxPage, startPage, endPage);
 		
-		
 	}
 	
 }

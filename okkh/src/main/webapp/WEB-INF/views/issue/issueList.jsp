@@ -226,40 +226,20 @@
                                 </div>
                             </div>
                         </section>
-                        <jsp:include page="../common/footer.jsp"></jsp:include>
+                        <jsp:include page="../common/footer.jsp"/>
                     </div>
                 </div>
 
                 <script>
+                    	
+                        var state = "open";
+                        var currentPage;
 
-                    var state = "open";
-
-                    var currentPage = "${pi.currentPage}";
-                    var startPage = "${pi.startPage}";
-                    var endPage = "${pi.endPage}";
-                    var maxPage = "${pi.maxPage}";
-                    
-
-                    $(function () {
-                        $("#continueBtn").click(function () {
-                            var state = "open";
-                            console.log(state);
-                            sendAjaxRequest(state);
-                        });
-
-                        $("#finishBtn").click(function () {
-                            var state = "closed";
-                            console.log(state);
-                            sendAjaxRequest(state);
-                        });
-
-
-
-                        function sendAjaxRequest(state) {
+                        function sendAjaxRequest(state, cpage) {
                             $.ajax({
                                 url: "ajaxIssue",
                                 data: { state: state,
-                                		cpage: currentPage},
+                                		cpage: cpage},
                                 success: function (data) {
                                     ajaxIssueFunction(data);
                                 },
@@ -267,15 +247,54 @@
                                     console.log("AJAX 오류: " + error);
                                 }
                             });
-                        }
+                        }   
+
+                    
+                    
+                    
+
+                        $("#continueBtn").click(function () {
+                            state = "open";
+                            var cpage = 1;
+                            console.log(state);
+                            sendAjaxRequest(state, cpage);
+                        });
+
+                        $("#finishBtn").click(function () {
+                            state = "closed";
+                            var cpage = 1;
+                            console.log(state);
+                            sendAjaxRequest(state, cpage);
+                        });
+
+                        
+                        
 
                         function ajaxIssueFunction(data) {
                             var tableBody = $("#issueTableBody");
                             tableBody.empty();  // 테이블 몸체 초기화
 
+                            var issues = data.issues;
+                            var pagination = data.pagination;
+                            currentPage = data.pagination.currentPage;
+                            var listCount = data.pagination.listCount;
+                            var pageLimit = data.pagination.pageLimit;
+                            var boardLimit = data.pagination.boardLimit;
+                            var maxPage = data.pagination.maxPage;
+                            var startPage = data.pagination.startPage;
+                            var endPage = data.pagination.endPage;
+                            state = data.issues[0].state;
+                            console.log(state + "zz")
+                            console.log(issues + "issues")
+                            console.log(pagination + "pagination")
 
-                            for (var i = 0; i < data.length; i++) {
-                                var item = data[i];
+                            
+
+
+
+                            
+                            for (var i = 0; i < issues.length; i++) {
+                                var item = issues[i];
 
                                 // 이하부터 데이터를 동적으로 생성
                                 var row = $("<tr>");
@@ -296,7 +315,7 @@
                                     var milestoneText = $("<span>")
                                         .attr("id", "mileText")
                                         .text(item.milestone);
-                                    titleLink.append(milestoneImg, milestoneText);
+                                    titleLink.append('   ',milestoneImg, ' ',milestoneText);
                                 }
 
                                 titleCell.append(titleLink);
@@ -361,49 +380,79 @@
                             var paging = $("#paging");
                             paging.empty();
                             
-                        	 // 이하에 페이징 생성 코드 추가
-                            var ul = $("<ul>")
-                                .addClass("pagination pagination-primary justify-content-center");
+                            var ul = $("<ul>").addClass("pagination pagination-primary justify-content-center");
 
                             // Prev 버튼 생성
-                            if (currentPage === 1) {
-                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
+                            if (currentPage != 1) {
+                                //ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "ajaxIssue?cpage=" + (currentPage - 1)).text("Prev")));
+                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage - 1) + ");")));
+
                             } else {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "ajaxIssue?cpage=" + (currentPage - 1)).text("Prev")));
+                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
                             }
 
                             // 페이지 버튼 생성
                             for (var p = startPage; p <= endPage; p++) {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "ajaxIssue?cpage=" + p).text(p)));
+                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
                             }
 
                             // Next 버튼 생성
-                            if (currentPage === maxPage) {
-                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Next")));
+                            // Next 버튼 생성
+                            if (currentPage < maxPage) {
+                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Next").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage + 1) + ");")));
+                                    console.log(currentPage + 1)
                             } else {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "ajaxIssue?cpage=" + (currentPage + 1)).text("Next")));
+                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Next")));
                             }
-                            paging.append(ul);
+
+                            $("#paging").html(ul);
+                            
                         }
 
-                        $('.choices').on('change', function () {
-                            var selectedLabels = $(this).val();
 
-                            if (selectedLabels && selectedLabels.length > 0) {
-                                // 모든 행 숨기기
-                                $("tbody tr").hide();
+                        var selectElement = document.querySelector(".choices.form-select");
+                        
 
-                                // 각 선택된 라벨에 대해 확인
-                                selectedLabels.forEach(function (selectedLabel) {
-                                    // 선택된 라벨과 일치하는 행 보이기
-                                    $("tbody tr:has(td span.labelSpan:contains('" + selectedLabel + "'))").show();
-                                });
-                            } else {
-                                // 선택한 라벨이 없으면 모든 행 보이기
-                                $("tbody tr").show();
+                        selectElement.addEventListener("change", function() {
+                            var selectedValues = new Array();
+
+                            for (var i = 0; i < selectElement.selectedOptions.length; i++) {
+                                selectedValues.push(selectElement.selectedOptions[i].value);
+                                
                             }
+                            console.log(selectedValues);
+                            console.log(currentPage);
+                            console.log(state);
+                            
+
+                            $.ajax({
+                                type: "POST",
+                                url: "AjaxIssueByLabels.iss",
+                                data: { selectedValues : JSON.stringify(selectedValues),
+                                        state: state,
+                                        cpage: currentPage },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                traditional: true,
+                                success: function(response) {
+                                    console.log("서버 응답: " + response);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error("AJAX 오류: " + error);
+                                }
+                            });
                         });
-                    });
+
+
+
+
+
+
+
+                        
+
+
+                    
                 </script>
 
 

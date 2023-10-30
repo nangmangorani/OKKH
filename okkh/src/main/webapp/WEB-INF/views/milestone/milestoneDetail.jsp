@@ -52,7 +52,7 @@
                                     <button type="button"
                                         class="btn btn-primary me-1 mb-1"
                                         style="width: 100px; float: right;"
-                                        onclick="location.href='issueEnroll.html'">이슈등록</button>
+                                        onclick="location.href='enrollIssue.mile?mno=${milestone.number}'">이슈등록</button>
                                     <button type="button"
                                         class="btn btn-primary me-1 mb-1"
                                         style="width: 150px; float: right;"

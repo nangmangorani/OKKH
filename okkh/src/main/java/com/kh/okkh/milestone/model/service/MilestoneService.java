@@ -16,7 +16,11 @@ public interface MilestoneService {
 
 	ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state, PageInfo pi);
 	
+	ArrayList<Milestone> getMilestone(String repository, HttpSession session, String state);
+
 	void enrollMilestone(String token, String repository, Map<String, Object> requestBody);
 	
 	void editMilestone(String repository, Map<String, Object> requestBody, String token, int mno);
+
+	
 }

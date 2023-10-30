@@ -28,6 +28,7 @@ import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.dao.IssueDao;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
 import com.kh.okkh.issue.model.vo.Issue;
+import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.service.MilestoneServiceImpl;
 import com.kh.okkh.milestone.model.vo.Milestone;
@@ -64,13 +65,7 @@ public class MilestoneController {
 		
 		mList = mService.getMilestone(repository, session, state, pi);
 		
-		for(int i = 0; i<mList.size(); i++) {
-			if(mList.get(i).getState().equals("open")) {
-				mList.get(i).setState("진행중");
-			} else {
-				mList.get(i).setState("진행완료");
-			}
-		}
+		
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("mList", mList);
@@ -223,6 +218,33 @@ public class MilestoneController {
 		mService.editMilestone(repository, requestBody, token, mno);
 		
 		return "redirect:/list.mile";
+	}
+	
+	// @RequestMapping("enrollIssue.mile")
+	// public String enrollIssueAtMile(HttpSession session, int mno, Model model) {
+		
+	// 	String repository = "nangmangorani/01_java-workspace";
+		
+		
+
+		
+	// 	return "milestone/enrollIssueByMile";
+		
+	// }
+
+	@RequestMapping("ajaxMile.mile")
+	public String ajaxMile(HttpSession session, @RequestParam(required = false)String state) {
+
+		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String repository = "nangmangorani/01_java-workspace";
+
+		if(state == null) {
+			state = "open";
+		}
+
+		
+		ArrayList<Milestone> mList = mService.getMilestone(repository, session, state);
+
 	}
 	
 	

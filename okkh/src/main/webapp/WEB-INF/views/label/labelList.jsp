@@ -131,7 +131,7 @@
                                         <div class="card-content">
                                             <!-- table head dark -->
                                             <div class="table-responsive">
-                                                    <span style="padding-left:20px; font-weight:500;">라벨 수 : ${ lList.size() }</span>
+                                                    <span style="padding-left:20px; font-weight:600;">라벨 수 : ${ lList.size() }</span>
                                                     <br><br>
                                                 <table class="table mb-0">
                                                     <thead class="thead-dark">

@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,13 +98,7 @@ public class IssueController {
 		
 		list = iService.getIssues(repository, token, state, pi);
 		
-		for(int i = 0; i<list.size(); i++) {
-			if(list.get(i).getState().equals("open")) {
-				list.get(i).setState("진행중");
-			} else {
-				list.get(i).setState("진행완료");
-			}
-		}
+		
 		
 //		<span class="labelSpan"
 //                style="background-color: #${l.color};">${
@@ -120,7 +116,7 @@ public class IssueController {
 	
 	@RequestMapping(value="ajaxIssue", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public String ajaxIssue(HttpSession session, Member m, Model model, 
+	public Map<String, Object> ajaxIssue(HttpSession session, Member m, Model model, 
 			@RequestParam(value="cpage", defaultValue="1") int currentPage,
 			@RequestParam(required = false) String state,
 			@RequestParam(required = false) String label,
@@ -128,6 +124,7 @@ public class IssueController {
 			@RequestParam(required = false) String authorName, @RequestParam(required = false) String newTitle,
 			@RequestParam(required = false) String issueNumber, @RequestParam(required = false) String userObject) throws IOException {
 		
+		System.out.println("cpage받아지긴함? " + currentPage);
 		String repository = "nangmangorani/01_java-workspace";
 
 		if(state == null) {
@@ -140,22 +137,19 @@ public class IssueController {
 		
 		int listCount = iService.issueCount(repository, token, session, state);
 		
-		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 5);
+		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
+		
+		System.out.println("pi입니다 " + pi);
 		
 		list = iService.getIssues(repository, token, state, pi);
 
-		for(int i = 0; i<list.size(); i++) {
-			if(list.get(i).getState().equals("open")) {
-				list.get(i).setState("진행중");
-			} else {
-				list.get(i).setState("진행완료");
-			}
-		}
-		Gson gson = new Gson();
-		String json = gson.toJson(list);
 		
+		
+		Map<String, Object> response = new HashMap<>();
+	    response.put("issues", list);
+	    response.put("pagination", pi);
 
-		return json;
+		return response;
 	}
 	
 	
@@ -173,8 +167,6 @@ public class IssueController {
 		model.addAttribute("lList", lList);
 		model.addAttribute("mList", mList);
 
-		for(Labels l : lList) {
-		}
 		
 		return "issue/issueEnroll";
 		
@@ -349,6 +341,42 @@ public class IssueController {
 	}
 	
 	
+	@RequestMapping(value="AjaxIssueByLabels.iss", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state, 
+	@RequestParam(value = "selectedValues") String selectedValues,
+	@RequestParam(value = "cpage", defaultValue = "1") int currentPage) {
+		
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+
+		String repository = "nangmangorani/01_java-workspace";
+
+		if(state == null) {
+			state = "open";
+		}
+		System.out.println(currentPage + "ㅎㅎㅎ");
+		System.out.println("state " + state);
+		System.out.println("selectedValues" + selectedValues);
+
+		
+
+		ArrayList<Issue> list;
+		
+		int listCount = iService.issueCount(repository, token, session, state);
+		
+		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
+		
+		
+		// list = iService.getIssuesByLabels(repository, token, state, pi, labelStr);
+
+		
+		
+		Map<String, Object> response = new HashMap<>();
+	    // response.put("issues", list);
+	    response.put("pagination", pi);
+
+		return response;
+	}
 	
 	
 	

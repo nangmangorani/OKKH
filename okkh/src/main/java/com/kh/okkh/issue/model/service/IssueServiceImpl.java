@@ -173,6 +173,7 @@ public class IssueServiceImpl implements IssueService{
 	         JsonObject issueObj = arr.get(i).getAsJsonObject();
 	         Issue git = createGitIssueFromJsonObject(issueObj);
 	         list.add(git);
+	         System.out.println(list.get(i));
 	      }
 	    return list;
 	      

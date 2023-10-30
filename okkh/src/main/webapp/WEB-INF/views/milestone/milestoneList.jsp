@@ -119,41 +119,7 @@
                         </div>
                     </section>
 
-                    <div>
-                        <nav aria-label="Page navigation example" id="paging">
-                            <ul class="pagination pagination-primary justify-content-center">
-
-                                <c:choose>
-                                    <c:when test="${ pi.currentPage eq 1 }">
-                                        <li class="page-item disabled"><a class="page-link"
-                                                href="#">Prev</a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item"><a class="page-link"
-                                                href="list.mile?cpage=${ pi.currentPage - 1 }">Prev</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-
-                                <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-                                    <li class="page-item"><a class="page-link"
-                                            href="list.mile?cpage=${ p }">${ p }</a></li>
-                                </c:forEach>
-
-                                <c:choose>
-                                    <c:when test="${ pi.currentPage eq pi.maxPage }">
-                                        <li class="page-item disabled"><a class="page-link"
-                                                href="#">Next</a></li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="page-item"><a class="page-link"
-                                                href="list.mile?cpage=${ pi.currentPage + 1 }">Next</a>
-                                        </li>
-                                    </c:otherwise>
-                                </c:choose>
-                            </ul>
-                        </nav>
-                    </div>
+                    
                     <jsp:include page="../common/footer.jsp" />
                 </div>
             </div>
@@ -179,10 +145,9 @@
                     function sendAjaxRequest(state) {
                     	
                     	$.ajax({
-                    		url: "ajaxMilestone",
+                    		url: "ajaxMile.mile",
                     		data: {
-                    			state:state,
-                    			cpage:currentPage
+                    			state:state
                     		},
                     		success: function(data) {
                     			ajaxMileFunction(data);
