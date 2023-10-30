@@ -50,6 +50,10 @@
 	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
 	                    	New PullRequest
 	                	</button>
+	                	
+	                	<button type="button"  style="float: right;" id="selectPull">
+	                    	눌루
+	                	</button>
 	                	<!-- /레파지 추가 버튼 끝 -->
 					</div>
 					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
@@ -127,7 +131,7 @@
 				                        <div class="tab-content" id="myTabContent">
 				                        	<!-- open 테이블 -->
 				                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-					                            <table class="table table-bordered mb-0">
+					                            <table class="table table-bordered mb-0" id="pullListTable">
 					                                <thead>
 					                                    <tr>
 					                                    	<th>
@@ -143,30 +147,35 @@
 					                                    </tr>
 					                                </thead>
 					                                <tbody>
-					                                    <tr>
-					                                        <td class="text-bold-500">
-					                                        	<div class="checkbox">
-						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
-						                                            <label for="checkbox1">풀리퀘 테스트</label>
-						                                        </div>
-					                                        </td>
-					                                        <td>묵순이</td>
-					                                        <td class="text-bold-500">BUG</td>
-					                                        <td><i class="fa-solid fa-xmark"></i></td>
-					                                        <td><i class="fa-regular fa-comment"></i> 3</td>
-					                                    </tr>
-					                                    <tr>
-					                                        <td class="text-bold-500">
-					                                        	<div class="checkbox">
-						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
-						                                            <label for="checkbox1">풀리퀘 리뷰 남겨라잉</label>
-						                                        </div>
-					                                        </td>
-					                                        <td>$13/hr</td>
-					                                        <td class="text-bold-500">Graphic concepts</td>
-					                                        <td>Remote</td>
-					                                        <td>Shangai,China</td>
-					                                    </tr>
+					                           <c:choose> 
+					                           		<c:when test="${not empty responseText }">  
+					                           		    <c:forEach var="pull" items="${responseText }">  	
+												                <tr>
+									                                 <td class='text-bold-500'>
+										                                 <div class='checkbox'>
+										                                  <input type='checkbox' id='checkbox1' class='form-check-input'>
+										                                 <label for='checkbox1'>${pull.title} </label>
+										                                 </div>
+									                                  </td>
+									                                  <td>
+										                                  <img src=' item.user.avatar_url '>
+										                                  <span> item.user.login  </span>   
+																	  </td>
+									                                  <td class='text-bold-500'> item.labels </td>
+									                                  <td>item.milestone </td>
+									                                  <td><i class='fa-regular fa-comment'></i> 3 </td>
+							                                    </tr>
+					                                   </c:forEach> 
+					                                </c:when> 
+					                                <c:otherwise>
+					                                	<tr>
+					                                		<td colspan="5">아직 생성된 Pull Request가 없습니다. Pull Request를 생성해보세요!  </td>
+					                                	</tr>
+					                                </c:otherwise>  
+					                                
+					                                 	
+					                            </c:choose>        
+					                                    
 					                                </tbody>
 					                            </table>
 				                            </div>
@@ -191,6 +200,9 @@
 					                                </thead>
 					                                <tbody>
 					                                    <tr>
+					                                    
+					                                    	<!-- 여기는 state가 close인 풀리퀘를 조회하는 건가봄 -->
+					                                    
 					                                        <td class="text-bold-500">
 					                                        	<div class="checkbox">
 						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
@@ -239,6 +251,87 @@
                 </section>
             </div>
             <!-- /내용 끝 -->
+            
+            
+            
+            <script>
+            /*
+               $(function(){
+            	   selectPullRequest();
+               })
+            
+            
+            	function selectPullRequest(){
+            		
+            		$.ajax({
+            			url:"selectPullRequest.pull",
+            			success:function(data){
+            				
+            				//const pullList = JSON.stringify(data, null, 2)
+            				// 2는 들여쓰기 개수
+            				
+            				//console.log(pullList[5] + " 받아온 풀리퀘닷!!!!!!!!!!!!!!!!")
+            				let value = "";
+            				data.forEach(function(item){
+            					
+            				
+            				value += "<tr>"
+                                  + "<td class='text-bold-500'>"
+                                  +	"<div class='checkbox'>"
+                                  + "<input type='checkbox' id='checkbox1' class='form-check-input'>
+                                  + "<label for='checkbox1'>" +  item.title + "</label>"
+                                  + "</div>"
+                                  + "</td>"
+                                  + "<td>" 
+                                  +"<img src='"+ item.user.avatar_url +"'>"
+                                  + "<span>" + item.user.login  + "</span>"   
+								  + "</td>"
+                                  + "<td class='text-bold-500'> item.labels </td>"
+                                  + "<td>item.milestone </td>"
+                                  + "<td><i class='fa-regular fa-comment'></i>"+ 3 + "</td>"
+                                  + "</tr>" 	
+            					
+            					
+            				})
+            				
+            				
+            				$("#pullListTable tbody").html(value);
+            				
+            				
+            				
+            				
+            				
+            				
+            				
+            			},
+            			error:function(){
+            				console.log("풀리퀘스트 리스트 조회용 아작스 실패ㅠㅠㅠ")
+            			}
+            		
+            		})
+            		
+            	}	
+            
+            	
+               
+               $("#selectPull").click(function(){
+            	   selectPullRequest();
+               })
+            	
+            */
+            </script>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
 
 			<!-- 푸터바 시작 -->
             <jsp:include page="../common/footer.jsp"/>

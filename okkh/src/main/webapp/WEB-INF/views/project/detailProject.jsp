@@ -266,8 +266,7 @@
 
 																	<img style="width: 20px; height: 20px;"
 																		src="https://holaworld.io/images/info/bookmark_filled.png"
-																		alt=""> : <span id="bookmarkCount">${count
-																		}</span>
+																		alt=""> : <span id="bookmarkCount">${count}</span>
 																</div>
 																<br>
 																<hr>

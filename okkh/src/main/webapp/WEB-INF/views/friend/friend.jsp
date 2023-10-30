@@ -651,7 +651,7 @@
                                                      }else {
 	                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
 	                                                	  
-	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 추가</button> "
+	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 요청</button> "
 	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
 	                                               
                                                       }
@@ -815,7 +815,7 @@
                                                      }else {
 	                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
 	                                                	  
-	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 추가</button> "
+	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 요청</button> "
 	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
 	                                               
                                                       }
@@ -1250,7 +1250,7 @@
 	                                                     }else {
 		                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
 		                                                	  
-		                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 추가</button> "
+		                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 요청</button> "
 		                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
 		                                               
 	                                                      }

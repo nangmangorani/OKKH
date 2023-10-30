@@ -11,6 +11,8 @@
 <!-- 에디터 css -->
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
+
+
 </head>
 
 <body>
@@ -64,6 +66,11 @@
 					                    <div class="card-header">
 					                        <img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="30" width="30" style="border-radius: 15px;"> 
 					                        <span style="font-weight: bold; color: #198754;">YoonTarget</span>
+											<span>
+												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+													Update PullRequest
+												</button>
+											</span>
 					                    </div>
 					                    <div class="card-body">
 					                        <div class="form-group with-title mb-3">
@@ -73,12 +80,82 @@
 					                    </div>
 				                    </div>
 				                    
+				              
+				                    
+				                    
+				                    
+				                    <!-- 여기는 코드들 볼 수 있게 우리 프로젝트의 그동안의 커밋 내용들을 불러오기...? -->
+				                    
+				              <div class="card-body" style="width:90%;margin:auto" >      
+				               <div class="table-responsive" style="width:90%; margin:auto;">
+                                <table class="table table-lg" >
+                                    <thead>
+                                        <tr>
+                                            <th style="width:10%;">Commits ...</th>
+                                            <th style="width:85%;"></th>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-bold-500">
+												<img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="30" width="30" style="border-radius: 15px;"> 
+											</td>
+											<!-- a태그 안에 href에는 커밋 주소들이 번갈아가며 들어가야함... -->
+                                            <td><a href="https://github.com/nangmangorani/OKKH/commit/57ec620cda02e2c8f0fd8fea9535d001d03e010a" style="color: gray;">pr 수정하기, 댓글 작성,수정,삭제</a></td>
+                                           
+
+                                        </tr>
+                                        <tr>
+											<td class="text-bold-500">
+												<img src="https://avatars.githubusercontent.com/u/134485713?v=4" height="30" width="30" style="border-radius: 15px;"> 
+											</td>
+                                            <td><a href="#"  style="color: gray;">pr 리스트/ pr 상세내용</a> </td>
+                                           
+
+                                        </tr>
+                                        <tr>
+											<td class="text-bold-500">
+												<img src="https://avatars.githubusercontent.com/u/134485591?v=4" height="30" width="30" style="border-radius: 15px;"> 
+											</td>
+                                            <td><a href="#"  style="color: gray;">호빵맨이 커밋한당</a></td>
+                                          
+                                        </tr>
+                                        <tr>
+											<td class="text-bold-500">
+												<img src="https://avatars.githubusercontent.com/u/134485591?v=4" height="30" width="30" style="border-radius: 15px;"> 
+											</td>
+                                            <td><a href="# "  style="color: gray;">아...커밋내용뭐하냐...</a></td>
+                                          
+
+                                        </tr>
+                                        <tr>
+                                            <td class="text-bold-500">
+												<img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="30" width="30" style="border-radius: 15px;"> 
+											</td>
+                                            <td><a href="#"  style="color: gray;">친구 게시판 완료!/ 친구찾아봐봥</a></td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+				         </div>
+				                    
+				                    
+				                    
+				                    <br><br>
+				                    
 				                    <hr>
 				                    
 				                    <div class="review">
 					                    <div class="card-header">
 					                        <img src="https://avatars.githubusercontent.com/u/134485713?v=4" height="30" width="30" style="border-radius: 15px;"> 
 					                        <span>JMOOK0816</span>
+											<span>
+												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+													Update Review
+												</button>
+											</span>
 					                    </div>
 					                    <div class="card-body">
 					                        <div class="form-group with-title mb-3">
@@ -105,7 +182,9 @@
 				                <br>
 				                <div class="buttons" align="right">
 									<a href="#" class="btn btn-primary">Comment</a>
+									<a href="#" class="btn btn-primary">Back</a>
 								</div>
+								
 				            </div>
 				        </div>
 				    </section>
