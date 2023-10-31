@@ -29,4 +29,8 @@ public interface IssueService {
 	
 	void editIssue(String token, String repository, Map<String, Object> requestBody, int bno);
 	
+	int issueCount(String repository, String token, HttpSession session, String state, String labelToString);
+	
+	ArrayList<Issue> getIssuesByLabels(HttpSession session, String repository, String token, String state, PageInfo pi, String labelToString);
+
 }

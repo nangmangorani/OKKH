@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
@@ -42,6 +43,7 @@ import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
 import com.kh.okkh.issue.model.vo.Issue;
+import com.kh.okkh.issue.model.vo.RequestData;
 import com.kh.okkh.labels.model.service.LabelsServiceImpl;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
@@ -136,6 +138,8 @@ public class IssueController {
 		ArrayList<Issue> list;
 		
 		int listCount = iService.issueCount(repository, token, session, state);
+
+		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
 		
@@ -147,7 +151,9 @@ public class IssueController {
 		
 		Map<String, Object> response = new HashMap<>();
 	    response.put("issues", list);
-	    response.put("pagination", pi);
+	    response.put("pagination", pi);	   
+		response.put("lList", lList);
+
 
 		return response;
 	}
@@ -211,20 +217,20 @@ public class IssueController {
 
 	
 	@RequestMapping("detail.iss")
-	public String detailIssue(HttpSession session, Model model, int bno) throws IOException {
+	public String detailIssue(HttpSession session, Model model, int ino) throws IOException {
 		try {
-		String token = ((Member) session.getAttribute("loginMember")).getMemToken();
+		String token = ((Member) session.getAttribute("git")).getMemToken();
 		String repository = "nangmangorani/01_java-workspace";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
 		
-		String apiUrl = "https://api.github.com/repos/" + repository + "/issues/" + bno;
+		String apiUrl = "https://api.github.com/repos/" + repository + "/issues/" + ino;
 		
 		
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization","bearer"+token);
+		headers.set("Authorization","bearer "+token);
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
 		HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
@@ -308,7 +314,7 @@ public class IssueController {
 		model.addAttribute("title", title);
 		model.addAttribute("body", body);
 		model.addAttribute("state", state);
-		model.addAttribute("bno", bno);
+		model.addAttribute("ino", ino);
 		model.addAttribute("assignees", assignees);
 		model.addAttribute("labels", labels);
 		model.addAttribute("lList", lList);
@@ -338,7 +344,7 @@ public class IssueController {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization","bearer"+token);
+		headers.set("Authorization","bearer "+token);
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		
 		HttpEntity<String> requestEntity = new HttpEntity<String>("", headers);
@@ -471,14 +477,10 @@ public class IssueController {
 	
 	
 	
-	
-	
-	
-	@RequestMapping(value="AjaxIssueByLabels.iss", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
+	@RequestMapping(value="AjaxIssueByLabels.iss", produces = "application/json; charset=utf-8", method={RequestMethod.POST})
 	@ResponseBody
-	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state, 
-	@RequestParam(value = "selectedString") String selectedString,
-	@RequestParam(value = "cpage", defaultValue = "1") int currentPage) {
+	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state,
+	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]") ArrayList selectedValuesList) {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 
@@ -487,25 +489,41 @@ public class IssueController {
 		if(state == null) {
 			state = "open";
 		}
+		System.out.println("selectedValuesList" + selectedValuesList);
 		System.out.println(currentPage + "ㅎㅎㅎ");
 		System.out.println("state " + state);
-		System.out.println("selectedString" + selectedString);
 		
-
 		ArrayList<Issue> list;
 		
-		int listCount = iService.issueCount(repository, token, session, state);
+		String labelToString = new String();
+		
+		for(int i = 0; i<selectedValuesList.size(); i++) {
+			
+			if(i == 0 && labelToString != null) {
+				labelToString += selectedValuesList.get(0);
+			} else if(labelToString != null && i != 0){
+				labelToString += ","+selectedValuesList.get(i);
+			}
+			
+		}
+		
+		
+		int listCount = iService.issueCount(repository, token, session, state, labelToString);
+		
+		System.out.println("라벨로 찍을때 카운트야" + listCount);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
-		
-		
-		// list = iService.getIssuesByLabels(repository, token, state, pi, labelStr);
 
+		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
+		ArrayList<Issue> iList = new ArrayList<Issue>();		
+		iList = iService.getIssuesByLabels(session, repository, token, state, pi, labelToString);
 		
 		Map<String, Object> response = new HashMap<>();
-	    // response.put("issues", list);
+	    response.put("issues", iList);
 	    response.put("pagination", pi);
+		response.put("lList", lList);
+
 
 		return response;
 	}

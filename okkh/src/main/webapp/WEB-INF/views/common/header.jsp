@@ -46,7 +46,7 @@
 	};
 	//소켓끝
 	
-	$(documet).ready(function(){
+	$(document).ready(function(){
 		$("#myPage").on('click', function(evt){
 			evt.preventDefault();
 			if(socket.readyState !== 1) return;

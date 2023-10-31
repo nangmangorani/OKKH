@@ -40,6 +40,7 @@ public class IssueDao {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		System.out.println("겟깃 토큰 왜 널뜸? " + token);
+		System.out.println("path " + path);
 		String response = webClient
 				.get()
 				.uri("https://api.github.com/repos/"+path)

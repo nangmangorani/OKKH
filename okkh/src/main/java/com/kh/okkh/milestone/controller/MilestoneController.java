@@ -33,6 +33,8 @@ import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.service.MilestoneServiceImpl;
 import com.kh.okkh.milestone.model.vo.Milestone;
 
+import oracle.net.aso.s;
+
 @Controller
 public class MilestoneController {
 	
@@ -69,7 +71,6 @@ public class MilestoneController {
 	}
 	
 	
-	
 	/**
 	 * 마일스톤 상세페이지
 	 * */
@@ -80,6 +81,7 @@ public class MilestoneController {
 		
 		String repository = "nangmangorani/01_java-workspace";
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
+		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		if(state == null) {
 			state = "open";
 		}
@@ -87,6 +89,7 @@ public class MilestoneController {
 		
 		
 		model.addAttribute("iList", iList);
+		model.addAttribute("lList", lList);
 		model.addAttribute("milestone", milestone);
 		
 		return "milestone/milestoneDetail";
@@ -96,7 +99,7 @@ public class MilestoneController {
 	
 	@RequestMapping(value="ajaxDetail.mile", produces = "application/json; charset=utf-8")
 	@ResponseBody
-	public ArrayList<Issue> ajaxMilestoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
+	public Map<String,Object> ajaxMilestoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
 		
 
 
@@ -106,8 +109,17 @@ public class MilestoneController {
 		}
 		System.out.println("state" + state);
 		ArrayList<Issue> iList = iService.getIssuesByMno(repository, session, state, mno);
-		
-		return iList;
+		ArrayList<Labels> lList = iService.getLabels(repository, session);
+
+		System.out.println(iList);		
+		System.out.println(lList);
+
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("iList", iList);
+		response.put("lList", lList);
+
+		return response;
 	}
 	
 	@RequestMapping(value="enrollForm.mile")
@@ -213,7 +225,7 @@ public class MilestoneController {
 		
 		mService.editMilestone(repository, requestBody, token, mno);
 		
-		return "redirect:/list.mile";
+		return "redirect:/detail.mile?mno=" + mno;
 	}
 	
 	// @RequestMapping("enrollIssue.mile")

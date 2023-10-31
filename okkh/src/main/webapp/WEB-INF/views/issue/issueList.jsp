@@ -73,7 +73,7 @@
                                         <div class="card-header">
                                             <h4 class="card-title">Issue</h4>
                                             <div class="form-group">
-                                            	<button type="submit" class="btn btn-primary me-1 mb-1"
+                                                <button type="submit" class="btn btn-primary me-1 mb-1"
                                                     style="width: 100px; float: right;"
                                                     onclick="location.href='list.lab'">라벨</button>
                                                 <button type="submit" class="btn btn-primary me-1 mb-1"
@@ -125,7 +125,7 @@
                                                             <tr id="Ilist">
                                                                 <td class="text-bold-500">${ i.number }</td>
                                                                 <td class="text-bold-500"><a
-                                                                        href="detail.iss?bno=${ i.number }"
+                                                                        href="detail.iss?ino=${ i.number }"
                                                                         style="color: black; font-weight: bold;">${
                                                                         i.title }</a> &nbsp;&nbsp;
                                                                     <c:if
@@ -226,231 +226,240 @@
                                 </div>
                             </div>
                         </section>
-                        <jsp:include page="../common/footer.jsp"/>
+                        <jsp:include page="../common/footer.jsp" />
                     </div>
                 </div>
 
                 <script>
-                    	
-                        var state = "open";
-                        var currentPage;
 
-                        function sendAjaxRequest(state, cpage) {
-                            $.ajax({
-                                url: "ajaxIssue",
-                                data: { state: state,
-                                		cpage: cpage},
-                                success: function (data) {
-                                    ajaxIssueFunction(data);
-                                },
-                                error: function (xhr, status, error) {
-                                    console.log("AJAX 오류: " + error);
-                                }
+                    var state = "open";
+                    var currentPage;
+
+                    function sendAjaxRequest(state, cpage) {
+                        $.ajax({
+                            url: "ajaxIssue",
+                            data: {
+                                state: state,
+                                cpage: cpage
+                            },
+                            success: function (data) {
+                                ajaxIssueFunction(data);
+                            },
+                            error: function (xhr, status, error) {
+                                console.log("AJAX 오류: " + error);
+                            }
+                        });
+                    }
+
+
+
+
+
+                    $("#continueBtn").click(function () {
+                        state = "open";
+                        var cpage = 1;
+                        console.log(state);
+                        sendAjaxRequest(state, cpage);
+                    });
+
+                    $("#finishBtn").click(function () {
+                        state = "closed";
+                        var cpage = 1;
+                        console.log(state);
+                        sendAjaxRequest(state, cpage);
+                    });
+
+
+
+
+                    function ajaxIssueFunction(data) {
+                        var tableBody = $("#issueTableBody");
+                        tableBody.empty();  // 테이블 몸체 초기화
+
+                        var issues = data.issues;
+                        var pagination = data.pagination;
+                        var lList = data.lList;
+
+                        currentPage = data.pagination.currentPage;
+                        var listCount = data.pagination.listCount;
+                        var pageLimit = data.pagination.pageLimit;
+                        var boardLimit = data.pagination.boardLimit;
+                        var maxPage = data.pagination.maxPage;
+                        var startPage = data.pagination.startPage;
+                        var endPage = data.pagination.endPage;
+                        state = data.issues[0].state;
+                        console.log(lList)
+
+
+                        for (var i = 0; i < issues.length; i++) {
+                            var item = issues[i];
+
+                            var row = $("<tr>");
+
+                            var numberCell = $("<td>").text(item.number);
+                            var titleCell = $("<td>").addClass("text-bold-500");
+                            var titleLink = $("<a>")
+                                .attr("href", "detail.iss?ino=" + item.number)
+                                .css({ "color": "black", "font-weight": "bold" });
+
+                            titleLink.append(item.title); // 텍스트를 추가
+
+                            if (item.milestone && item.milestoneNum) {
+                                var milestoneLink = $("<a>")
+                                    .attr("href", "detail.mile?mno=" + item.milestoneNum);
+
+                                var milestoneImg = $("<img>")
+                                    .attr("src", "resources/icons/milestone.png")
+                                    .attr("id", "mileImg");
+
+                                var milestoneText = $("<span>")
+                                    .attr("id", "mileText")
+                                    .text(item.milestone);
+
+                                milestoneLink.append(milestoneImg, ' ', milestoneText); // 이미지와 텍스트를 추가
+                                titleLink.append(' &nbsp;&nbsp; ', milestoneLink); // 기존 titleLink에 이미지와 텍스트를 추가
+                            }
+
+                            titleCell.append(titleLink);
+
+                            var createdAtCell = $("<td>").text(item.createdAt);
+
+                            var userCell = $("<td>").addClass("text-bold-500");
+                            var userAvatarGroup = $("<div>").addClass("avatar-group");
+                            var userAvatar = $("<span>")
+                                .attr("title", item.user)
+                                .addClass("avatar avatar-sm pull-up");
+                            var userAvatarImg = $("<img>")
+                                .attr("alt", "avatar")
+                                .attr("src", item.profile)
+                                .addClass("rounded-circle writerAvatar");
+                            userAvatar.append(userAvatarImg);
+                            userAvatarGroup.append(userAvatar);
+                            userCell.append(userAvatarGroup);
+
+                            var labelsCell = $("<td>").addClass("text-bold-500");
+                            $.each(item.labels, function (index, label) {
+                                $.each(lList, function (index, l) {
+                                    if (label === l.name) {
+                                        var labelSpan = $("<span>")
+                                            .addClass("labelSpan")
+                                            .css("background-color", "#" + l.color)
+                                            .text(l.name);
+                                        labelsCell.append(labelSpan);
+                                    }
+                                });
                             });
-                        }   
 
-                    
-                    
-                    
-
-                        $("#continueBtn").click(function () {
-                            state = "open";
-                            var cpage = 1;
-                            console.log(state);
-                            sendAjaxRequest(state, cpage);
-                        });
-
-                        $("#finishBtn").click(function () {
-                            state = "closed";
-                            var cpage = 1;
-                            console.log(state);
-                            sendAjaxRequest(state, cpage);
-                        });
-
-                        
-                        
-
-                        function ajaxIssueFunction(data) {
-                            var tableBody = $("#issueTableBody");
-                            tableBody.empty();  // 테이블 몸체 초기화
-
-                            var issues = data.issues;
-                            var pagination = data.pagination;
-                            currentPage = data.pagination.currentPage;
-                            var listCount = data.pagination.listCount;
-                            var pageLimit = data.pagination.pageLimit;
-                            var boardLimit = data.pagination.boardLimit;
-                            var maxPage = data.pagination.maxPage;
-                            var startPage = data.pagination.startPage;
-                            var endPage = data.pagination.endPage;
-                            state = data.issues[0].state;
-                            console.log(state + "zz")
-                            console.log(issues + "issues")
-                            console.log(pagination + "pagination")
-
-                            
-                            for (var i = 0; i < issues.length; i++) {
-                                var item = issues[i];
-
-                                // 이하부터 데이터를 동적으로 생성
-                                var row = $("<tr>");
-
-                                var numberCell = $("<td>").text(item.number);
-                                var titleCell = $("<td>").addClass("text-bold-500");
-                                var titleLink = $("<a>")
-                                    .attr("href", "detail.iss?bno=" + item.number)
-                                    .css({ "color": "black", "font-weight": "bold" })
-                                    .text(item.title);
-
-                                if (item.milestone && item.milestoneNum) {
-                                    var milestoneLink = $("<a>")
-                                        .attr("href", "detail.mile?mno=" + item.milestoneNum);
-                                    var milestoneImg = $("<img>")
-                                        .attr("src", "resources/icons/milestone.png")
-                                        .attr("id", "mileImg");
-                                    var milestoneText = $("<span>")
-                                        .attr("id", "mileText")
-                                        .text(item.milestone);
-                                    titleLink.append('   ',milestoneImg, ' ',milestoneText);
-                                }
-
-                                titleCell.append(titleLink);
-
-                                var createdAtCell = $("<td>").text(item.createdAt);
-
-                                var userCell = $("<td>").addClass("text-bold-500");
-                                var userAvatarGroup = $("<div>").addClass("avatar-group");
-                                var userAvatar = $("<span>")
-                                    .attr("title", item.user)
+                            var assigneesCell = $("<td>").addClass("align-middle");
+                            var assigneesAvatarGroup = $("<div>").addClass("avatar-group");
+                            $.each(item.assigneeProfiles, function (index, j) {
+                                var assigneeAvatar = $("<span>")
+                                    .attr("title", item.assignees[index])
                                     .addClass("avatar avatar-sm pull-up");
-                                var userAvatarImg = $("<img>")
+                                var assigneeAvatarImg = $("<img>")
                                     .attr("alt", "avatar")
-                                    .attr("src", item.profile)
-                                    .addClass("rounded-circle writerAvatar");
-                                userAvatar.append(userAvatarImg);
-                                userAvatarGroup.append(userAvatar);
-                                userCell.append(userAvatarGroup);
+                                    .attr("src", j)
+                                    .addClass("rounded-circle assigneesAvatar");
+                                assigneeAvatar.append(assigneeAvatarImg);
+                                assigneesAvatarGroup.append(assigneeAvatar);
+                            });
+                            assigneesCell.append(assigneesAvatarGroup);
 
-                                var labelsCell = $("<td>").addClass("text-bold-500");
-                                $.each(item.labels, function (index, label) {
-                                    $.each(item.lList, function (index, l) {
-                                        if (label === l.name) {
-                                            var labelSpan = $("<span>")
-                                                .addClass("labelSpan")
-                                                .css("background-color", "#" + l.color)
-                                                .text(l.name);
-                                            labelsCell.append(labelSpan);
-                                        }
-                                    });
-                                });
+                            var stateCell = $("<td>").attr("id", "continue").text(item.state);
 
-                                var assigneesCell = $("<td>").addClass("align-middle");
-                                var assigneesAvatarGroup = $("<div>").addClass("avatar-group");
-                                $.each(item.assigneeProfiles, function (index, j) {
-                                    var assigneeAvatar = $("<span>")
-                                        .attr("title", item.assignees[index])
-                                        .addClass("avatar avatar-sm pull-up");
-                                    var assigneeAvatarImg = $("<img>")
-                                        .attr("alt", "avatar")
-                                        .attr("src", j)
-                                        .addClass("rounded-circle assigneesAvatar");
-                                    assigneeAvatar.append(assigneeAvatarImg);
-                                    assigneesAvatarGroup.append(assigneeAvatar);
-                                });
-                                assigneesCell.append(assigneesAvatarGroup);
+                            var mailCell = $("<td>");
+                            var mailLink = $("<a>").attr("href", "#");
+                            var mailIcon = $("<i>")
+                                .addClass("badge-circle badge-circle-light-secondary font-medium-1")
+                                .attr("data-feather", "mail");
+                            mailLink.append(mailIcon);
+                            mailCell.append(mailLink);
 
-                                var stateCell = $("<td>").attr("id", "continue").text(item.state);
-
-                                var mailCell = $("<td>");
-                                var mailLink = $("<a>").attr("href", "#");
-                                var mailIcon = $("<i>")
-                                    .addClass("badge-circle badge-circle-light-secondary font-medium-1")
-                                    .attr("data-feather", "mail");
-                                mailLink.append(mailIcon);
-                                mailCell.append(mailLink);
-
-                                row.append(numberCell, titleCell, createdAtCell, userCell, labelsCell, assigneesCell, stateCell, mailCell);
-                                tableBody.append(row);
-                            }
-                            
-                            var paging = $("#paging");
-                            paging.empty();
-                            
-                            var ul = $("<ul>").addClass("pagination pagination-primary justify-content-center");
-
-                            // Prev 버튼 생성
-                            if (currentPage != 1) {
-                                //ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "ajaxIssue?cpage=" + (currentPage - 1)).text("Prev")));
-                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage - 1) + ");")));
-
-                            } else {
-                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
-                            }
-
-                            // 페이지 버튼 생성
-                            for (var p = startPage; p <= endPage; p++) {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
-                            }
-
-                            // Next 버튼 생성
-                            // Next 버튼 생성
-                            if (currentPage < maxPage) {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Next").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage + 1) + ");")));
-                                    console.log(currentPage + 1)
-                            } else {
-                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Next")));
-                            }
-
-                            $("#paging").html(ul);
-                            
+                            row.append(numberCell, titleCell, createdAtCell, userCell, labelsCell, assigneesCell, stateCell, mailCell);
+                            tableBody.append(row);
                         }
 
+                        var paging = $("#paging");
+                        paging.empty();
 
-                        var selectElement = document.querySelector(".choices.form-select");
-                        
+                        var ul = $("<ul>").addClass("pagination pagination-primary justify-content-center");
 
-                        selectElement.addEventListener("change", function() {
-                            var selectedValues = new Array();
-
-                            for (var i = 0; i < selectElement.selectedOptions.length; i++) {
-                                selectedValues.push(selectElement.selectedOptions[i].value);
-                                
-                            }
-
-                            var selectedString = selectedValues.join(",");
-                            var requestData = {
-                            	    selectedString: selectedString,
-                            	    state: state,
-                            	    cpage: currentPage
-                            };
+                        // Prev 버튼 생성
+                        if (currentPage != 1) { // state, labels
                             
+                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage - 1) + ");")));
 
-                            $.ajax({
-                                type: "POST",
-                                url: "AjaxIssueByLabels.iss",
-                                data: { requestData },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                traditional: true,
-                                success: function(response) {
-                                    console.log("서버 응답: " + response);
-                                },
-                                error: function(xhr, status, error) {
-                                    console.error("AJAX 오류: " + error);
-                                }
-                            });
-                        });
+                        } else {
+                            ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
+                        }
+
+                        // 페이지 버튼 생성
+                        for (var p = startPage; p <= endPage; p++) {
+                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
+                        }
+
+                        // Next 버튼 생성
+                        // Next 버튼 생성
+                        if (currentPage < maxPage) {
+                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Next").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage + 1) + ");")));
+                            console.log(currentPage + 1)
+                        } else {
+                            ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Next")));
+                        }
+
+                        $("#paging").html(ul);
+
+                    }
 
 
+                    var selectElement = document.querySelector(".choices.form-select");
 
 
-
-
-
+                    function handleSelectChange() {
+                        var selectedValues = new Array();
+                        for (var i = 0; i < selectElement.selectedOptions.length; i++) {
+                            selectedValues.push(selectElement.selectedOptions[i].value);
+                        }
                         
+                        var currentPage = 1;
 
+                        // Determine the state based on the selected button
+                        var selectedState = "open"; // Default to the current state
+                        if ($("#continueBtn").hasClass("active")) {
+                            selectedState = "open";
+                        } else if ($("#finishBtn").hasClass("active")) {
+                            selectedState = "closed";
+                        }
 
-                    
+                        // Call your function with the selected state
+                        callAjaxIssueFunction(selectedValues, selectedState, currentPage);
+                    }
+
+                    // Define a function to call the AJAX issue function with parameters
+                    function callAjaxIssueFunction(selectedValues, state, cpage) {
+                        console.log(cpage)
+                        console.log(state)
+                        console.log(selectedValues)
+                        $.ajax({
+                            type: 'post',
+                            url: "AjaxIssueByLabels.iss",
+                            data: {
+                                selectedValues: selectedValues,
+                                state: state,
+                                cpage: cpage
+                            },
+                            success: function (response) {
+                                ajaxIssueFunction(response, cpage, state);
+                                console.log("서버 응답: " + response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX 오류: " + error);
+                            }
+                        });
+                    }
+
+                    selectElement.addEventListener("change", handleSelectChange);
+
                 </script>
 
 
