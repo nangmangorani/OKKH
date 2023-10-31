@@ -480,7 +480,7 @@ public class IssueController {
 	@RequestMapping(value="AjaxIssueByLabels.iss", produces = "application/json; charset=utf-8", method={RequestMethod.POST})
 	@ResponseBody
 	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state,
-	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]") ArrayList selectedValuesList) {
+	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]", required = false) ArrayList selectedValuesList) {
 		
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 

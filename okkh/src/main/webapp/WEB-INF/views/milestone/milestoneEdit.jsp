@@ -13,28 +13,23 @@ function submitState() {
     var title = "${milestone.title}";
     var mno = "${milestone.number}";
 
-    // 폼 엘리먼트를 동적으로 생성합니다.
     var form = document.createElement("form");
     form.method = "post";
     form.action = "edit.mile?mno=" + mno;
 
-    // 상태 값을 input 요소로 추가합니다.
     var stateInput = document.createElement("input");
     stateInput.type = "hidden";
     stateInput.name = "state";
     stateInput.value = state; // state 값을 설정합니다.
 
-    // 제목 값을 input 요소로 추가합니다.
     var titleInput = document.createElement("input");
     titleInput.type = "hidden";
     titleInput.name = "title";
     titleInput.value = title;
 
-    // 폼에 input 요소를 추가합니다.
     form.appendChild(stateInput);
     form.appendChild(titleInput);
 
-    // 폼을 문서에 추가하고 자동으로 제출합니다.
     document.body.appendChild(form);
     form.submit();
 }
