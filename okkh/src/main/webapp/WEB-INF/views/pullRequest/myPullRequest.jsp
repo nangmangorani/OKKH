@@ -148,8 +148,8 @@
 					                                </thead>
 					                                <tbody>
 					                           <c:choose> 
-					                           		<c:when test="${not empty responseText }">  
-					                           		    <c:forEach var="pull" items="${responseText }">  	
+					                           		<c:when test="${not empty plist}">  
+					                           		    <c:forEach var="pull" items="${plist }">  	
 												                <tr>
 									                                 <td class='text-bold-500'>
 										                                 <div class='checkbox'>
@@ -159,10 +159,35 @@
 									                                  </td>
 									                                  <td>
 										                                  <img src=' item.user.avatar_url '>
-										                                  <span> item.user.login  </span>   
+										                                  <span> ${pull.user.login } </span>   
 																	  </td>
-									                                  <td class='text-bold-500'> item.labels </td>
-									                                  <td>item.milestone </td>
+																	  
+																	  <!-- 라벨.... 있는지 없는지 확인하기 -->
+																	  <c:choose>
+																	  	<c:when test="${not empty pull.labels }">
+									                                  		<td class='text-bold-500'> ${pull.labels } </td>
+																	  	
+																	  	</c:when>
+																	  	
+																	  	<c:otherwise>
+																	  	  <td class='text-bold-500'> labels null... </td>
+																	  	</c:otherwise>
+																	  </c:choose>
+									                                  
+									                                  
+									                                  <!-- 마일스톤도 있는지 없는지 확인하기 -->
+									                                  
+									                                  <c:choose>
+																	  	<c:when test="${not empty pull.milestone }">
+									                                  		<td class='text-bold-500'> ${pull.milestone } </td>
+																	  	</c:when>
+																	  	
+																	  	<c:otherwise>
+																	  	  <td class='text-bold-500'> milestone null... </td>
+																	  	</c:otherwise>
+																	  </c:choose>
+									                                
+									                                
 									                                  <td><i class='fa-regular fa-comment'></i> 3 </td>
 							                                    </tr>
 					                                   </c:forEach> 
