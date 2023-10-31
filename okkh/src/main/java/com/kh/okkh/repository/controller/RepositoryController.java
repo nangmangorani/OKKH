@@ -194,6 +194,8 @@ public class RepositoryController {
 		// GitHubTemplate에서 넘어온 JSON 값을 받는다
 		String response = getGitHubAPIValue(g);
 		
+		System.out.println(response);
+		
 		// Json을 변환하여 담을 ArrayList 준비
 		Type type = new TypeToken<ArrayList<GithubRepo>>() {}.getType();
 		

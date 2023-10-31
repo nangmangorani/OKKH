@@ -14,11 +14,26 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kh.okkh.common.model.vo.GitHub;
 
 @Service
 public class GitHubTemplate {
+	
+	private final WebClient webClient;
+	
+	public GitHubTemplate() {
+		this.webClient = WebClient.builder()
+								  .baseUrl("https://api.github.com")
+								  .build();
+	}
+	
+	public static String getGitHubAPIValue1(GitHub g) {
+		
+		return "";
+		
+	}
 	
 	/**
 	 * @param g => GithubTemplate Service 호출을 위해 필요한 매개변수 객체VO
@@ -55,7 +70,7 @@ public class GitHubTemplate {
 		if(g.getParams() != null) {
 			
 			System.out.println(g.getParams());
-			
+			/*
 			StringBuilder postParam = new StringBuilder();
 			
 			postParam.append("{");
@@ -77,12 +92,13 @@ public class GitHubTemplate {
 			postParam.append("}");
 			
 			System.out.println(postParam);
+			*/
 			
-			byte[] postParamBytes = postParam.toString().getBytes("UTF-8");
+			byte[] postParamBytes = g.getParams().toString().getBytes("UTF-8");
 			
 			System.out.println(postParamBytes);
 			
-//			urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			urlConnection.setRequestProperty("Content-Length", String.valueOf(postParamBytes.length));
 			
 			// POST를 위한 설정
