@@ -36,6 +36,12 @@ public class RepoRestController {
 	@Autowired
 	private RepoImpl rService;
 	
+	private GitHub g;
+	
+	private String token;
+	
+	private MyProject mypro;
+	
 	/**
 	 * 프로젝트 등록시 프로젝트명과 조직의 owner명이 일치하는지 대조하는 Controller
 	 * 
@@ -50,7 +56,7 @@ public class RepoRestController {
 	public String titleCheck(String checkTitle, HttpSession session) throws IOException {
 		
 		// api에 접근할 때 필요한 토큰
-		String token = (String)session.getAttribute("token");
+		token = (String)session.getAttribute("token");
 		
 		// 기본 url 뒤에 붙을 uri (조직 정보 조회 API)
 		String uri = "/orgs/" + checkTitle;
@@ -58,8 +64,7 @@ public class RepoRestController {
 		// GET => checkTitle에 들어있는 이름이 있는지 조회를 해야하기 때문
 		String method = "GET";
 		
-		// GitHub 객체로 담아서 넘기는 작업
-		GitHub g = new GitHub();
+		g = new GitHub();
 		
 		g.setToken(token);
 		g.setUri(uri);
@@ -92,11 +97,11 @@ public class RepoRestController {
 	@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
 	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) throws IOException {
 		
-		MyProject mypro = rService.selectMyProjectTitle(mpno);
+		mypro = rService.selectMyProjectTitle(mpno);
 		
-		String token = (String)session.getAttribute("token");
+		token = (String)session.getAttribute("token");
 		
-		GitHub g = new GitHub();
+		g = new GitHub();
 		
 		g.setMethod("GET");
 		g.setToken(token);
@@ -104,7 +109,7 @@ public class RepoRestController {
 		
 		String response = getGitHubAPIValue(g);
 		
-		System.out.println(token);
+//		System.out.println(token);
 //		System.out.println(response);
 
 		return response;

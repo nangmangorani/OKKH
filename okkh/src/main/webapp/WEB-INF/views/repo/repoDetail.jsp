@@ -146,7 +146,7 @@
                                 			
                                 			//selectRepoContents();
                                 			
-                                			console.log($(this).children());
+                                			console.log($(this));
                                 			
                                 			$("#source").toggle();
                                 			

@@ -3,6 +3,9 @@ package com.kh.okkh.repository.controller;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,6 +50,8 @@ public class RepositoryController {
 	
 	@Autowired
 	private RepoImpl rService;
+	
+	private GitHub g;
 	
 	private String token;
 	
@@ -167,15 +172,14 @@ public class RepositoryController {
 		// api 사용을 위해 session에 있는 token 호출
 		token = (String)session.getAttribute("token");
 		
-//		System.out.println("selectRepoList token : " + token);
+		System.out.println("selectRepoList token : " + token);
 		
 //		System.out.println(pno);
 		
 		// 서비스단으로 꼬고!!
 //		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
 		
-		// URL에 들어갈 값들을 담아줄 객체 생성
-		GitHub g = new GitHub();
+		g = new GitHub();
 		
 		// 요청 방식
 		g.setMethod("GET");
@@ -184,9 +188,8 @@ public class RepositoryController {
 		// Base URL 뒤에 붙일 URI (조직에 속한 레포 조회 API)
 		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
 		// 파라미터 값 담기 (여러개가 올 경우에 누적합으로 담기 위해 변수에 따로 담은 후 객체에 저장)
-		String param = "?direction=desc";
-		param += "&type=all";
-		g.setParam(param);
+//		String param = "?direction=desc";
+//		param += "&type=all";
 		
 		// GitHubTemplate에서 넘어온 JSON 값을 받는다
 		String response = getGitHubAPIValue(g);
@@ -221,20 +224,25 @@ public class RepositoryController {
 		mypro = rService.selectMyProjectTitle(myproNo);
 		// 토큰 뽑아오기
 		token = (String)session.getAttribute("token");
-		// 템플릿에 요소들 담아서 보낼 vo 객체 생성
-		GitHub g = new GitHub();
+		
+		g = new GitHub();
 		
 		// 필요한 요소들 세팅
 		g.setMethod("POST");
 		g.setToken(token);
 		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
 		
-//		String param = "?name=" + r.getRepoTitle();
-//		param += "&description=" + r.getRepoContent();
-//		param += "&visibility=" +r.getRepoStatus();
-//		param += "&auto_init=true";
+		// 매개변수의 key, value를 담아줄 Map 세팅
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("name", r.getRepoTitle());
+		params.put("description", r.getRepoContent());
+		params.put("visibility", r.getRepoStatus());
+		params.put("auto_init", "true");
 		
-		g.setParam(r.getRepoTitle());
+//		System.out.println(params);
+		
+		g.setParams(params);
+		
 		// 템플릿에서 얻은 결과값 받음
 		String response = getGitHubAPIValue(g);
 		
