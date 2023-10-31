@@ -186,22 +186,5 @@
 <script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
 <script src="resources/assets/static/js/pages/form-element-select.js"></script>
 
-	<script>
-		var ws = null;
-		
-		$(function(){
-			connectWs();
-		})
-		
-		function connectWs(){
-			var socket = new SockJS("http://localhost:7777/okkh/chat");
-			ws = socket;
-		 
-			ws.onopen = function(){
-			 	console.log("open!!!!!!!!!!!!!!");
-			}
-		 
-		}
-	</script>
 </body>
 </html>

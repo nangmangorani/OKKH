@@ -19,7 +19,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-    	registry.addHandler(chatHandler, "/okkh/roomdetail")
+    	registry.addHandler(chatHandler, "/okkh/chat")
     			.setAllowedOrigins("http://localhost:7777")
     			.withSockJS();
     }

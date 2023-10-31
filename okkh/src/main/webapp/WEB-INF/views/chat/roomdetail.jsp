@@ -145,7 +145,17 @@
         </div>
     </div>
 	<script>
-		
+	var ws = null;
+	
+	$(function(){
+		connectWs();
+	})
+	
+	function connectWs(){
+		var socket = new SockJS("http://localhost:7777/okkh/chat");
+		ws = socket;
+	}
+	
 	$(document).ready(function(){
 	    const username = ${loginMember.memNo};
 
@@ -153,13 +163,10 @@
 	        send();
 	    });
 
-	    // WebSocket 초기화
-	    const ws = new SockJS("http://localhost:7777/okkh/roomdetail?crno=${cr.roomNo}");
-	    
 	    ws.onmessage = onMessage;
 	    ws.onopen = onOpen;
 	    ws.onclose = onClose;
-	    ws.onerror = onError;  // 에러 처리를 위한 콜백
+	    ws.onerror = onError; // 에러 처리를 위한 콜백
 
 	    function send() {
 	        let msg = document.getElementById("msg");
@@ -170,20 +177,20 @@
 
 		//채팅창에 들어왔을 때
 		function onOpen(evt) {
-	        console.log("Connection established.");
-	        var str = username + ":님이 입장하셨습니다.";
+	        console.log("연결 된거야?");
+	        var str = username + "님이 입장하셨습니다.";
 	        ws.send(str);
 	    }
 		
 		//채팅창에서 나갔을 때
 		function onClose(evt) {
-		    var str = username + ":님이 방을 나가셨습니다.";
-			console.log("Connection closed." + str);
+		    var str = username + "님이 방을 나가셨습니다.";
+			console.log("연결 왜 끊겨 ㅡㅡ..");
 		    ws.send(str);
 		}
 		
 		function onError(error) {
-	        console.error("WebSocket Error: ", error);
+	        console.error("에러라는데?.. : ", error);
 	        // 에러 처리 로직 (예: 사용자에게 에러 표시, 재연결 시도 등)
 	    }
 		
@@ -202,7 +209,6 @@
 		    var cur_session = username;
 		
 		    //현재 세션에 로그인 한 사람
-		    console.log("cur_session : " + cur_session);
 		    sessionId = arr[0];
 		    message = arr[1];
 		
@@ -218,7 +224,7 @@
 		        $("#msgArea").append(str);
 		    }
 		    else{
-		    	var str = "<div class='chat-left'>";
+		    	var str = "<div class='chat chat-left'>";
 		        str += "<div class='chat-body'>";
 		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
 		        str += "</div></div>";
