@@ -9,13 +9,12 @@
 		<result column="mem_id" property="memId"/>
 		<result column="git_nick" property="gitNick"/>
 		<result column="profile" property="profile"/>
-		<result column="mem_token" property="memToken"/>
 		<result column="mem_intro" property="memIntro"/>
 		<result column="stack_name" property="stackName"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
 		<result column="team" property="team"/>
-
+		<result column="team_status" property="teamStatus"/>
 	</resultMap>
 	
 	<resultMap type="Stack" id="stackSetResult">
@@ -51,13 +50,13 @@
 		select 
 		        mem_no
 		      , mem_id
-		      , mem_token
 		      , mem_intro
 		      , stack_name
 		      , create_date
 		      , status
 		      , git_nick
 		      , team
+		      , team_status
 		  from member
 		  where mem_id = #{memId}
 	</select>

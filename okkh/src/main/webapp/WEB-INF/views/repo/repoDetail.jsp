@@ -39,8 +39,8 @@
             <div class="page-heading" style="margin-left: 20px; margin-top: 15px;">
 
                 <!-- 페이지 제목 시작 -->
-                <h3 style="float: left; margin-right: 10px;">okkh</h3>
-                <span class="badge bg-light-secondary">Public</span>
+                <h3 style="float: left; margin-right: 10px;">${ repoName }</h3>
+                <span class="badge bg-light-secondary">${ visibility }</span>
                 <!-- /페이지 제목 끝 -->
 
             </div>
@@ -80,6 +80,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                	<!--  
                                                     <tr>
                                                         <td class="text-bold-500">
                                                    			<i class="fa-regular fa-folder-open fa-bounce"></i> okkh
@@ -94,6 +95,8 @@
                                                         <td class="text-bold-500">리드미 수정</td>
                                                         <td class="text-bold-500">3일 전</td>
                                                     </tr>
+                                                    -->
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
@@ -109,11 +112,55 @@
                     
                     	$(() => {
                     		
-                    		$("#repo tbody>tr").click(() => {
-                    			
-                    			$("#source").toggle();
-                    			
-                    		})
+                    		let str = "";
+                    		
+                    		selectRepoContents(str);	
+                    		
+                    		function selectRepoContents(str) {
+                    				
+                    			$.ajax({
+                    				url:"selectRepoContents.re",
+                    				data:{
+                    					mpno:${ myproNo },
+                    					rnm:"${ repoName }",
+                    					path:str
+                    				},
+                    				success:(response) => {
+                    					console.log(response);
+                    					
+                    					let value = "";
+                    					
+              							for(let i in response) {
+              								value += "<tr>"
+			                                          + "<td class='text-bold-500'><i class='fa-regular fa-folder-open fa-bounce'></i>" 
+			                                          +		response[i].name
+				                                      +  "</td>"
+				                                      +  "<td class='text-bold-500'>로그인 기능 수정</td>"
+				                                      +  "<td class='text-bold-500'>2시간 전</td>"
+				                                   + "</tr>"
+              							}
+              							
+              							$("#repo tbody").html(value);
+              							
+              							$("#repo tbody>tr").click(() => {
+                                			
+                                			//selectRepoContents();
+                                			
+                                			console.log($(this));
+                                			
+                                			$("#source").toggle();
+                                			
+                                			$("#source h6").text("hihi");
+                                			
+                                		})
+              
+                    				},
+                    				error:() => {
+                    					console.log("ㅠㅠ");
+                    				}
+                    			})
+                    		
+                    		}
                     		
                     	})
                     
@@ -124,11 +171,42 @@
                     <section class="section" id="source">
 				        <div class="card">
 				            <div class="card-header">
-				                <h6 class="card-title">README.md</h6>
+				                <h6 class="card-title"></h6>
 				            </div>
 				            <div class="card-body">
 				                <div id="full">
-				                    여기에 코드를 어케 보여줄꼬,,
+				                	<pre>
+				                		<code>
+				                		hihi
+					                		/**
+											 * 레포지토리에 속한 컨텐츠 조회용 Controller
+											 * 
+											 * @return
+											 * @throws IOException
+											 */
+				                			@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
+											public String selectRepoContents(int mpno, String rnm, HttpSession session, Model model) throws IOException {
+												
+												MyProject mypro = rService.selectMyProjectTitle(mpno);
+												
+												String token = (String)session.getAttribute("token");
+												
+												GitHub g = new GitHub();
+												
+												g.setMethod("GET");
+												g.setToken(token);
+												g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+												
+												String response = getGitHubAPIValue(g);
+												
+												System.out.println(token);
+												System.out.println(response);
+										
+												return response;
+												
+											}
+				                		</code>
+				                	</pre>
 				                </div>
 				            </div>
 				        </div>

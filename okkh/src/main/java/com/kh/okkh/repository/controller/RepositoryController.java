@@ -1,19 +1,23 @@
 package com.kh.okkh.repository.controller;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.kohsuke.github.GitHub;
-import org.kohsuke.github.GitHubBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,9 +25,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import static com.kh.okkh.common.model.service.GitHubTemplate.*;
+
+import com.kh.okkh.common.model.service.GitHubTemplate;
 import com.kh.okkh.common.model.service.GithubService;
+import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.repository.model.service.RepoImpl;
+import com.kh.okkh.repository.model.vo.GithubRepo;
 import com.kh.okkh.repository.model.vo.MyProject;
 import com.kh.okkh.repository.model.vo.Repo;
 
@@ -32,26 +43,27 @@ import com.kh.okkh.repository.model.vo.Repo;
  * 
  * **프로젝트 모집은 projectController로 가주세용~!~!**
  * 
- * @author 윤관현
+ * @author Target
  *
  */
 @Controller
 public class RepositoryController {
 	
-	// 깃허브에 붙는 작업들은 깃허브 서비스로 보냄
-	@Autowired
-	private GithubService gService;
-	
-	// local DB에 붙는 작업들은 레포 서비스로 보냄
 	@Autowired
 	private RepoImpl rService;
+	
+	private GitHub g;
+	
+	private String token;
+	
+	private MyProject mypro;
 	
 	/**
 	 * 내 프로젝트 조회용 컨트롤러
 	 * 
 	 */
 	@RequestMapping("myProject.re")
-	public ModelAndView selectMyProjectList(HttpSession session, ModelAndView mv) {
+	public String selectMyProjectList(HttpSession session, Model model) {
 		
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
@@ -78,9 +90,10 @@ public class RepositoryController {
 			
 		}
 		
-		mv.addObject("pIngList", pIngList).addObject("pEndList", pEndList).setViewName("repo/myProject");
+		model.addAttribute("pIngList", pIngList);
+		model.addAttribute("pEndList", pEndList);
 		
-		return mv;
+		return "repo/myProject";
 		
 	}
 	
@@ -105,13 +118,39 @@ public class RepositoryController {
 	 * @param p => 내 프로젝트 추가에 필요한 객체
 	 */
 	@RequestMapping("insertMyProject.re")
-	public void insertMyProject(MyProject p) {
+	public String insertMyProject(MyProject p, HttpSession session, Model model) {
 		
-		System.out.println(p);
+//		 System.out.println(p);
+		 
+		int result = rService.insertMyProject(p);
 		
-//		int result = rService.insertMyProject(p);
+		if(result > 0) {
+			return "redirect:myProject.re";
+		}
+		else {
+			return "common/errorPage";
+		}
 		
-//		return "repo/myProject";
+		
+	}
+	
+	/**
+	 * 프로젝트 완료 처리하는 Controller
+	 * 
+	 * @param myproNo
+	 * @return 내 프로젝트 페이지
+	 */
+	@RequestMapping("updateIngToFin.re")
+	public String updateIngToFin(int myproNo) {
+		
+		int result = rService.updateIngToFin(myproNo);
+		
+		if(result > 0) {
+			return "redirect:/myProject.re";
+		}
+		else {
+			return "common/errorPage";
+		}
 		
 	}
 	
@@ -119,47 +158,117 @@ public class RepositoryController {
 	 * 레파지토리 조회용 컨트롤러
 	 *
 	 * @param pno => 프로젝트 번호
+	 * @throws IOException 
 	 */
 	@RequestMapping("repoList.re")
-	public String selectRepoList(int pno) {
+	public String selectRepoList(int pno, HttpSession session, Model model) throws IOException {
 		
+//		System.out.println(pno);
+		
+		// 레파지토리가 담겨있는 프로젝트의 이름 조회
+		mypro = rService.selectMyProjectTitle(pno);
+		
+//		System.out.println(mypro.getMyproTitle());
+		
+		// api 사용을 위해 session에 있는 token 호출
+		token = (String)session.getAttribute("token");
+		
+		System.out.println("selectRepoList token : " + token);
+		
+//		System.out.println(pno);
+		
+		// 서비스단으로 꼬고!!
+//		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
+		
+		g = new GitHub();
+		
+		// 요청 방식
+		g.setMethod("GET");
+		// 토큰 가져옴
+		g.setToken(token);
+		// Base URL 뒤에 붙일 URI (조직에 속한 레포 조회 API)
+		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
+		// 파라미터 값 담기 (여러개가 올 경우에 누적합으로 담기 위해 변수에 따로 담은 후 객체에 저장)
+//		String param = "?direction=desc";
+//		param += "&type=all";
+		
+		// GitHubTemplate에서 넘어온 JSON 값을 받는다
+		String response = getGitHubAPIValue(g);
+		
+		System.out.println(response);
+		
+		// Json을 변환하여 담을 ArrayList 준비
+		Type type = new TypeToken<ArrayList<GithubRepo>>() {}.getType();
+		
+		// Gson 객체를 생성해서 Json을 ArrayList로 변환하여 차곡차곡 옮겨담기
+		ArrayList<GithubRepo> repoList = new Gson().fromJson(response, type);
+		
+//		System.out.println(r);
+		
+//		model.addAttribute("r", r);
+		
+		// DB에서 조회한 프로젝트명과 깃허브에서 조회한 repoListd를 레포 조회 페이지로 보낸다잉
+		model.addAttribute("mypro", mypro);
+		model.addAttribute("repoList", repoList);
+		
+		// 레포 페이지로 이동
 		return "repo/repoList";
+		
+	}
+	
+	/**
+	 * 레파지토리 추가용 컨트롤러
+	 * @throws IOException 
+	 */
+	@RequestMapping("insertRepo.re")
+	public String insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
+		
+		// 조직명(프로젝트명) 가져오기
+		mypro = rService.selectMyProjectTitle(myproNo);
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		g = new GitHub();
+		
+		// 필요한 요소들 세팅
+		g.setMethod("POST");
+		g.setToken(token);
+		g.setUri("/orgs/" + mypro.getMyproTitle() + "/repos");
+		
+		// 매개변수의 key, value를 담아줄 Map 세팅
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("name", r.getRepoTitle());
+		params.put("description", r.getRepoContent());
+		params.put("visibility", r.getRepoStatus());
+		params.put("auto_init", "true");
+		
+//		System.out.println(params);
+		
+		g.setParams(params);
+		
+		// 템플릿에서 얻은 결과값 받음
+		String response = getGitHubAPIValue(g);
+		
+		System.out.println(response);
+		
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
 	}
 	
 	/**
 	 * 레파지토리 상세조회용 컨트롤러
 	 * 
-	 * @param rno => 레파지토리 번호
+	 * @param pno => 프로젝트 번호, rnm => 레파지토리명, vis => public/private
+	 * @throws IOException 
 	 */
 	@RequestMapping("repoDetail.re")
-	public String selectRepo(int rno) {
+	public String selectRepo(int pno, String rnm, String vis, Model model) {
+		
+		model.addAttribute("myproNo", pno);
+		model.addAttribute("repoName", rnm);
+		model.addAttribute("visibility", vis);
 		
 		return "repo/repoDetail";
-		
-	}
-	
-	/**
-	 * 레파지토리에 속한 코드 조회용 컨트롤러
-	 * 
-	 * @param rno => 레파지토리 번호
-	 */
-	@RequestMapping("codeDetail.re")
-	public String selectCode(int rno) {
-		
-		return "repo/codeDetail";
-		
-	}
-	
-	/**
-	 * 레파지토리 추가용 컨트롤러
-	 */
-	@RequestMapping("insertRepo.re")
-	public void insertRepo(Repo r) {
-		
-		// System.out.println(r);
-		
-		gService.insertRepo(r);
 		
 	}
 	

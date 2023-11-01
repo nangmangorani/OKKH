@@ -177,7 +177,7 @@
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
-                                                <img src="${ git.profile }">
+                                                <img src="${ git.profile }" style="border: 1px solid #cecece;">
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@
 	                                    </button>
 	                                </div>
                                     <div class="modal-body">
-                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=d81caaa37ed07a86dd0e">
+                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=44f96bb68ae9fe16e964">
                                         	<img src="resources/images/logo/gitLogo.png" alt="" style="width: 20%; margin: auto; display: block;">
                                         </a>
                                     </div>

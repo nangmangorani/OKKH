@@ -21,5 +21,6 @@ public class Repo {
 	private String repoStatus;	// 레파지토리 공개여부
 	private Date createDate;	// 레파지토리 생성일
 	private String status;		// 레파지토리 삭제여부
+	private String avatar;		// 레파지토리 주인의 프로필 사진
 	
 }

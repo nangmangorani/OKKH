@@ -1,5 +1,7 @@
 package com.kh.okkh.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Stack;
+import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
+import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
 import com.kh.okkh.project.model.vo.Project;
 
 @Controller
 public class MemberController {
+	
+	@Autowired
+	private PRServiceImpl pService;
 	
 	@Autowired
 	private MemberServiceImpl mService;
@@ -32,23 +40,33 @@ public class MemberController {
 	
 	@GetMapping("callback")
 	public String getUserInfo(@RequestParam String code, HttpSession session) {
+		
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
+		
+//		System.out.println(token);
 	    
 		// access_token을 이용한 유저 정보 얻어오기
-		Member mToken = gService.getUserInfo(token);
+		Member githubInfo = gService.getUserInfo(token);
 		
-        Member m = mService.selectMember(mToken);
-        // 저장된 멤버가 없을 경우 DB에 추가
-        if(m == null) {
-        	int result = mService.insertMember(mToken);
-        	m = mService.selectMember(mToken);
-        }else {
-        	m = mService.selectMember(mToken);
-        }
-        session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
-        session.setAttribute("loginMember", m); // db에 쌓인 정보
+		// 우리 DB에 해당 유저 정보가 있는지 확인하기
+        Member loginMember = mService.selectMember(githubInfo);
         
+        // 저장된 멤버가 없을 경우 DB에 추가
+        if(loginMember == null) {
+        	int result = mService.insertMember(githubInfo);
+        	
+        	if(result  > 0) {
+        		loginMember = mService.selectMember(githubInfo);
+        	}
+        	
+        }else {
+        	loginMember = mService.selectMember(githubInfo);
+        }
+        
+        session.setAttribute("token", token);				// api 활용에 필요한 access_token => session에 띄워서 어디서든 필요할 때 사용할 수 있게 설정
+        session.setAttribute("git", githubInfo); 			// github에서 가져온 정보 => gitNick, profile, bio 사용
+        session.setAttribute("loginMember", loginMember); 	// db에 쌓인 정보
         
 	    return "redirect:/";
 	}
