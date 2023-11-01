@@ -62,6 +62,9 @@ public class EchoHandler extends TextWebSocketHandler {
 	// 메시지 보내는 곳
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {// 메시지
+	
+		
+		logger.info("ssesion"+currentUserName(session));
 		
 		String msg = message.getPayload();//자바스크립트에서 넘어온 Msg (내가 ajax로 보낸 메시지)
 		
@@ -248,7 +251,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	
 	// 연결해제하는 부분
 	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {//연결 해제
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception { //연결 해제
 		// TODO Auto-generated method stub
 		logger.info("Socket 끊음");
 		sessions.remove(session);

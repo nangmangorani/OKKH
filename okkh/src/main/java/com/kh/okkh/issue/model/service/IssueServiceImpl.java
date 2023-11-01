@@ -139,6 +139,44 @@ public class IssueServiceImpl implements IssueService{
 		}
 	}
 	
+	
+	@Override
+	public int issueCount(String repository, String token, HttpSession session, String state, String labelToString) {
+		//String repoState = repository;
+		
+		System.out.println("labelToString" + labelToString);
+		
+		if(state.equals("open")) {
+			
+			String repoState = repository + "/issues?labels=" + labelToString;
+			
+			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
+			
+			JsonArray arr = JsonParser.parseString(repoResponse).getAsJsonArray();
+		    // arr을 추가할 issue 제네릭의 list
+		    
+			int count = arr.size();
+			
+		    return count;
+			
+		} else {
+			String repoState = repository + "/issues?state=closed&labels=" + labelToString;
+			
+			String repoResponse = iDao.getGitContentsByGet1(repoState, session);
+			
+			JsonArray arr = JsonParser.parseString(repoResponse).getAsJsonArray();
+		    // arr을 추가할 issue 제네릭의 list
+		    
+			int count = arr.size();
+			
+		    return count;
+		}
+	}
+	
+	
+	
+	
+	
 
 	@Override
 	public ArrayList<Issue> getIssues(String repository, String token, String state, PageInfo pi) 
@@ -346,23 +384,51 @@ public class IssueServiceImpl implements IssueService{
 	    return list;
 	}
 
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
+	@Override
+	public ArrayList<Issue> getIssuesByLabels(HttpSession session, String repository, String token, String state, PageInfo pi, String labelToString) {
+		
+		String repoState = new String();
+		
+		if(state.equals("open")) {
+			repoState = repository + "/issues?labels=" + labelToString;
+		} else {
+			repoState = repository + "/issues?state=closed&labels=" + labelToString;
+		}
+		
+		String repoResponse = iDao.getGitContentsByGet1(repoState, session);
+		
+		JsonArray arr = JsonParser.parseString(repoResponse).getAsJsonArray();
 
-	
-	
-	
-	
-	
+		ArrayList<Issue> iList  = new ArrayList<>();
+		
+		for (int i = 0; i < arr.size(); i++) {
+	         JsonObject issueObj = arr.get(i).getAsJsonObject();
+	         Issue git = createGitIssueFromJsonObject(issueObj);
+	         iList.add(git);
+	      }
+		return iList;
+		
+	}
+
 
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+
+

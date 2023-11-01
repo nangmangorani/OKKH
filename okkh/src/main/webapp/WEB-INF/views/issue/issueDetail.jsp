@@ -6,9 +6,34 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>이슈상세페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+
+	<style>
+        .iss-wrap{
+            border: 1px solid #e9ecef;
+            height: 180px;
+            overflow: auto;
+        }
+
+        .iss-time{
+            border: 1px solid #e9ecef;
+            background-color: #e9ecef;
+            font-size: 13px;
+            height: 30px;
+            line-height: 28px;
+        }
+        
+        .labelSpan {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 3px 5px;
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
+    
 </head>
 <body>
 <!-- 주야간모드 버튼 js 시작 -->
@@ -28,46 +53,28 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	                        <div class="card">
 	                            <div class="card-header" style="font-size: 30px;">
 	                                <span>${ title }</span>
-	                                <span>#${ bno }</span> <br>
+	                                <span>#${ bno }</span> 
+	                                
+	                                <form action="editForm.iss?ino=${bno}" method="post">
+									   <input type="hidden" name="state" value="${ state }"> 
+                     		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
+	                                </form>
+	                                
+	                                <br>
 	                                
 	                                
 									<c:choose>
 									    <c:when test="${state eq 'open'}">
-									        <span class="badge bg-danger"
+									        <span class="badge bg-success"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Open</span>
 									    </c:when>
 									    <c:otherwise>
-									        <span class="badge bg-success"
+									        <span class="badge bg-danger"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Closed</span>
 									    </c:otherwise>
 									</c:choose>
-		                                
-		                                
 	                            </div>
-	                            <div class="card-body">
-<!-- 	                                <div class="form-group with-title mb-3"> -->
-<!-- 	                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" -->
-<!-- 	                                        style="resize: none; background-color: white;" disabled></textarea> -->
-<%-- 										<input type="hidden" id="bodyChangePlease" value="${ body }"> --%>
-<!-- 	                                    <label style="font-size: 13px;"> -->
-<!-- 	                                        nangmangorani comment 15 minutes ago -->
-<!-- 	                                    </label> -->
-<!-- 	                                </div> -->
-										<div id="exampleFormControlTextarea1">
-											
-										</div>
-											<input type="hidden" id="bodyChangePlease" value="${ body }">
-	                            </div>
-	                            <div class="card-body">
-	                                <div class="form-group with-title mb-3">
-	                                    <textarea class="form-control" id="exampleFormControlTextarea2" rows="3"
-	                                        style="resize: none;background-color: white;"
-	                                        disabled>하단에서 커멘트 추가작성시 그 내용을 담고 이textarea가 하단에 추가됨</textarea>
-	                                    <label style="font-size: 13px;">
-	                                        nangmangorani comment 15 minutes ago
-	                                    </label>
-	                                </div>
-	                            </div>
+	                            
 	                        </div>
 	                    </div>
 	                </div>
@@ -75,57 +82,49 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
             <section class="section">
                 <form action="">
                     <div class="row">
-                        <div class="col-12 col-md-8">
+                        <div class="col-12 col-md-9">
                             <div class="card" style="height: 513px;">
-                                <div class="card-header">
-                                    <h4 class="card-title">이슈 등록하기</h4>
-                                </div>
                                 <div class="card-body">
                                     <div id="full" style="height: 300px;">
-                                        gg
+                                        <div class="card-body">
+			                                <div class="iss-wrap">
+			                                    <div class="iss-time">
+			                                        <span style="padding-left: 5px;">${ userLogin } comments 작성시간-현재시간?? minutes ago</span>
+			                                    </div>
+			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1"></span>
+			                                </div> 
+		                            		<input type="hidden" id="bodyChangePlease" value="${ body }">
+			                            </div>
+			                            <div class="card-body">
+			                                <div class="form-group with-title mb-3">
+			                                    	<textarea class="form-control" id="exampleFormControlTextarea2" rows="3"
+			                                        style="resize: none;background-color: white;"
+			                                        disabled>하단에서 커멘트 추가작성시 그 내용을 담고 이textarea가 하단에 추가됨</textarea>
+			                                   <label style="font-size: 13px;">
+			                                        nangmangorani comment 15 minutes ago
+			                                    </label>
+			                                </div>
+			                            </div>
                                     </div> <br>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-3">
                             <div class="card" style="height: 513px;">
-                                <div class="card-header">
-                                    <h4 class="card-title">이슈 등록하기</h4>
-                                </div>
                                 <div class="card-body">
                                     <h6>이슈 담당자</h6>
-                                    <fieldset class="form-group">
-                                        <select class="form-select" id="basicSelect">
-                                            <option>IT</option>
-                                            <option>Blade Runner</option>
-                                            <option>Thor Ragnarok</option>
-                                        </select>
-                                    </fieldset>
-
-                                    <br>
+                                    <c:forEach var="a" items="${ assignees }">
+                                    	${ a.gitNick }
+                                    </c:forEach>
+                                    <br><br>
                                     <h6>라벨</h6>
-                                    <fieldset class="form-group">
-                                        <select class="form-select" id="basicSelect">
-                                            <option>bug</option>
-                                            <option>documentation</option>
-                                            <option>duplicate</option>
-                                            <option>enhancement</option>
-                                            <option>good first issue</option>
-                                            <option>help wanted</option>
-                                            <option>invalid</option>
-                                            <option>question</option>
-                                            <option>wontfix</option>
-                                        </select>
-                                    </fieldset>
-                                    <br>
+                                    <c:forEach var="l" items="${ labels }">
+                                    	<span class="labelSpan"
+                                    	style="background-color:#${l.color};">${ l.name }</span>
+                                    </c:forEach>
+                                    <br><br>
                                     <h6>마일스톤</h6>
-                                    <fieldset class="form-group">
-                                        <select class="form-select" id="milestoneSelect">
-                                            <option>IT</option>
-                                            <option>Blade Runner</option>
-                                            <option value="direct">직접 입력</option>
-                                        </select>
-                                    </fieldset>
+                                    ${ milestoneOne.title }
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="directInput" style="display: none;"
                                             placeholder="직접 입력해주세요">
@@ -134,7 +133,6 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" style="float: right">등록하기</button>
                 </form>
             </section>
 
@@ -170,6 +168,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                     $("#directInput").hide();
                 }
             });
+            
             
             
         });

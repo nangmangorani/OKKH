@@ -39,7 +39,6 @@ public class MemberController {
 		Member mToken = gService.getUserInfo(token);
 		
         Member m = mService.selectMember(mToken);
-        
         // 저장된 멤버가 없을 경우 DB에 추가
         if(m == null) {
         	int result = mService.insertMember(mToken);
@@ -47,7 +46,6 @@ public class MemberController {
         }else {
         	m = mService.selectMember(mToken);
         }
-        
         session.setAttribute("git", mToken); // github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", m); // db에 쌓인 정보
         
