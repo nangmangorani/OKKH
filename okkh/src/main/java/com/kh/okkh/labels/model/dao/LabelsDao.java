@@ -24,7 +24,12 @@ public class LabelsDao {
 		
 		String response = null;
 		
-		response = client.get().uri(url).retrieve().bodyToMono(String.class).block();
+		if(method.equals("get")) {
+			response = client.get().uri(url).retrieve().bodyToMono(String.class).block();
+		} else if (method.equals("delete")) {
+			response = client.delete().uri(url).retrieve().bodyToMono(String.class).block();
+		}
+		
 		
 		return response;
 	}

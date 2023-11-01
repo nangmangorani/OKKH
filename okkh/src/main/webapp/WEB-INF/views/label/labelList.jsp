@@ -153,7 +153,10 @@
                                                             <td></td>
                                                             <td style="text-align: right;">
                                                             	<button class="btn btn-outline-primary edit" onclick="editMileForm();">수정</button>
-                                                            	<button class="btn btn-outline-primary delete">삭제</button>
+                                                            	<form action="delete.lab">
+                                                            		<input type="hidden" value="${ l.name }" name="name">
+                                                            		<button class="btn btn-outline-primary delete">삭제</button>
+                                                            	</form>
                                                             </td>
                                                             
                                                         </tr>

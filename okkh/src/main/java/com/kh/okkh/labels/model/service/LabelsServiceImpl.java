@@ -79,8 +79,17 @@ public class LabelsServiceImpl implements LabelsService {
 		lDao.toGitLabel(url, token, method, requestBody);
 
 	}
+
+	@Override
+	public void deleteLabel(String repository, String token, String name) {
 	
-	
+		String url = repository + "/labels/" + name;
+		
+		String method = "delete";
+		
+		lDao.toGitLabel(url, token, method);
+		
+	}
 	
 	
 }

@@ -43,7 +43,6 @@ import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
 import com.kh.okkh.issue.model.vo.Issue;
-import com.kh.okkh.issue.model.vo.RequestData;
 import com.kh.okkh.labels.model.service.LabelsServiceImpl;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
@@ -142,6 +141,7 @@ public class IssueController {
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
+		
 		
 		System.out.println("pi입니다 " + pi);
 		
@@ -489,22 +489,16 @@ public class IssueController {
 		if(state == null) {
 			state = "open";
 		}
-		System.out.println("selectedValuesList" + selectedValuesList);
-		System.out.println(currentPage + "ㅎㅎㅎ");
-		System.out.println("state " + state);
-		
-		ArrayList<Issue> list;
 		
 		String labelToString = new String();
-		
-		for(int i = 0; i<selectedValuesList.size(); i++) {
-			
-			if(i == 0 && labelToString != null) {
-				labelToString += selectedValuesList.get(0);
-			} else if(labelToString != null && i != 0){
-				labelToString += ","+selectedValuesList.get(i);
+		if(selectedValuesList != null) {
+			for(int i = 0; i<selectedValuesList.size(); i++) {
+				if(i == 0 && labelToString != null) {
+					labelToString += selectedValuesList.get(0);
+				} else if(labelToString != null && i != 0){
+					labelToString += ","+selectedValuesList.get(i);
+				}
 			}
-			
 		}
 		
 		

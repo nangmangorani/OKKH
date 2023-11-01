@@ -87,5 +87,21 @@ public class LabelsController {
 		return "redirect:list.lab";
 	}
 	
+	@RequestMapping("delete.lab")
+	public String deleteLabel(HttpSession session, String name) {
+		
+		String token = ((Member)session.getAttribute("git")).getMemToken();
+		
+		String repository = "nangmangorani/01_java-workspace";
+		
+		lService.deleteLabel(repository, token, name);
+		
+		session.setAttribute("alertMsg", "성공적으로 삭제했습니다.");
+		
+		return "redirect:list.lab";
+	}
+	
+	
+	
 
 }

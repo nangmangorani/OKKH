@@ -269,9 +269,6 @@
                         sendAjaxRequest(state, cpage);
                     });
 
-
-
-
                     function ajaxIssueFunction(data) {
                         var tableBody = $("#issueTableBody");
                         tableBody.empty();  // 테이블 몸체 초기화
@@ -386,16 +383,28 @@
 
                         // Prev 버튼 생성
                         if (currentPage != 1) { // state, labels
-                            
+                            if(lList != null && lList.length === 0) {
+                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + (currentPage - 1) + ");")));
+                            } else {
                             ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage - 1) + ");")));
-
+                            }
                         } else {
+                        	if(lList != null && lList.length === 0) {
+                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + (currentPage - 1) + ");")));
+                        	} else {
                             ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
+                        	}
                         }
-
-                        // 페이지 버튼 생성
-                        for (var p = startPage; p <= endPage; p++) {
-                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
+						
+                        
+                        if(lList != null && lList.length === 0) {
+                        	for (var p = startPage; p <= endPage; p++) {
+	                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + p + ");")));
+                        	}
+                        } else {
+	                        for (var p = startPage; p <= endPage; p++) {
+	                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
+                        	}
                         }
 
                         // Next 버튼 생성
@@ -437,9 +446,11 @@
 
                     // Define a function to call the AJAX issue function with parameters
                     function callAjaxIssueFunction(selectedValues, state, cpage) {
-                        console.log(cpage)
+                    	console.log("왜 나에대한 기준만 엄격한거지")
+                    	console.log(cpage)
                         console.log(state)
                         console.log(selectedValues)
+                        
                         $.ajax({
                             type: 'post',
                             url: "AjaxIssueByLabels.iss",

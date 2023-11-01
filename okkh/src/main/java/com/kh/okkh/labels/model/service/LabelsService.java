@@ -13,4 +13,6 @@ public interface LabelsService {
 
 	void labelEnroll(String repository, String token, Map<String, Object> requestBody);
 	
+	void deleteLabel(String repository, String token, String name);
+	
 }
