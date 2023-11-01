@@ -177,6 +177,7 @@
 				                <div id="full">
 				                	<pre>
 				                		<code>
+				                		hihi
 					                		/**
 											 * 레포지토리에 속한 컨텐츠 조회용 Controller
 											 * 

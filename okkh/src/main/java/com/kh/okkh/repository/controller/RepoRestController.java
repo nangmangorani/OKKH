@@ -70,17 +70,8 @@ public class RepoRestController {
 		g.setUri(uri);
 		g.setMethod(method);
 		
-		// 결과를 담을 result 생성 및 초기화
-		String result = "";
-		
-		try {
-			// GitHubTemplate을 static으로 올려서 사용 => api url을 작성해주는 template
-			// 조회한 결과를 result에 담는다
-			result = getGitHubAPIValue(g);
-		} catch (FileNotFoundException e) {
-			// 오류 확인을 원할 때는 밑에 주석 제거
-			// e.printStackTrace();
-		}
+		// 템플릿에 값들을 보내 결과값을 받는다
+		String result = getGitHubAPIValue(g);
 		
 //		System.out.println(result);
 		

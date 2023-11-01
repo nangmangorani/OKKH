@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 
 import static com.kh.okkh.common.model.service.GitHubTemplate.*;
 
+import com.kh.okkh.common.model.service.GitHubTemplate;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.member.model.vo.Member;
@@ -220,7 +221,7 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("insertRepo.re")
-	public void insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
+	public String insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
 		
 		// 조직명(프로젝트명) 가져오기
 		mypro = rService.selectMyProjectTitle(myproNo);
@@ -250,7 +251,7 @@ public class RepositoryController {
 		
 		System.out.println(response);
 		
-//		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
 	}
 	
