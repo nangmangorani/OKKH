@@ -69,7 +69,7 @@ public class PullRequestController {
 		// token 얻어올때 loginMember session에 있는 토큰 값이 아닌 
 		// setAttribute("git",mToken)에 있는 token 값을 받아와야 함 
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		
 		

@@ -194,7 +194,7 @@ public class MilestoneController {
 	
 	@RequestMapping(value="edit.mile")
 	public String editMilestone(Model model, HttpSession session, Integer mno,
-			String title,
+			@RequestParam(required = false) String title,
 			@RequestParam(required = false) String state, 
 			@RequestParam(required = false) String content,
 			@RequestParam(required = false) String dueOnDate) {
@@ -222,7 +222,9 @@ public class MilestoneController {
 	    }
 		
 		Map<String, Object> requestBody = new HashMap<>();
-		requestBody.put("title", title);
+		if(title != null) {
+			requestBody.put("title", title);
+		}
 		
 		if(state == null) {
 			state = "open";
@@ -236,10 +238,10 @@ public class MilestoneController {
 			requestBody.put("due_on", dueOn);
 		}
 		
-		if(state.equals("closed")) {
-			requestBody.put("state", state);
-		}
 		
+		requestBody.put("state", state);
+		
+		System.out.println("지금 requestbody 상태는? " + requestBody);
 		mService.editMilestone(repository, requestBody, token, mno);
 		
 		return "redirect:/detail.mile?mno=" + mno;

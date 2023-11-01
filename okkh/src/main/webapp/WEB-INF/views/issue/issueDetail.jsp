@@ -21,7 +21,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 
         .iss-wrap2{
             border: 1px solid #e9ecef;
-            height: 180px;
+            height: 130px;
             overflow: auto;
         }
 
