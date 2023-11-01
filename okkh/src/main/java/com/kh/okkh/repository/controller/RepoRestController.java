@@ -70,8 +70,15 @@ public class RepoRestController {
 		g.setUri(uri);
 		g.setMethod(method);
 		
-		// 템플릿에 값들을 보내 결과값을 받는다
-		String result = getGitHubAPIValue(g);
+		String result = "";
+		
+		try {
+			// 템플릿에 값들을 보내 결과값을 받는다
+			result = getGitHubAPIValue(g);
+			
+		} catch (Exception e) {
+			System.out.println("존재하지 않는 조직명에 접근했음!!");
+		}
 		
 //		System.out.println(result);
 		
@@ -80,15 +87,16 @@ public class RepoRestController {
 	}
 	
 	/**
-	 * 레포지토리에 속한 컨텐츠 조회용 Controller
+	 * 레포지토리에 속한 컨텐츠 조회용 Controller (ajax 호출 방식)
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
+	/*
 	@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
 	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) throws IOException {
 		
-		mypro = rService.selectMyProjectTitle(mpno);
+		mypro = rService.selectMyProject(mpno);
 		
 		token = (String)session.getAttribute("token");
 		
@@ -100,11 +108,9 @@ public class RepoRestController {
 		
 		String response = getGitHubAPIValue(g);
 		
-//		System.out.println(token);
-//		System.out.println(response);
-
 		return response;
 		
 	}
+	*/
 
 }

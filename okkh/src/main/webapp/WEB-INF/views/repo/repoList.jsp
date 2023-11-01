@@ -148,8 +148,8 @@
 								                            <!-- 레파지토리 시작 -->
 								                            <div class="col-6 col-lg-3 col-md-6">
 								                                <div class="card" style="border: 1px solid #cecece; height: 150px;">
-								                                    <a href="repoDetail.re?pno=${ mypro.myproNo }&rnm=${ r.name }&vis=${ r.visibility }">
-								                                    	<div class="card-body px-3 py-4-5">
+							                                    	<div class="card-body px-3 py-4-5">
+								                                    	<a href="repoDetail.re?pno=${ mypro.myproNo }&rnm=${ r.name }&vis=${ r.visibility }">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
 									                                                <!-- <div class="stats-icon blue">
@@ -162,8 +162,16 @@
 									                                                <h5 class="font-extrabold mb-0">${ r.name }</h5>
 									                                            </div>
 									                                        </div>
-									                                    </div>
-								                                    </a>
+							                                    		</a>
+							                                    		<br>
+						                                    			<form action="deleteRepo.re" method="post" style="float: right; margin-left: 8px;">
+								                                			<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
+										                                	<input type="hidden" name="myproTitle" value="${ mypro.myproTitle }">
+										                                	<input type="hidden" name="repoTitle" value="${ r.name }">
+								                                			<button class="btn btn-sm btn-outline-danger">삭제</button>
+						                                    			</form>
+							                                    		<button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateRepoForm" style="float: right;">수정</button>
+								                                    </div>
 								                                </div>
 								                            </div>
 								                            <!-- /레파지토리 끝 -->
@@ -175,9 +183,71 @@
 				                        <!-- /레파지토리 리스트 끝 -->
 				                	</c:when>
 				                	<c:otherwise>
-				                		<div>레파지토리가 없습니다.</div>
+				                		<br><br>
+				                		<div>레파지토리가 없습니다. 새로운 레파지토리를 생성해주세요.</div>
 				                	</c:otherwise>
 				                </c:choose>
+				                <!--레파지 수정 form Modal 시작 -->
+				                <div class="modal fade text-left" id="updateRepoForm" tabindex="-1"
+				                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				                        role="document">
+				                        <div class="modal-content">
+				                            <div class="modal-header bg-primary">
+				                                <h5 class="modal-title white" id="myModalLabel160">
+				                                    Update Repository
+				                                </h5>
+				                                <button type="button" class="close"
+				                                    data-bs-dismiss="modal" aria-label="Close">
+				                                    <i data-feather="x"></i>
+				                                </button>
+				                            </div>
+				                            <form action="insertRepo.re">
+				                            	<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
+				                                <div class="modal-body">
+				                                    <label>Repository Name*:</label>
+				                                    <div class="form-group">
+				                                        <input type="text" placeholder="수정할 레파지토리명을 입력해주세요."
+				                                            class="form-control" name="repoTitle">
+				                                    </div>
+				                                    <label>Description:</label>
+				                                    <div class="form-group">
+				                                        <input type="text" placeholder="레파지토리에 대한 설명을 입력해주세요."
+				                                            class="form-control" name="repoContent">
+				                                    </div>
+				                                    <label>Public or Private:</label>
+				                                    <div class="form-group">	
+				                                        <div class="form-check">
+								                            <input class="form-check-input" type="radio" name="repoStatus" value="public" id="Public" checked>
+								                            <label class="form-check-label" for="Public">
+								                                Public
+								                            </label>
+								                        </div>
+				                                        <div class="form-check">
+								                            <input class="form-check-input" type="radio" name="repoStatus" value="private" id="Private">
+								                            <label class="form-check-label" for="Private">
+								                                Private
+								                            </label>
+								                        </div>
+				                                    </div>
+				                                </div>
+				                                <div class="modal-footer">
+				                                    <button type="button" class="btn btn-light-secondary"
+				                                        data-bs-dismiss="modal">
+				                                        <i class="bx bx-x d-block d-sm-none"></i>
+				                                        <span class="d-none d-sm-block">Cancel</span>
+				                                    </button>
+				                                    <button type="submit" class="btn btn-primary ml-1"
+				                                        data-bs-dismiss="modal">
+				                                        <i class="bx bx-check d-block d-sm-none"></i>
+				                                        <span class="d-none d-sm-block">Update</span>
+				                                    </button>
+				                                </div>
+				                            </form>
+				                        </div>
+				                    </div>
+				                </div>
+				                <!--/레파지 수정 form Modal 끝 -->
 		                    </div>
 		                </div>
 		            </div>
@@ -202,8 +272,20 @@
 	<!-- /전체 div 끝 -->
 	
 	<script>
-	
+
 		console.log(${ response });
+	
+		function updateDeleteRepo(repo, act) {
+			
+			const repo = $("input [name=repoTitle]").val(repo);
+			
+			console.log(repo);
+			
+			$("#updateDeleteForm").attr("action", act + ".re").submit();
+			
+			return false;
+			
+		}
 	
 	</script>
 </body>

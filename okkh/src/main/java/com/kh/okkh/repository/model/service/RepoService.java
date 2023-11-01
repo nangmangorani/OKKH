@@ -40,6 +40,6 @@ public interface RepoService {
 	public ArrayList<GithubRepo> getRepositoryList(int pno, String token) throws IOException;
 	
 	// 레포가 담긴 프로젝트명 조회용 서비스
-	public MyProject selectMyProjectTitle(int pno);
+	public MyProject selectMyProject(int pno);
 	
 }

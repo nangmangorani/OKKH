@@ -160,15 +160,12 @@ public class RepoImpl implements RepoService {
 	 * 레포가 담긴 프로젝트명 조회용 서비스
 	 */
 	@Override
-	public MyProject selectMyProjectTitle(int myproNo) {
-		return rdao.selectMyProjectTitle(sqlSession, myproNo);
+	public MyProject selectMyProject(int myproNo) {
+		return rdao.selectMyProject(sqlSession, myproNo);
 	}
 
 	@Override
 	public int titleCheck(String checkTitle, HttpSession session) {
-		
-		
-		
 		return 0;
 
 	}

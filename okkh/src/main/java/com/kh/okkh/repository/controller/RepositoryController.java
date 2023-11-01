@@ -166,7 +166,7 @@ public class RepositoryController {
 //		System.out.println(pno);
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
-		mypro = rService.selectMyProjectTitle(pno);
+		mypro = rService.selectMyProject(pno);
 		
 //		System.out.println(mypro.getMyproTitle());
 		
@@ -195,8 +195,6 @@ public class RepositoryController {
 		// GitHubTemplate에서 넘어온 JSON 값을 받는다
 		String response = getGitHubAPIValue(g);
 		
-		System.out.println(response);
-		
 		// Json을 변환하여 담을 ArrayList 준비
 		Type type = new TypeToken<ArrayList<GithubRepo>>() {}.getType();
 		
@@ -224,7 +222,7 @@ public class RepositoryController {
 	public String insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
 		
 		// 조직명(프로젝트명) 가져오기
-		mypro = rService.selectMyProjectTitle(myproNo);
+		mypro = rService.selectMyProject(myproNo);
 		// 토큰 뽑아오기
 		token = (String)session.getAttribute("token");
 		
@@ -247,10 +245,57 @@ public class RepositoryController {
 		g.setParams(params);
 		
 		// 템플릿에서 얻은 결과값 받음
-		String response = getGitHubAPIValue(g);
+		getGitHubAPIValue(g);
 		
-		System.out.println(response);
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
+	}
+	
+	/**
+	 * 레포 수정용 Controller
+	 * 
+	 * @param mypro
+	 * @param repoTitle
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("updateRepo.re")
+	public String updateRepo(MyProject mypro, String repoTitle, HttpSession session) {
+		
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+	}
+	
+	/**
+	 * 레포 삭제용 Controller
+	 * 
+	 * @param mypro : 내 프로젝트 번호, 내 프로젝트명
+	 * @param repoTitle : 레포명
+	 * @param session : token을 가져오기 위한 session
+	 * @return : 레포 리스트 조회 페이지
+	 */
+	@RequestMapping("deleteRepo.re")
+	public String deleteRepo(MyProject mypro, String repoTitle, HttpSession session) {
+		
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		// 필요한 값들 담아서 옮길 GitHub 객체 생성
+		g = new GitHub();
+		
+		// 요청 방식 => 삭제
+		g.setMethod("DELETE");
+		// api와 연결하기 위한 token
+		g.setToken(token);
+		// 레포 삭제 uri => /repos/{owner}/{repo}
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + repoTitle);
+		
+		// 템플릿에 객체를 보내서 delete 실행
+		getGitHubAPIValue(g);
+		
+		// repoList 페이지로 돌아감
 		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
 	}
@@ -262,11 +307,21 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("repoDetail.re")
-	public String selectRepo(int pno, String rnm, String vis, Model model) {
+	public String selectRepo(int pno, String rnm, String vis, HttpSession session, Model model) {
 		
-		model.addAttribute("myproNo", pno);
-		model.addAttribute("repoName", rnm);
-		model.addAttribute("visibility", vis);
+		mypro = rService.selectMyProject(pno);
+		
+		token = (String)session.getAttribute("token");
+		
+		g = new GitHub();
+		
+		g.setMethod("GET");
+		g.setToken(token);
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+		
+		ArrayList<GithubRepo> list = getGitHubAPIRepoContents(g);
+		
+		model.addAttribute("list", list);
 		
 		return "repo/repoDetail";
 		

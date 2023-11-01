@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kh.okkh.common.model.vo.GitHub;
+import com.kh.okkh.repository.model.vo.GithubRepo;
 
 /**
  * @author 윤관현
@@ -28,7 +30,7 @@ import com.kh.okkh.common.model.vo.GitHub;
 public class GitHubTemplate {
 	
 	/**
-	 * GitHub REST API를 사용하기 위한 Template
+	 * GitHub REST API를 사용하기 위한 Template (WebClient 방식)
 	 * 
 	 * @param g : API 호출에 필요한 매개변수들
 	 * @return response : API로부터 받은 JSON 값
@@ -46,7 +48,6 @@ public class GitHubTemplate {
 		
 		// 결과를 받을 response 생성 및 초기화
 		String response = "";
-				
 				
 		// 요청 방식에 따라 구분
 		switch(g.getMethod()) {
@@ -93,11 +94,42 @@ public class GitHubTemplate {
 	}
 	
 	/**
+	 * 레파지토리 컨텐츠 조회용 템플릿
+	 * 
+	 * @return
+	 */
+	public static ArrayList<GithubRepo> getGitHubAPIRepoContents(GitHub g) {
+		
+		// WebClient를 사용해서 Header 세팅
+		WebClient webClient = WebClient.builder()
+				.baseUrl("https://api.github.com")
+				.defaultHeader("Accept", "application/vnd.github+json")
+				.defaultHeader("Authorization", "Bearer " + g.getToken())
+				.defaultHeader("X-GitHub-Api-Version", "2022-11-28")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.build();
+		
+		ArrayList<GithubRepo> list = new ArrayList<GithubRepo>();
+		
+		list = webClient.get()
+				.uri(g.getUri())
+				.retrieve()
+				.bodyToMono(ArrayList.class)
+				.block();
+		
+		System.out.println(list);
+		
+		return list;
+		
+	}
+	
+	/** HttpURLConnection 방식 => 실패작ㅠㅠ (POST 안됨,,)
 	 * @param g => GithubTemplate Service 호출을 위해 필요한 매개변수 객체VO
 	 * @return response => GitHub REST API에 접근해서 가져온 JSON 값
 	 * @throws IOException
 	 * @author Target
 	 */
+	/*
 	public static String getGitHubAPIValue1(GitHub g) throws IOException {
 		
 		// 기본 URL 설정
@@ -137,5 +169,6 @@ public class GitHubTemplate {
 		return response;
 		
 	}
+	*/
 
 }

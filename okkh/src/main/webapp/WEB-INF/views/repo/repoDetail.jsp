@@ -80,23 +80,16 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                	<!--  
-                                                    <tr>
-                                                        <td class="text-bold-500">
-                                                   			<i class="fa-regular fa-folder-open fa-bounce"></i> okkh
-                                                        </td>
-                                                        <td class="text-bold-500">로그인 기능 수정</td>
-                                                        <td class="text-bold-500">2시간 전</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-bold-500">
-                                                        	<i class="fa-regular fa-file fa-bounce"></i> README.md
-                                                        </td>
-                                                        <td class="text-bold-500">리드미 수정</td>
-                                                        <td class="text-bold-500">3일 전</td>
-                                                    </tr>
-                                                    -->
-                                                    
+                                                <c:forEach var="c" items="${ list }">
+	                                                <tr>
+					                                    <td class='text-bold-500'>
+						                                    <i class='fa-regular fa-file fa-bounce'></i>
+						                                    <span>${ c.name }</span>
+						                                </td>
+						                                <td class='text-bold-500'>로그인 기능 수정</td>
+						                                <td class='text-bold-500'>2시간 전</td>
+					                                </tr>
+                                                </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -110,6 +103,7 @@
                     <!-- 소스코드 호출 js 시작 -->
                     <script>
                     
+                    	/* repo contents ajax 호출 방식
                     	$(() => {
                     		
                     		let str = "";
@@ -130,9 +124,11 @@
                     					
                     					let value = "";
                     					
+                    					let name = "";
+                    					
               							for(let i in response) {
               								value += "<tr>"
-			                                          + "<td class='text-bold-500'><i class='fa-regular fa-folder-open fa-bounce'></i>" 
+			                                          + "<td class='text-bold-500'><i class='fa-regular fa-file fa-bounce'></i>" 
 			                                          +		response[i].name
 				                                      +  "</td>"
 				                                      +  "<td class='text-bold-500'>로그인 기능 수정</td>"
@@ -140,17 +136,15 @@
 				                                   + "</tr>"
               							}
               							
-              							$("#repo tbody").html(value);
+              							$("#repo>tbody").html(value);
               							
-              							$("#repo tbody>tr").click(() => {
+              							$("#repo>tbody>tr").click(() => {
                                 			
-                                			//selectRepoContents();
+                                			console.log($(this).html());
                                 			
-                                			console.log($(this));
+                                			//$("#source").toggle();
                                 			
-                                			$("#source").toggle();
-                                			
-                                			$("#source h6").text("hihi");
+                                			//$("#source h6").text("hihi");
                                 			
                                 		})
               
@@ -161,6 +155,13 @@
                     			})
                     		
                     		}
+                    		
+                    	})
+                    	*/
+                    	
+                    	$("#repo>tbody>tr").click(function() {
+                    		
+                    		console.log($(this).children().eq(0).children("span").text());
                     		
                     	})
                     
@@ -177,34 +178,56 @@
 				                <div id="full">
 				                	<pre>
 				                		<code>
-				                		hihi
-					                		/**
-											 * 레포지토리에 속한 컨텐츠 조회용 Controller
-											 * 
-											 * @return
-											 * @throws IOException
-											 */
-				                			@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
-											public String selectRepoContents(int mpno, String rnm, HttpSession session, Model model) throws IOException {
-												
-												MyProject mypro = rService.selectMyProjectTitle(mpno);
-												
-												String token = (String)session.getAttribute("token");
-												
-												GitHub g = new GitHub();
-												
-												g.setMethod("GET");
-												g.setToken(token);
-												g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
-												
-												String response = getGitHubAPIValue(g);
-												
-												System.out.println(token);
-												System.out.println(response);
-										
-												return response;
-												
-											}
+									 		<div style="display:flex; flex-direction:row;"></div>
+									    	<div style="display:flex; flex-direction:row;"></div>
+											
+											
+											![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&text=Welcome%20to%20NEXUS%20Project%20👋&animation=twinkling&fontSize=35&fontAlignY=40&fontAlign=70&height=250)
+											
+											
+											# 프로젝트명 NEXUS
+											
+											
+											NEXUS는 **연결, 관계, 집합체**를 뜻하는 단어로 여러 다른 것들과 이어져 있다는 의미를 가지고 있습니다.
+											세상엔 아주 다양한 사람들이 존재하고 각자의 능력과 역할이 다르지만  NEXUS를 통해 서로 협업하여 프로젝트를 성공적으로 완수할 수 있는 결합점을 형성하고자 하는 의도로 ‘NEXUS’를  프로젝트명으로 선택했습니다.
+											
+											<br><br>
+											# 프로젝트 설명
+											
+											**NEXUS - 협업을 위한 실시간 소통 플랫폼**
+											 
+											<br>
+											깃허브를 기반으로 한 실시간 소통 플랫폼으로, 팀원들 간의 원활한 소통과 협업을 돕는 서비스입니다. 
+											
+											깃허브의 코드, 이슈, 프로젝트와 결합하여 실시간 채팅, 알림, 커뮤니티 기능을 제공하여 팀의 협업 효율성을 향상시킵니다.
+											
+											 
+											 
+											  <div style="display:flex; flex-direction:row;">
+											
+											 - 프로젝트 관리
+											 - 챗봇
+											 - 이슈 트래킹
+											 - 커뮤니티 기능
+											 - 뉴스
+											 - 실시간 채팅
+											 - 프로젝트 일정 관리
+											 - 친구 
+											 
+											</div>
+											<br><br>
+											
+											
+											# 개발배경
+											 <div style="display:flex; flex-direction:row;">
+											
+											현재 많은 사람들이 깃허브를 이용해 협업을 진행하고 있습니다. 협업에서 가장 중요한 것은 팀원들 간의 소통이라고 생각합니다. 
+											 그러나 깃허브에서는 협업하고 있는 repository에 어떤 이벤트가 발생했다는 것을 실시간으로 알려주지 않습니다.
+											 그래서 카카오톡과 같은 여러 메신저 플랫폼을 이용해 자신이 어떤 이벤트를 발생시켰는지 알려줘야 합니다. 
+											 이러한 문제를 해결하기 위해 깃허브에서 제공하는 기능 일부(코드,이슈,프로젝트)와 실시간 채팅, 실시간 알림, 커뮤니티 기능들을 활용하여 팀원들 간의 소통 기능을 향상시킬 수 있는 서비스를 기획하였습니다.
+											
+											</div>
+
 				                		</code>
 				                	</pre>
 				                </div>
