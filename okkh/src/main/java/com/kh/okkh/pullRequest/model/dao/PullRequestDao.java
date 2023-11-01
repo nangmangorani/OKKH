@@ -37,6 +37,8 @@ public class PullRequestDao {
 		String token = ((Member)session.getAttribute("git")).getMemToken();
 		
 		
+		System.out.println(token  + "   :  thddldldl");
+		
 		// HTTP 요청을 만들기 위한 WebClient 인스턴스를 생성
 		String response = webClient
 				.get()        // HTTP GET 요청임을 지정합니다.

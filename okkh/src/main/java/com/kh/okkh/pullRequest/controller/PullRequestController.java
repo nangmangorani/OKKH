@@ -100,13 +100,37 @@ public class PullRequestController {
 		ArrayList<PullRequest> plist = pullService.getPullRequest(repository,token,state, pi);
 		
 		// 풀리퀘 리뷰리스트도 얻어오자
+		// 풀리퀘 리뷰리스트 알려면 풀리퀘 번호가 필요함 
 		
+		
+		for(int i=0; i<plist.size(); i++) {
+			
+			if(plist.get(i).getState().equals("open")) {
+				//mv.addObject("pOpenlist", plist);
+				
+				System.out.println(plist.get(i).getState()   + " : 오픈이이이이닷!");
+			}
+			
+			
+			if(plist.get(i).getState().equals("closed")) {
+				//mv.addObject("pClosedlist", plist);
+				
+				System.out.println(plist.get(i).getState()   + " : 닫힘이이이이닷!");
+			}
+			
+		}
+		
+		
+		
+		
+		System.out.println(plist + "  : 으아아앗 풀리퀘 목록이닷!!!!!!");
 		
 		mv.addObject("pi", pi);
 		mv.addObject("plist", plist);
 		mv.addObject("lList", lList);
 		
 		mv.setViewName("pullRequest/myPullRequest");
+		
 		
 		return mv;
 		
