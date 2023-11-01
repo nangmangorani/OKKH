@@ -9,15 +9,14 @@ import com.kh.okkh.chat.controller.ChatWebsocketHandler;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Configuration
 @EnableWebSocket
 @RequiredArgsConstructor
-public class WebSocketConfig implements WebSocketConfigurer {
-
-    private final ChatWebsocketHandler chatHandler;
+public class ChatWebSocketConfig implements WebSocketConfigurer {
+	
+	private final ChatWebsocketHandler chatHandler;
     
-    @Override
+	@Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     	registry.addHandler(chatHandler, "/okkh/chat")
     			.setAllowedOrigins("http://localhost:7777")
