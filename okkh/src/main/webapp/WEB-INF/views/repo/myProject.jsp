@@ -81,7 +81,7 @@
 				                                </button>
 				                            </div>
 				                            <form action="insertMyProject.re" id="enrollForm">
-				                            	<input type="hidden" name="refTeamNo" value="${ loginMember.teamNo }">
+				                            	<input type="hidden" name="refTeamNo" value="${ loginMember.team }">
 				                            	<input type="hidden" name="myproMember" value="">
 				                                <div class="modal-body">
 				                                    <label>Project Title:</label>

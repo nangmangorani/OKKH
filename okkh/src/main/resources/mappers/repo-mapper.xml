@@ -38,9 +38,9 @@
 		select 
 		       mem_id
 		  from member
-		 where team_no = (
+		 where team = (
 		                 select 
-		                        team_no
+		                        team
 		                   from member
 		                  where mem_no = #{memNo}
 		                 )
