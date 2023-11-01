@@ -17,6 +17,9 @@
 	<typeAlias type="com.kh.okkh.common.model.vo.Bookmark" alias="Bookmark"/>
 	<typeAlias type="com.kh.okkh.friend.model.vo.Friend" alias="Friend"/>
 	<typeAlias type="com.kh.okkh.pullRequest.model.vo.GitPullRequest" alias="PullRequest"/>
+	<typeAlias type="com.kh.okkh.chat.model.vo.ChatRoom" alias="ChatRoom"/>
+	<typeAlias type="com.kh.okkh.chat.model.vo.ChatMember" alias="ChatMember"/>
+	<typeAlias type="com.kh.okkh.chat.model.vo.ChatMessage" alias="ChatMessage"/>
 </typeAliases>
 
 <mappers>
@@ -26,6 +29,7 @@
 	<mapper resource="/mappers/repo-mapper.xml"/>
 	<mapper resource="/mappers/friend-mapper.xml"/>
 	<mapper resource="/mappers/pullRequest-mapper.xml"/>
+	<mapper resource="/mappers/chat-mapper.xml"/>
 </mappers>
 
 </configuration>
