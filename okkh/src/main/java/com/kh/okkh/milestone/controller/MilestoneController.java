@@ -48,7 +48,7 @@ public class MilestoneController {
 	@RequestMapping("list.mile")
 	public String milestoneList(HttpSession session, Model model, String state) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		if(state == null) {
 			state = "open";
@@ -77,7 +77,7 @@ public class MilestoneController {
 	@RequestMapping("detail.mile")
 	public String milstoneDetail(Model model, HttpSession session, int mno, String state) throws IOException {
 		
-		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String repository = "nangmangorani/01_java-workspace";
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
@@ -135,7 +135,7 @@ public class MilestoneController {
 		   @RequestParam(required = false) String dueOnDate,
 		   @RequestParam(required = false) String content) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		String repository = "nangmangorani/01_java-workspace";
 		String dueOn = null;
 		
@@ -180,7 +180,7 @@ public class MilestoneController {
 	@RequestMapping(value="editForm.mile")
 	public String editFormMilestone(HttpSession session, Model model, int mno) {
 		
-		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String repository = "nangmangorani/01_java-workspace";
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
@@ -199,7 +199,7 @@ public class MilestoneController {
 			@RequestParam(required = false) String content,
 			@RequestParam(required = false) String dueOnDate) {
 			
-		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		System.out.println("mno인데 내가 없어도 너무 슬퍼하지마" + mno);
 		String repository = "nangmangorani/01_java-workspace";
 		String dueOn = null;
@@ -261,7 +261,7 @@ public class MilestoneController {
 	@ResponseBody
 	public ArrayList<Milestone> ajaxMile(HttpSession session, @RequestParam(required = false)String state) {
 
-		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		String repository = "nangmangorani/01_java-workspace";
 
 		if(state == null) {

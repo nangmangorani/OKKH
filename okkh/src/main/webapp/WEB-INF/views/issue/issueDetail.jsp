@@ -8,10 +8,18 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 <meta charset="UTF-8">
 <title>이슈상세페이지</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
 
 	<style>
         .iss-wrap{
+            border: 1px solid #e9ecef;
+            height: 200px;
+            overflow: auto;
+        }
+
+        .iss-wrap2{
             border: 1px solid #e9ecef;
             height: 180px;
             overflow: auto;
@@ -32,6 +40,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
             border-radius: 5px;
             color: white;
         }
+        
     </style>
     
 </head>
@@ -53,17 +62,8 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	                        <div class="card">
 	                            <div class="card-header" style="font-size: 30px;">
 	                                <span>${ title }</span>
-	                                <span>#${ bno }</span> 
-	                                
-	                                <form action="editForm.iss?ino=${bno}" method="post">
-									   <input type="hidden" name="state" value="${ state }"> 
-                     		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
-	                                </form>
-	                                
-	                                <br>
-	                                
-	                                
-									<c:choose>
+	                                <span>#${ ino }</span> 
+                                    <c:choose>
 									    <c:when test="${state eq 'open'}">
 									        <span class="badge bg-success"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Open</span>
@@ -73,6 +73,12 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 		                                    style="height: 50px; width: 100px; font-size: 20px; line-height: 35px;">Closed</span>
 									    </c:otherwise>
 									</c:choose>
+	                                
+	                                <form action="editForm.iss?ino=${ino}" method="post" style="display:inline">
+									   <input type="hidden" name="state" value="${ state }"> 
+                     		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
+	                                </form>
+	                                <br>
 	                            </div>
 	                            
 	                        </div>
@@ -80,35 +86,75 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	                </div>
 	            </section>
             <section class="section">
-                <form action="">
                     <div class="row">
                         <div class="col-12 col-md-9">
-                            <div class="card" style="height: 513px;">
+                            <div class="card" style="height: auto;">
                                 <div class="card-body">
                                     <div id="full" style="height: 300px;">
                                         <div class="card-body">
 			                                <div class="iss-wrap">
 			                                    <div class="iss-time">
-			                                        <span style="padding-left: 5px;">${ userLogin } comments 작성시간-현재시간?? minutes ago</span>
+			                                        <span style="padding-left: 5px;">${ userLogin } comments</span>
 			                                    </div>
-			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1"></span>
-			                                </div> 
-		                            		<input type="hidden" id="bodyChangePlease" value="${ body }">
+			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1">${ bodyMain }</span>
+			                                </div>
+                                            <br>
+                                            <c:forEach var="c" items="${ cList }">
+                                                <div class="iss-wrap2">
+                                                    <div class="iss-time">
+                                                        <span style="padding-left: 5px;">${ c.login } comments</span>
+                                                    </div>
+                                                    <span style="padding-left: 7px;" name="commentsDiv">${ c.body }</span>
+                                                </div>
+                                                <br>
+                                            </c:forEach>
+
+                                            
+
+
+                                            
+		                            		<input type="hidden" id="bodyChangePlease" value="${ bodyMain }">
 			                            </div>
 			                            <div class="card-body">
-			                                <div class="form-group with-title mb-3">
-			                                    	<textarea class="form-control" id="exampleFormControlTextarea2" rows="3"
-			                                        style="resize: none;background-color: white;"
-			                                        disabled>하단에서 커멘트 추가작성시 그 내용을 담고 이textarea가 하단에 추가됨</textarea>
-			                                   <label style="font-size: 13px;">
-			                                        nangmangorani comment 15 minutes ago
-			                                    </label>
-			                                </div>
+                                        <div id="editor"></div>
+                                        <br>
+                                        <form action="commentEnroll.iss?ino=${ ino }" method="post">
+                                            <button class="btn btn-primary" style="float: right;" onclick="enrollAjax();">등록하기</button>
+                                            <input type="hidden" name="body" value="" id="body">
+                                        </form>
+		                            	<!-- <input type="hidden" name="inoHere" id="inoHere" value="${ ino }"> -->
+                                    
 			                            </div>
                                     </div> <br>
                                 </div>
                             </div>
                         </div>
+                                    <script>
+                                        
+                                        const Editor = toastui.Editor;
+                                            
+                                        const editor = new Editor({
+                                            el: document.querySelector('#editor'),
+                                            height: '160px',
+                                            initialEditType: 'markdown',
+                                            breaks: true
+                                            });
+                                            
+                                        function enrollAjax() {
+                                            var markdown = editor.getMarkdown();
+                                            $("input[name='body']").val(markdown);
+                                            console.log($("input[name='body']").val())
+
+                                            // enrollAjaxGo($("input[name='body']").val(),  $("input[name='inoHere']").val())
+                                        }
+                                
+                                        // $('#issueEnrollForm').submit(function() {
+                                        //     var markdown = editor.getMarkdown();
+                                        //     $("input[name='body']").val(markdown);
+                                        // });
+                                
+                                
+                                    </script>
                         <div class="col-12 col-md-3">
                             <div class="card" style="height: 513px;">
                                 <div class="card-body">
@@ -133,7 +179,6 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                             </div>
                         </div>
                     </div>
-                </form>
             </section>
 
             <footer>
@@ -149,30 +194,30 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
             </footer>
         </div>
     </div>
-
     <script>
-        $(function () {
-        	var bodyChangePlease = $("#bodyChangePlease").val();
-        	console.log(bodyChangePlease);
-        	
-        	var htmlContent = marked(bodyChangePlease, { sanitize: true });
-        	console.log(bodyChangePlease);
-        	$("#exampleFormControlTextarea1").html(htmlContent);
-        	
-            $("#milestoneSelect").change(function () {
-                var selectedOption = $(this).find(":selected").val();
+        
+        
 
-                if (selectedOption === "direct") {
-                    $("#directInput").show();
-                } else {
-                    $("#directInput").hide();
-                }
-            });
-            
-            
-            
-        });
+        // function enrollAjaxGo(body, ino){
+        //     console.log("아작직전 ㅋㅋ")
+        //     console.log(body)
+        //     console.log(ino)
+
+        //     $.ajax({
+        //         type:'post',
+        //         url:"commentEnroll.iss",
+        //         data:{
+        //             body:body,
+        //             ino:ino
+        //         },
+        //         success:()=>{
+        //             console.log("성공 히히");
+        //         }
+        //     })
+        // }
     </script>
+
+    
 
 
     <!-- <script src="../../resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
@@ -202,5 +247,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 
     <!-- fontawesome 이미지 -->
     <script src="https://kit.fontawesome.com/d3dccd5748.js" crossorigin="anonymous"></script>
+    <script src="../../resources/js/pages/form-editor.js"></script>
+
 </body>
 </html>

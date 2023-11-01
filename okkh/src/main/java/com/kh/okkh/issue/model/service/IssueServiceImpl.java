@@ -31,6 +31,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.issue.model.dao.IssueDao;
+import com.kh.okkh.issue.model.vo.Comments;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.member.model.vo.Member;
@@ -256,24 +257,26 @@ public class IssueServiceImpl implements IssueService{
 	/**
 	 * 이슈 등록
 	 * */
-	public void enrollIssue(String token, String repository, Map<String, Object> requestBody) {
+	public String enrollIssue(String token, String repository, Map<String, Object> requestBody) {
 		
 		String url = repository + "/issues";
 		
 		String method = "post";
 		
-		iDao.toGitIssue(token, url, requestBody, method);
+		String response = iDao.toGitIssue(token, url, requestBody, method);
 		
+		return response;
 	}
 	
-	public void editIssue(String token, String repository, Map<String, Object> requestBody, int bno) {
+	public String editIssue(String token, String repository, Map<String, Object> requestBody, int ino) {
 		
-		String url = repository + "/issues/"+bno;
+		String url = repository + "/issues/"+ino;
 		
 		String method = "patch";
 		
-		iDao.toGitIssue(token, url, requestBody, method);
+		String response = iDao.toGitIssue(token, url, requestBody, method);
 		
+		return response;
 	}
 	
 	
@@ -292,13 +295,10 @@ public class IssueServiceImpl implements IssueService{
 		// 라벨
 		JsonArray labelsArr = issueObj.get("labels").getAsJsonArray();
 		
-		
-		
 		String[] labels = new String[labelsArr.size()];
 		
 		for (int j = 0; j < labelsArr.size(); j++) {
 	       labels[j] = labelsArr.get(j).getAsJsonObject().get("name").getAsString();
-	       
 	    }
 		git.setLabels(labels);
 		
@@ -326,6 +326,7 @@ public class IssueServiceImpl implements IssueService{
 		
 		git.setAssignees(assignees);
 	    git.setAssigneeProfiles(assigneeProfiles);
+
 	    
 	    // json객체로부터 문자열을 추출함
 	    String createDateTimeString = issueObj.get("created_at").getAsString();
@@ -367,7 +368,7 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
 		
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String iListAll = iDao.getIssuesByMno(repository, token, state, mno);
 		
@@ -407,9 +408,52 @@ public class IssueServiceImpl implements IssueService{
 	         JsonObject issueObj = arr.get(i).getAsJsonObject();
 	         Issue git = createGitIssueFromJsonObject(issueObj);
 	         iList.add(git);
-	      }
+	    }
 		return iList;
 		
+	}
+
+	@Override
+	public String enrollComment(String repository, String token, Map<String, Object> requestBody, int ino) {
+		///repos/{owner}/{repo}/issues/{issue_number}/comments
+		String url = repository + "/issues/" + ino + "/comments";
+
+		String method = "post";
+
+		String response = iDao.toGitIssue(token, url, requestBody, method);
+
+		return response;
+	}
+
+	@Override
+	public ArrayList<Comments> getComments(String repository, String token, int ino) {
+
+		String url = repository + "/issues/" + ino + "/comments";
+		String method = "get";
+		String response = iDao.toGitGetIssue(url, token, ino);
+		
+		ObjectMapper obj = new ObjectMapper();
+		JsonNode jsonNode;
+		ArrayList<Comments> cList = new ArrayList<Comments>();
+		
+		try {
+			jsonNode = obj.readTree(response);
+			for (int i = 0; i < jsonNode.size(); i++) {
+				String login = jsonNode.get(i).get("user").get("login").asText();
+	            String body = jsonNode.get(i).get("body").asText();
+	            String profile = jsonNode.get(i).get("user").get("avatar_url").asText();
+	            Comments c = new Comments(login, body, profile);
+	            cList.add(c);
+	         }
+		
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return cList;
+
+
+
 	}
 
 

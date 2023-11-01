@@ -31,7 +31,8 @@
 					<!-- 상단바 끝 -->
 
 					<section class="section">
-						<form action="edit.iss?bno=${ bno }" method="post" id="issueEnrollForm">
+						<form action="edit.iss" method="post" id="issueEnrollForm">
+							<input type="hidden" value="${ ino }" name="ino">
 							<div class="row">
 								<div class="col-12 col-md-8">
 									<div class="card" style="height: 600px;">
@@ -104,6 +105,10 @@
 								</div>
 							</div>
 							<button class="btn btn-primary" style="float: right">수정하기</button>
+						</form>
+						<form action="state.iss?ino=${ino}" method="post">
+							<button class="btn btn-primary" style="float: right;">종료하기</button>
+							<input type="hidden" value="closed" name="state">
 						</form>
 					</section>
 

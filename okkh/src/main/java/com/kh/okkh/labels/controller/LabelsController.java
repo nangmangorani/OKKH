@@ -27,7 +27,7 @@ public class LabelsController {
 	@RequestMapping("list.lab")
 	public String labelList(HttpSession session, Model model) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		System.out.println("token라벨컨트롤런데 나 잘있음" + token);
 		
 		String repository = "nangmangorani/01_java-workspace";
@@ -47,7 +47,7 @@ public class LabelsController {
 	@RequestMapping(value = "edit.lab", method = RequestMethod.POST)
 	public String labelEdit(HttpSession session,String name, String description, String color, String originalName) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String repository = "nangmangorani/01_java-workspace";
 		
@@ -69,7 +69,7 @@ public class LabelsController {
 	@RequestMapping(value = "enroll.lab", method = RequestMethod.POST)
 	public String labelEnroll(HttpSession session, String name, String description, String color) {
 
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 
 		String repository = "nangmangorani/01_java-workspace";
 
@@ -90,7 +90,7 @@ public class LabelsController {
 	@RequestMapping("delete.lab")
 	public String deleteLabel(HttpSession session, String name) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String repository = "nangmangorani/01_java-workspace";
 		
