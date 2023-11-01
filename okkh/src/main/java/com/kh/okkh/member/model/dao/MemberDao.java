@@ -10,6 +10,7 @@ import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 @Repository
 public class MemberDao {
@@ -30,13 +31,17 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updateMember", m);
 	}
 	
-	public ArrayList<PR> myPRList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
-		int limit = pi.getBoardLimit();
-		
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		
-		return (ArrayList)sqlSession.selectList("memberMapper.myPRList", null, rowBounds);
+	public ArrayList<PR> myPRList(SqlSessionTemplate sqlSession, Member m) {
+//		int offset = (pi.getCurrentPage()-1) * pi.getBoardLimit();
+//		int limit = pi.getBoardLimit();
+//		
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+
+		return (ArrayList)sqlSession.selectList("memberMapper.myPRList", m);
+	}
+	
+	public ArrayList<Project> myPJList(SqlSessionTemplate sqlSession, Member m) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myPJList", m);
 	}
 
 }

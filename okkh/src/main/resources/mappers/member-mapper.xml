@@ -24,17 +24,28 @@
 		<result column="stack_name" property="stackName"/>
 		<result column="stack_img" property="stackImg"/>
 	</resultMap>
-	
+
 	<resultMap type="PR" id="prSetResult">
 		<result column="pr_no" property="prNo" />
 		<result column="pr_title" property="prTitle" />
-		<result column="create_date" property="createDate" />
-		<result column="stack_name" property="stackName" />
-		<result column="okkh_nick" property="prWriter" />
-		<result column="count" property="count" />
-		<result column="pr_time" property="prTime"/>
 		<result column="pr_content" property="prContent"/>
+		<result column="create_date" property="createDate" />
+		<result column="pr_time" property="prTime"/>
+		<result column="stack_name" property="stackName" />
+		<result column="mem_no" property="memNo" />
+		<result column="count" property="count" />
 	</resultMap>
+	
+	<resultMap type="Project" id="projectResultSet">
+  		<result column="pro_no" property="proNo"/>
+  		<result column="pro_writer" property="proWriter"/>
+  		<result column="pro_stack" property="proStack"/>
+  		<result column="pro_title" property="proTitle"/>
+  		<result column="pro_deadline" property="proDeadLine"/>
+  		<result column="pro_position" property="proPosition"/>
+  		<result column="create_date" property="createDate"/>
+  		<result column="count" property="count" />
+  	</resultMap>
 	
 	<select id="selectMember" resultMap="memberResultSet">
 		select 
@@ -96,13 +107,25 @@
 		      , pr_title
 		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
               , pr.stack_name
-		      , mem_id
 		      , count
 		  from my_pr pr
-		  join member mem using (mem_no)
+		  join member m using (mem_no)
 		 where pr.status ='Y'
-           and mem_id = #{ memId }
+           and mem_no = #{memNo}
 		 order by pr.create_date desc
 	</select>
 	
+	<select id="myPJList" resultMap="projectResultSet">
+		select 
+		        pro_no
+		      , pro_title
+		      , to_char(pro.create_date, 'YYYY-MM-DD') as "create_date"
+              , pro_stack
+		      , count
+		  from project pro
+		  join member m on (pro_writer = mem_no )
+		 where pro.status ='Y'
+           and mem_no = #{memNo}
+		 order by pro.create_date desc
+	</select>
 </mapper>

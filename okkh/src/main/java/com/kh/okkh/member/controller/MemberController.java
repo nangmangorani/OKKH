@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.model.service.GithubService;
 import com.kh.okkh.member.model.service.MemberServiceImpl;
 import com.kh.okkh.member.model.vo.Member;
+import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 @Controller
 public class MemberController {
@@ -59,8 +62,31 @@ public class MemberController {
 	}
 	
 	@RequestMapping("myPage.me")
-	public String myPage() {
-		return "member/myPage";
+	public ModelAndView myPage(ModelAndView mv, HttpSession session) {
+//		int listCount = pService.selectListCount();
+//		
+//		PageInfo pi = new PagiNation().getPageInfo(listCount, currentPage, 5, 12);
+		Member m = (Member)session.getAttribute("loginMember");
+		
+		ArrayList<Project> pjList = mService.myPJList(m);
+		ArrayList<PR> prList = mService.myPRList(m);
+		
+		mv.addObject("pjList", pjList).addObject("prList", prList).setViewName("member/myPage");
+		System.out.println("프로젝트" + pjList);
+		System.out.println("pr" + prList);
+		
+		return mv;
+		
+	}
+	
+	@RequestMapping("updateForm.me")
+	public ModelAndView updatePage(ModelAndView mv) {
+		ArrayList<Stack> list = mService.selectStackList();
+		
+		mv.addObject("list", list);
+		mv.setViewName("member/updateMem");
+		
+		return mv;
 	}
 	
 	@RequestMapping("update.me")

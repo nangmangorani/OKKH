@@ -6,6 +6,7 @@ import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 
 public interface MemberService {

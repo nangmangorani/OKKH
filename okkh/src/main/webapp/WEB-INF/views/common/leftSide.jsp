@@ -227,7 +227,7 @@
                         
                         
                         <li class="sidebar-item">
-                            <a href="chat.ch" class='sidebar-link'>
+                            <a href="chat" class='sidebar-link'>
                                 <i class="fa-solid fa-comments fa-sm"></i>
                                 <span>Chat</span>
                             </a>
