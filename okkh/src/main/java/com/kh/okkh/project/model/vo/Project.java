@@ -25,6 +25,10 @@ public class Project {
 	private String proPosition; // 프로젝트 모집포지션
 	private String proStatus; // 프로젝트 모집 상태
 	private String status; // 프로젝트 게시물 삭제여부
-	
-	
+	private int count;
+	private String createDate;
+	private int memNo;
+	private int bookmarkProNo;  
+	private int bookmarkMemNo;
+	private int team;
 }

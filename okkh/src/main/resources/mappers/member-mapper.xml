@@ -14,6 +14,8 @@
 		<result column="stack_name" property="stackName"/>
 		<result column="create_date" property="createDate"/>
 		<result column="status" property="status"/>
+		<result column="team" property="team"/>
+
 	</resultMap>
 	
 	<resultMap type="Stack" id="stackSetResult">
@@ -43,6 +45,8 @@
 		      , stack_name
 		      , create_date
 		      , status
+		      , git_nick
+		      , team
 		  from member
 		  where mem_id = #{memId}
 	</select>
@@ -54,6 +58,7 @@
 		    (	mem_no
 		      , mem_id
 		      , mem_token
+		      , git_nick
 		      , create_date
 		      , status
 		    )
@@ -62,6 +67,7 @@
 		    	seq_mem.nextval
 		      , #{memId}
 		      , #{memToken}
+		      , #{gitNick}
 		      , SYSDATE
 		      , 'Y'
 		    )

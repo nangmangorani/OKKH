@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +16,13 @@
     
     
     
-  
+  <!-- 썸머노트 에디터 위해 필요함 -->
+	<link rel="stylesheet" href="resources/assets/extensions/summernote/summernote-lite.css">
+
+  	<link rel="stylesheet" href="resources/assets/compiled/css/form-editor-summernote.css">
 
 
- 
-<!--여기 두개는 quill을 위한 거라 지우면 안됨-->
-  <link rel="stylesheet" href="resources/vendors/quill/quill.bubble.css">
-  <link rel="stylesheet" href="resources/vendors/quill/quill.snow.css">
+
 
 <!--멀티 select 박스위해서 이건 꼭 필요함... 지우면 안됨-->
 
@@ -30,8 +34,7 @@
 <link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 
 
-<!-- quill 에디터 -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
 
   <style>
     .UJ-WriteHeader>button{
@@ -87,7 +90,12 @@
                                         <br>
                         
                                     </div>
-                                    <form class="form">
+                                    <form class="form" action="insertProject.pro">
+                                       
+                                       
+                                       <input type="hidden" name="proWriter" value="${loginMember.memNo }">
+                                       
+                                       
                                         <div class="row">
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
@@ -96,7 +104,7 @@
                                                         placeholder="모집 인원을 숫자로 입력해주세요 (ex 3)" name="peoNo"> -->
                                                       
 
-                                                        <select class="form-select" id="peopleNo">
+                                                        <select class="form-select" id="peopleNo" name="proMember" required>
                                                             <option value="0">인원 미정</option>
                                                             <option value="1">1명</option>
                                                             <option value="2">2명</option>
@@ -119,14 +127,14 @@
                                                     <!-- <input type="text" id="last-name-column" class="form-control"
                                                         placeholder="기간 미정 ~ 6개월 이상" name="period"> -->
 
-                                                        <select class="form-select" id="basicSelect">
-                                                            <option value="10">기간 미정</option>
-                                                            <option value="11">1개월</option>
-                                                            <option value="12">2개월</option>
-                                                            <option value="13">3개월</option>
-                                                            <option value="14">4개월</option>
-                                                            <option value="15">5개월</option>
-                                                            <option value="16">6개월 이상</option>
+                                                        <select class="form-select" id="basicSelect" name="proPeriod" required>
+                                                            <option value="기간 미정">기간 미정</option>
+                                                            <option value="1개월">1개월</option>
+                                                            <option value="2개월">2개월</option>
+                                                            <option value="3개월">3개월</option>
+                                                            <option value="4개월">4개월</option>
+                                                            <option value="5개월">5개월</option>
+                                                            <option value="6개월 이상">6개월 이상</option>
                                                            
                                                         </select>
 
@@ -142,17 +150,17 @@
                                                     <div class="form-group">
                                                         
                                                         <label for="company-column">모집 포지션</label>
-                                                        <select class="choices form-select multiple-remove" multiple="multiple" >
+                                                        <select class="choices form-select multiple-remove" multiple="multiple" name="proPosition" required>
                                                             
-                                                                <option value="romboid">Romboid</option>
-                                                                <option value="trapeze" >Trapeze</option>
-                                                                <option value="triangle">Triangle</option>
-                                                                <option value="polygon">Polygon</option>
-                                                        
-                                                                <option value="red">Red</option>
-                                                                <option value="green">Green</option>
-                                                                <option value="blue" >Blue</option>
-                                                                <option value="purple">Purple</option>
+                                                                <option value="전체">전체</option>
+                                                                <option value="프론트엔드" >프론트엔드</option>
+                                                                <option value="백엔드">백엔드</option>
+                                                                <option value="디자이너">디자이너</option>
+                                                                <option value="IOS">IOS</option>
+                                                                <option value="안드로이드">안드로이드</option>
+                                                                <option value="데브옵스" >데브옵스</option>
+                                                                <option value="PM">PM</option>
+                                                                <option value="기획자">기획자</option>
                                                             
                                                         </select>
                                                     </div>
@@ -163,8 +171,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="country-floating">모집 마감일</label>
-                                                    <input type="date" id="country-floating" class="form-control"
-                                                        name="endDate" >
+                                                    <input type="date" id="country-floating" class="form-control" name="proDeadLine" required >
                                                 </div>
                                             </div>
 
@@ -174,17 +181,13 @@
                                                   <div class="col-md-6 mb-4">
                                                     <div class="form-group">
                                                         <label for="country-floating">기술 스택</label>
-                                                        <select class="choices form-select multiple-remove" multiple="multiple">
+                                                        <select class="choices form-select multiple-remove" multiple="multiple" name="proStack" required>
                                                             
-                                                                <option value="romboid">Romboid</option>
-                                                                <option value="trapeze" >Trapeze</option>
-                                                                <option value="triangle">Triangle</option>
-                                                                <option value="polygon">Polygon</option>
-                                                        
-                                                                <option value="red">Red</option>
-                                                                <option value="green">Green</option>
-                                                                <option value="blue" >Blue</option>
-                                                                <option value="purple">Purple</option>
+                                                               <c:forEach var="pro" items="${list }">
+                                                                  <option value="${pro.stackName }">${pro.stackName}</option>
+                                                            
+                                                               </c:forEach>
+                                                            
                                                             
                                                         </select>
                                                     </div>
@@ -197,12 +200,13 @@
                                                 <div class="form-group">
                                                     <label for="country-floating"> 프로젝트 시작예정일</label>
                                                     <input type="date" id="country-floating" class="form-control"
-                                                        name="startDate" >
+                                                        name="proStartDate" required >
                                                 </div>
                                             </div>
                                             <div class="form-group col-12">
                                               
                                             </div>
+                                           
                                            
                                             <br><br>
                     
@@ -216,26 +220,78 @@
                                             <span>제목</span>
                                              <br>
                                             <input type="text" id="company-column" class="form-control"
-                                                name="proTitle" placeholder="프로젝트 제목을 입력해주세요" style="width: 1100px; margin-left: 10px;" >
+                                                name="proTitle" placeholder="프로젝트 제목을 입력해주세요" style="width: 1100px; margin-left: 10px; margin-bottom:20px;"  required>
                                                 
                                                
                                             <!-- 프로젝트 내용 -->
 
-                                            <div class="card">
-                                                <br>
-                                                    <div id="snow" name="proContent"   style="height: 200px;">
-                                                        
-                                                      프로젝트 내용~~
-                                    
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           <textarea  class="summernote" id="summernote" name="proContent" required  ></textarea>    
+                                                  
+                                    				
+                                    		<script>
+												    $('.summernote').summernote({
+												          // 에디터 높이
+												       
+												         
+                                                          height: 600,
+                                                          placeholder: 'dkssuddd',
+												          // 에디터 한글 설정
+												          lang: "ko-KR",
+												          // 에디터에 커서 이동 (input창의 autofocus라고 생각하시면 됩니다.)
+												          focus : true,
+												          toolbar: [
+												                // 글꼴 설정
+												                ['fontname', ['fontname']],
+												                // 글자 크기 설정
+												                ['fontsize', ['fontsize']],
+												                // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+												                ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+												                // 글자색
+												                ['color', ['forecolor','color']],
+												                // 표만들기
+												                ['table', ['table']],
+												                // 글머리 기호, 번호매기기, 문단정렬
+												                ['para', ['ul', 'ol', 'paragraph']],
+												                // 줄간격
+												                ['height', ['height']],
+												                // 그림첨부, 링크만들기, 동영상첨부
+												                ['insert',['picture','link','video']],
+												                // 코드보기, 확대해서보기, 도움말
+												                ['view', ['codeview','fullscreen', 'help']]
+												              ],
+												              // 추가한 글꼴
+												            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+												             // 추가한 폰트사이즈
+												            fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+												
+												          //콜백 함수
+												            callbacks : { 
+												            	onImageUpload : function(files, editor, welEditable) {
+												            // 파일 업로드(다중업로드를 위해 반복문 사용)
+												            for (var i = files.length - 1; i >= 0; i--) {
+												            uploadSummernoteImageFile(files[i],
+												            this);
+												            		}
+												            	}
+												            }
+												          
+												            
+												            
+												        });
+												    
+												   </script>
+												   
+										 <!-- 썸머노트 이용하려면 필요함 -->
+										<script src="resources/assets/extensions/jquery/jquery.min.js"></script>	
+										<script src="resources/assets/extensions/summernote/summernote-lite.min.js"></script>
+										<script src="resources/assets/static/js/pages/summernote.js"></script>
 
 
                                            <!-- 제출하기 버튼 -->
-                                            <div class="col-12 d-flex justify-content-end">
+                                            <div class="col-12 d-flex justify-content-end" style="margin-top:20px;">
                                                 <button type="submit" class="btn btn-primary me-1 mb-1">작성하기</button>
                                                 <button type="reset" class="btn btn-light-secondary me-1 mb-1">초기화</button>
+                                                <button type="button" class="btn btn-light-secondary me-1 mb-1" onclick="javascript:history.go(-1);">뒤로가기</button>
                                             </div>
                                         </div>
                                     </form>
@@ -244,15 +300,17 @@
                         </div>
                     </div>
                 </div>
-            </section>
-
-
-			<!-- 여기는 삭제하면 안됨 -->
-            <script src="resources/assets/extensions/quill/quill.min.js"></script>
-            <script src="resources/assets/static/js/pages/quill.js"></script> 
-            
-            <script src="resources/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
                 
+              </div>
+              
+                <!-- 친구 및 팀원 시작 -->
+                  	<jsp:include page="../common/rightSide.jsp"></jsp:include>
+       			<!-- 친구 및 팀원 끝 -->
+       			
+           </section>
+
+
+		
                 
            
                 
@@ -271,10 +329,7 @@
         <div class="float-start">
           <jsp:include page="../common/footer.jsp"></jsp:include>
         </div>
-        <div class="float-end">
-            <p>Crafted with <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
-                by <a href="https://saugi.me">Hobbang</a></p>
-        </div>
+        
     </div>
 </footer>
         </div>

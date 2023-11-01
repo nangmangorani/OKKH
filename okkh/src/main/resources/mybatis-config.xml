@@ -11,8 +11,12 @@
 	<typeAlias type="com.kh.okkh.pr.model.vo.PR" alias="PR"/>
 	<typeAlias type="com.kh.okkh.common.model.vo.Stack" alias="Stack"/>
 	<typeAlias type="com.kh.okkh.member.model.vo.Member" alias="Member"/>
+	<typeAlias type="com.kh.okkh.common.model.vo.Reply" alias="Reply"/>
 	<typeAlias type="com.kh.okkh.repository.model.vo.Repo" alias="Repo"/>
 	<typeAlias type="com.kh.okkh.repository.model.vo.MyProject" alias="MyProject"/>
+	<typeAlias type="com.kh.okkh.common.model.vo.Bookmark" alias="Bookmark"/>
+	<typeAlias type="com.kh.okkh.friend.model.vo.Friend" alias="Friend"/>
+	<typeAlias type="com.kh.okkh.pullRequest.model.vo.GitPullRequest" alias="PullRequest"/>
 </typeAliases>
 
 <mappers>
@@ -20,6 +24,8 @@
 	<mapper resource="/mappers/pr-mapper.xml"/>
 	<mapper resource="/mappers/member-mapper.xml"/>
 	<mapper resource="/mappers/repo-mapper.xml"/>
+	<mapper resource="/mappers/friend-mapper.xml"/>
+	<mapper resource="/mappers/pullRequest-mapper.xml"/>
 </mappers>
 
 </configuration>

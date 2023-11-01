@@ -20,13 +20,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.common.template.PagiNation;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
 
+/**
+ * @author 유정(호빵)
+ *
+ */
 @Controller
 public class PrController {
 
@@ -87,11 +95,18 @@ public class PrController {
 	
 	
 	
+	/**
+	 * 찐으로 pr 작성하는 메소드
+	 * @param pr
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("enrollPr.pr")
 	public String insertPR(PR pr,  HttpSession session, Model model) {
 		
 		
-		System.out.println(pr); // 값 잘 넘어옴
+		// System.out.println(pr.getPrWriter() + "pr 작성자아아아앙"); // 값 잘 넘어옴
 		 int result = prService.insertPR(pr);
 		
 		 if(result>0) {
@@ -110,16 +125,38 @@ public class PrController {
 	
 	
 	
+	/**
+	 * pr 상세내용 조회하는 메소드
+	 * @param pno
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("detailPr.pr")
-	public ModelAndView selectDetailPR(int pno, ModelAndView mv) {
+	public ModelAndView selectDetailPR(int pno, ModelAndView mv, HttpSession session) {
 		
 		// 조회수 증가
 		int count = prService.increaseCount(pno);
 		
+		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		
+		Bookmark b = new Bookmark();
+		b.setMemNo(memNo);
+		b.setProNo(pno);
+		
+				
+				
 		if(count>0) {
 			// 조회수 증가 성공하면 찐 pr조회하러 가기
 			PR pr = prService.selectDetailPR(pno);
 			
+			Bookmark book = prService.selectPrBookmark(b);
+			
+			int bookCount = prService.selectBookCount(pno);
+			
+			mv.addObject("bookCount", bookCount);
+			mv.addObject("book", book);
 			mv.addObject("pr", pr);
 			mv.setViewName("pr/detailPr");
 		}
@@ -135,7 +172,8 @@ public class PrController {
 	 * pr 삭제하는 메소드
 	 * @param pno
 	 */
-	@RequestMapping("deletePr.pr")
+	
+	@RequestMapping(value="deletePr.pr")
 	public String deletePR(int pno, Model model, HttpSession session) {
 		
 		int result = prService.deletePR(pno);
@@ -148,15 +186,30 @@ public class PrController {
 			session.setAttribute("alertMsg", "PR 삭제를 성공했습니다.");
 			return "redirect:personalList.pr";
 			
+			
 		}else {
 			// 실패하면 
 			// 에러메시지 띄우기
 				model.addAttribute("errorMsg", "PR 삭제를 실패했습니다.");
-				return "pr/detailPr";
+				return "common/errorPage";
 		}
 		
 		
+		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/**
@@ -254,12 +307,100 @@ public class PrController {
 	
 	
 	/**
-	 * pr 댓글 작성하는 메소드
+	 * pr 댓글 조회하는 메소드(ajax)
+	 * @param pno
 	 */
-	@RequestMapping("insertReply.pr")
-	public void insertReplyPR() {
+	@ResponseBody
+	@RequestMapping(value="prReplyList.pr", produces="application/json; charset=UTF-8")
+	public String selectPrReplyList(int pno){
+		
+		ArrayList<Reply> list = prService.selectPrReplyList(pno);
+		
+		return new Gson().toJson(list);
 		
 	}
+	
+	
+	
+	/**
+	 * pr 댓글 작성하는 메소드 (ajax로 구현)
+	 */
+	@ResponseBody
+	@RequestMapping("insertReply.pr")
+	public String insertReplyPR(Reply rep ) {
+		
+		int result = prService.insertReplyPR(rep);
+		
+		 return result>0 ? "success" : "fail";
+		
+	}
+	
+	
+	/**
+	 * 댓글 삭제하는 메소드
+	 * @param pno
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("deletePrReply.pr")
+	public String deleteReplyPR(int pno) {
+		
+		//System.out.println(pno + "댓글 번호호호홓호");
+		
+		int result = prService.deleteReplyPR(pno);
+		
+		//System.out.println(result + " 결과가가ㅏㄱ");
+		
+		return result>0 ? "success":"fail";
+		
+	}
+	
+	
+	/**
+	 * pr 북마크 삽입/삭제하는 메소드
+	 * @param pno
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value= "prBookmark.pr")
+	public String prBookmark(int proNo, HttpSession session) {
+		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
+		System.out.println(proNo + " : pr 컨트롤러 단에서 찍는 pno" );
+		// 먼저 해당 게시글에 로그인한 회원이 북마크를 했는지 여부를 판단해서 
+		// 북마크 했으면 북마크 삭제하고, 북마크 없으면 삽입하기 
+		
+		Bookmark b = new Bookmark();
+		b.setMemNo(memNo);
+		b.setProNo(proNo);
+		
+		
+		// 북마크 여부 판단
+		int count = prService.selectBookCountPersonal(b);
+		
+		
+		
+		int result;
+		
+		if(count == 0) {
+			// 북마크가 안돼있으면 삽입하기
+			 result = prService.insertPrBookmark(b);
+			 
+			
+		}else {
+			// 북마크가 돼있으면 삭제하기 
+			result = prService.deletePrBookmark(b);
+			
+		}
+		
+		System.out.println(result + " prController에서 찍는 result값");
+		
+		return result>0 ? "success" : "fail";
+		
+	}
+	
 	
 	
 	

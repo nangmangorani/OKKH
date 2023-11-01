@@ -4,13 +4,432 @@
   	
   	<resultMap type="Project" id="projectResultSet">
   		<result column="pro_no" property="proNo"/>
-  		<result column="nickname" property="proWriter"/>
+  		<result column="git_nick" property="proWriter"/>
   		<result column="pro_stack" property="proStack"/>
+  		<result column="pro_member" property="proMember"/>
+  		<result column="pro_period" property="proPeriod"/>
   		<result column="pro_title" property="proTitle"/>
+  		<result column="pro_content" property="proContent"/>
   		<result column="pro_deadline" property="proDeadLine"/>
+  		<result column="pro_start_date" property="proStartDate"/>
   		<result column="pro_position" property="proPosition"/>
+  		<result column="pro_status" property="proStatus"/>
+  		<result column="count" property="count"/>
+  		<result column="create_date" property="createDate"/>
+  		<result column="mem_no" property="memNo"/>
+  		<result column="bookmark_pro_no" property="bookmarkProNo"/>
+  		<result column="bookmark_mem_no" property="bookmarkMemNo"/>
+  		<result column="team" property="team"/>
+  		
+  		
   	</resultMap>
   	
+  	
+  	
+  	
+  <resultMap type="Stack" id="stackSetResult">
+		<result column="stack_no" property="stackNo"/>
+		<result column="stack_type" property="stackType"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="stack_img" property="stackImg"/>
+		
+	</resultMap>
+	
+	
+	
+	<resultMap type="Reply" id="replySetResult">
+		<result column="reply_no" property="replyNo"/>
+		<result column="git_nick" property="replyWriter"/>
+		<result column="rep_content" property="replyContent"/>
+		<result column="ref_pro" property="refPno"/>
+		<result column="rep_date" property="repDate"/>
+		<result column="mem_no" property="memNo"/>
+		<result column="status" property="status"/>
+		
+	</resultMap>
+	
+	<resultMap type="Bookmark" id="bookmarkResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="pro_no" property="proNo"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="mem_id" property="memId"/>
+		<result column="git_nick" property="gitNick"/>
+		<result column="avatar_url" property="avatarUrl"/>
+		<result column="mem_token" property="memToken"/>
+		<result column="mem_intro" property="memIntro"/>
+		<result column="stack_name" property="stackName"/>
+		<result column="create_date" property="createDate"/>
+		<result column="status" property="status"/>
+		<result column="team" property="team"/>
+		<result column="team_status" property="teamStatus"/>
+
+	</resultMap>
+	
+	
+  	
+  	<select id="selectProjectListCount" resultType="_int">
+  		select 
+  		       count(*)
+  		  from project 
+  	     where status = 'Y'	       
+  	
+  	</select>
+  	
+  	
+  	<select id="selectProjectList" resultMap="projectResultSet">
+  	 select
+		       p.pro_no
+		     , git_nick
+		     , pro_stack
+		     , pro_title
+		     , to_char(pro_deadline, 'YYYY-MM-DD') as "pro_deadline"
+		     , pro_position
+		     , pro_status
+		     , count
+		     , p.create_date
+
+		  from project p
+		  join member m on (pro_writer = m.mem_no)
+		 where p.status = 'Y' 
+		 order by p.create_date desc
+		 
+  	
+  	</select>
+  	
+  	
+  	<update id="increaseCount">
+  		update 
+  			   project 
+  		   set count = count +1 
+  		 where pro_no = #{proNo}
+	       and status = 'Y'  	   
+  	</update>
+  	
+  	
+  	
+  	
+  	
+  		
+ 
+  	
+  	<select id="selectDetailPro" resultMap="projectResultSet">
+  	
+  	select
+	       pro_no
+	     , git_nick
+	     , pro_stack
+	     , pro_member
+	     , pro_period
+	     , pro_title
+	     , pro_content
+	     , to_char(pro_deadline, 'YYYY-MM-DD') as "pro_deadline"
+	     , to_char(pro_start_date, 'YYYY-MM-DD') as "pro_start_date"
+	     , pro_position
+	     , pro_status
+	     , p.status
+	     , count
+	     , p.create_date
+	     , mem_no
+	     , team
+	  from project p
+	  join member m on (pro_writer = m.mem_no)
+	 where pro_no = #{proNo}
+	 order by p.create_date desc
+  	
+  	</select>
+  	
+  	
+  	<select id="selectStackList" resultMap="stackSetResult">
+  		select 
+			   stack_no
+			 , stack_type
+			 , stack_name
+			 , stack_img 
+		  from stack	 
+  	
+  	</select>
+  	
+  	
+  	
+  	<insert id="insertProject">
+  	          
+  insert into 
+	         project 
+	         (
+	           pro_no
+	         , pro_writer
+	         , pro_stack
+	         , pro_title
+	         , pro_content
+	         , pro_member
+	         , pro_period
+	         , pro_deadline
+	         , pro_start_date
+	         , pro_position
+	         , pro_status
+	         )
+	         values
+	         (
+	           seq_pro.nextval
+	         , #{proWriter}
+	         , #{proStack}
+	         , #{proTitle}
+	         , #{proContent}
+	         , #{proMember}
+	         , #{proPeriod}
+	         , #{proDeadLine}
+	         , #{proStartDate}
+	         , #{proPosition}
+	         , 'Y'
+	         )
+   
+  	
+  	</insert>
+  	
+  	
+  <update id="insertTeam">
+  	update 
+  	       member 
+  	   set team = seq_pro.currval
+  	     , team_status = 'Y'
+  	 where mem_no = #{memNo}      
+  </update>
+  	
+  	
+  	<update id="recruitDonePro">
+  		update 
+  		       project 
+  		   set pro_status = 'N'
+  		 where pro_no = #{proNo}
+  		   and status = 'Y'        
+  	</update>
+  	
+  	
+  	<update id="recruitReplayPro">
+  		update 
+  		       project 
+  		   set pro_status = 'Y'
+  		 where pro_no = #{proNo}
+  		   and status = 'Y'  
+  	</update>
+  	
+  	
+  	<update id="deleteProject">
+  		update project 
+  		   set status = 'N'
+  		 where pro_no = #{proNo}  
+  	</update>
+  	
+  	
+  	<update id="updateProject">
+  		update
+  		       project
+  		   set pro_stack = #{proStack}
+  		     , pro_title = #{proTitle}
+  		     , pro_content = #{proContent}
+  		     , pro_member = #{proMember}
+  		     , pro_period = #{proPeriod}
+  		     , pro_deadLine = #{proDeadLine}
+  		     , pro_start_date = #{proStartDate}
+  		     , pro_position = #{proPosition}
+  		 where pro_no = #{proNo}     
+  	
+  	</update>
+  	
+  	
+  	<insert id="insertReplyProject">
+  	    insert into 
+			  REPLY
+			  (
+			    reply_no
+			  , mem_no
+			  , rep_content
+			  , ref_pro
+			  , rep_date  
+			  ) 
+			  values
+			  (
+			    seq_rep.nextval
+			  , #{replyWriter}
+			  , #{replyContent}
+			  , #{refPno}
+			  , sysdate 
+			  )     
+  	
+  	</insert>
+  	
+  	<select id="selectProjectReplyList" resultMap="replySetResult">
+  		select 
+  		       reply_no
+  		     , git_nick
+  		     , rep_content
+  		     , ref_pro
+  		     , to_char(rep_date,'YYYY-MM-DD') as "rep_date"
+  		     , mem_no
+  		  from reply r
+  		  join member using (mem_no)
+  		 where r.status = 'Y'
+  		   and ref_pro = #{refPno}  
+  		 order by rep_date desc     
+  	</select>
+  	
+  	<update id="deleteReplyProject">
+  		update
+  		       reply
+  		   set status = 'N'
+  		 where reply_no = #{replyNo}      
+  	
+  	</update>
+  	
+  	<select id="selectProBookmark" resultMap="bookmarkResultSet">
+  		  select mem_no, pro_no
+		    from bookmark 
+		   where mem_no = #{memNo} 
+		     and pro_No = #{proNo}
+  		
+  	</select>
+  	
+  	
+  	<select id="selectBookCount" resultType="_int">
+  	
+  	 select count(*)
+       from bookmark
+      where pro_no = #{proNo}
+      </select>
+      
+      
+      
+      <select id="selectBookCountPersonal" resultType="_int">
+		select count(*)
+            from bookmark
+           where pro_no = #{proNo}
+             and mem_no = #{memNo}
+	</select>
+  	
+  	
+  	
+  	<insert id="insertProBookmark">
+  		insert into 
+  		       bookmark
+  		       (
+  		         pro_no
+  		       , mem_no 
+  		       )
+  		       values
+  		       (
+  		         #{proNo}
+  		       , #{memNo}  
+  		       )
+  	</insert>
+  	
+  	
+  	<delete id="deleteProBookmark">
+  		delete
+  		  from bookmark
+  		 where pro_no = #{proNo}
+  		   and mem_no = #{memNo} 
+  	</delete>
+  	
+  	<update id="participateProject">
+  	update 
+  		       member
+  		   set team = #{team}
+  		 where mem_no = #{memNo}     	
+  	</update>
+  	
+  	
+  	<update id="deleteEnrollProject">
+  		update
+  		       member
+  		   set team = 0
+  		     , team_status ='N'
+  		 where mem_no = #{memNo}    
+  	</update>
+  	
+  	
+  	<select id="selectMember" resultMap="memberResultSet">
+		select 
+		        mem_no
+		      , mem_id
+		      , mem_token
+		      , mem_intro
+		      , stack_name
+		      , create_date
+		      , status
+		      , git_nick
+		      , team
+		  from member
+		  where mem_No = #{memNo}
+	</select>
+  	
+  	
+  	<update id="updateMemberTeam">
+  		update 
+  		       member 
+  		   set team_status = 'Y'
+  		 where team = #{team}      
+  	
+  	</update>
+  	
+  	<update id="reUpdateMemberTeam">
+  	    update 
+  		       member 
+  		   set team_status = 'N'
+  		 where team = #{team} 
+  	</update>
+  	
+  	
+  	<!-- 해당 프로젝트에 참여를 희망하는 회원들의 리스트를 뽑음 (단, 작성자 본인은 제외한 리스트임) -->
+  	<select id="selectProjectTeamMateList" resultMap="memberResultSet">
+  	
+  	         select 
+			        mem_no
+			      , mem_id
+			      , mem_intro
+			      , stack_name
+			      , team
+			      , team_status
+			      , git_nick
+			   from member 
+			   join project on (team = pro_no)
+			  where team = ${team}
+			    and pro_writer != mem_no
+  	</select>
+  	
+  	<update id="updateTeamNo">
+  		update 
+  		       member
+  		   set team = 0
+  		     , team_status = 'N'
+  		 where mem_no = #{memNo}       
+  	</update>
+  	
+  	
+<update id="enrollTeamMate">
+ 
+        <if test="list != null and list.size() > 0">
+            <foreach collection="list" item="memNo" open="UPDATE member SET team_status = 'Y' WHERE mem_no IN (" separator="," close=")">
+                #{memNo}
+            </foreach>
+         </if>
+</update>
+
+<update id="deleteTeamMate">
+   
+        <if test="list != null and list.size() > 0">
+            
+            <foreach collection="list" item="memNo" open="UPDATE member SET team_status = 'N' WHERE mem_no IN (" separator="," close=")">
+            #{memNo}
+           </foreach>
+       
+        </if>
+</update>
+  	
+  	
+  
   	
   	
   	

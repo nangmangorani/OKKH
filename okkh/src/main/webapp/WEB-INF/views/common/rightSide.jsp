@@ -9,7 +9,8 @@
 <title>Document</title>
 </head>
 <body>
-    <div class="col-12 col-lg-3">
+
+    <div class="col-12 col-lg-3"  >
         <div class="row">
             <div class="col-md-15">
                 <div class="card" style="padding-left: 35px;">
@@ -100,5 +101,7 @@
             </div>
         </div>
     </div>
+    
+    
 </body>
 </html>

@@ -13,10 +13,17 @@
 	          opacity: 0.5;
 	      	 }
 </style>
+
+
+
 </head>
 
 <body>
 
+
+
+			    
+   
   
     
     <!-- 전체 -->
@@ -255,7 +262,7 @@
                                                             <i class="fa-regular fa-comment"></i> <span>6</span>
                                                         </div>
                                                     </div> 
-                                           </div>
+                                               </div>
                                             </div>
                                         </div>
                                     </div>

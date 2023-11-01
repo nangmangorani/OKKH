@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
@@ -114,6 +115,14 @@ public class PRServiceImpl implements PRService{
 
 
 
+	/**
+	 * pr 상세페이지에 댓글 조회하는 메소드
+	 */
+	@Override
+	public ArrayList<Reply> selectPrReplyList(int pno) {
+		
+		return prdao.selectPrReplyList(pno, sqlSession);
+	}
 
 
 	/**
@@ -122,7 +131,7 @@ public class PRServiceImpl implements PRService{
 	@Override
 	public int insertReplyPR(Reply rep) {
 		
-		return 0;
+		return prdao.insertReplyPR(rep, sqlSession);
 	}
 
 
@@ -132,13 +141,88 @@ public class PRServiceImpl implements PRService{
 
 
 	/**
-	 * pr 상세페이지에 댓글 조회하는 메소드
+	 * pr 상세페이지에서 댓글 삭제하는 메소드
 	 */
 	@Override
-	public ArrayList<Reply> selectPrReplyList(int pno) {
+	public int deleteReplyPR(int pno) {
 		
-		return null;
+		return prdao.deleteReplyPR(pno, sqlSession);
 	}
+
+
+
+
+
+
+
+	/**
+	 * pr 상세조회할때 북마크도 조회하는 메소드
+	 */
+	@Override
+	public Bookmark selectPrBookmark(Bookmark b) {
+		
+		return prdao.selectPrBookmark(b, sqlSession);
+	}
+
+
+
+
+
+
+
+	/**
+	 * pr 북마크 개수 세는 메소드
+	 */
+	@Override
+	public int selectBookCountPersonal(Bookmark b) {
+		
+		return prdao.selectBookCountPersonal(b, sqlSession);
+	}
+
+
+	/**
+	 * pr 북마크 개수 세는 메소드
+	 */
+	@Override
+	public int selectBookCount(int pno) {
+		
+		return prdao.selectBookCount(pno, sqlSession);
+	}
+
+
+
+
+
+	/**
+	 * pr 북마크 삽입하는 메소드
+	 */
+	@Override
+	public int insertPrBookmark(Bookmark b) {
+		
+		return prdao.insertPrBookmark(b, sqlSession);
+	}
+
+
+
+
+
+
+
+	/**
+	 * pr 북마크 삭제하는 메소드
+	 */
+	@Override
+	public int deletePrBookmark(Bookmark b) {
+		
+		return prdao.deletePrBookmark(b, sqlSession);
+	}
+
+
+
+
+
+
+
 
 
 

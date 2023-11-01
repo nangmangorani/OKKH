@@ -23,6 +23,21 @@
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.snow.css">
 <link rel="stylesheet" href="resources/assets/extensions/quill/quill.bubble.css">
 
+
+
+<!-- alerty.alert  -->
+  <!-- JavaScript -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+<!-- Default theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+<!-- Semantic UI theme -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+
+
+
 </head>
 <body>
 
@@ -30,12 +45,19 @@
     
     <c:if test="${ not empty alertMsg }">
     	<script>
-    		alert("${ alertMsg }");
+    		alertify.alert("${ alertMsg }");
     	</script>
     	
     	<c:remove var="alertMsg" scope="session"/>
     </c:if>
     <!-- /alert 끝 -->
+    
+    
+    
+    
+			
+	
+    
     
     
     
@@ -112,14 +134,16 @@
                                 <span>Milestones</span>
                             </a>
                         </li>
-                        
+                          -->
+                          
+                          <!-- 나의 프로젝트에 접근할 수 없어서 임의로 메뉴열어서 작업함당... -->
                         <li class="sidebar-item">
                             <a href="myPullRequest.pu" class='sidebar-link'>
                                 <i class="fa-solid fa-code-pull-request"></i>
                                 <span>Pull Request</span>
                             </a>
                         </li>
-                         -->
+                       
                         <li class="sidebar-item">
                             <a href="mySchedule.ca" class='sidebar-link'>
                                 <i class="fa-solid fa-calendar fa-sm"></i>
@@ -168,19 +192,53 @@
                                 <span>Project Output</span>
                             </a>
                         </li>
+                       
+                       
+                    <c:choose>    
+                      <c:when test="${not empty loginMember }"> 
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="friendList.f" class='sidebar-link'>
                                 <i class="fa-solid fa-user-group fa-sm"></i>
                                 <span>Friends</span>
                             </a>
                         </li>
+                        
+                        </c:when> 
+                        
+                        
+                        <c:otherwise>
+	                          <li class="sidebar-item">
+	                            <a onclick="notLogin();" class='sidebar-link'>
+	                                <i class="fa-solid fa-user-group fa-sm"></i>
+	                                <span>Friends</span>
+	                            </a>
+	                        </li>
+                        </c:otherwise>
+                     </c:choose>  
+                        
+                        <script>
+                        	function notLogin(){
+                        		alertify.alert("로그인 후 이용 가능한 서비스입니다!")
+                        	}
+                        
+                        </script>
+                        
+                        
+                        
+                        
                         <li class="sidebar-item">
                             <a href="chat.ch" class='sidebar-link'>
                                 <i class="fa-solid fa-comments fa-sm"></i>
                                 <span>Chat</span>
                             </a>
                         </li>
+                        
+                    
+                        
+                        
                     </ul>
+                    
+                   
                 </div>
                 <!-- 메뉴바 끝 -->
             </div>

@@ -1,5 +1,6 @@
 package com.kh.okkh.pr.model.dao;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 
 import org.apache.ibatis.session.RowBounds;
@@ -7,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.pr.model.vo.PR;
 
@@ -105,5 +108,107 @@ public class PRdao {
 		
 		return sqlsession.update("prMapper.deletePR", pno);
 	}
+	
+	
+	public ArrayList<Reply> selectPrReplyList(int pno, SqlSessionTemplate sqlSession){
+		return (ArrayList)sqlSession.selectList("prMapper.selectPrReplyList", pno);
+	}
+	
+	
+	
+	
+	/** 
+	 * pr에 댓글 작성하는 메소드
+	 * @return
+	 */
+	public int insertReplyPR(Reply rep, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.insert("prMapper.insertReplyPR", rep);
+	}
+	
+	
+	
+	/**
+	 * pr 댓글 삭제하는 메소드
+	 * @param pno
+	 * @param sqlSession
+	 * @return
+	 */
+	public int deleteReplyPR(int pno, SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.update("prMapper.deleteReplyPR", pno);
+		
+		
+	}
+	
+	
+	/**
+	 * pr 상세조회할때 북마크도 조회하는 메소드
+	 * @return
+	 */
+	public Bookmark selectPrBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("prMapper.selectPrBookmark", b);
+		
+	}
+	
+	
+	
+	
+	/**\
+	 * pr 해당 게시글의 북마크 개수 세는 메소드
+	 * @return
+	 */
+	public int selectBookCount(int pno,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("prMapper.selectBookCount", pno);
+		
+	}
+	
+	
+	
+	/**\
+	 * pr 해당 게시글에 사용자가 북마크를 했는지 여부 확인하는 메소드
+	 * @return
+	 */
+	public int selectBookCountPersonal(Bookmark b,SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("prMapper.selectBookCountPersonal", b);
+		
+	}
+	
+	
+	
+	
+	/**
+	 * pr 북마크 삽입하는 메소드
+	 * @return
+	 */
+	public int insertPrBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
+		
+		System.out.println(b + " : pr 컨트롤러 단에서 찍는 b");
+		
+		return sqlSession.insert("prMapper.insertPrBookmark", b);
+	}
+	
+	
+	
+	/**
+	 * pr 북마크 삭제하는 메소드
+	 * @return
+	 */
+	public int deletePrBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
+		return sqlSession.delete("prMapper.deletePrBookmark", b);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

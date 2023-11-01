@@ -8,8 +8,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
 </head>
-
 <body>
+
+<!-- 
+${ loginMember }
+
+ -->
     <!-- 푸터바 시작 -->
     <footer>
         <div class="footer clearfix mb-0 text-muted">

@@ -19,4 +19,7 @@ public interface MemberService {
 	int updateMember(Member m);
 	
 	ArrayList<PR> myPRList(PageInfo pi);
+	
+
+	
 }

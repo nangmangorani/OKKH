@@ -7,10 +7,12 @@
 		<result column="pr_title" property="prTitle" />
 		<result column="create_date" property="createDate" />
 		<result column="stack_name" property="stackName" />
-		<result column="okkh_nick" property="prWriter" />
+		<result column="git_nick" property="prWriter" />
 		<result column="count" property="count" />
 		<result column="pr_time" property="prTime"/>
 		<result column="pr_content" property="prContent"/>
+		<result column="mem_no" property="memNo"/>
+		
 		
 	</resultMap>
 
@@ -20,6 +22,23 @@
 		<result column="stack_name" property="stackName"/>
 		<result column="stack_img" property="stackImg"/>
 		
+	</resultMap>
+	
+	<resultMap type="Reply" id="replySetResult">
+		<result column="reply_no" property="replyNo"/>
+		<result column="git_nick" property="replyWriter"/>
+		<result column="rep_content" property="replyContent"/>
+		<result column="ref_pro" property="refPno"/>
+		<result column="rep_date" property="repDate"/>
+		<result column="mem_no" property="memNo"/>
+		<result column="status" property="status"/>
+		
+	</resultMap>
+	
+	
+	<resultMap type="Bookmark" id="bookmarkResultSet">
+		<result column="mem_no" property="memNo"/>
+		<result column="pro_no" property="proNo"/>
 	</resultMap>
 
 
@@ -37,9 +56,10 @@
 		        pr_no
 		      , pr_title
 		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
-		      , stack_name
-		      , okkh_nick
+		      , pr.stack_name
+		      , git_nick
 		      , count
+		      , mem_no
 		  from my_pr pr
 		  join member using (mem_no)
 		 where pr.status ='Y'
@@ -62,7 +82,7 @@
 		INSERT INTO MY_PR 
 		     VALUES
 		     (
-		       SEQ_PRNO.NEXTVAL
+		       SEQ_PR.NEXTVAL
 		     , #{prTitle}
 		     , #{prContent}
 		     , sysdate
@@ -91,9 +111,10 @@
 		       , pr_content
 		       , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
 		       , pr_time
-		       , stack_name
-		       , okkh_nick
+		       , pr.stack_name
+		       , git_nick
 		       , count
+		       , mem_no
 		    from my_pr pr
 		    join member using (mem_no)
 		   where pr.status = 'Y'
@@ -120,6 +141,110 @@
 		 where pr_no = #{prNo}
 		       
 	</update>
+	
+	
+	<insert id="insertReplyPR">
+		insert into 
+			  REPLY
+			  (
+			    reply_no
+			  , mem_no
+			  , rep_content
+			  , ref_pro
+			  , rep_date  
+			  ) 
+			  values
+			  (
+			    seq_rep.nextval
+			  , #{replyWriter}
+			  , #{replyContent}
+			  , #{refPno}
+			  , sysdate 
+			  )     
+			        
+	</insert>
+	
+	
+	<select id="selectPrReplyList" resultMap="replySetResult">
+		select 
+		       reply_no
+		     , git_nick
+		     , mem_no
+		     , rep_content
+		     , ref_pro
+		     , to_char(rep_date,'YYYY-MM-DD') as "rep_date"
+		  from reply r 
+		  join member using (mem_no)  
+		 where ref_pro = #{refPno} 
+		   and r.status ='Y'
+		 order by rep_date desc
+		  
+	</select>
+	
+	<update id="deleteReplyPR">
+		update
+		       REPLY
+		   set status = 'N' 
+		 where reply_no = #{replyNo}    
+		    
+	</update>
+	
+	
+	<select id="selectPrBookmark" resultMap="bookmarkResultSet">
+		select 
+		       pro_no
+		     , mem_no
+		  from bookmark
+		 where pro_no = #{proNo}
+		   and mem_no = #{memNo}      
+	</select>
+	
+	
+	
+	<select id="selectBookCount" resultType="_int">
+		select count(*)
+		  from bookmark
+		 where pro_no = #{proNo}
+	</select>
+	
+	
+	<select id="selectBookCountPersonal" resultType="_int">
+		select count(*)
+            from bookmark
+           where pro_no = #{proNo}
+             and mem_no = #{memNo}
+	</select>
+	
+	
+	
+	 
+	
+	<insert id="insertPrBookmark">
+		insert into 
+  		       bookmark
+  		       (
+  		         pro_no
+  		       , mem_no 
+  		       )
+  		       values
+  		       (
+  		         #{proNo}
+  		       , #{memNo}  
+  		       )   
+	</insert>
+	
+	
+	
+	<delete id="deletePrBookmark">
+		delete from 
+		       bookmark
+		 where pro_no = #{proNo}
+		   and mem_no = #{memNo}      
+	</delete>
+	
+	
+	
+	
 	
 
 </mapper>

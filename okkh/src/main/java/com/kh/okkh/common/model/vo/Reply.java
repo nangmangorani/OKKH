@@ -18,6 +18,6 @@ public class Reply {
 	private String replyContent;
 	private int refPno;
 	private String repDate; // date형이지만 '2023-10-10' 이런 형태로 만들거라 String으로
-	
-	
+	private int memNo;  // 작성자 번호
+	private String status;
 }

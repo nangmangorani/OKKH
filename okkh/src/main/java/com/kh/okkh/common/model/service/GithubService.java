@@ -1,6 +1,5 @@
 package com.kh.okkh.common.model.service;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -14,8 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.okkh.member.model.vo.Member;
-import com.kh.okkh.repository.model.dao.RepoDao;
-import com.kh.okkh.repository.model.vo.Repo;
 
 @PropertySource("classpath:git.properties")
 @Service
@@ -30,21 +27,18 @@ public class GithubService {
 	@Autowired
 	private WebClient webClient;
 	
-	@Autowired
-	private RepoDao rdao;
-	
-	@Autowired
-	private SqlSessionTemplate sqlSession;
-	
 	public String getToken(String code){
 		String url = "https://github.com/login/oauth/access_token";
 
-		String response = webClient.post().uri(url).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+		String response = webClient.post()
+				.uri(url)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
 				.body(BodyInserters.fromFormData("client_id", gitId)
-                        .with("client_secret", gitSecret)
-                        .with("code",code))
-				.retrieve().bodyToMono(String.class).block();
+                .with("client_secret", gitSecret)
+                .with("code",code))
+				.retrieve()
+				.bodyToMono(String.class).block();
 
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    JsonNode jsonNode;
@@ -61,8 +55,10 @@ public class GithubService {
 	}
 	
 	public Member getUserInfo(String token) {
+		String url = "https://api.github.com/user";
+		
 		String response = webClient.get()
-				.uri("https://api.github.com/user")
+				.uri(url)
 				.header(HttpHeaders.AUTHORIZATION, "Bearer "+token)
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.header(HttpHeaders.ACCEPT, "application/vnd.github+json")
@@ -80,6 +76,8 @@ public class GithubService {
 			m.setMemId(jsonNode.get("id").asText());
 			m.setGitNick(jsonNode.get("login").asText());
 			m.setProfile(jsonNode.get("avatar_url").asText());
+			m.setType(jsonNode.get("type").asText());
+			m.setBio(jsonNode.get("bio").asText());
 			m.setMemToken(token);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
