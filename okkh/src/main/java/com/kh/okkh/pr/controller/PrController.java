@@ -130,6 +130,7 @@ public class PrController {
 	 * @param mv
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping("detailPr.pr")
 	public ModelAndView selectDetailPR(int pno, ModelAndView mv, HttpSession session) {
 		
@@ -379,7 +380,9 @@ public class PrController {
 		
 		
 		
-		int result;
+		int result =0;
+		
+		
 		
 		if(count == 0) {
 			// 북마크가 안돼있으면 삽입하기

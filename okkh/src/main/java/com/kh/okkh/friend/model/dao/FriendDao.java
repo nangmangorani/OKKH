@@ -217,12 +217,23 @@ public class FriendDao {
 	
 	
 	/**
-	 * 친구 거절 취소용 메소드
+	 * 친구 거절 취소용 메소드 (내꺼)
 	 * @return
 	 */
 	public int cancleRefuseFriend(Friend f,SqlSessionTemplate sqlsession) {
 		
 		return sqlsession.delete("friendMapper.cancleRefuseFriend", f);
+		
+	}
+	
+
+	/**
+	 * 친구 거절 취소용 메소드 (친구꺼)
+	 * @return
+	 */
+	public int cancleRefuseFriend2(Friend f,SqlSessionTemplate sqlsession) {
+		
+		return sqlsession.delete("friendMapper.cancleRefuseFriend2", f);
 		
 	}
 	

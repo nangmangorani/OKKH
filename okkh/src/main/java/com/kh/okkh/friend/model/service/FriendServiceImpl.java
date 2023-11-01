@@ -187,13 +187,34 @@ public class FriendServiceImpl implements FriendService {
 
 
 	/**
-	 * 친구 요청 거절 취소
+	 * 친구 요청 거절 취소 (내꺼)
 	 */
 	@Override
 	public int cancleRefuseFriend(Friend f) {
 		
 		return fdao.cancleRefuseFriend(f, sqlsession);
 	}
+
+	
+	/**
+	 * 친구 거절 취소 (친구)
+	 */
+	@Override
+	public int cancleRefuseFriend2(Friend f) {
+		
+		return fdao.cancleRefuseFriend2(f, sqlsession);
+	}
+
+	
+	/**
+	 * 친구 거절 취소 (원래 친구 아니었는데 거절했다가 취소했을때)
+	 */
+	@Override
+	public int cancleRefuseFriend3(Friend f) {
+		
+		return 0;
+	}
+
 
 
 	/** 
@@ -224,6 +245,10 @@ public class FriendServiceImpl implements FriendService {
 		
 		return fdao.searchMember(search, memNo, sqlsession);
 	}
+
+
+	
+
 	
 	
 	

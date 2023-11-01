@@ -69,7 +69,10 @@ public class PullRequestController {
 		// token 얻어올때 loginMember session에 있는 토큰 값이 아닌 
 		// setAttribute("git",mToken)에 있는 token 값을 받아와야 함 
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
+		
+		System.out.println(token  + "  : 토큰!!!!!!!!!!!!ㅃ");
+		
 		
 		
 		
@@ -84,7 +87,7 @@ public class PullRequestController {
 		
 		
 		
-		// 일단 repository의 open_issues_count값을 가져와서 listCon
+		// 일단 repository의 open_issues_count값을 가져와서 listCount
 		
 		// 페이지네이션
 		// listCount는 총개수.. 근데 지금 열려있는거만이니까??? 이 레퍼지의 open_pullRequest_count값을 가져오는게 맞는듯?
@@ -104,23 +107,9 @@ public class PullRequestController {
 		
 		
 		for(int i=0; i<plist.size(); i++) {
-			
-			if(plist.get(i).getState().equals("open")) {
-				//mv.addObject("pOpenlist", plist);
-				
-				System.out.println(plist.get(i).getState()   + " : 오픈이이이이닷!");
-			}
-			
-			
-			if(plist.get(i).getState().equals("closed")) {
-				//mv.addObject("pClosedlist", plist);
-				
-				System.out.println(plist.get(i).getState()   + " : 닫힘이이이이닷!");
-			}
+			System.out.println(plist + "   : 으악 스테이트!!!!!!!!!!!");
 			
 		}
-		
-		
 		
 		
 		System.out.println(plist + "  : 으아아앗 풀리퀘 목록이닷!!!!!!");

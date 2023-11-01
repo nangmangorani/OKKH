@@ -337,22 +337,33 @@ public class FriendController {
 	
 	
 	/**
-	 * 친구 거절 취소하는 메소드 (아작스)
+	 * 친구 거절(차단) 취소하는 메소드 (아작스)
 	 * @param bfGiver
 	 * @param bfTaker
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping("cancleRefuseFriend.fri")
-	public String cancleRefuseFriend(int bfGiver, int bfTaker) {
+	public String cancleRefuseFriend(int bfGiver, int bfTaker , String frisent) {
 		
 		Friend f = new Friend();
 		f.setBfGiver(bfGiver + "");
 		f.setBfTaker(bfTaker + "");
 		
-		int result = fservice.cancleRefuseFriend(f);
+		int result = 0;
+		int result2 =1;
 		
-		return result>0 ? "success" : "fail";
+		
+	
+			
+		result = fservice.cancleRefuseFriend(f);
+		
+		
+		if(result>0 && frisent != null) {
+			result2 = fservice.cancleRefuseFriend2(f);
+		}
+		
+		return result*result2>0 ? "success" : "fail";
 		
 	}
 	

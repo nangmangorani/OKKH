@@ -225,6 +225,7 @@ public class PullRequestServiceImpl {
 		 	// 만약 state가 close라면?
 			  String pullState = repository + "/pulls?state=closed";
 			  
+			  System.out.println(pullState  + "  : 으아아악 close");
 			  String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
 				
 			  // 또 json 형태로 응답 온것을 java형태로 파싱해주기 
@@ -236,18 +237,21 @@ public class PullRequestServiceImpl {
 			  int count = 0;
 			  
 			  try {
-				jsonNode = obj.readTree(pullRequestResponse);
 				
-				count = jsonNode.size();
-			} catch (JsonProcessingException e) {
+				  jsonNode = obj.readTree(pullRequestResponse);
 				
-				e.printStackTrace();
-			}
-			
-			  return count;
-		  }
+					count = jsonNode.size();
+				} catch (JsonProcessingException e) {
+					
+					e.printStackTrace();
+				}
+				
 			  
-		}
+			     
+				  return count;
+			  }
+			  
+		};
 		
 		
 	
