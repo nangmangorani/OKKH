@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.okkh.member.model.vo.Member;
+import com.kh.okkh.repository.model.vo.Repo;
 
 @PropertySource("classpath:git.properties")
 @Service
