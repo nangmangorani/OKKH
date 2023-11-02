@@ -303,7 +303,7 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("repoDetail.re")
-	public String selectRepo(int pno, String rnm, String vis, String ava, HttpSession session, Model model) {
+	public String selectRepo(int pno, String rnm, String vis, String ava, String path, HttpSession session, Model model) {
 		
 		// 가져온 프로젝트 번호를 통해 번호와 프로젝트명을 조회한다
 		mypro = rService.selectMyProject(pno);
@@ -311,16 +311,27 @@ public class RepositoryController {
 		// 세션에서 토큰을 가져온다
 		token = (String)session.getAttribute("token");
 		
+		
+		// 기본 uri는 레포의 컨텐츠를 모두 조회하는 것으로 한다
+		String uri = "";
+		
+		// 만약에 path 값이 있다면 uri는 path에 해당하는 컨텐츠를 조회하는 것으로 한다
+		if(path != null) {
+			uri = "/" + path;
+		}
+		
 		// 템플릿에 필요한 값들을 담아서 보낼 GitHub 객체 생성
 		g = new GitHub();
 		
 		// 값들을 차곡차곡 담기
 		g.setMethod("GET");
 		g.setToken(token);
-		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents" + uri);
 		
 		// 템플릿에 보낸 후 다시 넘어온 결과값을 ArrayList에 담기
 		ArrayList<Object> list = getGitHubAPIRepoContents(g);
+		
+		System.out.println(list);
 		
 		// list에 값이 있다면 commit 내역 조회
 		if(!list.isEmpty()) {
@@ -358,6 +369,20 @@ public class RepositoryController {
 		
 		// page 호출
 		return "repo/repoDetail";
+		
+	}
+	
+	/**
+	 * 레포 컨텐츠 모두보기 컨트롤러
+	 * 
+	 * @return
+	 */
+	@RequestMapping("contentsDetail.re")
+	public void contentsDetail(String path) {
+		
+		System.out.println(path);
+		
+		
 		
 	}
 	

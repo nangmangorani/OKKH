@@ -109,6 +109,8 @@
 						                                </td>
 						                                <td class='text-bold-500'>${ fn:replace(fn:replace(recentCommit.commit.author.date, "T", " "), "Z", "") }</td>
 					                                </tr>
+					                                <tr>
+					                                </tr>
                                                 </c:forEach>
                                                 </tbody>
                                             </table>
@@ -181,7 +183,55 @@
                     	
                     	$("#repo>tbody>tr").click(function() {
                     		
-                    		console.log($(this).children().eq(0).children("span").text());
+                    		let $path = $(this).children().eq(0).children("span").text();
+                    		
+                    		console.log($path);
+                    		
+                    		//location.href = "repoDetail.re?pno=${ mypro.myproNo }&rnm=${ repoName }&vis=${ visibility }&ava=${ avatar_url }&path=" + $path;
+                    		
+                    		$.ajax({
+                				url:"",
+                				data:{
+                					pno:${ mypro.myproNo },
+                					rnm:${ repoName },
+                					vis=${ visibility },
+                					ava=${ avatar_url },
+                					path=$path
+                				},
+                				success:(response) => {
+                					console.log(response);
+                					
+                					let value = "";
+                					
+                					let name = "";
+                					
+          							for(let i in response) {
+          								value += "<tr>"
+		                                          + "<td class='text-bold-500'><i class='fa-regular fa-file fa-bounce'></i>" 
+		                                          +		response[i].name
+			                                      +  "</td>"
+			                                      +  "<td class='text-bold-500'>로그인 기능 수정</td>"
+			                                      +  "<td class='text-bold-500'>2시간 전</td>"
+			                                   + "</tr>"
+          							}
+          							
+          							$("#repo>tbody").html(value);
+          							
+          							$("#repo>tbody>tr").click(() => {
+                            			
+                            			console.log($(this).html());
+                            			
+                            			//$("#source").toggle();
+                            			
+                            			//$("#source h6").text("hihi");
+                            			
+                            		})
+          
+                				},
+                				error:() => {
+                					console.log("ㅠㅠ");
+                				}
+                			})
                     		
                     	})
                     

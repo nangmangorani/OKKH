@@ -113,6 +113,8 @@ public class GitHubTemplate {
 		// 결과값을 담을 ArrayList 세팅
 		ArrayList<Object> list = new ArrayList<>();
 		
+		String response = "";
+		
 		// uri를 넘겨서 받은 결과값을 ArrayList 형식으로 받고 동기 처리
 		list = webClient.get()
 				.uri(g.getUri())
