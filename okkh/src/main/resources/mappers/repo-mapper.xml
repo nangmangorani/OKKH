@@ -75,7 +75,7 @@
 		   and status = 'Y'
 	</update>
 	
-	<select id="selectMyProjectTitle" resultMap="myProjectResult">
+	<select id="selectMyProject" resultMap="myProjectResult">
 		select 
 			   mypro_no
 		     , mypro_title

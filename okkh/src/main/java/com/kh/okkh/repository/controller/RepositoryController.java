@@ -166,7 +166,7 @@ public class RepositoryController {
 //		System.out.println(pno);
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
-		mypro = rService.selectMyProjectTitle(pno);
+		mypro = rService.selectMyProject(pno);
 		
 //		System.out.println(mypro.getMyproTitle());
 		
@@ -195,17 +195,11 @@ public class RepositoryController {
 		// GitHubTemplate에서 넘어온 JSON 값을 받는다
 		String response = getGitHubAPIValue(g);
 		
-		System.out.println(response);
-		
 		// Json을 변환하여 담을 ArrayList 준비
-		Type type = new TypeToken<ArrayList<GithubRepo>>() {}.getType();
+		Type type = new TypeToken<ArrayList<Object>>() {}.getType();
 		
 		// Gson 객체를 생성해서 Json을 ArrayList로 변환하여 차곡차곡 옮겨담기
-		ArrayList<GithubRepo> repoList = new Gson().fromJson(response, type);
-		
-//		System.out.println(r);
-		
-//		model.addAttribute("r", r);
+		ArrayList<Object> repoList = new Gson().fromJson(response, type);
 		
 		// DB에서 조회한 프로젝트명과 깃허브에서 조회한 repoListd를 레포 조회 페이지로 보낸다잉
 		model.addAttribute("mypro", mypro);
@@ -224,7 +218,7 @@ public class RepositoryController {
 	public String insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
 		
 		// 조직명(프로젝트명) 가져오기
-		mypro = rService.selectMyProjectTitle(myproNo);
+		mypro = rService.selectMyProject(myproNo);
 		// 토큰 뽑아오기
 		token = (String)session.getAttribute("token");
 		
@@ -247,10 +241,57 @@ public class RepositoryController {
 		g.setParams(params);
 		
 		// 템플릿에서 얻은 결과값 받음
-		String response = getGitHubAPIValue(g);
+		getGitHubAPIValue(g);
 		
-		System.out.println(response);
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
+	}
+	
+	/**
+	 * 레포 수정용 Controller
+	 * 
+	 * @param mypro
+	 * @param repoTitle
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("updateRepo.re")
+	public String updateRepo(MyProject mypro, String repoTitle, HttpSession session) {
+		
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+	}
+	
+	/**
+	 * 레포 삭제용 Controller
+	 * 
+	 * @param mypro : 내 프로젝트 번호, 내 프로젝트명
+	 * @param repoTitle : 레포명
+	 * @param session : token을 가져오기 위한 session
+	 * @return : 레포 리스트 조회 페이지
+	 */
+	@RequestMapping("deleteRepo.re")
+	public String deleteRepo(MyProject mypro, String repoTitle, HttpSession session) {
+		
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		// 필요한 값들 담아서 옮길 GitHub 객체 생성
+		g = new GitHub();
+		
+		// 요청 방식 => 삭제
+		g.setMethod("DELETE");
+		// api와 연결하기 위한 token
+		g.setToken(token);
+		// 레포 삭제 uri => /repos/{owner}/{repo}
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + repoTitle);
+		
+		// 템플릿에 객체를 보내서 delete 실행
+		getGitHubAPIValue(g);
+		
+		// repoList 페이지로 돌아감
 		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
 	}
@@ -262,12 +303,60 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("repoDetail.re")
-	public String selectRepo(int pno, String rnm, String vis, Model model) {
+	public String selectRepo(int pno, String rnm, String vis, String ava, HttpSession session, Model model) {
 		
-		model.addAttribute("myproNo", pno);
+		// 가져온 프로젝트 번호를 통해 번호와 프로젝트명을 조회한다
+		mypro = rService.selectMyProject(pno);
+		
+		// 세션에서 토큰을 가져온다
+		token = (String)session.getAttribute("token");
+		
+		// 템플릿에 필요한 값들을 담아서 보낼 GitHub 객체 생성
+		g = new GitHub();
+		
+		// 값들을 차곡차곡 담기
+		g.setMethod("GET");
+		g.setToken(token);
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+		
+		// 템플릿에 보낸 후 다시 넘어온 결과값을 ArrayList에 담기
+		ArrayList<Object> list = getGitHubAPIRepoContents(g);
+		
+		// list에 값이 있다면 commit 내역 조회
+		if(!list.isEmpty()) {
+			
+			// 커밋 리스트 조회용 uri 세팅
+			g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/commits");
+			
+			// 결과값을 ArrayList로 받음
+			ArrayList<Object> cList = getGitHubAPIRepoContents(g);
+			
+			// 최신 커밋 내역만 추출
+			Object recentCommit = cList.get(0);
+			
+			model.addAttribute("recentCommit", recentCommit);
+			
+			/*
+			for(Object p : list) {
+				
+				String path = p.toString();
+				
+				pArr.add(path.substring(path.indexOf("path"), path.indexOf(", sha")));
+			}
+			
+//			path = path.substring(path.indexOf("path"), path.indexOf(", sha"));
+			*/
+			
+		}
+		
+		// model로 세팅해서 view단으로 보냄
+		model.addAttribute("mypro", mypro);
 		model.addAttribute("repoName", rnm);
 		model.addAttribute("visibility", vis);
+		model.addAttribute("avatar_url", ava);
+		model.addAttribute("list", list);
 		
+		// page 호출
 		return "repo/repoDetail";
 		
 	}

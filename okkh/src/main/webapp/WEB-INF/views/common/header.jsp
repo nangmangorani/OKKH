@@ -113,11 +113,10 @@
     <header class="mb-3 card">
         <nav class="navbar navbar-expand navbar-light navbar-top">
             <div class="container-fluid">
-                <!-- <a href="#" class="burger-btn d-block">
-                    <i class="bi bi-justify fs-3"></i>
-                </a> -->
-                
-                	<h3 style="margin: 0%;"></h3>
+            	<a href="#" class="burger-btn d-block">
+                	<i class="bi bi-justify fs-3"></i>
+                </a>
+               	<h3 style="margin: 0%;"></h3>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -225,7 +224,7 @@
 	                                    </button>
 	                                </div>
                                     <div class="modal-body">
-                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20project&client_id=44f96bb68ae9fe16e964">
+                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20delete_repo%20project&client_id=44f96bb68ae9fe16e964">
                                         	<img src="resources/images/logo/gitLogo.png" alt="" style="width: 20%; margin: auto; display: block;">
                                         </a>
                                     </div>

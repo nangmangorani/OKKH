@@ -148,7 +148,7 @@
 								    					
 								    					// => 초록색 메세지 (사용가능) 출력
 							    						$("#checkResult").show();
-							    						$("#checkResult").css("color", "#198754").text("아이디가 있네요!! 등록이 가능합니다.");	  
+							    						$("#checkResult").css("color", "#198754").text("존재하는 조직이네요!! 프로젝트명으로 등록이 가능합니다.");	  
 							    						
 							    						// => 버튼 활성화
 							    						$("#enrollForm :submit").removeAttr("disabled");
@@ -158,7 +158,7 @@
 								    					
 								    					// => 빨간색 메세지 (사용불가능) 출력
 							    						$("#checkResult").show();
-							    						$("#checkResult").css("color", "#dc3545").text("해당하는 아이디가 없어요ㅠㅠ 계정 생성 후에 다시 시도해 주세요.");	    						
+							    						$("#checkResult").css("color", "#dc3545").text("해당 조직이 존재하지 않아요ㅠㅠ 조직 생성 후에 다시 시도해 주세요.");	    						
 							    						
 							    						// => 버튼 비활성화
 							    						$("#enrollForm :submit").attr("disabled", true);

@@ -28,8 +28,8 @@ public class RepoDao {
 		return sqlSession.update("repoMapper.updateIngToFin", myproNo);
 	}
 	
-	public MyProject selectMyProjectTitle(SqlSessionTemplate sqlSession, int myproNo) {
-		return sqlSession.selectOne("repoMapper.selectMyProjectTitle", myproNo);
+	public MyProject selectMyProject(SqlSessionTemplate sqlSession, int myproNo) {
+		return sqlSession.selectOne("repoMapper.selectMyProject", myproNo);
 	}
 
 }
