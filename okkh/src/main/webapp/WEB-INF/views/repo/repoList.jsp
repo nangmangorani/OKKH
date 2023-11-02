@@ -149,7 +149,7 @@
 								                            <div class="col-6 col-lg-3 col-md-6">
 								                                <div class="card" style="border: 1px solid #cecece; height: 150px;">
 							                                    	<div class="card-body px-3 py-4-5">
-								                                    	<a href="repoDetail.re?pno=${ mypro.myproNo }&rnm=${ r.name }&vis=${ r.visibility }">
+								                                    	<a href="repoDetail.re?pno=${ mypro.myproNo }&rnm=${ r.name }&vis=${ r.visibility }&ava=${ r.owner.avatar_url }">
 									                                        <div class="row">
 									                                            <div class="col-md-4">
 									                                                <!-- <div class="stats-icon blue">

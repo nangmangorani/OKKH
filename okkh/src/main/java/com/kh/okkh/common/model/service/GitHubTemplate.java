@@ -88,7 +88,8 @@ public class GitHubTemplate {
 									.bodyToMono(String.class)
 									.block();
 		}
-				
+		
+		// JSON값 반환
 		return response;
 		
 	}
@@ -98,7 +99,7 @@ public class GitHubTemplate {
 	 * 
 	 * @return
 	 */
-	public static ArrayList<GithubRepo> getGitHubAPIRepoContents(GitHub g) {
+	public static ArrayList<Object> getGitHubAPIRepoContents(GitHub g) {
 		
 		// WebClient를 사용해서 Header 세팅
 		WebClient webClient = WebClient.builder()
@@ -109,16 +110,19 @@ public class GitHubTemplate {
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.build();
 		
-		ArrayList<GithubRepo> list = new ArrayList<GithubRepo>();
+		// 결과값을 담을 ArrayList 세팅
+		ArrayList<Object> list = new ArrayList<>();
 		
+		// uri를 넘겨서 받은 결과값을 ArrayList 형식으로 받고 동기 처리
 		list = webClient.get()
 				.uri(g.getUri())
 				.retrieve()
 				.bodyToMono(ArrayList.class)
 				.block();
 		
-		System.out.println(list);
+//		System.out.println(list);
 		
+		// 컨트롤러로 반환
 		return list;
 		
 	}

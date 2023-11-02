@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,7 +49,7 @@
             
 			<!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
 			<div class="buttons">
-				<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
+				<a href="list.iss?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 				<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 			</div>
@@ -65,7 +66,7 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title">
-                                        	<img src="https://avatars.githubusercontent.com/u/126389803?s=40&amp;v=4" height="20" width="20" style="border-radius: 15px;"> YoonTarget
+                                        	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ mypro.myproTitle }
                                         </h4>
                                     </div>
                                     <div class="card-body">
@@ -75,19 +76,38 @@
                                                 <thead class="thead-dark">
                                                     <tr>
                                                         <th>NAME</th>
-                                                        <th>COMMIT</th>
-                                                        <th>WHEN</th>
+                                                        <th>RECENT COMMIT</th>
+                                                        <th>AUTHOR</th>
+                                                        <th>DATE</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                 <c:forEach var="c" items="${ list }">
 	                                                <tr>
 					                                    <td class='text-bold-500'>
-						                                    <i class='fa-regular fa-file fa-bounce'></i>
+						                                    <c:choose>
+						                                    	<c:when test="${ fn:contains(c.name, '.') }">
+						                                    		<i class='fa-regular fa-file fa-bounce'></i>
+						                                    	</c:when>
+						                                    	<c:otherwise>
+						                                    		<c:choose>
+							                                    		<c:when test="${ c.name eq c.path }">
+								                                    		<i class='fa-solid fa-folder fa-bounce'></i>
+							                                    		</c:when>
+							                                    		<c:otherwise>
+								                                    		<i class='fa-solid fa-folder-open fa-bounce'></i>
+							                                    		</c:otherwise>
+						                                    		</c:choose>
+						                                    	</c:otherwise>
+						                                    </c:choose>
 						                                    <span>${ c.name }</span>
 						                                </td>
-						                                <td class='text-bold-500'>로그인 기능 수정</td>
-						                                <td class='text-bold-500'>2시간 전</td>
+						                                <td class='text-bold-500'>${ recentCommit.commit.message }</td>
+						                                <td class='text-bold-500'>
+						                                	<img src="${ recentCommit.author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
+						                                	${ recentCommit.author.login }
+						                                </td>
+						                                <td class='text-bold-500'>${ fn:replace(fn:replace(recentCommit.commit.author.date, "T", " "), "Z", "") }</td>
 					                                </tr>
                                                 </c:forEach>
                                                 </tbody>
