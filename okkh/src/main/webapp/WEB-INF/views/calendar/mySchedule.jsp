@@ -98,67 +98,68 @@
 				                    <div class="modal-body">
 											
 										<table class="table table-borderless">
-				                        	<tbody>
-					                          <tr>
-					                            <td class="align-middle"><label for="edit-allDay">하루 종일</label></td>
-					                            <td class="py-3">
-					                              <input class='allDayNewEvent  form-check-input' id="edit-allDay" type="checkbox"></input>
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td class="align-middle"><label for="edit-title">일정명</label></td>
-					                            <td class="py-3">
-					                               <input class="form-control" type="text" name="edit-title" id="edit-title"
-					                                    required="required" />
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td class="align-middle"><label  for="edit-start">시작</label></td>
-					                            <td class="py-3">
-					                              <input class="form-control" type="datetime-local" name="edit-start" id="edit-start"/> <!-- 아이디 선택자 지움 edit-start-->
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td class="align-middle"><label class="col mb-4" for="edit-end">끝</label></td>
-					                            <td class="py-3">
-					                             <input class="form-control" type="datetime-local" name="edit-end" id="edit-end"/> <!-- 아이디 선택자 지움  edit-end-->
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td class="align-middle"><label for="edit-type">구분</label></td>
-					                            <td class="py-3">
-					                               <select class="form-select" name="edit-type" id="edit-type">
-					                                    <option value="업무">업무</option>
-					                                    <option value="개인 일정">개인 일정</option>
-					                                    <option value="소셜 일정">소셜 일정</option>
-					                                </select>
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td> <label for="edit-color">색상</label></td>
-					                            <td class="py-3">
-					                             <select class="form-select" name="color" id="edit-color">
-					                                    <option value="#D25565" style="color:#D25565;">빨간색</option>
-					                                    <option value="#9775fa" style="color:#9775fa;">보라색</option>
-					                                    <option value="#ffa94d" style="color:#ffa94d;">주황색</option>
-					                                    <option value="#74c0fc" style="color:#74c0fc;">파란색</option>
-					                                    <option value="#f06595" style="color:#f06595;">핑크색</option>
-					                                    <option value="#63e6be" style="color:#63e6be;">연두색</option>
-					                                    <option value="#a9e34b" style="color:#a9e34b;">초록색</option>
-					                                    <option value="#4d638c" style="color:#4d638c;">남색</option>
-					                                    <option value="#495057" style="color:#495057;">검정색</option>
-					                                </select>
-					                            </td>
-					                          </tr>
-					                          <tr>
-					                            <td><label class="col mb-4" for="edit-desc">설명</label></td>
-					                            <td class="py-3">
-					                              <textarea rows="4" cols="50" class="form-control" name="edit-desc"
-					                                    id="edit-desc"></textarea>
-					                            </td>
-					                          </tr>
-					                         
-					                        </tbody>
+											<form>
+												<tbody>
+												<tr>
+													<td class="align-middle"><label for="edit-allDay">하루 종일</label></td>
+													<td class="py-3">
+													<input class='allDayNewEvent  form-check-input' id="edit-allDay" type="checkbox"></input>
+													</td>
+												</tr>
+												<tr>
+													<td class="align-middle"><label for="edit-title">일정명</label></td>
+													<td class="py-3">
+													<input class="form-control" type="text" name="edit-title" id="edit-title"
+															required="required" />
+													</td>
+												</tr>
+												<tr>
+													<td class="align-middle"><label  for="edit-start">시작</label></td>
+													<td class="py-3">
+													<input class="form-control" type="datetime-local" name="edit-start" id="edit-start"/> <!-- 아이디 선택자 지움 edit-start-->
+													</td>
+												</tr>
+												<tr>
+													<td class="align-middle"><label class="col mb-4" for="edit-end">끝</label></td>
+													<td class="py-3">
+													<input class="form-control" type="datetime-local" name="edit-end" id="edit-end"/> <!-- 아이디 선택자 지움  edit-end-->
+													</td>
+												</tr>
+												<tr>
+													<td class="align-middle"><label for="edit-type">구분</label></td>
+													<td class="py-3">
+													<select class="form-select" name="edit-type" id="edit-type">
+															<option value="업무">업무</option>
+															<option value="개인 일정">개인 일정</option>
+															<option value="소셜 일정">소셜 일정</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td> <label for="edit-color">색상</label></td>
+													<td class="py-3">
+													<select class="form-select" name="color" id="edit-color">
+															<option value="#D25565" style="color:#D25565;">빨간색</option>
+															<option value="#9775fa" style="color:#9775fa;">보라색</option>
+															<option value="#ffa94d" style="color:#ffa94d;">주황색</option>
+															<option value="#74c0fc" style="color:#74c0fc;">파란색</option>
+															<option value="#f06595" style="color:#f06595;">핑크색</option>
+															<option value="#63e6be" style="color:#63e6be;">연두색</option>
+															<option value="#a9e34b" style="color:#a9e34b;">초록색</option>
+															<option value="#4d638c" style="color:#4d638c;">남색</option>
+															<option value="#495057" style="color:#495057;">검정색</option>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td><label class="col mb-4" for="edit-desc">설명</label></td>
+													<td class="py-3">
+													<textarea rows="4" cols="50" class="form-control" name="edit-desc"
+															id="edit-desc"></textarea>
+													</td>
+												</tr>
+												</form>
+												</tbody>
 				                    	</table>
 											
 											
