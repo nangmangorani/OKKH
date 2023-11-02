@@ -38,7 +38,7 @@ public class IssueDao {
 	
 	public String getGitContentsByGet1(String path, HttpSession session) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		System.out.println("겟깃 토큰 왜 널뜸? " + token);
 		String response = webClient
 				.get()
@@ -73,7 +73,7 @@ public class IssueDao {
 
 	}
 	
-	public void toGitIssue(String token, String url, Map<String, Object> requestBody, String method) {
+	public String toGitIssue(String token, String url, Map<String, Object> requestBody, String method) {
 		
 		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
 				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
@@ -88,10 +88,11 @@ public class IssueDao {
 		} else if(method.equals("patch")) {
 			response = client.patch().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
 		}
+		return response;
 	}
 	
 	
-	public String toGitGetIssue(String url, String token, int bno) {
+	public String toGitGetIssue(String url, String token, int ino) {
 		
 		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
 				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)

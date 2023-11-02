@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
+<!-- <script>
 function submitState() {
     var state = "closed";
     var title = "${milestone.title}";
@@ -34,7 +34,7 @@ function submitState() {
     form.submit();
 }
 
-</script>
+</script> -->
 </head>
 <body>
     <div id="app">
@@ -83,7 +83,10 @@ function submitState() {
                     </div>
                     <button class="btn btn-primary" style="float: right; margin-left: 10px;">수정하기</button>
                 </form>
-                    <button class="btn btn-primary" style="float: right" onclick="submitState();">마일스톤 닫기</button> 
+                <form action="edit.mile?mno=${ milestone.number }" method="post">
+                    <input type="hidden" name="state" value="closed">
+                    <button class="btn btn-primary" style="float: right">마일스톤 닫기</button> 
+                </form>
             </section>
             <jsp:include page="../common/footer.jsp"></jsp:include>
         </div>

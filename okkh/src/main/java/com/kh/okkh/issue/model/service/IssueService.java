@@ -7,15 +7,15 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.kh.okkh.common.model.vo.PageInfo;
+import com.kh.okkh.issue.model.vo.Comments;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.milestone.model.vo.Milestone;
-import com.kh.okkh.repository.model.vo.Repo;
 
 
 public interface IssueService {
 
-	//ArrayList<Issue> selectIssueList();
+	String enrollIssue(String token, String repository, Map<String, Object> requestBody);
 	
 	ArrayList<Labels> getLabels(String repository, HttpSession session);
 	
@@ -27,10 +27,13 @@ public interface IssueService {
 	
 	int issueCount(String repository, String token, HttpSession session, String state);
 	
-	void editIssue(String token, String repository, Map<String, Object> requestBody, int bno);
+	String editIssue(String token, String repository, Map<String, Object> requestBody, int ino);
 	
 	int issueCount(String repository, String token, HttpSession session, String state, String labelToString);
 	
 	ArrayList<Issue> getIssuesByLabels(HttpSession session, String repository, String token, String state, PageInfo pi, String labelToString);
 
+	String enrollComment(String repository, String token, Map<String, Object> requestBody, int ino);
+
+	ArrayList<Comments> getComments(String repository, String token, int ino);
 }

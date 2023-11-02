@@ -21,7 +21,7 @@ public class repositoryServiceImpl {
 	// 
 	public Mono<String> asynHttpRequest(String path, HttpSession session) {
 
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 
 		Mono<String> responseMono = webClient
 				.get()

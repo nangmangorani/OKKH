@@ -49,7 +49,7 @@
 										<div class="card-body">
 											<div class="form-group">
 												<label for="basicInput">Title</label>
-												<input type="text" class="form-control" id="basicInput" name="title">
+												<input type="text" class="form-control" id="basicInput" name="title" required>
 											</div>
 											<span>Content</span>
 											<div id="editor"></div>

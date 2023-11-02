@@ -42,6 +42,7 @@ import com.google.gson.JsonObject;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.issue.model.service.IssueServiceImpl;
+import com.kh.okkh.issue.model.vo.Comments;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.service.LabelsServiceImpl;
 import com.kh.okkh.labels.model.vo.Labels;
@@ -82,7 +83,7 @@ public class IssueController {
 		
 		// 라벨만 받아온거잖아
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		ArrayList<Issue> list;
 		
@@ -132,8 +133,7 @@ public class IssueController {
 			state = "open";
 		}
 		
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
-
+		String token = (String)session.getAttribute("token");
 		ArrayList<Issue> list;
 		
 		int listCount = iService.issueCount(repository, token, session, state);
@@ -187,7 +187,7 @@ public class IssueController {
 			@RequestParam String assignee, @RequestParam(required = false) String labelSet, 
 			@RequestParam(required = false) String milestone) throws IOException{
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");		
 		String repository = "nangmangorani/01_java-workspace";
 		
 		Map<String, Object> requestBody = new HashMap<>();
@@ -209,8 +209,14 @@ public class IssueController {
 	        String[] labels = labelSet.split(",");
 			requestBody.put("labels", labels);
 	    }
+
+		String response = iService.enrollIssue(token, repository, requestBody);
 		
-		iService.enrollIssue(token, repository, requestBody);
+		if(response.isEmpty() || response == null) {
+			session.setAttribute("alertMsg", "이슈등록에 실패하였습니다.");
+		} else {
+			session.setAttribute("alertMsg", "이슈등록에 성공하였습니다.");
+		}
 		
 		return "redirect:list.iss";
 	}
@@ -219,11 +225,18 @@ public class IssueController {
 	@RequestMapping("detail.iss")
 	public String detailIssue(HttpSession session, Model model, int ino) throws IOException {
 		try {
-		String token = ((Member) session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		String repository = "nangmangorani/01_java-workspace";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
+
+//		Issue issue = new Issue();
+//		issue = iService.getComments(repository, token, ino);
+//		System.out.println("여기로 말할것같으면 컨트롤러 겟커멘트" + issue);
+		
+		ArrayList<Comments> cList = iService.getComments(repository, token, ino);
+		
 		
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues/" + ino;
 		
@@ -292,7 +305,6 @@ public class IssueController {
 		JsonElement userElement = issueJson.get("user");
 		JsonObject userObject = userElement.getAsJsonObject();
 		String userLogin = userObject.get("login").getAsString();
-		String a = null;
 		JsonElement milestoneElement = issueJson.get("milestone");
 		Milestone milestoneOne = new Milestone();
 		
@@ -312,7 +324,7 @@ public class IssueController {
 		model.addAttribute("createDateTime", createDateTime);
 		model.addAttribute("userLogin", userLogin);
 		model.addAttribute("title", title);
-		model.addAttribute("body", body);
+		model.addAttribute("bodyMain", body);
 		model.addAttribute("state", state);
 		model.addAttribute("ino", ino);
 		model.addAttribute("assignees", assignees);
@@ -320,6 +332,7 @@ public class IssueController {
 		model.addAttribute("lList", lList);
 		model.addAttribute("mList", mList);
 		model.addAttribute("milestoneOne", milestoneOne);
+		model.addAttribute("cList", cList);
 		
 		return "issue/issueDetail";
 		} catch (Exception e) {
@@ -332,7 +345,7 @@ public class IssueController {
 	@RequestMapping("editForm.iss")
 	public String editIssueForm(HttpSession session, Model model, Integer ino) throws IOException {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String repository = "nangmangorani/01_java-workspace";
 		
@@ -421,7 +434,7 @@ public class IssueController {
 		model.addAttribute("title", title);
 		model.addAttribute("body", body);
 		model.addAttribute("state", state);
-		model.addAttribute("bno", ino);
+		model.addAttribute("ino", ino);
 		model.addAttribute("assignees", assignees);
 		model.addAttribute("labels", labels);
 		model.addAttribute("lList", lList);
@@ -432,15 +445,17 @@ public class IssueController {
 	}
 	
 	@RequestMapping(value="edit.iss", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-	public String editIssue(HttpSession session, int bno,
+	public String editIssue(HttpSession session, 
+			@RequestParam(required = false) Integer ino,
 			@RequestParam String title,
 			@RequestParam(required = false) String body,
 			@RequestParam(required = false) String assignee,
 			@RequestParam String labelSet, 
 			@RequestParam(required = false) String milestone) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
+		System.out.println("수정페이지 ino 결국보내지냐?" + ino);
 		String repository = "nangmangorani/01_java-workspace";
 		
 		Map<String, Object> requestBody = new HashMap<>();
@@ -468,11 +483,15 @@ public class IssueController {
 		System.out.println("잘있을까요? " + milestone);
 		
 		
-		iService.editIssue(token, repository, requestBody, bno);
+		String response = iService.editIssue(token, repository, requestBody, ino);
 		
-		
-		
-		return "redirect:/detail.iss?bno=" + bno;
+		if(response.isEmpty() || response == null) {
+			session.setAttribute("alertMsg", "이슈 수정에 실패하였습니다.");
+		} else {
+			session.setAttribute("alertMsg", "이슈 수정에 성공하였습니다.");
+		}
+
+		return "redirect:/detail.iss?ino=" + ino;
 	}
 	
 	
@@ -482,7 +501,7 @@ public class IssueController {
 	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state,
 	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]", required = false) ArrayList selectedValuesList) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 
 		String repository = "nangmangorani/01_java-workspace";
 
@@ -522,7 +541,54 @@ public class IssueController {
 		return response;
 	}
 	
+
+	@RequestMapping("state.iss")
+	public String stateChangeIssue(HttpSession session, int ino, String state) {
+
+		String token = (String)session.getAttribute("token");
+
+		String repository = "nangmangorani/01_java-workspace";
+
+		Map<String, Object> requestBody = new HashMap<>();
+		
+		requestBody.put("state", state);
+
+		String response = iService.editIssue(token, repository, requestBody, ino);
+
+		if(response.isEmpty() || response == null) {
+			session.setAttribute("alertMsg", "이슈 상태변경에 실패하였습니다.");
+		} else {
+			session.setAttribute("alertMsg", "이슈 상태변경에 성공하였습니다.");
+		}
+
+		return "redirect:/list.iss";
+
+	}
 	
+
+	@RequestMapping("commentEnroll.iss")
+	public String commentEnrollIssue(HttpSession session, String body, Integer ino) {
+		
+
+		String repository = "nangmangorani/01_java-workspace";
+
+		String token = (String)session.getAttribute("token");
+
+		Map<String, Object> requestBody = new HashMap<>();
+		
+		requestBody.put("body", body);
+
+		String response = iService.enrollComment(repository, token, requestBody, ino);
+		
+		if(response.isEmpty() || response == null) {
+			session.setAttribute("alertMsg", "이슈 커멘트추가에 실패하였습니다.");
+		} else {
+			session.setAttribute("alertMsg", "이슈 커멘트추가에 성공하였습니다.");
+		}
+
+		return "redirect:/detail.iss?ino=" + ino;
+
+	}
 	
 
 	

@@ -34,7 +34,7 @@ public class PullRequestDao {
 	 */
 	public String getGitContentsByGet1(String url, HttpSession session) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		
 		System.out.println(token  + "   :  thddldldl");

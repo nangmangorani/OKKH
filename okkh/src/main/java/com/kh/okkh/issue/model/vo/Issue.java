@@ -50,5 +50,6 @@ public class Issue {
 	private String[] assigneeProfiles; // 이슈 담당자 프로필 경로
 	
 	private String login;
+	private String[] body; // 이슈당 커멘트
 	
 }
