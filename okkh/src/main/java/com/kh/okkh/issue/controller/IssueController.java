@@ -215,7 +215,7 @@ public class IssueController {
 		
 		
 		
-		return "redirect:list.iss?repository=" + repository ;
+		return "redirect:list.iss?repository=" + repository;
 	}
 
 	
@@ -563,7 +563,7 @@ public class IssueController {
 			session.setAttribute("alertMsg", "이슈 상태변경에 성공하였습니다.");
 		}
 
-		return "redirect:/list.iss";
+		return "redirect:/list.iss?repository=\" + repository;
 
 	}
 	
