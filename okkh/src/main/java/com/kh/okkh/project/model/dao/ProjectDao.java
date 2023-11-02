@@ -343,6 +343,14 @@ public class ProjectDao {
 	public int deleteTeamMate(List<Integer> memNo, SqlSessionTemplate sqlSession) {
 		return sqlSession.update("projectMapper.deleteTeamMate", memNo);
 	}
+
+	
+	/**
+	 * mainpage top 4
+	 */
+	public ArrayList<Project> selectProjectTopList(SqlSessionTemplate sqlSession) {
+		return (ArrayList) sqlSession.selectList("projectMapper.selectProjectTopList");
+	}
 	
 	
 	

@@ -60,8 +60,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ChatRoom selectChatRoomRno(int crno) {
-		return cDao.selectChatRoomRno(sqlSession, crno);
+	public ChatRoom selectChatRoom(int crno) {
+		return cDao.selectChatRoom(sqlSession, crno);
 	}
 
 	@Override

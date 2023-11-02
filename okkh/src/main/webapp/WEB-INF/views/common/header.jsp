@@ -173,7 +173,7 @@
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
                                            	<h6 class="mb-0 text-gray-600">${ git.gitNick }</h6>
-                                            <p class="mb-0 text-sm text-gray-600">@${ git.type }</p>
+                                            <p class="mb-0 text-sm text-gray-600">반갑습네다~</p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">

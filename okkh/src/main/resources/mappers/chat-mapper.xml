@@ -8,6 +8,7 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="room_no" property="roomNo"/>
 		<result column="git_nick" property="gitNick"/>
+		<result column="profile" property="profile"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -112,14 +113,14 @@
 		where m.status = 'Y'
 	</insert>
 	
-	<select id="selectChatRoomRno" resultMap="chatRoomResultSet">
+	<select id="selectChatRoom" resultMap="chatRoomResultSet">
 		select room_no
 		     , room_title
 		     , last_chat
 		     , last_date
 		  from chat_room
 		 where status = 'Y'
-		   and room_no = #{room_no}
+		   and room_no = #{roomNo}
 	</select>
 	
 	<select id="selectChatMemberList" resultMap="chatMemberResultSet">

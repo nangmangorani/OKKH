@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 	
 	<style>
-		#room:hover {
-			cursor: pointer;
+		.table-btn {
+			width: 120px;
 		}
 	</style>
 </head>
@@ -62,7 +62,7 @@
 		                                                                               		<tbody>
 		                                                                                    <tr id="room">
 		                                                                                    	<td class="crno" style="display:none;">${cr.roomNo }</td>
-		                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
+		                                                                                        <td class="text-bold-500" style="width: 50px;">
 		                                                                                            <img src="resources/images/faces/1.jpg" alt="avtar img holder" width="30" height="30" class="rounded-circle">
 		                                                                                        </td>
 		                                                                                        <c:choose>
@@ -79,9 +79,11 @@
 				                                                                                        </td>
 			                                                                                        </c:otherwise>
 		                                                                                        </c:choose>
+		                                                                                        <td class="table-btn"><a href="room.ch?crno=${cr.roomNo }" id="enterRoom" class="btn btn-outline-primary">입장하기</a></td>
+		                                                                                        <td class="table-btn"><button class="btn btn-outline-danger">나가기</button></td>
 		                                                                                    </tr>
 		                                                                                    </tbody>
-		                                                                                   </c:forEach>
+                                                                                   		</c:forEach>
 		                                                                            </table>
 	                                                                            </c:when>
 	                                                                            <c:otherwise>
@@ -89,13 +91,6 @@
 	                                                                            </c:otherwise>
                                                                             </c:choose>
                                                                         </div>
-                                                                        <script>
-																			$(function(){
-																				$("#roomList>tbody>tr").click(function(){
-																					location.href = "rooms.ch?crno=" + $(this).children(".crno").text();
-																				})
-																			})
-																		</script>
                                                                     </div>
                                                                 </div>
                                                             </div>

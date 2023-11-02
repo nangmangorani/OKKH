@@ -51,7 +51,7 @@ public class MemberController {
 		
 		// 우리 DB에 해당 유저 정보가 있는지 확인하기
         Member loginMember = mService.selectMember(githubInfo);
-        
+        System.out.println(loginMember);
         // 저장된 멤버가 없을 경우 DB에 추가
         if(loginMember == null) {
         	int result = mService.insertMember(githubInfo);

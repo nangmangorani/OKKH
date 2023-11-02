@@ -21,7 +21,7 @@ public interface ChatService {
 	
 	int insertChatMember(Member m);
 
-	ChatRoom selectChatRoomRno(int crno);
+	ChatRoom selectChatRoom(int crno);
 	
 	ArrayList<ChatMember> selectChatMemberList(int crno);
 	

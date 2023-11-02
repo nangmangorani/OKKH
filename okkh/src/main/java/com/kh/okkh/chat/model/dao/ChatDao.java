@@ -36,14 +36,12 @@ public class ChatDao {
 		return sqlSession.insert("chatMapper.insertChatMember", m);
 	}
 	
-	public ChatRoom selectChatRoomRno(SqlSessionTemplate sqlSession, int crno) {
-		return sqlSession.selectOne("chatMapper.selectChatRoomRno", crno);
+	public ChatRoom selectChatRoom(SqlSessionTemplate sqlSession, int crno) {
+		return sqlSession.selectOne("chatMapper.selectChatRoom", crno);
 	}
 	
 	public ArrayList<ChatMember> selectChatMemberList(SqlSessionTemplate sqlSession, int crno) {
 		return (ArrayList)sqlSession.selectList("chatMapper.selectChatMemberList", crno);
 	}
-
-
 
 }

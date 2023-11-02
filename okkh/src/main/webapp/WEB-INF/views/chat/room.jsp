@@ -40,7 +40,7 @@
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="card">
-                                                        <!--채팅 상대방 프로필-->
+                                                        <!--채팅 프로필-->
                                                         <div class="card-header">
                                                             <div class="media d-flex align-items-center">
                                                                 <div class="avatar me-3">
@@ -48,7 +48,7 @@
                                                                     <span class="avatar-status bg-success"></span>
                                                                 </div>
                                                                 <div class="name flex-grow-1">
-                                                                    <h6 class="mb-0">${git.gitNick }</h6>
+                                                                    <h6 class="mb-0">${loginMember.gitNick }</h6>
                                                                     <span class="text-xs">Online</span>
                                                                 </div>
                                                                 <button class="btn btn-sm">
@@ -57,12 +57,8 @@
                                                             </div>
                                                         <hr>
                                                         </div>
-                                                        <!-- 채팅 상대방 프로필끝 -->
+                                                        <!-- 채팅 프로필끝 -->
 
-                                                        <!-- 채팅 메세지들 -->
-                                                        <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
-    													<th:block th:fragment="content">
-                                                       
                                                         <div class="card-body pt-4 bg-grey">
                                                             <div class="chat-content" id="msgArea">
                                                             	<!-- 
@@ -80,8 +76,6 @@
                                                                 -->
                                                             </div>
                                                         </div>
-                                                        </th:block>
-														</th:block>
                                                         <!-- 채팅 메세지들끝 -->
 
                                                         <!--채팅 전송폼-->
@@ -116,12 +110,13 @@
 	                                                                            <table class="table table-hover mb-0">
 	                                                                            	<c:forEach var="cm" items="${cmList }">
 	                                                                                    <tr id="rommList">
-	                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
-	                                                                                            <img src="resources/images/faces/1.jpg"
-	                                                                                            alt="avtar img holder" width="30" height="30"
-	                                                                                            class="rounded-circle">
-	                                                                                        </td>
 	                                                                                        <td>
+	                                                                                            <div class="avatar me-3">
+								                                                                    <img src="${cm.profile }" alt="">
+								                                                                    <span class="avatar-status bg-success"></span>
+								                                                                </div>
+	                                                                                        </td>
+	                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
 	                                                                                        	${cm.gitNick }
 	                                                                                        </td>
 	                                                                                    </tr>
@@ -167,7 +162,7 @@
 	
 	$(document).ready(function(){
 	    const username = ${loginMember.memNo};
-
+	    
 	    $("#button-send").on("click", () => {
 	        send();
 	    });
@@ -179,23 +174,23 @@
 
 	    function send() {
 	        let msg = document.getElementById("msg");
-	        console.log(username + ":" + msg.value);
-	        ws.send(username + ":" + msg.value);
+	        console.log("send메소드 -> " + username + "/" + msg.value);
+	        ws.send(username + "/" + msg.value);
 	        msg.value = '';
 	    }
 
 		//채팅창에 들어왔을 때
 		function onOpen(evt) {
-	        console.log("연결 된거야?");
+	        console.log("연결!!!!!!!!!!!!");
 	        var str = username + "님이 입장하셨습니다.";
-	        ws.send(str);
+	        $("#msgArea").append(str);
 	    }
 		
 		//채팅창에서 나갔을 때
 		function onClose(evt) {
-		    var str = username + "님이 방을 나가셨습니다.";
 			console.log("연결 왜 끊겨 ㅡㅡ..");
-		    ws.send(str);
+		    var str = username + "님이 방을 나가셨습니다.";
+		    $("#msgArea").append(str);
 		}
 		
 		function onError(error) {
@@ -205,14 +200,14 @@
 		
 		function onMessage(msg) {
 		    var data = msg.data;
-		    console.log(data);
-		    var sessionId = null;
-		    //데이터를 보낸 사람
+		    var sessionId = null; //데이터를 보낸 사람
 		    var message = null;
-		    var arr = data.split(":");
-		
-		    for(var i=0; i<arr.length; i++){
-		        console.log('arr[' + i + ']: ' + arr[i]);
+		    var arr = data.split("/");
+		    
+		    console.log("onMessage -> " + data);
+		    
+		    for(var i=0; i<2; i++){
+		        console.log("onMessage for문 -> " + 'arr[' + i + ']/' + arr[i]);
 		    }
 		
 		    var cur_session = username;
@@ -221,14 +216,14 @@
 		    sessionId = arr[0];
 		    message = arr[1];
 		
-		    console.log("sessionID : " + sessionId);
+		    console.log("sessionId : " + sessionId);
 		    console.log("cur_session : " + cur_session);
 		
 		    //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
 		    if(sessionId == cur_session){
 		        var str = "<div class='chat'>";
 		        str += "<div class='chat'>";
-		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
+		        str += "<div class='chat-message'>" + message + "</div>";
 		        str += "</div></div>";
 		        $("#msgArea").append(str);
 		    }
@@ -239,6 +234,7 @@
 		        str += "</div></div>";
 		        $("#msgArea").append(str);
 		    }
+		    
 		}
 		
 	})

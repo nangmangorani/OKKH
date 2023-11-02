@@ -33,10 +33,10 @@ public class ChatController {
 		return mv;
 	}
 	
-	@RequestMapping("rooms.ch")
+	@RequestMapping("room.ch")
 	public ModelAndView chatRoomPage(int crno, ModelAndView mv, HttpSession session) {
 		
-		ChatRoom cr = cService.selectChatRoomRno(crno);
+		ChatRoom cr = cService.selectChatRoom(crno);
 		ArrayList<ChatMember> cmList = cService.selectChatMemberList(crno);
 		System.out.println(cmList);
 		mv.addObject("cr", cr).addObject("cmList", cmList).setViewName("chat/room");
@@ -56,7 +56,7 @@ public class ChatController {
 		
 		if(result1 > 0 && result2 > 0 && result3 > 0) {
 			session.setAttribute("alertMsg", "성공적으로 채팅방이 개설되었습니다.");
-			return "redirect:rooms";
+			return "redirect:chat";
 		} else {
 			model.addAttribute("errorMsg", "채팅방 개설을 실패했습니다.");
 			return "common/errorPage";
