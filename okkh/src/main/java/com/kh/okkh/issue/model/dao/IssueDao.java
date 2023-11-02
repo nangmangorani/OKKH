@@ -55,7 +55,6 @@ public class IssueDao {
 	}
 	
 	public String getIssuesByMno(String repository, String token, String state, int mno) throws JsonMappingException, JsonProcessingException {
-		// https://api.github.com/repos/nangmangorani/01_java-workspace/issues?milestone=6
 		repository = repository + "/issues?milestone=" + mno + "&state=" + state;
 		
 		String response = webClient

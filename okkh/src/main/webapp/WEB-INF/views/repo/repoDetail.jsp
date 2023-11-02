@@ -49,7 +49,7 @@
             
 			<!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
 			<div class="buttons">
-				<a href="list.iss?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
+				<a href="list.iss?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 				<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 			</div>

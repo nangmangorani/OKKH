@@ -69,12 +69,12 @@ public class IssueController {
 	 * @throws JsonMappingException 
 	 */
 	@RequestMapping("list.iss")
-	public String selectIssueList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session, String state) throws JsonMappingException, IOException {
+	public String selectIssueList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session, String state,
+		   String repository) throws JsonMappingException, IOException {
 		
-		// repo.getUserName()+"/"+repo.getRepoName(); 
-		String repository = "nangmangorani/01_java-workspace";
-		
-		// 페이지 처음 열었을 때는 open이 default라 ㅠ
+//		String repository = owner + "/" + repo;
+		session.setAttribute("repository", repository);
+//		session.getAttribute("repository", repository);
 		if(state == null) {
 			state = "open";
 		}
@@ -101,11 +101,6 @@ public class IssueController {
 		list = iService.getIssues(repository, token, state, pi);
 		
 		
-		
-//		<span class="labelSpan"
-//                style="background-color: #${l.color};">${
-//                l.name }</span>
-		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
 		model.addAttribute("lList", lList);
@@ -127,7 +122,7 @@ public class IssueController {
 			@RequestParam(required = false) String issueNumber, @RequestParam(required = false) String userObject) throws IOException {
 		
 		System.out.println("cpage받아지긴함? " + currentPage);
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		if(state == null) {
 			state = "open";
@@ -162,9 +157,9 @@ public class IssueController {
 	@RequestMapping("enrollForm.iss")
 	public String enrollIssueView(HttpSession session, Model model) {
 		
-		//repo.getUserName()+"/"+repo.getRepoName(); 
+		String repository = (String)session.getAttribute("repository");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		System.out.println("등록할때 이거 받아짐???" + repository);
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
@@ -188,7 +183,7 @@ public class IssueController {
 			@RequestParam(required = false) String milestone) throws IOException{
 		
 		String token = (String)session.getAttribute("token");		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> requestBody = new HashMap<>();
 		
@@ -218,7 +213,9 @@ public class IssueController {
 			session.setAttribute("alertMsg", "이슈등록에 성공하였습니다.");
 		}
 		
-		return "redirect:list.iss";
+		
+		
+		return "redirect:list.iss?repository=" + repository ;
 	}
 
 	
@@ -226,7 +223,7 @@ public class IssueController {
 	public String detailIssue(HttpSession session, Model model, int ino) throws IOException {
 		try {
 		String token = (String)session.getAttribute("token");
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -347,7 +344,7 @@ public class IssueController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -461,7 +458,7 @@ public class IssueController {
 		String token = (String)session.getAttribute("token");
 		
 		System.out.println("수정페이지 ino 결국보내지냐?" + ino);
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> requestBody = new HashMap<>();
 		
@@ -508,7 +505,7 @@ public class IssueController {
 		
 		String token = (String)session.getAttribute("token");
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		if(state == null) {
 			state = "open";
@@ -552,7 +549,7 @@ public class IssueController {
 
 		String token = (String)session.getAttribute("token");
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		Map<String, Object> requestBody = new HashMap<>();
 		
@@ -575,7 +572,7 @@ public class IssueController {
 	public String commentEnrollIssue(HttpSession session, String body, Integer ino) {
 		
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		String token = (String)session.getAttribute("token");
 

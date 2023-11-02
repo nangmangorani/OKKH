@@ -63,7 +63,10 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public ArrayList<Labels> getLabels(String repository, HttpSession session){
 		
+		System.out.println("repository getlabels" + repository);
 		String url = repository + "/labels";
+		
+		
 		// 여기서 git.api url로 변환해줌
 		// 라벨 전체url이 나올거임
 		// 2333333333
@@ -284,7 +287,6 @@ public class IssueServiceImpl implements IssueService{
 	private Issue createGitIssueFromJsonObject(JsonObject issueObj) {
 		Issue git = new Issue();
 		
-		// https://api.github.com/repos/nangmangorani/01_java-workspace/issues?state=open&page=1 이런데에서 데이터가져와 객체에 세팅
 		
 		// 제목
 		git.setTitle(issueObj.get("title").getAsString());
