@@ -398,14 +398,19 @@ public class IssueController {
 			}
 		}
 		
+		ArrayList<Labels> labels = new ArrayList<Labels>();
 		JsonArray labelsArray = issueJson.getAsJsonArray("labels");
-		ArrayList<String> labels = new ArrayList<String>();
-		// labels는 이자식이 선택한 라벨만?
+
 		if (labelsArray != null) {
 			for (JsonElement labelElement : labelsArray) {
 				JsonObject labelObject = labelElement.getAsJsonObject();
+				int labelId = labelObject.get("id").getAsInt();
 				String labelName = labelObject.get("name").getAsString();
-				labels.add(labelName);
+				String labelColor = labelObject.get("color").getAsString();
+				String labelDescription = labelObject.get("description").getAsString();
+				
+				Labels lab = new Labels(labelId, labelName, labelColor, labelDescription);
+				labels.add(lab);
 			}
 		}
 		

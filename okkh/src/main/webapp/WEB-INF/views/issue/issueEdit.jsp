@@ -17,8 +17,15 @@
 				font-weight: 600;
 				padding : 3px 5px;
 				border-radius: 5px;
-				color: black;
+				color: white;
         	}
+			.label-badge {
+				margin: 5px;
+				display: inline-block;
+				padding: 3px 5px;
+				border-radius: 5px;
+				color: white;
+			}
 			</style>
 		</head>
 
@@ -67,15 +74,20 @@
 											<br>
 											<h6>라벨</h6>
 											<fieldset class="form-group">
-												<select class="form-select" id="basicSelect" name="label" onchange="selectLabel();">
+												<select class="form-select" id="basicSelect" name="label" onchange="createLabel();">
 													<option value="">선택안함</option>
 													<c:forEach var="l" items="${ lList }">
-														<option>${ l.name }</option>
+														<option data-color="#${l.color}">${ l.name }</option>
 													</c:forEach>
 													<input type="hidden" name="labelSet" id="labelSet" value="">
 												</select>
 											</fieldset>
-											<div class="labelSpan"></div>
+											<div class="labelSpan">
+												<c:forEach var="l" items="${ labels }">
+													<span class="labelSpan" name="firstLabel"
+													style="background-color:#${l.color}; display: inline-block;">${ l.name }</span>
+												</c:forEach>
+											</div>
 											<br>
 											<h6>마일스톤</h6>
 											<fieldset class="form-group">
@@ -107,13 +119,13 @@
 							<button class="btn btn-primary" style="float: right">수정하기</button>
 						</form>
 						<form action="state.iss?ino=${ino}" method="post">
-							<button class="btn btn-primary" style="float: right;">종료하기</button>
+							<button class="btn btn-primary" style="float: right; margin-right: 5px;">종료하기</button>
 							<input type="hidden" value="closed" name="state">
 						</form>
 					</section>
 
 					<input type="hidden" id="labList" value="${ lList }">
-					<input type="hidden" id="issist" value="${ iList }">
+					<input type="hidden" id="issList" value="${ iList }">
 					<jsp:include page="../common/footer.jsp"></jsp:include>
 				</div>
 			</div>
@@ -131,38 +143,50 @@
 			
 			
 				<script>
-			        var labelSet = null;
-					
-			        function selectLabel() {
-			            var basicSelect = document.getElementById("basicSelect");
-			            var label = basicSelect.options[basicSelect.selectedIndex].value;
-			            console.log(label);
-
-			            if (labelSet !== null && labelSet !== undefined) {
-			                labelSet += "," + label;
-			            } else {
-			                labelSet = label;
-			            }
-			            document.getElementById("labelSet").value = labelSet;
-			            
-			            console.log(labelSet)
-			            
-			            let str = createLabel(label);
-			        }
+			        var labelSet = new Array();
 			        
-			        function createLabel(label) {
+			        function createLabel() {
+						var basicSelect = document.getElementById("basicSelect");
+						var label = basicSelect.options[basicSelect.selectedIndex].value;
+						var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
+
+						var initialLabels = document.querySelectorAll('[name="firstLabel"]');
+
+						initialLabels.forEach(function (initialLabel) {
+							labelSet.push(initialLabel.textContent);
+						});
+						labelSet.push(label);
+
+						console.log("ㅎㅎ")
+						console.log(labelSet)
+
 			            let labelSpan = document.querySelector(".labelSpan");
 			            let spacer = document.createElement("span");
-			            spacer.style.margin = "5px";
 			            let span = document.createElement("span");
 			            span.className = "label-badge";
-			            span.style.backgroundColor = "yellow"; 
+			            span.style.backgroundColor = color;
 			            span.innerText = label;
-			           	
+						span.style.cursor = "pointer";
+
+						span.onclick = function() {
+							$(this).remove();
+							deleteLabel($(this).text());
+						};
+						
 			            labelSpan.appendChild(span);
 			            labelSpan.appendChild(spacer);
+						var labelString = labelSet.join(',');
+						document.getElementById("labelSet").value = labelString;
 			            
 			        }
+
+					function deleteLabel(label) {
+						console.log("됨?")
+						labelSet.pop(label)
+						var labelString = labelSet.join(',');
+						document.getElementById("labelSet").value = labelString;
+						console.log(labelString);
+					}
 			       	
 
 			        
@@ -192,6 +216,11 @@
 						
 						
 					});
+			       	
+
+			        
+					
+
 				</script>
 
 				<script src="../../resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>

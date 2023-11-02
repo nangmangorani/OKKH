@@ -126,7 +126,7 @@
                                                                 <td class="text-bold-500">${ i.number }</td>
                                                                 <td class="text-bold-500"><a
                                                                         href="detail.iss?ino=${ i.number }"
-                                                                        style="color: black; font-weight: bold;">${
+                                                                        style="color: #607080; font-weight: 550;">${
                                                                         i.title }</a> &nbsp;&nbsp;
                                                                     <c:if
                                                                         test="${ i.milestone != null || not empty i.milestone }">
@@ -157,7 +157,8 @@
                                                                         <c:forEach var="l" items="${ lList }">
                                                                             <c:if test="${ j eq l.name }">
                                                                                 <span class="labelSpan"
-                                                                                    style="background-color: #${l.color};">${
+                                                                                    style="background-color: #${l.color};
+                                                                                    margin-right:5px;">${
                                                                                     l.name }</span>
                                                                             </c:if>
                                                                         </c:forEach>

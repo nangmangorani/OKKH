@@ -32,12 +32,12 @@
 
 		<body>
 			<div id="app">
-				<jsp:include page="../common/leftSide.jsp"></jsp:include>
+				<jsp:include page="../common/leftSide.jsp"/>
 				<div id="main">
 					<!-- 상단바 시작 -->
-					<jsp:include page="../common/header.jsp"></jsp:include>
+					<jsp:include page="../common/header.jsp"/>
 					<!-- 상단바 끝 -->
-
+					
 					<section class="section">
 						<form action="enroll.iss" method="post" id="issueEnrollForm">
 							<div class="row">
@@ -68,13 +68,12 @@
 												<select class="form-select" name="assignee">
 													<option value="nangmangorani" checked>nangmangorani</option>
 												</select>
-												
 											</fieldset>
 
 											<br>
 											<h6>라벨</h6>
 											<fieldset class="form-group">
-												<select class="form-select" id="basicSelect" name="label" onchange="selectLabel();">
+												<select class="form-select" id="basicSelect" name="label" onchange="createLabel();">
 													<option value="">선택안함</option>
 													<c:forEach var="l" items="${ lList }">
 														<option data-color="#${l.color}">${ l.name }</option>
@@ -83,10 +82,11 @@
 												</select>
 											</fieldset>
 											<div class="labelSpan">
-
+												
 											</div>
 											<br>
 											<h6>마일스톤</h6>
+											
 											<fieldset class="form-group">
 												<select class="form-select" id="milestoneSelect" name="milestone">
 													<option value="">선택안함</option>
@@ -130,37 +130,42 @@
 			
 			
 				<script>
-			        var labelSet = null;
-					
-			        function selectLabel() {
-			            var basicSelect = document.getElementById("basicSelect");
-			            var label = basicSelect.options[basicSelect.selectedIndex].value;
-						var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
-			            console.log(color);
-
-			            if (labelSet !== null && labelSet !== undefined) {
-			                labelSet += "," + label;
-			            } else {
-			                labelSet = label;
-			            }
-			            document.getElementById("labelSet").value = labelSet;
-			            
-			            let str = createLabel(label, color);
-			        }
+			        var labelSet = new Array();
 			        
-			        function createLabel(label, color) {
+			        function createLabel() {
+						var basicSelect = document.getElementById("basicSelect");
+						var label = basicSelect.options[basicSelect.selectedIndex].value;
+						var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
+
+						labelSet.push(label);
+
 			            let labelSpan = document.querySelector(".labelSpan");
 			            let spacer = document.createElement("span");
-			            spacer.style.margin = "5px";
 			            let span = document.createElement("span");
 			            span.className = "label-badge";
 			            span.style.backgroundColor = color;
 			            span.innerText = label;
-			           	
+						span.style.cursor = "pointer";
+
+						span.onclick = function() {
+							$(this).remove();
+							deleteLabel($(this).text());
+						};
+						
 			            labelSpan.appendChild(span);
 			            labelSpan.appendChild(spacer);
+						var labelString = labelSet.join(',');
+						document.getElementById("labelSet").value = labelString;
 			            
 			        }
+
+					function deleteLabel(label) {
+						console.log("됨?")
+						labelSet.pop(label)
+						var labelString = labelSet.join(',');
+						document.getElementById("labelSet").value = labelString;
+					}
+
 			       	
 
 			        

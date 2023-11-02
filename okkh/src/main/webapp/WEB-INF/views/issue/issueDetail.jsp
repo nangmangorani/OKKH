@@ -80,7 +80,6 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	                                </form>
 	                                <br>
 	                            </div>
-	                            
 	                        </div>
 	                    </div>
 	                </div>
@@ -92,13 +91,15 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                 <div class="card-body">
                                     <div id="full" style="height: 300px;">
                                         <div class="card-body">
+                                            <h5>내용</h5>
 			                                <div class="iss-wrap">
 			                                    <div class="iss-time">
 			                                        <span style="padding-left: 5px;">${ userLogin } comments</span>
 			                                    </div>
 			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1">${ bodyMain }</span>
 			                                </div>
-                                            <br>
+                                            <hr>
+                                            <h5>커멘트</h5>
                                             <c:forEach var="c" items="${ cList }">
                                                 <div class="iss-wrap2">
                                                     <div class="iss-time">
@@ -145,13 +146,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                             $("input[name='body']").val(markdown);
                                             console.log($("input[name='body']").val())
 
-                                            // enrollAjaxGo($("input[name='body']").val(),  $("input[name='inoHere']").val())
                                         }
-                                
-                                        // $('#issueEnrollForm').submit(function() {
-                                        //     var markdown = editor.getMarkdown();
-                                        //     $("input[name='body']").val(markdown);
-                                        // });
                                 
                                 
                                     </script>
@@ -162,15 +157,15 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                     <c:forEach var="a" items="${ assignees }">
                                     	${ a.gitNick }
                                     </c:forEach>
-                                    <br><br>
+                                    <br><br><br><br><br>
                                     <h6>라벨</h6>
                                     <c:forEach var="l" items="${ labels }">
-                                    	<span class="labelSpan"
-                                    	style="background-color:#${l.color};">${ l.name }</span>
+                                    	<span class="labelSpan" 
+                                    	style="background-color:#${l.color}; display: inline-block;">${ l.name }</span>
                                     </c:forEach>
-                                    <br><br>
+                                    <br><br><br><br><br>
                                     <h6>마일스톤</h6>
-                                    ${ milestoneOne.title }
+                                    ${ milestoneOne.title } 
                                     <div class="form-group">
                                         <input type="text" class="form-control" id="directInput" style="display: none;"
                                             placeholder="직접 입력해주세요">
@@ -181,41 +176,10 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                     </div>
             </section>
 
-            <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
-                </div>
-            </footer>
+            <jsp:include page="../common/footer.jsp"/>
         </div>
     </div>
-    <script>
-        
-        
-
-        // function enrollAjaxGo(body, ino){
-        //     console.log("아작직전 ㅋㅋ")
-        //     console.log(body)
-        //     console.log(ino)
-
-        //     $.ajax({
-        //         type:'post',
-        //         url:"commentEnroll.iss",
-        //         data:{
-        //             body:body,
-        //             ino:ino
-        //         },
-        //         success:()=>{
-        //             console.log("성공 히히");
-        //         }
-        //     })
-        // }
-    </script>
+   
 
     
 
