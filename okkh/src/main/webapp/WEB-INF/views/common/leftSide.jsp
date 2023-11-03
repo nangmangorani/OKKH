@@ -137,7 +137,7 @@
                           -->
                           
                           <!-- 나의 프로젝트에 접근할 수 없어서 임의로 메뉴열어서 작업함당... -->
-                          
+                        <!--  
                         <li class="sidebar-item">
                             <a href="myPullRequest.pu" class='sidebar-link'>
                                 <i class="fa-solid fa-code-pull-request"></i>
@@ -145,7 +145,7 @@
                             </a>
                         </li>
                         
-                         
+                         -->  
                        
                         <li class="sidebar-item">
                             <a href="mySchedule.ca" class='sidebar-link'>

@@ -23,11 +23,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kh.okkh.commit.model.vo.Commit;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
 import com.kh.okkh.pullRequest.model.dao.PullRequestDao;
 import com.kh.okkh.pullRequest.model.vo.PullRequest;
+import com.kh.okkh.pullRequest.model.vo.PullReview;
 
 /**
  * @author 유정(호빵)
@@ -50,10 +52,13 @@ public class PullRequestServiceImpl {
 		// 제목
 		git.setTitle(pullObj.get("title").getAsString());
 		
-		 
+		// 내용
+		git.setBody(pullObj.get("body").getAsString());
 	
 		// 진행중 여부
 		git.setState(pullObj.get("state").getAsString());
+		
+		git.setFullRequestNum(pullObj.get("number").getAsInt());
 		
 		// 라벨
 		JsonArray labelsArr = pullObj.get("labels").getAsJsonArray();
@@ -127,7 +132,97 @@ public class PullRequestServiceImpl {
 	}
 
 	
+	// 풀리퀘 리뷰에 대한 것을 깃에서 받아옴
+	// api 값이 출력되면 json 형으로 출력해야되서 여기서 파싱해주나봄
+		private PullReview  createGitPullReviewFromJsonObject(JsonObject pullObj) {
+			
+			PullReview rgit = new PullReview();
+			
+			// https://api.github.com/repos/nangmangorani/OKKH/pulls?state=open&page=1 이런데에서 데이터가져와 객체에 세팅
+			
+			
+			// 풀리퀘 리뷰 번호 
+			//rgit.setPullReviewNo(pullObj.get("pullReviewNo").getAsInt());
+		
+			// 풀리퀘 리뷰의 참조 풀리퀘번호
+			//rgit.setRefPull(pullObj.get("refPull").getAsInt());
+			
+			// 리뷰 작성자
+			rgit.setState(pullObj.get("state").getAsString());
+			
+			
+			// 리뷰 내용
+			rgit.setReviewContent(pullObj.get("body").getAsString());
+			
+			
+			// 리뷰 아이디 (리뷰 아이디의 고유아이디임)
+			rgit.setId(pullObj.get("id").getAsInt());
+			
+			
+			String pullRequestUrl = pullObj.get("pull_request_url").getAsString();
+			// "pull_request_url"의 URL에서 마지막 슬래시 뒤의 문자열을 추출
+			String[] parts = pullRequestUrl.split("/");
+			String pullRequestNumber = parts[parts.length - 1];
+			rgit.setRefPull(Integer.parseInt(pullRequestNumber));
+			
+		    //rgit.setPullReviewCount(pullObj.get("pullReviewCount").getAsInt());
+		    
+			
+			
+		    
+		    // json객체로부터 문자열을 추출함
+		    String createDateTimeString = pullObj.get("submitted_at").getAsString();
+		    
+		    // yyyy-MM-dd'T'HH:mm:ss, LocalDateTime 객체로 파싱
+		    LocalDateTime createdDateTime = LocalDateTime.parse(createDateTimeString, DateTimeFormatter.ISO_DATE_TIME); 
+		    
+		    // 다시 객체형식 바꿔주면서~
+		    String createdDateString = createdDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		    rgit.setCreateDate(createdDateString);
+		    
+		    JsonObject userObj = pullObj.get("user").getAsJsonObject();
+			rgit.setPullReviewWriter(userObj.get("login").getAsString());
+
+
+			String userProfileUrl = userObj.get("avatar_url").getAsString();
+			rgit.setProfile(userProfileUrl);
+			return rgit;
+		}
 	
+	
+		
+		// 풀리퀘 커밋에 대한 것을 깃에서 받아옴
+		// api 값이 출력되면 json 형으로 출력해야되서 여기서 파싱해주나봄
+			private Commit  createGitPullCommitFromJsonObject(JsonObject pullObj) {
+				
+				Commit cgit = new Commit();
+				
+				// https://api.github.com/repos/nangmangorani/OKKH/pulls/5/commits
+				
+				
+				
+				// 커밋 내용
+				JsonObject commitObj = pullObj.get("commit").getAsJsonObject();
+				cgit.setMassage(commitObj.get("message").getAsString());
+				
+				
+				// 커밋 주소
+				cgit.setUrl(pullObj.get("html_url").getAsString());
+				
+				
+				
+			    
+			    JsonObject userObj = pullObj.get("author").getAsJsonObject();
+				cgit.setLogin(userObj.get("login").getAsString());
+				cgit.setProfile(userObj.get("avatar_url").getAsString());  
+
+				
+				return cgit;
+			}
+		
+		
+		
+		
 	
 	/**
 	 * 라벨에 대한 응답받기... (주소값을 반환한다고 함..)
@@ -183,12 +278,12 @@ public class PullRequestServiceImpl {
 	
 	
 	/**
-	 * 풀리퀘스트의 총 개수 세는 메소드
+	 * 풀리퀘스트의 총 개수 세는 메소드 (state=open)
 	 * @return
 	 */
 	public int pullRequestCount(String repository,String token,HttpSession session,String state) {
 		
-		
+		int count = 0;
 		if(state.equals("open")) {
 			// 만약 state가  open 이라면?
 			
@@ -203,7 +298,7 @@ public class PullRequestServiceImpl {
 			// 구조 저장용..?
 			JsonNode jsonNode;
 			
-			int count = 0;
+			
 			
 			try {
 				
@@ -219,40 +314,328 @@ public class PullRequestServiceImpl {
 				e.printStackTrace();
 			}
 			
-			return count;
 			
-		  }else {
-		 	// 만약 state가 close라면?
-			  String pullState = repository + "/pulls?state=closed";
-			  
-			  System.out.println(pullState  + "  : 으아아악 close");
-			  String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
+		}
+		return count;
+	}
+		
+		
+
+		/**
+		 * 풀리퀘스트의 총 개수 세는 메소드 (state가 close인 풀리퀘의 리스트 개수)
+		 * @return
+		 */
+		public int pullRequestCount1(String repository,String token,HttpSession session,String state) {
+			
+			state = "closed";
+			
+			int count = 0;
+			
+			if(state.equals("closed")) {
+				// 만약 state가  closed 이라면?
 				
-			  // 또 json 형태로 응답 온것을 java형태로 파싱해주기 
-			  ObjectMapper obj = new  ObjectMapper();
+			
+				String pullState = repository + "/pulls?state=closed";
 				
-			  // 구조 저장용..?
-			  JsonNode jsonNode;
+				String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
 				
-			  int count = 0;
-			  
-			  try {
+				// 또 json 형태로 응답 온것을 java형태로 파싱해주기 
+				ObjectMapper obj = new  ObjectMapper();
 				
-				  jsonNode = obj.readTree(pullRequestResponse);
+				// 구조 저장용..?
+				JsonNode jsonNode;
 				
+				
+				
+				try {
+					
+					
+				
+					jsonNode = obj.readTree(pullRequestResponse);
+					
 					count = jsonNode.size();
+					
+					
 				} catch (JsonProcessingException e) {
 					
 					e.printStackTrace();
 				}
 				
+			}
+			System.out.println(count  + "   : closed의 count");
+				
+				return count;
+				
 			  
-			     
-				  return count;
-			  }
-			  
-		};
-		
+				  
+			};
+			
+			
+			/**
+			 * 풀리퀘의 리뷰 상세내용조회
+			 * @return
+			 */
+			public int getpullRequestOpenReviewCount(String repository,String token, HttpSession session,
+					                                String state, int openNum) {
+			    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
+
+				state = "open";
+				
+				int count = 0;
+				
+				if(state.equals("open")) {
+					// 만약 state가  closed 이라면?
+					
+				
+					String pullState = repository + "/pulls/"+openNum + "/reviews?state=open";
+					
+					String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
+					
+					// 또 json 형태로 응답 온것을 java형태로 파싱해주기 
+					ObjectMapper obj = new  ObjectMapper();
+					
+					// 구조 저장용..?
+					JsonNode jsonNode;
+					
+					
+					
+					try {
+						
+						
+					
+						jsonNode = obj.readTree(pullRequestResponse);
+						
+						count = jsonNode.size();
+						
+						
+					} catch (JsonProcessingException e) {
+						
+						e.printStackTrace();
+					}
+					
+				}
+				//System.out.println(count  + "   : 의 count");
+					
+					return count;
+					
+				  
+					  
+				};
+			
+			
+			
+			
+			
+			
+			
+				/**
+				 * 풀리퀘의 close 리뷰 개수 세는 메소드
+				 * @return
+				 * @throws IOException 
+				 */
+				public ArrayList<PullReview> getpullRequestCloseReviewCount(String repository, String token,String state,
+						                    PageInfo closePi,int pullRequestNumber) throws IOException  {
+				    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
+
+					String url ="";
+					
+					state = "closed";
+					
+					url = "https://api.github.com/repos/" + repository 
+						+ "/pulls/" + pullRequestNumber 
+						+ "/reviews?state=" + state + "&page="+ closePi.getCurrentPage()
+						+ "&per_page=" + closePi.getBoardLimit();
+					
+					URL requestUrl = new URL(url);
+					
+					HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+					
+					urlConnection.setRequestProperty("Authorization","Bearer "+token);
+					urlConnection.setRequestMethod("GET");
+					
+					
+					/*
+					 * 
+					 * "Bearer "는 토큰의 타입을 나타내며, 일반적으로 "Bearer" 토큰을 사용합니다. 
+					 *  Bearer 토큰은 OAuth 2.0 인증 토큰의 한 유형입니다.
+					 *  
+					 *  "Authorization"은 HTTP 헤더 필드의 하나로, 웹 요청에서 보내는 정보 중 하나입니다.
+					 *  이 헤더 필드는 주로 사용자나 클라이언트의 인증 및 권한 부여를 서버에 전달하기 위해 사용됩니다. 
+					 *  "Authorization" 헤더를 통해 서버는 클라이언트의 신원을 확인하고 해당 클라이언트에 대한 
+					 *  특정 작업 또는 리소스에 대한 권한을 부여하거나 거부할 수 있습니다.
+						일반적으로 "Authorization" 헤더는 다양한 형태의 인증 정보를 포함합니다. 
+					 * */
+					
+					BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+					
+					String line;
+					String responseText = "";
+					
+					while((line = br.readLine()) != null) {
+						responseText += line;
+					}
+					
+					
+					
+					// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+					
+					
+					JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+					
+					ArrayList<PullReview> closeReview = new ArrayList<PullReview>();
+					
+					for(int i=0 ; i<arr.size(); i++) {
+						
+						JsonObject pullObj = arr.get(i).getAsJsonObject();
+						PullReview rgit = createGitPullReviewFromJsonObject(pullObj);
+						closeReview.add(rgit);
+						
+						
+					}
+					
+					return closeReview;
+					
+					  
+						  
+					};
+			
+					
+
+					/**
+					 * 풀리퀘의 open 리뷰 개수 세는 메소드
+					 * @return
+					 * @throws IOException 
+					 */
+					/*
+					public ArrayList<PullReview> getpullRequestOpenReviewCount(String repository, String token,String state,
+							                    PageInfo pi,int pullRequestNumber) throws IOException  {
+					    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
+
+						String url ="";
+						
+						state = "open";
+						
+						url = "https://api.github.com/repos/" + repository 
+							+ "/pulls/" + pullRequestNumber 
+							+ "/reviews?state=" + state + "&page="+ pi.getCurrentPage()
+							+ "&per_page=" + pi.getBoardLimit();
+						
+						URL requestUrl = new URL(url);
+						
+						HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+						
+						urlConnection.setRequestProperty("Authorization","Bearer "+token);
+						urlConnection.setRequestMethod("GET");
+						
+						
+						
+						BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+						
+						String line;
+						String responseText = "";
+						
+						while((line = br.readLine()) != null) {
+							responseText += line;
+						}
+						
+						
+						
+						// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+						
+						
+						JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+						
+						ArrayList<PullReview> openReview = new ArrayList<PullReview>();
+						
+						for(int i=0 ; i<arr.size(); i++) {
+							
+							JsonObject pullObj = arr.get(i).getAsJsonObject();
+							PullReview rgit = createGitPullReviewFromJsonObject(pullObj);
+							openReview.add(rgit);
+							
+							
+						}
+						
+						return openReview;
+						
+						  
+							  
+						};
+				
+			  */
+			
+						/**
+						 * 풀리퀘의 open 리뷰 개수 세는 메소드
+						 * @return
+						 * @throws IOException 
+						 */
+						public ArrayList<PullReview> getpullRequestReview(String repository, String token,
+								                    int pno) throws IOException  {
+						    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
+
+							String url ="";
+							
+							
+							url = "https://api.github.com/repos/" + repository 
+								+ "/pulls/" + pno
+								+ "/reviews";
+							
+							URL requestUrl = new URL(url);
+							
+							HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+							
+							urlConnection.setRequestProperty("Authorization","Bearer "+token);
+							urlConnection.setRequestMethod("GET");
+							
+							
+							/*
+							 * 
+							 * "Bearer "는 토큰의 타입을 나타내며, 일반적으로 "Bearer" 토큰을 사용합니다. 
+							 *  Bearer 토큰은 OAuth 2.0 인증 토큰의 한 유형입니다.
+							 *  
+							 *  "Authorization"은 HTTP 헤더 필드의 하나로, 웹 요청에서 보내는 정보 중 하나입니다.
+							 *  이 헤더 필드는 주로 사용자나 클라이언트의 인증 및 권한 부여를 서버에 전달하기 위해 사용됩니다. 
+							 *  "Authorization" 헤더를 통해 서버는 클라이언트의 신원을 확인하고 해당 클라이언트에 대한 
+							 *  특정 작업 또는 리소스에 대한 권한을 부여하거나 거부할 수 있습니다.
+								일반적으로 "Authorization" 헤더는 다양한 형태의 인증 정보를 포함합니다. 
+							 * */
+							
+							BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+							
+							String line;
+							String responseText = "";
+							
+							while((line = br.readLine()) != null) {
+								responseText += line;
+							}
+							
+							
+							
+							// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+							
+							
+							JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+							
+							ArrayList<PullReview> openReview = new ArrayList<PullReview>();
+							
+							for(int i=0 ; i<arr.size(); i++) {
+								
+								JsonObject pullObj = arr.get(i).getAsJsonObject();
+								PullReview rgit = createGitPullReviewFromJsonObject(pullObj);
+								openReview.add(rgit);
+								
+								
+							}
+							
+							return openReview;
+							
+							  
+								  
+							};
+			
+			
+			
+			
 		
 	
 		/**
@@ -321,8 +704,227 @@ public class PullRequestServiceImpl {
 			
 		}
 	
+
+		/**
+		 * 이제 진짜 pullRequest의 목록을 얻어오자  (state가 close임)
+		 * @return
+		 * @throws IOException 
+		 */
+		public ArrayList<PullRequest> getPullRequest1(String repository,String token,String state,PageInfo closePi) throws IOException{
+			
+			String url ="";
+			state = "closed";
+			
+			url = "https://api.github.com/repos/" + repository 
+				+ "/pulls?state=" +state+ "&page="+ closePi.getCurrentPage()
+				+ "&per_page=" + closePi.getBoardLimit();
+			
+			URL requestUrl = new URL(url);
+			
+			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+			
+			urlConnection.setRequestProperty("Authorization","Bearer "+token);
+			urlConnection.setRequestMethod("GET");
+			
+			
+			/*
+			 * 
+			 * "Bearer "는 토큰의 타입을 나타내며, 일반적으로 "Bearer" 토큰을 사용합니다. 
+			 *  Bearer 토큰은 OAuth 2.0 인증 토큰의 한 유형입니다.
+			 *  
+			 *  "Authorization"은 HTTP 헤더 필드의 하나로, 웹 요청에서 보내는 정보 중 하나입니다.
+			 *  이 헤더 필드는 주로 사용자나 클라이언트의 인증 및 권한 부여를 서버에 전달하기 위해 사용됩니다. 
+			 *  "Authorization" 헤더를 통해 서버는 클라이언트의 신원을 확인하고 해당 클라이언트에 대한 
+			 *  특정 작업 또는 리소스에 대한 권한을 부여하거나 거부할 수 있습니다.
+				일반적으로 "Authorization" 헤더는 다양한 형태의 인증 정보를 포함합니다. 
+			 * */
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
+			String line;
+			String responseText = "";
+			
+			while((line = br.readLine()) != null) {
+				responseText += line;
+			}
+			
+			
+			
+			// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+			
+			
+			JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+			
+			ArrayList<PullRequest> closeList = new ArrayList<PullRequest>();
+			
+			for(int i=0 ; i<arr.size(); i++) {
+				
+				JsonObject pullObj = arr.get(i).getAsJsonObject();
+				PullRequest git = createGitPullRequestFromJsonObject(pullObj);
+				closeList.add(git);
+				
+				
+			}
+			
+			return closeList;
+			
+			
+			
+		}
 	
 	
+		
+		/**
+		 *  풀리퀘 상세내용 조회
+		 * @return
+		 * @throws IOException 
+		 */
+		public PullRequest getOpenPullRequestDetail(String repository,String token,int num) throws IOException {
+			
+			//  https://api.github.com/repos/nangmangorani/OKKH/pulls/풀번호(num)
+			
+			String url ="";
+			
+			url = "https://api.github.com/repos/" + repository 
+				+ "/pulls/" + num ;
+			
+			URL requestUrl = new URL(url);
+			
+			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+			
+			urlConnection.setRequestProperty("Authorization","Bearer "+token);
+			urlConnection.setRequestMethod("GET");
+			
+			
+			/*
+			 * 
+			 * "Bearer "는 토큰의 타입을 나타내며, 일반적으로 "Bearer" 토큰을 사용합니다. 
+			 *  Bearer 토큰은 OAuth 2.0 인증 토큰의 한 유형입니다.
+			 *  
+			 *  "Authorization"은 HTTP 헤더 필드의 하나로, 웹 요청에서 보내는 정보 중 하나입니다.
+			 *  이 헤더 필드는 주로 사용자나 클라이언트의 인증 및 권한 부여를 서버에 전달하기 위해 사용됩니다. 
+			 *  "Authorization" 헤더를 통해 서버는 클라이언트의 신원을 확인하고 해당 클라이언트에 대한 
+			 *  특정 작업 또는 리소스에 대한 권한을 부여하거나 거부할 수 있습니다.
+				일반적으로 "Authorization" 헤더는 다양한 형태의 인증 정보를 포함합니다. 
+			 * */
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
+			String line;
+			String responseText = "";
+			
+			while((line = br.readLine()) != null) {
+				responseText += line;
+			}
+			
+			
+			
+			// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+			
+			
+			JsonObject responseObj = JsonParser.parseString(responseText).getAsJsonObject();
+			
+			ArrayList<PullRequest> pull = new ArrayList<PullRequest>();
+			
+			
+			// 필요한 데이터를 추출합니다.
+			 PullRequest git = createGitPullRequestFromJsonObject(responseObj);
+			
+			// PullRequest 객체를 ArrayList에 추가합니다.
+		
+			// pull.add(git);
+				
+			System.out.println(git  + "  :  과연 서비스 깃에는 무엇이 들어있을지...?.");
+			
+		
+			
+			return git;
+			
+			
+			
+		};
+		
+		
+		
+		
+		/**
+		 * 풀리퀘 커밋 리스트 
+		 * @return
+		 * @throws IOException 
+		 */
+		public ArrayList<Commit> getPullCommit(String repository,String token, int pno) throws IOException{
+			
+			// https://api.github.com/repos/nangmangorani/OKKH/pulls/5/commits
+			
+			String url ="";
+			
+			
+			url = "https://api.github.com/repos/" + repository 
+				+ "/pulls/" + pno + "/commits";
+			
+			
+			
+			URL requestUrl = new URL(url);
+			
+			HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
+			
+			urlConnection.setRequestProperty("Authorization","Bearer "+token);
+			urlConnection.setRequestMethod("GET");
+			
+			
+			/*
+			 * 
+			 * "Bearer "는 토큰의 타입을 나타내며, 일반적으로 "Bearer" 토큰을 사용합니다. 
+			 *  Bearer 토큰은 OAuth 2.0 인증 토큰의 한 유형입니다.
+			 *  
+			 *  "Authorization"은 HTTP 헤더 필드의 하나로, 웹 요청에서 보내는 정보 중 하나입니다.
+			 *  이 헤더 필드는 주로 사용자나 클라이언트의 인증 및 권한 부여를 서버에 전달하기 위해 사용됩니다. 
+			 *  "Authorization" 헤더를 통해 서버는 클라이언트의 신원을 확인하고 해당 클라이언트에 대한 
+			 *  특정 작업 또는 리소스에 대한 권한을 부여하거나 거부할 수 있습니다.
+				일반적으로 "Authorization" 헤더는 다양한 형태의 인증 정보를 포함합니다. 
+			 * */
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+			
+			String line;
+			String responseText = "";
+			
+			while((line = br.readLine()) != null) {
+				responseText += line;
+			}
+			
+			
+			
+			// 던져주는 정보가 json타입이라서 제이슨 배열로 파싱하기 
+			
+			
+			JsonArray arr = JsonParser.parseString(responseText).getAsJsonArray();
+			
+			ArrayList<Commit> commit = new ArrayList<Commit>();
+			
+			for(int i=0 ; i<arr.size(); i++) {
+				
+				JsonObject pullObj = arr.get(i).getAsJsonObject();
+				Commit git = createGitPullCommitFromJsonObject(pullObj);
+				commit.add(git);
+				
+				
+			}
+			
+			return commit;
+			
+			
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
 	
 }

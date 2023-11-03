@@ -367,7 +367,7 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public ArrayList<Issue> getIssuesByMno(String repository, HttpSession session, String state, int mno) throws IOException {
 		
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		String iListAll = iDao.getIssuesByMno(repository, token, state, mno);
 		

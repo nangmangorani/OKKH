@@ -71,7 +71,7 @@ public class IssueController {
 	public String selectIssueList(@RequestParam(value="cpage", defaultValue="1") int currentPage, Model model, HttpSession session, String state) throws JsonMappingException, IOException {
 		
 		// repo.getUserName()+"/"+repo.getRepoName(); 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "nangmangorani/OKKH";
 		
 		// 페이지 처음 열었을 때는 open이 default라 ㅠ
 		if(state == null) {
@@ -82,7 +82,7 @@ public class IssueController {
 		
 		// 라벨만 받아온거잖아
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
 		ArrayList<Issue> list;
 		
@@ -126,13 +126,13 @@ public class IssueController {
 			@RequestParam(required = false) String issueNumber, @RequestParam(required = false) String userObject) throws IOException {
 		
 		System.out.println("cpage받아지긴함? " + currentPage);
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "nangmangorani/OKKH";
 
 		if(state == null) {
 			state = "open";
 		}
 		
-		String token = ((Member)(session.getAttribute("git"))).getMemToken();
+		String token = (String)session.getAttribute("token");
 
 		ArrayList<Issue> list;
 		
@@ -164,7 +164,7 @@ public class IssueController {
 		
 		//repo.getUserName()+"/"+repo.getRepoName(); 
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "nangmangorani/OKKH";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
@@ -187,8 +187,8 @@ public class IssueController {
 			@RequestParam String assignee, @RequestParam(required = false) String labelSet, 
 			@RequestParam(required = false) String milestone) throws IOException{
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
-		String repository = "nangmangorani/01_java-workspace";
+		String token = (String)session.getAttribute("token");
+		String repository = "nangmangorani/OKKH";
 		
 		Map<String, Object> requestBody = new HashMap<>();
 		
@@ -219,8 +219,10 @@ public class IssueController {
 	@RequestMapping("detail.iss")
 	public String detailIssue(HttpSession session, Model model, int ino) throws IOException {
 		try {
-		String token = ((Member) session.getAttribute("git")).getMemToken();
-		String repository = "nangmangorani/01_java-workspace";
+			
+			System.out.println(ino  + " : 이슈 번호나옴?? 호빵");
+			String token = (String)session.getAttribute("token");
+		String repository = "nangmangorani/OKKH";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -332,9 +334,9 @@ public class IssueController {
 	@RequestMapping("editForm.iss")
 	public String editIssueForm(HttpSession session, Model model, Integer ino) throws IOException {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "nangmangorani/OKKH";
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -439,9 +441,10 @@ public class IssueController {
 			@RequestParam String labelSet, 
 			@RequestParam(required = false) String milestone) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String token = (String)session.getAttribute("token");
+		
+		String repository = "nangmangorani/OKKH";
 		
 		Map<String, Object> requestBody = new HashMap<>();
 		
@@ -482,9 +485,9 @@ public class IssueController {
 	public Map<String, Object> ajaxIssueByLabels(HttpSession session, String state,
 	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]", required = false) ArrayList selectedValuesList) {
 		
-		String token = ((Member)session.getAttribute("git")).getMemToken();
+		String token = (String)session.getAttribute("token");
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = "nangmangorani/OKKH";
 
 		if(state == null) {
 			state = "open";
