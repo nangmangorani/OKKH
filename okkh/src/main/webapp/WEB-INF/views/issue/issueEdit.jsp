@@ -77,23 +77,25 @@
 										<div class="card-body">
 											<h6>이슈 담당자</h6>
 											<fieldset class="form-group">
-												<select class="form-select" name="assignee" id="memSelect" onchange="createAssignee();">
+												<select class="form-select" name="assignee" id="memSelect"
+													onchange="createAssignee();">
 													<c:forEach var="mem" items="${ memList }">
 														<option data-url="${mem.profile}">${ mem.gitNick }</option>
 													</c:forEach>
 												</select>
 											</fieldset>
 											<div class="labelSpan2">
-												<span class="labelSpan2 avatar" name="firstAssignees"
-													title="${ a.gitNick }">
+												<span class="labelSpan2 avatar">
 													<c:forEach var="a" items="${ assignees }">
 														<img alt="avatar" src="${ a.profile }" title="${ a.gitNick }"
-															class="rounded-circle writerAvatar  pull-up"> &nbsp;&nbsp;&nbsp;
+															class="rounded-circle writerAvatar pull-up" id="avatarTitle"
+															name="firstAssignees" onclick="deleteAssignee(this.title);">
+														&nbsp;&nbsp;&nbsp;
 													</c:forEach>
+													<input type="hidden" name="memList" id="memList" value="">
 												</span>
 											</div>
 
-											<input type="hidden" name="memList" id="memList" value="">
 											<br>
 
 											<h6>라벨</h6>
@@ -104,15 +106,15 @@
 													<c:forEach var="l" items="${ lList }">
 														<option data-color="#${l.color}">${ l.name }</option>
 													</c:forEach>
-													<input type="hidden" name="labelSet" id="labelSet" value="">
 												</select>
 											</fieldset>
 											<div class="labelSpan">
 												<c:forEach var="l" items="${ labels }">
 													<span class="labelSpan" name="firstLabel"
-														style="background-color:#${l.color}; display: inline-block;">${
+													style="background-color:#${l.color}; display: inline-block;">${
 														l.name }</span>
-												</c:forEach>
+													</c:forEach>
+												<input type="hidden" name="labelSet" id="labelSet" value="">
 											</div>
 											<br>
 											<h6>마일스톤</h6>
@@ -172,21 +174,22 @@
 
 			<script>
 				var labelSet = new Array();
+				var initialLabels = document.querySelectorAll('[name="firstLabel"]');
+				var firstAssignees = document.querySelectorAll('[name="firstAssignees"]');
 
 				function createLabel() {
 					var basicSelect = document.getElementById("basicSelect");
 					var label = basicSelect.options[basicSelect.selectedIndex].value;
 					var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
 
-					var initialLabels = document.querySelectorAll('[name="firstLabel"]');
+					//var initialLabels = document.querySelectorAll('[name="firstLabel"]');
 
 					initialLabels.forEach(function (initialLabel) {
 						labelSet.push(initialLabel.textContent);
 					});
-					labelSet.push(label);
 
-					console.log("ㅎㅎ")
-					console.log(labelSet)
+					labelSet.push(label);
+					console.log(labelSet);
 
 					let labelSpan = document.querySelector(".labelSpan");
 					let spacer = document.createElement("span");
@@ -216,20 +219,23 @@
 					console.log(labelString);
 				}
 
-
-
 				var assigneeSet = new Array();
+
 
 				function createAssignee() {
 					var memSelect = document.getElementById("memSelect");
 					var name = memSelect.options[memSelect.selectedIndex].value;
 					var profile = memSelect.options[memSelect.selectedIndex].getAttribute('data-url');
 
-					console.log(name);
-					console.log(profile);
-					var firstAssignees = document.querySelectorAll('[name="firstAssignees"]');
+					//var firstAssignees = document.querySelectorAll('[name="firstAssignees"]');
+					console.log(firstAssignees)
+
+					firstAssignees.forEach(function (firstAssignees) {
+						assigneeSet.push(firstAssignees.getAttribute("title"));
+					});
 
 					assigneeSet.push(name);
+
 					console.log(assigneeSet);
 
 					let labelSpan = document.querySelector(".labelSpan2");
@@ -253,14 +259,30 @@
 					var assigneeString = assigneeSet.join(',');
 
 					document.getElementById("memList").value = assigneeString;
-
 				}
 
 				function deleteAssignee(assignee) {
 					console.log("됨?")
-					assigneeSet.pop(assignee)
+					console.log(assignee)
+					
+					var index = assigneeSet.indexOf(assignee);
+					if (index !== -1) {
+						assigneeSet.splice(index, 1);
+					}
+
+					// 이미지 요소 제거
+					var labelSpan = document.querySelector(".labelSpan2");
+					var images = labelSpan.querySelectorAll("img");
+
+					for (var i = 0; i < images.length; i++) {
+						if (images[i].title === assignee) {
+							images[i].remove(); // 이미지 요소를 삭제합니다.
+							break; // 이미지를 찾으면 루프를 종료합니다.
+						}
+					}
+
+					// assigneeSet를 문자열로 변환하여 input 요소에 할당
 					var assigneeString = assigneeSet.join(',');
-					console.log(assigneeString)
 					document.getElementById("memList").value = assigneeString;
 				}
 
@@ -268,26 +290,7 @@
 
 
 
-
-
-
-
-
-
 				$(function () {
-					$("#milestoneSelect").change(function () {
-						var selectedOption = $(this).find(":selected").val();
-						console.log("선택된 옵션: " + selectedOption);
-
-						if (selectedOption === "direct") {
-							$("#mileInput").show();
-							$("#mileInputBtn").show();
-							$(this).removeAttr("name");
-						} else {
-							$("#mileInput").hide();
-							$("#mileInputBtn").hide();
-						}
-					});
 
 					$('#issueEnrollForm').submit(function () {
 						var markdown = editor.getMarkdown();
