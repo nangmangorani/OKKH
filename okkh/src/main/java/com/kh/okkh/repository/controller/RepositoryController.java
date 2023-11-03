@@ -193,7 +193,7 @@ public class RepositoryController {
 //		param += "&type=all";
 		
 		// GitHubTemplate에서 넘어온 JSON 값을 받는다
-		String response = getGitHubAPIValue(g);
+		String response = getGitHubValue(g);
 		
 		// Json을 변환하여 담을 ArrayList 준비
 		Type type = new TypeToken<ArrayList<Object>>() {}.getType();
@@ -241,7 +241,7 @@ public class RepositoryController {
 		g.setParams(params);
 		
 		// 템플릿에서 얻은 결과값 받음
-		getGitHubAPIValue(g);
+		getGitHubValue(g);
 		
 		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
@@ -289,7 +289,7 @@ public class RepositoryController {
 		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + repoTitle);
 		
 		// 템플릿에 객체를 보내서 delete 실행
-		getGitHubAPIValue(g);
+		getGitHubValue(g);
 		
 		// repoList 페이지로 돌아감
 		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
@@ -329,18 +329,16 @@ public class RepositoryController {
 		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents" + uri);
 		
 		// 템플릿에 보낸 후 다시 넘어온 결과값을 ArrayList에 담기
-		ArrayList<Object> list = getGitHubAPIRepoContents(g);
+		ArrayList<Object> list = getGitHubList(g);
 		
-		System.out.println(list);
-		
-		// list에 값이 있다면 commit 내역 조회
+		// list에 값이 있다면 커밋, 브랜치 리스트 조회
 		if(!list.isEmpty()) {
 			
 			// 커밋 리스트 조회용 uri 세팅
 			g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/commits");
 			
 			// 결과값을 ArrayList로 받음
-			ArrayList<Object> cList = getGitHubAPIRepoContents(g);
+			ArrayList<Object> cList = getGitHubList(g);
 			
 			// 최신 커밋 내역만 추출
 			Object recentCommit = cList.get(0);
@@ -355,8 +353,16 @@ public class RepositoryController {
 				pArr.add(path.substring(path.indexOf("path"), path.indexOf(", sha")));
 			}
 			
-//			path = path.substring(path.indexOf("path"), path.indexOf(", sha"));
-			*/
+			path = path.substring(path.indexOf("path"), path.indexOf(", sha"));
+			 */
+			
+			// 브랜치 조회용 uri 세팅
+			g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/branches");
+			
+			// 브랜치 리스트
+			ArrayList<Object> bList = getGitHubList(g);
+			
+			model.addAttribute("bList", bList);
 			
 		}
 		
@@ -377,12 +383,97 @@ public class RepositoryController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping("contentsDetail.re")
-	public void contentsDetail(String path) {
+	@RequestMapping("contentDetail.re")
+	public String contentDetail(int pno, String rnm, String vis, String ava, String path, HttpSession session, Model model) {
 		
 		System.out.println(path);
 		
+		// 가져온 프로젝트 번호를 통해 번호와 프로젝트명을 조회한다
+		mypro = rService.selectMyProject(pno);
 		
+		// 세션에서 토큰을 가져온다
+		token = (String)session.getAttribute("token");
+		
+		// 템플릿에 필요한 값들을 담아서 보낼 GitHub 객체 생성
+		g = new GitHub();
+		
+		// 값들을 차곡차곡 담기
+		g.setMethod("GET");
+		g.setToken(token);
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents/" + path);
+		
+		// 템플릿에 보낸 후 다시 넘어온 JSON 결과값 받기
+		String response = getGitHubValue(g);
+		
+		// Json을 변환하여 담을 Object 준비
+		Type type = new TypeToken<Object>() {}.getType();
+		
+		// Gson 객체를 생성해서 Json을 Object로 변환하여 차곡차곡 옮겨담기
+		Object content = new Gson().fromJson(response, type);
+		
+		// list에 값이 있다면 커밋 리스트 조회
+		if(content != null) {
+			
+			// 커밋 리스트 조회용 uri 세팅
+			g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/commits");
+			
+			// 결과값을 ArrayList로 받음
+			ArrayList<Object> cList = getGitHubList(g);
+			
+			// 최신 커밋 내역만 추출
+			Object recentCommit = cList.get(0);
+			
+			model.addAttribute("recentCommit", recentCommit);
+			
+			/*
+			for(Object p : list) {
+				
+				String path = p.toString();
+				
+				pArr.add(path.substring(path.indexOf("path"), path.indexOf(", sha")));
+			}
+			
+			path = path.substring(path.indexOf("path"), path.indexOf(", sha"));
+			 */
+			
+		}
+		
+		// model로 세팅해서 view단으로 보냄
+		model.addAttribute("mypro", mypro);
+		model.addAttribute("repoName", rnm);
+		model.addAttribute("visibility", vis);
+		model.addAttribute("avatar_url", ava);
+		model.addAttribute("content", content);
+		
+		// page 호출
+		return "repo/contentDetail";
+		
+	}
+	
+	/**
+	 * merge 테스트 컨트롤러
+	 * 
+	 * @return
+	 */
+	@RequestMapping("merge.re")
+	public String mergeTest(HttpSession session) {
+		
+		g = new GitHub();
+		
+		g.setMethod("POST");
+		g.setToken((String)session.getAttribute("token"));
+		g.setUri("/repos/kh05final/nonfiction/merges");
+		
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("base", "main");
+		params.put("head", "test");
+		params.put("commit_message", "되나??");
+		
+		g.setParams(params);
+		
+		System.out.println(getGitHubValue(g));
+		
+		return "redirect:/";
 		
 	}
 	

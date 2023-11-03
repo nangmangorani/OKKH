@@ -168,7 +168,7 @@
 								                                			<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
 										                                	<input type="hidden" name="myproTitle" value="${ mypro.myproTitle }">
 										                                	<input type="hidden" name="repoTitle" value="${ r.name }">
-								                                			<button class="btn btn-sm btn-outline-danger">삭제</button>
+								                                			<button class="btn btn-sm btn-outline-danger" onclick="return deleteBtn();">삭제</button>
 						                                    			</form>
 							                                    		<button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateRepoForm" style="float: right;">수정</button>
 								                                    </div>
@@ -187,6 +187,21 @@
 				                		<div>레파지토리가 없습니다. 새로운 레파지토리를 생성해주세요.</div>
 				                	</c:otherwise>
 				                </c:choose>
+				                
+				                <script>
+	
+									$(() => {
+										
+										function deleteBtn() {
+											
+											return confirm("정말로 삭제하시겠습니까?");
+											
+										}
+										
+									})
+							
+								</script>
+				                
 				                <!--레파지 수정 form Modal 시작 -->
 				                <div class="modal fade text-left" id="updateRepoForm" tabindex="-1"
 				                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
@@ -271,23 +286,6 @@
     </div>
 	<!-- /전체 div 끝 -->
 	
-	<script>
-
-		console.log(${ response });
-	
-		function updateDeleteRepo(repo, act) {
-			
-			const repo = $("input [name=repoTitle]").val(repo);
-			
-			console.log(repo);
-			
-			$("#updateDeleteForm").attr("action", act + ".re").submit();
-			
-			return false;
-			
-		}
-	
-	</script>
 </body>
 
 </html>

@@ -21,7 +21,7 @@ ${ loginMember }
                 <p>2023 &copy; OKKH</p>
             </div>
             <div class="float-end">
-                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by 오류없조</p>
+                <p>Crafted with <span class="text-danger">💗</span> by 5류없조</p>
             </div>
         </div>
     </footer>

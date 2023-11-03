@@ -65,17 +65,9 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title" style="float: left;">
+                                        <h4 class="card-title">
                                         	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ mypro.myproTitle }
                                         </h4>
-                                        <fieldset class="form-group" style="float: right;">
-	                                        <select class="form-select" id="basicSelect">
-	                                        	<c:forEach var="b" items="${ bList }">
-		                                            <option>${ b.name }</option>
-	                                        	</c:forEach>
-	                                        </select>
-	                                    </fieldset>
-	                                    <a href="merge.re">Merge</a>
                                     </div>
                                     <div class="card-body">
                                         <!-- table head dark -->
@@ -90,26 +82,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="c" items="${ list }">
 	                                                <tr>
 					                                    <td class='text-bold-500'>
-						                                    <c:choose>
-						                                    	<c:when test="${ fn:contains(c.name, '.') }">
-						                                    		<i class='fa-regular fa-file fa-shake'></i>
-						                                    	</c:when>
-						                                    	<c:otherwise>
-						                                    		<c:choose>
-							                                    		<c:when test="${ c.name eq c.path }">
-								                                    		<i class='fa-solid fa-folder fa-bounce'></i>
-							                                    		</c:when>
-							                                    		<c:otherwise>
-								                                    		<i class='fa-solid fa-folder-open fa-bounce'></i>
-							                                    		</c:otherwise>
-						                                    		</c:choose>
-						                                    	</c:otherwise>
-						                                    </c:choose>
-						                                    <span>${ c.name }</span>
-						                                    <input type="hidden" name="path" value="${ c.path }">
+					                                    	<i class='fa-regular fa-file fa-shake'></i>
+						                                    <span>${ content.name }</span>
 						                                </td>
 						                                <td class='text-bold-500'>${ recentCommit.commit.message }</td>
 						                                <td class='text-bold-500'>
@@ -120,7 +96,6 @@
 					                                </tr>
 					                                <tr>
 					                                </tr>
-                                                </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -134,76 +109,54 @@
                     <!-- 소스코드 호출 js 시작 -->
                     <script>
                     
-                    	/* repo contents ajax 호출 방식
-                    	$(() => {
+                    	$("#repo>tbody>tr").click(() => {
                     		
-                    		let str = "";
-                    		
-                    		selectRepoContents(str);	
-                    		
-                    		function selectRepoContents(str) {
-                    				
-                    			$.ajax({
-                    				url:"selectRepoContents.re",
-                    				data:{
-                    					mpno:${ myproNo },
-                    					rnm:"${ repoName }",
-                    					path:str
-                    				},
-                    				success:(response) => {
-                    					console.log(response);
-                    					
-                    					let value = "";
-                    					
-                    					let name = "";
-                    					
-              							for(let i in response) {
-              								value += "<tr>"
-			                                          + "<td class='text-bold-500'><i class='fa-regular fa-file fa-bounce'></i>" 
-			                                          +		response[i].name
-				                                      +  "</td>"
-				                                      +  "<td class='text-bold-500'>로그인 기능 수정</td>"
-				                                      +  "<td class='text-bold-500'>2시간 전</td>"
-				                                   + "</tr>"
-              							}
-              							
-              							$("#repo>tbody").html(value);
-              							
-              							$("#repo>tbody>tr").click(() => {
-                                			
-                                			console.log($(this).html());
-                                			
-                                			//$("#source").toggle();
-                                			
-                                			//$("#source h6").text("hihi");
-                                			
-                                		})
-              
-                    				},
-                    				error:() => {
-                    					console.log("ㅠㅠ");
-                    				}
-                    			})
-                    		
-                    		}
-                    		
-                    	})
-                    	*/
-                    	
-                    	$("#repo>tbody>tr").click(function() {
-                    		
-                    		let $path = $(this).children().eq(0).children("input").val();
-                    		
-                    		if($path.includes(".")) {
-                    			location.href = "contentDetail.re?pno=${ mypro.myproNo }&rnm=${ repoName }&vis=${ visibility }&ava=${ avatar_url }&path=" + $path;
-                    		}
-                    		else {
-                    			location.href = "repoDetail.re?pno=${ mypro.myproNo }&rnm=${ repoName }&vis=${ visibility }&ava=${ avatar_url }&path=" + $path;
-                    		}
+                    		$.ajax({
+                				url:"selectCode.re",
+                				data:{
+                					mpno:${ mypro.myproNo },
+                					rnm:"${ repoName }",
+                					path:"${ content.path }"
+                				},
+                				success:(response) => {
+                					
+                					console.log(response);
+                					
+                					$("#code").text(response);
+                					
+                					$("#source").toggle();
+                					
+                				},
+                				error:() => {
+                					console.log("ㅠㅠ");
+                				}
+                			})
                     		
                     	})
                     </script>
                     <!-- /소스코드 호출 js 끝 -->
+                    
+                    <!-- 소스코드 호출 부분 시작 -->
+				    <section class="section" id="source">
+				        <div class="row">
+				            <div class="col">
+				                <div class="card">
+				                    <div class="card-header">
+				                        ${ content.name }
+				                    </div>
+				                    <div class="card-body">
+				                        <div class="form-group with-title mb-3">
+				                        	<pre id="code">
+				                        		
+				                        	</pre>
+				                            <label>💻 Your Code</label>
+				                        </div>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				    </section>
+                    <!-- /소스코드 호출 부분 끝 -->
                     <!-- /왼쪽 내용 끝 -->
                 </section>
             </div>

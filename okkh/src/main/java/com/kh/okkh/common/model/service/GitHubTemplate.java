@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.kh.okkh.common.model.vo.GitHub;
@@ -32,10 +34,12 @@ public class GitHubTemplate {
 	/**
 	 * GitHub REST API를 사용하기 위한 Template (WebClient 방식)
 	 * 
+	 * 레파지토리 객체 조회용 템플릿 ({} 형태로 넘어오는 것 : 1개)
+	 * 
 	 * @param g : API 호출에 필요한 매개변수들
 	 * @return response : API로부터 받은 JSON 값
 	 */
-	public static String getGitHubAPIValue(GitHub g) {
+	public static String getGitHubValue(GitHub g) {
 		
 		// WebClient를 사용해서 Header 세팅
 		WebClient webClient = WebClient.builder()
@@ -95,11 +99,11 @@ public class GitHubTemplate {
 	}
 	
 	/**
-	 * 레파지토리 컨텐츠 조회용 템플릿
+	 * 레파지토리 리스트 조회용 템플릿 ([{},{},{},...] 형태로 넘어오는 것들 : 2개 이상)
 	 * 
 	 * @return
 	 */
-	public static ArrayList<Object> getGitHubAPIRepoContents(GitHub g) {
+	public static ArrayList<Object> getGitHubList(GitHub g) {
 		
 		// WebClient를 사용해서 Header 세팅
 		WebClient webClient = WebClient.builder()
@@ -112,8 +116,6 @@ public class GitHubTemplate {
 		
 		// 결과값을 담을 ArrayList 세팅
 		ArrayList<Object> list = new ArrayList<>();
-		
-		String response = "";
 		
 		// uri를 넘겨서 받은 결과값을 ArrayList 형식으로 받고 동기 처리
 		list = webClient.get()
@@ -129,7 +131,40 @@ public class GitHubTemplate {
 		
 	}
 	
-	/** HttpURLConnection 방식 => 실패작ㅠㅠ (POST 안됨,,)
+	/**
+	 * 레파지토리 코드 조회용 템플릿 (코드 조회는 baseUrl이 다름)
+	 * 
+	 * @param g
+	 * @return
+	 */
+	public static String getGitHubCode(GitHub g) {
+		
+		// WebClient를 사용해서 Header 세팅
+		WebClient webClient = WebClient.builder()
+				// 코드에 접근하는 url을 설정
+				.baseUrl("https://raw.githubusercontent.com")
+				.defaultHeader("Accept", "application/vnd.github+json")
+				.defaultHeader("Authorization", "Bearer " + g.getToken())
+				.defaultHeader("X-GitHub-Api-Version", "2022-11-28")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.build();
+		
+		// 결과값을 담을 response
+		String response = "";
+		
+		// uri를 넘겨서 받은 결과값을 text 형식으로 받고 동기 처리
+		response = webClient.get()
+				.uri(g.getUri())
+				.retrieve()
+				.bodyToMono(String.class)
+				.block();
+		
+		// 컨트롤러로 반환
+		return response;
+		
+	}
+	
+	/** HttpURLConnection 방식 => 실패작ㅠㅠ(POST 안됨,,) But, 아픈 손가락,,
 	 * @param g => GithubTemplate Service 호출을 위해 필요한 매개변수 객체VO
 	 * @return response => GitHub REST API에 접근해서 가져온 JSON 값
 	 * @throws IOException
