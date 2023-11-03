@@ -72,7 +72,7 @@
                                         <button class="btn btn-primary" id="continueMile">진행중</button>
                                         <button class="btn btn-primary" id="finishMile">진행완료</button>
                                     </div>
-
+                                    <h5 style="padding-left: 20px;">이슈목록</h5>
                                     <input type="hidden" value="${milestone.number}" id="mileNo">
                                     <div class="card-content">
                                         <!-- table head dark -->

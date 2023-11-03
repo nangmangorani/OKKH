@@ -85,7 +85,7 @@ function submitState() {
                 </form>
                 <form action="edit.mile?mno=${ milestone.number }" method="post">
                     <input type="hidden" name="state" value="closed">
-                    <button class="btn btn-primary" style="float: right">마일스톤 닫기</button> 
+                    <button class="btn btn-primary" style="float: right">마일스톤 종료</button> 
                 </form>
             </section>
             <jsp:include page="../common/footer.jsp"></jsp:include>

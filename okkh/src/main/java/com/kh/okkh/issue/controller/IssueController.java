@@ -100,6 +100,8 @@ public class IssueController {
 		
 		list = iService.getIssues(repository, token, state, pi);
 		
+		System.out.println("리스트컨트롤러 list" + list);
+		
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("list", list);
@@ -157,7 +159,10 @@ public class IssueController {
 	@RequestMapping("enrollForm.iss")
 	public String enrollIssueView(HttpSession session, Model model) {
 		
+		String token = (String)session.getAttribute("token");
 		String repository = (String)session.getAttribute("repository");
+		
+		String orgs = repository.substring(0,repository.indexOf("/"));			
 		
 		System.out.println("등록할때 이거 받아짐???" + repository);
 		
@@ -165,8 +170,11 @@ public class IssueController {
 		
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
 		
+		ArrayList<Member> memList = iService.getOrgsMember(orgs, token); 
+		
 		model.addAttribute("lList", lList);
 		model.addAttribute("mList", mList);
+		model.addAttribute("memList", memList);
 
 		
 		return "issue/issueEnroll";
@@ -179,7 +187,7 @@ public class IssueController {
 	@RequestMapping(value = "enroll.iss", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public String enrollIssue(HttpSession session, Model model, 
 			@RequestParam String title, @RequestParam(required = false) String body, 
-			@RequestParam String assignee, @RequestParam(required = false) String labelSet, 
+			@RequestParam String memList, @RequestParam(required = false) String labelSet, 
 			@RequestParam(required = false) String milestone) throws IOException{
 		
 		String token = (String)session.getAttribute("token");		
@@ -195,8 +203,9 @@ public class IssueController {
 			requestBody.put("milestone", milestone);
 	    }
 		
-		if (assignee != null && !assignee.isEmpty()) {
-			String[] assignees = assignee.split(",");
+		if (memList != null && !memList.isEmpty()) {
+			String[] assignees = memList.split(",");
+			System.out.println("assignees 잘 받아짐? 등록컨" + assignees);
 			requestBody.put("assignees", assignees);
 	    }
 	       
@@ -220,7 +229,7 @@ public class IssueController {
 
 	
 	@RequestMapping("detail.iss")
-	public String detailIssue(HttpSession session, Model model, int ino) throws IOException {
+	public String detailIssue(HttpSession session, Model model, Integer ino) throws IOException {
 		try {
 		String token = (String)session.getAttribute("token");
 		String repository = (String)session.getAttribute("repository");
@@ -345,6 +354,11 @@ public class IssueController {
 		String token = (String)session.getAttribute("token");
 		
 		String repository = (String)session.getAttribute("repository");
+
+		String orgs = repository.substring(0,repository.indexOf("/"));		
+		ArrayList<Member> memList = iService.getOrgsMember(orgs, token); 
+
+
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
@@ -430,7 +444,7 @@ public class IssueController {
 
 		}
 		
-		
+		model.addAttribute("memList", memList);
 		model.addAttribute("createDateTime", createDateTime);
 		model.addAttribute("userLogin", userLogin);
 		model.addAttribute("title", title);
@@ -451,7 +465,7 @@ public class IssueController {
 			@RequestParam(required = false) Integer ino,
 			@RequestParam String title,
 			@RequestParam(required = false) String body,
-			@RequestParam(required = false) String assignee,
+			@RequestParam(required = false) String memList,
 			@RequestParam String labelSet, 
 			@RequestParam(required = false) String milestone) {
 		
@@ -470,8 +484,8 @@ public class IssueController {
 			requestBody.put("milestone", milestone);
 	    }
 		
-		if (assignee != null && !assignee.isEmpty()) {
-			String[] assignees = assignee.split(",");
+		if (memList != null && !memList.isEmpty()) {
+			String[] assignees = memList.split(",");
 			requestBody.put("assignees", assignees);
 			System.out.println("잘있을까요? " + assignees.length);
 	    }
@@ -563,7 +577,7 @@ public class IssueController {
 			session.setAttribute("alertMsg", "이슈 상태변경에 성공하였습니다.");
 		}
 
-		return "redirect:/list.iss?repository=\" + repository;
+		return "redirect:/list.iss?repository=" + repository;
 
 	}
 	

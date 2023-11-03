@@ -65,10 +65,17 @@
 										<div class="card-body">
 											<h6>이슈 담당자</h6>
 											<fieldset class="form-group">
-												<select class="form-select" name="assignee">
-													<option value="nangmangorani" checked>nangmangorani</option>
+												<select class="form-select" name="assignee" id="memSelect" onchange="createAssignee();">
+														<option>선택안함</option>
+													<c:forEach var="mem" items="${ memList }">
+														<option data-url="${mem.profile}">${ mem.gitNick }</option>
+													</c:forEach>
+													<input type="hidden" name="memList" id="memList" value="">
 												</select>
 											</fieldset>
+											<div class="labelSpan2">
+												
+											</div>
 
 											<br>
 											<h6>라벨</h6>
@@ -93,15 +100,9 @@
 													<c:forEach var="m" items="${ mList }">
 														<option value="${ m.number }">${ m.title }</option>
 													</c:forEach>
-													<option value="direct">직접입력</option>
+													
 												</select>
 											</fieldset>
-											<div class="form-group">
-												<input type="text" class="form-control" id="mileInput"
-													style="display: none;" placeholder="직접 입력해주세요">
-												<br>
-												<button id="mileInputBtn" style="display: none; float:right" class="btn btn-primary">생성하기</button>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -109,7 +110,6 @@
 							<button class="btn btn-primary" style="float: right">등록하기</button>
 						</form>
 					</section>
-
 					<input type="hidden" id="labList" value="${ lList }">
 					<input type="hidden" id="issist" value="${ iList }">
 					<jsp:include page="../common/footer.jsp"></jsp:include>
@@ -165,6 +165,51 @@
 						var labelString = labelSet.join(',');
 						document.getElementById("labelSet").value = labelString;
 					}
+					
+					
+					
+					var assigneeSet = new Array();
+					
+					function createAssignee() {
+						var memSelect = document.getElementById("memSelect");
+						var name = memSelect.options[memSelect.selectedIndex].value;
+						var profile = memSelect.options[memSelect.selectedIndex].getAttribute('data-url');
+						
+						assigneeSet.push(name);
+						console.log(assigneeSet);
+						
+						let labelSpan = document.querySelector(".labelSpan2");
+			            let span = document.createElement("span");
+			            span.className = "avatar pull-up";
+						span.title = name;
+						span.style.cursor = "pointer";
+						span.style.marginRight = "15px";
+
+						span.onclick = function() {
+							$(this).remove();
+							deleteAssignee($(this).text());
+						};
+
+						let img = document.createElement("img");
+						img.alt = "avatar";
+						img.src = profile;
+						img.className = "rounded-circle writerAvatar";
+						
+
+						labelSpan.appendChild(span).appendChild(img);
+						var assigneeString = assigneeSet.join(',');
+
+						document.getElementById("memList").value = assigneeString;
+						
+					}
+
+					function deleteAssignee(assignee) {
+						console.log("됨?")
+						assigneeSet.pop(assignee)
+						var assigneeString = assigneeSet.join(',');
+						console.log(assigneeString)
+						document.getElementById("memList").value = assigneeString;
+					}
 
 			       	
 
@@ -174,15 +219,7 @@
 						$("#milestoneSelect").change(function () {
 							var selectedOption = $(this).find(":selected").val();
 							console.log("선택된 옵션: " + selectedOption);
-
-							if (selectedOption === "direct") {
-								$("#mileInput").show();
-								$("#mileInputBtn").show();
-								$(this).removeAttr("name");
-							} else {
-								$("#mileInput").hide();
-								$("#mileInputBtn").hide();
-							}
+							
 						});
 						
 						$('#issueEnrollForm').submit(function() {

@@ -453,10 +453,41 @@ public class IssueServiceImpl implements IssueService{
 		}
 		
 		return cList;
-
-
-
 	}
+
+	@Override
+	public ArrayList<Member> getOrgsMember(String orgs, String token) {
+	
+		String url = orgs + "/members";
+		
+		String response = iDao.getOrgsMember(url, token);
+		
+		ObjectMapper obj = new ObjectMapper();
+		JsonNode jsonNode;
+		ArrayList<Member> mList = new ArrayList<Member>();
+		
+		try {
+			jsonNode = obj.readTree(response);
+			
+			for(int i = 0; i<jsonNode.size(); i++) {
+				String gitNick = jsonNode.get(i).get("login").asText();
+				String profile = jsonNode.get(i).get("avatar_url").asText();
+				Member m = new Member(gitNick, profile);
+				mList.add(m);
+			}
+			
+			System.out.println("mList 나오길 기도" + mList);
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return mList;
+		
+		
+	}
+	
+	
 
 
 }

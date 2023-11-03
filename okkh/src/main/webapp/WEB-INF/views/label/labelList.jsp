@@ -155,7 +155,7 @@
                                                             	<button class="btn btn-outline-primary edit" onclick="editMileForm();">수정</button>
                                                             	<form action="delete.lab">
                                                             		<input type="hidden" value="${ l.name }" name="name">
-                                                            		<button class="btn btn-outline-primary delete">삭제</button>
+                                                            		<button class="btn btn-outline-primary delete" onclick="return realDelete();">삭제</button>
                                                             	</form>
                                                             </td>
                                                             
@@ -217,6 +217,14 @@
 						$(".emrollBtn").on("click", enrollForm);
 						$(".enrollcloseBtn").on("click", enrollFormClose);
 					})
+
+                    function realDelete(labelName) {
+                        if (confirm("정말 삭제하시겠습니까?")) {
+                            return true; // 동작 허용
+                        } else {
+                            return false; // 동작 취소
+                        }
+                    }
 				
 				</script>
 

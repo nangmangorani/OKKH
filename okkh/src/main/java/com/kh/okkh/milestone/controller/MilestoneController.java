@@ -46,7 +46,7 @@ public class MilestoneController {
 	
 	
 	@RequestMapping("list.mile")
-	public String milestoneList(HttpSession session, Model model, String state) {
+	public String milestoneList(HttpSession session, Model model, String state, String repository) {
 		
 		String token = (String)session.getAttribute("token");
 		
@@ -55,7 +55,7 @@ public class MilestoneController {
 		}
 		
 		// open이 디폴트
-		String repository = (String)session.getAttribute("repository");
+		session.setAttribute("repository", repository);
 		
 		int listCount = mService.milestoneCount(repository, token, session, state);
 		
@@ -171,7 +171,7 @@ public class MilestoneController {
 		
 		mService.enrollMilestone(token, repository, requestBody);
 		
-		return "redirect:/list.mile";
+		return "redirect:/list.mile?repository=" + repository;
 	}
 	
 	

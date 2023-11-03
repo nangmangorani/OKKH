@@ -259,14 +259,16 @@
                     $("#continueBtn").click(function () {
                         state = "open";
                         var cpage = 1;
-                        console.log(state);
+                        $("#finishBtn").removeClass("active");
+                        $(this).addClass("active");
                         sendAjaxRequest(state, cpage);
                     });
 
                     $("#finishBtn").click(function () {
                         state = "closed";
                         var cpage = 1;
-                        console.log(state);
+                        $("#continueBtn").removeClass("active");
+                        $(this).addClass("active");
                         sendAjaxRequest(state, cpage);
                     });
 
