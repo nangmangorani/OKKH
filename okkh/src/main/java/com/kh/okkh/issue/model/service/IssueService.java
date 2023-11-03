@@ -10,6 +10,7 @@ import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.issue.model.vo.Comments;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.labels.model.vo.Labels;
+import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.milestone.model.vo.Milestone;
 
 
@@ -36,4 +37,6 @@ public interface IssueService {
 	String enrollComment(String repository, String token, Map<String, Object> requestBody, int ino);
 
 	ArrayList<Comments> getComments(String repository, String token, int ino);
+	
+	ArrayList<Member> getOrgsMember(String orgs, String token);
 }

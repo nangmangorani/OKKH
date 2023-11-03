@@ -31,5 +31,11 @@ public class Member {
 	private String teamStatus;  //참여상태 y확정, n임시 , 일단은 default 값이 n임
 	private String avatarUrl;
 	
+	public Member(String gitNick, String profile) {
+		this.gitNick = gitNick;
+		this.profile = profile;
+	}
 	
 }
+
+

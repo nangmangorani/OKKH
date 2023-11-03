@@ -30,7 +30,7 @@ public class LabelsController {
 		String token = (String)session.getAttribute("token");
 		System.out.println("token라벨컨트롤런데 나 잘있음" + token);
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		ArrayList<Labels> lList = new ArrayList<Labels>();
 		
@@ -49,7 +49,7 @@ public class LabelsController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		color = color.substring(1);
 		System.out.println("color 이제 깔끔? " + color);
@@ -71,7 +71,7 @@ public class LabelsController {
 
 		String token = (String)session.getAttribute("token");
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		color = color.substring(1);
 
@@ -92,7 +92,7 @@ public class LabelsController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		
 		lService.deleteLabel(repository, token, name);
 		

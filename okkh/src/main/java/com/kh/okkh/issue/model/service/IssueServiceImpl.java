@@ -63,7 +63,10 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public ArrayList<Labels> getLabels(String repository, HttpSession session){
 		
+		System.out.println("repository getlabels" + repository);
 		String url = repository + "/labels";
+		
+		
 		// 여기서 git.api url로 변환해줌
 		// 라벨 전체url이 나올거임
 		// 2333333333
@@ -284,7 +287,6 @@ public class IssueServiceImpl implements IssueService{
 	private Issue createGitIssueFromJsonObject(JsonObject issueObj) {
 		Issue git = new Issue();
 		
-		// https://api.github.com/repos/nangmangorani/01_java-workspace/issues?state=open&page=1 이런데에서 데이터가져와 객체에 세팅
 		
 		// 제목
 		git.setTitle(issueObj.get("title").getAsString());
@@ -451,10 +453,41 @@ public class IssueServiceImpl implements IssueService{
 		}
 		
 		return cList;
-
-
-
 	}
+
+	@Override
+	public ArrayList<Member> getOrgsMember(String orgs, String token) {
+	
+		String url = orgs + "/members";
+		
+		String response = iDao.getOrgsMember(url, token);
+		
+		ObjectMapper obj = new ObjectMapper();
+		JsonNode jsonNode;
+		ArrayList<Member> mList = new ArrayList<Member>();
+		
+		try {
+			jsonNode = obj.readTree(response);
+			
+			for(int i = 0; i<jsonNode.size(); i++) {
+				String gitNick = jsonNode.get(i).get("login").asText();
+				String profile = jsonNode.get(i).get("avatar_url").asText();
+				Member m = new Member(gitNick, profile);
+				mList.add(m);
+			}
+			
+			System.out.println("mList 나오길 기도" + mList);
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return mList;
+		
+		
+	}
+	
+	
 
 
 }

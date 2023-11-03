@@ -46,7 +46,7 @@ public class MilestoneController {
 	
 	
 	@RequestMapping("list.mile")
-	public String milestoneList(HttpSession session, Model model, String state) {
+	public String milestoneList(HttpSession session, Model model, String state, String repository) {
 		
 		String token = (String)session.getAttribute("token");
 		
@@ -55,7 +55,7 @@ public class MilestoneController {
 		}
 		
 		// open이 디폴트
-		String repository = "nangmangorani/01_java-workspace";
+		session.setAttribute("repository", repository);
 		
 		int listCount = mService.milestoneCount(repository, token, session, state);
 		
@@ -79,7 +79,7 @@ public class MilestoneController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		if(state == null) {
@@ -103,7 +103,7 @@ public class MilestoneController {
 		
 
 
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		if(state == null) {
 			state = "open";
 		}
@@ -136,7 +136,7 @@ public class MilestoneController {
 		   @RequestParam(required = false) String content) {
 		
 		String token = (String)session.getAttribute("token");
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		String dueOn = null;
 		
 		if (dueOnDate != null && !dueOnDate.isEmpty()) {
@@ -171,7 +171,7 @@ public class MilestoneController {
 		
 		mService.enrollMilestone(token, repository, requestBody);
 		
-		return "redirect:/list.mile";
+		return "redirect:/list.mile?repository=" + repository;
 	}
 	
 	
@@ -182,7 +182,7 @@ public class MilestoneController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		Milestone milestone = mService.getMilestoneByMno(repository, session, mno);
 		
 		model.addAttribute("milestone", milestone);
@@ -201,7 +201,7 @@ public class MilestoneController {
 			
 		String token = (String)session.getAttribute("token");
 		System.out.println("mno인데 내가 없어도 너무 슬퍼하지마" + mno);
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 		String dueOn = null;
 		
 		if (dueOnDate != null && !dueOnDate.isEmpty()) {
@@ -250,7 +250,7 @@ public class MilestoneController {
 	// @RequestMapping("enrollIssue.mile")
 	// public String enrollIssueAtMile(HttpSession session, int mno, Model model) {
 		
-	// 	String repository = "nangmangorani/01_java-workspace";
+	// 	String repository = (String)session.getAttribute("repository");;
 		
 		
 
@@ -264,7 +264,7 @@ public class MilestoneController {
 	public ArrayList<Milestone> ajaxMile(HttpSession session, @RequestParam(required = false)String state) {
 
 		String token = (String)session.getAttribute("token");
-		String repository = "nangmangorani/01_java-workspace";
+		String repository = (String)session.getAttribute("repository");
 
 		if(state == null) {
 			state = "open";

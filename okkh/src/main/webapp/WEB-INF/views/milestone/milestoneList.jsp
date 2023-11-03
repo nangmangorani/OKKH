@@ -38,8 +38,8 @@
                                     <div class="card-header">
                                         <h4 class="card-title">마일스톤</h4>
                                         <div class="form-group" style="padding-top: 20px;">
-                                            <button class="btn btn-primary" id="mileOpenBtn">Opened</button>
-                                            <button class="btn btn-primary" id="mileCloseBtn">Closed</button>
+                                            <button class="btn btn-outline-primary" id="mileOpenBtn">Opened</button>
+                                            <button class="btn btn-outline-primary" id="mileCloseBtn">Closed</button>
                                             <button class="btn btn-primary" id="enrollMileBtn" style="float:right"
                                                 onclick="location.href='enrollForm.mile'">마일스톤 생성</button>
                                         </div>
@@ -136,14 +136,18 @@
                     $("#mileOpenBtn").click(function () {
                         state = "open";
                         sendAjaxRequest(state);
+                        $("#mileCloseBtn").removeClass("active");
+                        $(this).addClass("active");
                     });
 
                     $("#mileCloseBtn").click(function () {
                         state = "closed";
                         sendAjaxRequest(state);
+                        $("#mileOpenBtn").removeClass("active");
+                        $(this).addClass("active");
                     });
 
-
+//btn btn-outline-primary
                     function sendAjaxRequest(state) {
 
                         $.ajax({

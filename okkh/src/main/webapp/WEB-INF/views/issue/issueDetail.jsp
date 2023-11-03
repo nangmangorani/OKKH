@@ -41,6 +41,22 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
             color: white;
         }
         
+        .pull-up {
+            transition: all 0.25s ease;
+        }
+
+        .pull-up:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0.25rem 1rem rgba(161, 172, 184, 0.45);
+            z-index: 30;
+            border-radius: 50%;
+        }
+        
+        #mileImg {
+		    width: 25px;
+		    height: 25px;
+		}
+        
     </style>
     
 </head>
@@ -155,7 +171,11 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                 <div class="card-body">
                                     <h6>이슈 담당자</h6>
                                     <c:forEach var="a" items="${ assignees }">
-                                    	${ a.gitNick }
+                                            <span title="${ a.gitNick }"
+                                                class="avatar avatar-bg pull-up">
+                                                <img alt="avatar" src="${ a.profile }"
+                                                    class="rounded-circle writerAvatar">
+                                            </span> &nbsp;&nbsp;&nbsp;
                                     </c:forEach>
                                     <br><br><br><br><br>
                                     <h6>라벨</h6>
@@ -165,10 +185,9 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                     </c:forEach>
                                     <br><br><br><br><br>
                                     <h6>마일스톤</h6>
-                                    ${ milestoneOne.title } 
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="directInput" style="display: none;"
-                                            placeholder="직접 입력해주세요">
+                                    <div>
+                                    <img src="resources/icons/milestone.png" id="mileImg">
+                                    	<span style="font-weight:600; margin-top:5px; font-size:20px;">${ milestoneOne.title }</span>
                                     </div>
                                 </div>
                             </div>
