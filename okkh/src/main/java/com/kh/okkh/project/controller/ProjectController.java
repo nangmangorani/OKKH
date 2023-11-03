@@ -580,7 +580,7 @@ public class ProjectController {
 	 * mainpage top 4
 	 */
     @ResponseBody
-    @RequestMapping(value="toplist.bo", produces="application/json; charset=utf-8")
+    @RequestMapping(value="topProjectList.bo", produces="application/json; charset=utf-8")
 	public String selectProjectTopList() {
 		
 		ArrayList<Project> list = pservice.selectProjectTopList();

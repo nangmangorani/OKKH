@@ -45,7 +45,7 @@
                                                             <div class="col-12">
                                                                 <div class="card">
                                                                     <div class="card-header">
-                                                                        <span class="card-title" style="font-weight: bolder; font-size: 20px">채팅방 목록</span>
+                                                                        <span class="card-title" style="font-weight: bolder; font-size: 30px">채팅방 목록</span>
                                                                         <!-- 채팅방 추가 모달 -->
                                                                         <button class="btn btn-primary" style="float: right;" id="addChat"
                                                                         data-bs-toggle="modal" data-bs-target="#addChatModal">추가</button>
@@ -68,19 +68,19 @@
 		                                                                                        <c:choose>
 			                                                                                        <c:when test="${not empty cr.lastChat }">
 				                                                                                        <td>
-				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
+				                                                                                        	<span style="font-weight: bold; font-size: 20px;">${cr.roomTitle }</span> <br>
 				                                                                                            <span style="font-size: 14px;">${cr.lastChat }</span>
 				                                                                                        </td>
 			                                                                                        </c:when>
 			                                                                                        <c:otherwise>
 				                                                                                        <td>
-				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
-				                                                                                            <span style="font-size: 14px;">주고받은 메시지가 없습니다.</span>
+				                                                                                        	<span style="font-weight: bold; font-size: 18px;">${cr.roomTitle }</span> <br>
+				                                                                                            <span style="font-size: 13px;">주고받은 메시지가 없습니다.</span>
 				                                                                                        </td>
 			                                                                                        </c:otherwise>
 		                                                                                        </c:choose>
 		                                                                                        <td class="table-btn"><a href="room.ch?crno=${cr.roomNo }" id="enterRoom" class="btn btn-outline-primary">입장하기</a></td>
-		                                                                                        <td class="table-btn"><button class="btn btn-outline-danger">나가기</button></td>
+		                                                                                        <td class="table-btn"><a onClick="deleteRoom();" class="btn btn-outline-danger">삭제</a></td>
 		                                                                                    </tr>
 		                                                                                    </tbody>
                                                                                    		</c:forEach>
@@ -175,8 +175,28 @@
           </div>
         </div>
       </div>
-	
-	
+<script>
+	function deleteRoom(){
+		
+		$.ajax({
+			url:"deleteRoom.ch",
+			data:{
+				  	roomNo:$(".crno").val()
+				  },
+			success:function(result){
+				if(result == "success"){
+					session.setAttribute("alertMsg", "성공적으로 채팅방을 삭제하였습니다.");
+				} else{
+					console.log("안해 식빵!")
+				}
+			},
+			error:function(){
+				console.log("방 나가기 ajax 실패");
+			}
+		})
+	}
+
+</script>
 <!--여기 두개가 다중 select박스인듯-->    
 <script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
 <script src="resources/assets/static/js/pages/form-element-select.js"></script>

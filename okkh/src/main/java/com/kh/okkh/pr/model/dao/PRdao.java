@@ -200,6 +200,12 @@ public class PRdao {
 	public int deletePrBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
 		return sqlSession.delete("prMapper.deletePrBookmark", b);
 	}
+
+
+
+	public ArrayList<PR> selectPrTopList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("prMapper.selectPrTopList");
+	}
 	
 	
 	

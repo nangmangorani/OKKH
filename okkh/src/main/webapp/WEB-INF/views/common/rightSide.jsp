@@ -30,38 +30,50 @@
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="Friends" role="tabpanel" aria-labelledby="Friends-tab">
-                                <br>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/4.jpg">
-                                        <span class="avatar-status bg-success"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Hank Schrader</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/5.jpg">
-                                        <span class="avatar-status bg-danger"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">@imdean</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/1.jpg">
-                                        <span class="avatar-status bg-success"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">@dodoljohn</h6>
-                                    </div>
+                                <div style="margin:auto;">
+	                                <i class="fa-solid fa-lock fa-beat fa-2xl" style="margin:120px;"></i>
                                 </div>
                             </div>
+                            
+                            <script>
+                            $(function(){
+                            	if(${not empty loginMember}){
+									myBfList();
+                            	}
+							})
+							
+							function myBfList(){
+                            	$.ajax({
+                            		url:"mainListFriend.fri",
+    				  				data:{
+                            			memNo : ${loginMember.memNo}
+                            		},
+                            		success:function(list){
+                            			
+                            			let value = "";
+                            			for(let i in list){
+                            				value += "<br>"
+                            					   + "<div class='recent-message d-flex px-4 py-3'>"
+                            					   + "<div class='avatar avatar-lg'>"
+                            					   + "<img src='" + list[i].profile + "'>"
+                            					   + "</div>"
+                            					   + "<div class='name ms-4'>"
+                            					   + "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
+                            					   + "<h6 class='text-muted mb-0'>@베스트프렌드!!</h6>"
+                            					   + "</div></div>";
+                            			}	
+                            			
+                            			$("#Friends").html(value);
+                            			
+                            		},
+                            		error:function(){
+                            			console.log("친구 ajax 통신 실패");
+                            		}
+                            	})
+                            }
+                            </script>
+                            
+                            
                             <div class="tab-pane fade" id="TeamMates" role="tabpanel" aria-labelledby="TeamMates-tab">
                                 <br>
                                 <div class="recent-message d-flex px-4 py-3">

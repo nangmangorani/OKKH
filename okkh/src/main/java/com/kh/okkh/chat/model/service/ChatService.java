@@ -9,7 +9,7 @@ import com.kh.okkh.member.model.vo.Member;
 
 public interface ChatService {
 	
-	ChatMember selectChatMember(Member m);
+	ChatMember selectChatMember(int memNo);
 	
 	ArrayList<ChatRoom> selcetChatRoomList(Member m);
 	
@@ -24,5 +24,9 @@ public interface ChatService {
 	ChatRoom selectChatRoom(int crno);
 	
 	ArrayList<ChatMember> selectChatMemberList(int crno);
+
+	int outRoom(int memNo);
+
+	int deleteRoom(int roomNo);
 	
 }

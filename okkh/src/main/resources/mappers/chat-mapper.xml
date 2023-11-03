@@ -36,9 +36,10 @@
 	
 	<select id="selectChatMember" resultMap="chatMemberResultSet">
 		select mem_no
-			 , room_no
-		  from chat_member
-		  join member using (mem_no)
+			 , cm.room_no
+			 , profile
+		  from chat_member cm
+		  join member m using (mem_no)
 		 where mem_no = #{memNo}
 		   and rownum = 1
 	</select>
@@ -48,9 +49,9 @@
 		     , room_title
 		     , last_chat
 		     , last_date
-		  from chat_room
-		  join chat_member using (room_no)
-		 where status = 'Y'
+		  from chat_room r
+		  join chat_member m using (room_no)
+		 where r.status = 'Y'
 		   and mem_no = #{memNo}
 	</select>
 
@@ -125,11 +126,23 @@
 	
 	<select id="selectChatMemberList" resultMap="chatMemberResultSet">
 		select mem_no
-		     , room_no
+		     , cm.room_no
 		     , git_nick
-		  from chat_member
-		  join member using (mem_no)
-		 where room_no = #{roomNo}
+		     , profile
+		  from chat_member cm
+		  join member m using (mem_no)
+		 where cm.room_no = #{roomNo}
 	</select>
 	
+	<update id="outRoom">
+		update chat_member
+		   set status = 'N'
+		 where mem_no = #{memNo}
+		   and room_no = #{roomNo}
+	</update>
+	
+	<delete id="deleteRoom">
+		delete chat_room
+		 where room_no = #{roomNo}
+	</delete>
 </mapper>

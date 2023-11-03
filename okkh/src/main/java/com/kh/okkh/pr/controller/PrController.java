@@ -30,6 +30,7 @@ import com.kh.okkh.common.template.PagiNation;
 import com.kh.okkh.member.model.vo.Member;
 import com.kh.okkh.pr.model.service.PRServiceImpl;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 /**
  * @author 유정(호빵)
@@ -399,7 +400,17 @@ public class PrController {
 	}
 	
 	
-	
+	/**
+	 * mainpage top 4
+	 */
+    @ResponseBody
+    @RequestMapping(value="topPrList.bo", produces="application/json; charset=utf-8")
+	public String selectPrTopList() {
+		
+    	ArrayList<PR> list = prService.selectPrTopList();
+		
+		return new Gson().toJson(list);
+	}
 	
 	
 }

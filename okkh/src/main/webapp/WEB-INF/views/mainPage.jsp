@@ -8,10 +8,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OKKH - 이곳에서 꿈을</title>
 <style>
-	#pr:hover{
+	table>tbody>tr:hover{
 	          cursor: pointer;
 	          opacity: 0.5;
 	      	 }
+	
 </style>
 
 
@@ -104,9 +105,8 @@
                                 <div class="card">
                                     <div style="height: 300px; border-radius: 15px; padding: 10px;">
                                         <div class="card-header" style="padding: 20px 0 0 20px;">
-                                            <h4>TOP Recruit</h4>
+                                            <h4>TOP4 Recruit</h4>
                                         </div>
-                                        <input type="hidden" value="${p.proNo }" id="proNo">
                                         <table class="table mb-0" id="projectList">
 			                                <thead>
 			                                    <tr>
@@ -115,6 +115,7 @@
 			                                        <th>작성자</th>
 			                                        <th>기술</th>
 			                                        <th>마감일</th>
+			                                        <th>조회수</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
@@ -126,31 +127,38 @@
                             </div>
                             <script>
 								$(function(){
-									toplist();
-									
-									$(document).on("click", "#projectList tbody>tr", function(){
-										location.href = "selectDetailPro.pro?pno=" + $("#proNo").val();
-									})
+									topProjectList();
 									
 								})
-								function toplist(){
+								function topProjectList(){
 									$.ajax({
-										url:"toplist.bo",
+										url:"topProjectList.bo",
 										success:function(list){
-											console.log(list)
+											
 											let value = "";
 											for(let i in list){
-												
-												value += "<tr>"
-													+"<td class='text-bold-500'>" + i + "</td>"
-													+"<td class='text-bold-500'>" + list[i].proTitle + "</td>"
-													+"<td>" + list[i].proWriter + "</td>"
-													+"<td>" + list[i].proPosition + "</td>"
-													+"<td>" + list[i].proDeadLine + "</td>"
-													+"</tr>";
+												i = parseInt(i) + 1;
+											    value += "<tr>" +
+											        "<td id='proNo' style='display: none;'>" + list[i - 1].proNo + "</td>" +
+											        "<td class='text-bold-500'>" + i + "등</td>" +
+											        "<td class='text-bold-500'>" + list[i - 1].proTitle + "</td>" +
+											        "<td>" + list[i - 1].proWriter + "</td>" +
+											        "<td>" + list[i - 1].proPosition + "</td>" +
+											        "<td>" + list[i - 1].proDeadLine + "</td>" +
+											        "<td>" + list[i - 1].count + "</td>" +
+											        "</tr>";
 											}
 											
 											$("#projectList tbody").html(value);
+											
+											$(document).on("click", "#projectList tbody>tr", function(){
+												if(${empty loginMember}){
+													alert("로그인 후 이용 가능합니당.")
+												}else{
+													location.href = "selectDetailPro.pro?pno=" + $(this).children().eq(0).text();
+												}
+											})
+											
 										},
 										error:function(){
 											console.log("PR탑 실패");
@@ -165,16 +173,16 @@
                                 <div class="card">
                                     <div style="height: 300px; border-radius: 15px; padding: 10px;">
                                         <div class="card-header" style="padding: 20px 0 0 20px;">
-                                            <h4>TOP PR</h4>
+                                            <h4>TOP4 PR</h4>
                                         </div>
-                                        <table class="table mb-0" id="projectList">
+                                        <table class="table mb-0" id="prList">
 			                                <thead>
 			                                    <tr>
 			                                        <th>랭크</th>
 			                                        <th>제목</th>
 			                                        <th>작성자</th>
-			                                        <th>기술</th>
-			                                        <th>마감일</th>
+			                                        <th>소개글</th>
+			                                        <th>조회수</th>
 			                                    </tr>
 			                                </thead>
 			                                <tbody>
@@ -184,6 +192,48 @@
                                     </div>
                                 </div>
                             </div>
+                            <script>
+								$(function(){
+									topPrList();
+									
+								})
+								function topPrList(){
+									$.ajax({
+										url:"topPrList.bo",
+										success:function(list){
+											
+											let value = "";
+											for(let i in list){
+												i = parseInt(i) + 1;
+											    value += "<tr>" +
+											        "<td id='prNo' style='display: none;'>" + list[i - 1].prNo + "</td>" +
+											        "<td class='text-bold-500'>" + i + "등</td>" +
+											        "<td class='text-bold-500'>" + list[i - 1].prTitle + "</td>" +
+											        "<td>" + list[i - 1].prWriter + "</td>" +
+											        "<td>" + list[i - 1].prContent + "</td>" +
+											        "<td>" + list[i - 1].count + "</td>" +
+											        "</tr>";
+											}
+											
+											$("#prList tbody").html(value);
+											
+											$(document).on("click", "#prList tbody>tr", function(){
+												if(${empty loginMember}){
+													alert("로그인 후 이용 가능합니당.")
+												}else{
+													location.href = "detailPr.pr?pno=" + $(this).children().eq(0).text();
+												}
+											})
+											
+											
+											
+										},
+										error:function(){
+											console.log("PR탑 실패");
+										}
+									})
+								}
+							</script>
                             <!-- PR글 끝 -->
                         </div>
                         <!-- 플젝모집 및 PR글 모음 끝 -->

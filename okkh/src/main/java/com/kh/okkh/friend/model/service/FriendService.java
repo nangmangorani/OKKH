@@ -74,6 +74,8 @@ public interface FriendService {
 	
 	// 친구 검색어로 조회하는 메소드 
 	ArrayList<Member> searchMember(String search, int memNo);
+
+	ArrayList<Friend> mainListFriend(int memNo);
 	
 	
 	

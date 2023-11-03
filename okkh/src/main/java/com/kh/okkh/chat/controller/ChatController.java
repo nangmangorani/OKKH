@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.kh.okkh.chat.model.service.ChatServiceImpl;
 import com.kh.okkh.chat.model.vo.ChatMember;
@@ -25,10 +26,13 @@ public class ChatController {
 		
 		Member m = (Member)session.getAttribute("loginMember");
 		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
 		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(m);
 		ArrayList<Friend> frList = cService.searchMemberList(m);
+		ChatMember cm = cService.selectChatMember(memNo);
 		
-		mv.addObject("crList", crList).addObject("frList",frList).setViewName("chat/rooms");
+		mv.addObject("crList", crList).addObject("frList", frList).addObject("cm", cm).setViewName("chat/rooms");
 		
 		return mv;
 	}
@@ -38,7 +42,7 @@ public class ChatController {
 		
 		ChatRoom cr = cService.selectChatRoom(crno);
 		ArrayList<ChatMember> cmList = cService.selectChatMemberList(crno);
-		System.out.println(cmList);
+		
 		mv.addObject("cr", cr).addObject("cmList", cmList).setViewName("chat/room");
 		
 		return mv;
@@ -61,6 +65,24 @@ public class ChatController {
 			model.addAttribute("errorMsg", "채팅방 개설을 실패했습니다.");
 			return "common/errorPage";
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="outRoom.ch", produces="application/json; charset=utf-8")
+	public String outRoom(int memNo, Model model, HttpSession session) {
+		int result = cService.outRoom(memNo);
+		
+		return result>0 ? "success" : "fail";
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="deleteRoom.ch", produces="application/json; charset=utf-8")
+	public String deleteRoom(int roomNo, Model model, HttpSession session) {
+		int result = cService.deleteRoom(roomNo);
+		
+		return result>0 ? "success" : "fail";
+		
 	}
 	
 }
