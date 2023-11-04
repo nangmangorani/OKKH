@@ -8,13 +8,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +35,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.kh.okkh.commit.model.vo.Branches;
 import com.kh.okkh.commit.model.vo.Commit;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.template.PagiNation;
@@ -38,20 +49,23 @@ import com.kh.okkh.pullRequest.model.vo.PullReview;
 
 
 
+
+
 @Controller
 public class PullRequestController {
 	
 	/**
 	 * 풀-리퀘스트 조회용 컨트롤러
 	 * 
-	 * @author 윤관현 
-	 * {@code 유정(호빵)} 
+	 * @컨트롤러 생성 윤관현 
+	 * {@code 작성 유정(호빵)} 
 	 */
 	
 	
 	
 	/**
 	 * 나의 프로젝트에서 풀리퀘스트 누르자마자 실행되는 메소드
+	 * 풀리퀘 생성을 위해서 브랜치도 조회해와야 함
 	 * @return
 	 */
 	
@@ -75,7 +89,7 @@ public class PullRequestController {
 		String token = (String)session.getAttribute("token");
 		
 		
-		System.out.println(token  + "  : 토큰!!!!!!!!!!!!ㅃ");
+		//System.out.println(token  + "  : 토큰!!!!!!!!!!!!ㅃ");
 		
 		
 		
@@ -83,10 +97,6 @@ public class PullRequestController {
 		if(state == null) {
 			state = "open" ;
 		}
-		
-		
-		// 이제 라벨을 조회해오자 
-		//ArrayList<Labels> lList = pullService.getLables(repository, session);
 		
 		
 		
@@ -97,7 +107,6 @@ public class PullRequestController {
 		// listCount는 총개수.. 근데 지금 열려있는거만이니까??? 이 레퍼지의 open_pullRequest_count값을 가져오는게 맞는듯?
 		// pageLimit은 5
 		// boardLimit은 10
-		
 		
 		
 		// 이젠 풀리퀘스트의 list 값을 페이징처리해서 가져오자 
@@ -122,7 +131,11 @@ public class PullRequestController {
 		ArrayList<PullRequest> closeList = pullService.getPullRequest1(repository, token, state, closePi);
 		
 		
-		System.out.println(closeList +  "    : 닫힘닫힘아아리스트 ");
+		ArrayList<Branches> blist = pullService.getBranches(repository,token);
+		
+		
+		
+		System.out.println(blist +  "    : 브랜치이이이");
 		
 		// 풀리퀘 리뷰리스트도 얻어오자
 		// 풀리퀘 리뷰리스트 알려면 풀리퀘 번호가 필요함 
@@ -177,10 +190,9 @@ public class PullRequestController {
 		mv.addObject("plist", plist);
 		mv.addObject("closeList", closeList);
 		mv.addObject("closePi", closePi);
-		//mv.addObject("lList", lList);
 		mv.addObject("listCount",listCount);
 		mv.addObject("closeListCount", closeListCount);
-		
+		mv.addObject("blist",blist);
 		mv.setViewName("pullRequest/myPullRequest");
 		
 		
@@ -230,7 +242,7 @@ public class PullRequestController {
 		// 풀리퀘 리뷰도 얻어오자 (잘 받아짐)
 		ArrayList<PullReview> pullReview = pullService.getpullRequestReview(repository, token, pno);
 		
-		//System.out.println("풀리퀘 리뷰 :  " + pullReview);
+		System.out.println("풀리퀘 리뷰 :  " + pullReview);
 		
 	
 		// 이젠 커밋 리스트도 얻어오자 
@@ -245,16 +257,221 @@ public class PullRequestController {
 		mv.addObject("pullReview", pullReview);
 		mv.addObject("commit", commit);
 		mv.setViewName("pullRequest/pullRequestDetail");
-		
-		
+	
 		return mv;
 		
 	}
 	
 	
+	@RequestMapping("createPullRequest.pull")
+	public String createPullRequest(String title, String body, String branches, HttpSession session) {
+		//System.out.println("생성 나옴?  : " + title + ", " + body);  아싸뵤 잘나온당~!!
+		
+		String token = (String)session.getAttribute("token");
+		String repository = "nangmangorani/OKKH";
+		String base =  "main";  // 베이스는 어디에다가 머지 할건지 지정하는 거
+		String head = "nangmangorani:"+branches  ;  // 이건 어느 브랜치에서 변화가 있는지 
+		
+		
+		Map<String, Object> updateValue = new HashMap<>();
+		updateValue.put("title", title);
+		updateValue.put("body", body);
+		updateValue.put("base", base);
+		updateValue.put("head", head);
+		
+		pullService.enrollPullRequest(token,repository,updateValue);
+		
+		
+		return "redirect:myPullRequest.pu";
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 *  깃허브의 상태를 변경하는 메소드 (open->closed/ closed->open)
+	 * @param pno
+	 * @param state
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="updatePullState.pull" )
+	public String updatePullState(int pno, String state, HttpSession session) {
+		
+		
+		//  System.out.println("상태 수정 넘어옴?  : "  + pno + "  ,  " + state); // -> 잘 넘어옴!! 야호!
+		
+		// 필요한 값 : 토큰, 레파지토리, 맵에다가 넘겨받은 값을 넣기!!
+		
+		String token = (String)session.getAttribute("token");
+		
+		String repository = "nangmangorani/OKKH";
+		
+		Map<String, Object> updateValue = new HashMap<>() ;
+		
+		updateValue.put("state", state);
+		
+		
+		pullService.updatePull(token,repository,pno,updateValue);
+		
+		return "redirect:myPullRequest.pu";
+		
+	}
+	
+	
+	
+	/**
+	 *  풀리퀘 리뷰 작성하는 메소드
+	 * @param pno
+	 * @param body
+	 */
+	@RequestMapping("enrollReview.pull")
+	public String enrollPullReview(int pno, String body, HttpSession session) {
+		
+		//System.out.println("리뷰 작성 넘어옴?  : " + pno + "  ,  " + body);  // 이것도 잘 넘어온당 야호!
+		
+		// 레파지토리, 토큰, 맵 생성하기!
+		
+		// 작성 날짜
+		 // 현재의 LocalDateTime 가져오기
+        LocalDateTime now = LocalDateTime.now();
+
+        // 날짜를 ISO 8601 형식의 문자열로 포맷
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .withZone(ZoneId.of("UTC")); // "Z"는 UTC(Zulu)를 나타냅니다.
+
+        String formattedDate = now.format(formatter);
+ 
+        
+        
+    
+        String gitNick = ((Member)session.getAttribute("loginMember")).getGitNick();
+        String profile = ((Member)session.getAttribute("loginMember")).getProfile();
+		String token = (String)session.getAttribute("token");
+		String repository = "nangmangorani/OKKH";
+		
+		String state ="COMMENTED";
+		String event = "COMMENT";  // 일반적인 리뷰를 달기위해선 이걸 작성해야함
+		
+		
+		Map<String, Object> updateValue = new HashMap<>() ;
+		
+		updateValue.put("body", body);
+		updateValue.put("state",state);
+		updateValue.put("event", event);
+		updateValue.put("submitted_at", formattedDate);
+		
+		
+		pullService.enrollReview(token, repository, updateValue, pno);
+		
+		return "redirect:pullRequestDetail.pu?pno="+pno;
+	}
+	
+	
+	
+	/**
+	 * 풀리퀘스트 제목만 수정하는 메소드
+	 * @param pno
+	 * @param title
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("updatePullTitle.pull")
+	public String updatePullTitle(int pno, String title, HttpSession session) {
+		//System.out.println("제목 수정 나옴? : "  +pno + ", " + title);  // 오우 잘 넘어온다잉 ~ ?
+		
+		// 레파지토리, map, 토큰
+		String repository = "nangmangorani/OKKH";
+		String token = (String)session.getAttribute("token");
+		
+		Map<String, Object>  updateValue = new HashMap<>() ;
+		
+		updateValue.put("title",title);
+		
+		pullService.updatePull(token, repository, pno, updateValue);
+		
+		return "redirect:pullRequestDetail.pu?pno="+pno;
+		
+	}
+	
+	
+	
+	/**
+	 * 풀리퀘 내용만 수정하는 메소드
+	 * @return
+	 */
+	@RequestMapping("updatePullBody.pull")
+	public String updatePullBody(int pno,String body, HttpSession session) {
+		
+		//String body = "dkdkdk";
+		
+		System.out.println("내용만 수정 나옴? : " + pno + ", " +  body);
+		
+		// 레파지토리, map, 토큰
+				String repository = "nangmangorani/OKKH";
+				String token = (String)session.getAttribute("token");
+				
+				Map<String, Object>  updateValue = new HashMap<>() ;
+				
+				updateValue.put("body", body);
+				
+				pullService.updatePull(token, repository, pno, updateValue);
+				
+				return "redirect:pullRequestDetail.pu?pno="+pno;
+		
+		
+	}
+	
+	
+	
+	/**
+	 * 리뷰 수정하는 메소드
+	 * @param pno
+	 * @param body
+	 */
+	@RequestMapping("updatePullReview.pull")
+	public String updatePullReview(int pno, String body, int reviewId, HttpSession session) {
+		System.out.println("리뷰 수정 : " + pno + ", " + body + " , " + reviewId);
+		
+		
+		// 레파지토리, 멥, 토큰
+		String token = (String)session.getAttribute("token");
+		
+		String repository =  "nangmangorani/OKKH";
+		
+		Map<String, Object> updateValue = new HashMap<>() ;
+		
+		updateValue.put("body", body);
+		
+		
+		pullService.updateReview(token,repository,updateValue, pno, reviewId );
+		
+		
+		return "redirect:pullRequestDetail.pu?pno="+pno;
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//===================================== 구현 잘 안되는 구간 ㅠㅠㅠㅠㅠㅠㅠ ===============================
+	
 	/**
 	 * 열린 풀리퀘 리뷰 개수 가져오는 메소드
-	 * 아놔... 잘 안됨....하....
+	 * 아놔... 잘 안됨....하.... 아아아악 '외 않되'..?
 	 * @param pno
 	 * @param session
 	 * @return
@@ -284,7 +501,8 @@ public class PullRequestController {
 	
 	/**
 	 * 닫힌 풀리퀘 리뷰 개수 가져오는 메소드
-	 * @param pno
+	 * @param pno  이것도 개수 잘 안가져와지뮤ㅠㅠ
+	 * 아아아아가가아아아ㅏㄱ아아ㅏㅇ가!
 	 */
 	
 	/*

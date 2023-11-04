@@ -48,7 +48,7 @@
 						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 						<!-- 레파지 추가 버튼 시작 -->
-	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal"   data-bs-target="#inlineForm" style="float: right;">
 	                    	New PullRequest
 	                	</button>
 	                	
@@ -74,15 +74,30 @@
 	                            </div>
 	                            <form action="insertRepo.re">
 	                                <div class="modal-body">
+	                                	<label>Branches:</label>
+	                                    <div class="form-group">
+	                                    	 <div class="form-group">
+		                                        <select class="choices form-select" id="branchSelect">
+			                                         <c:forEach var="b" items="${blist }">
+			                                            <option value="${b.name }">${b.name }</option>
+			                                         
+			                                         </c:forEach>
+			                                           
+		                                        </select>
+                                             </div>
+	                                    
+	                                        
+	                                    </div>
+	                                
 	                                    <label>Title:</label>
 	                                    <div class="form-group">
 	                                        <input type="text" placeholder="제목을 입력해주세요."
-	                                            class="form-control">
+	                                            class="form-control" id="createTitle">
 	                                    </div>
 	                                    <label>Content:</label>
 	                                    <div class="form-group">
 	                                        <input type="text" placeholder="내용을 작성해주세요."
-	                                            class="form-control">
+	                                            class="form-control" id="createContent">
 	                                    </div>
 	                                </div>
 	                                <div class="modal-footer">
@@ -92,9 +107,9 @@
 	                                        <span class="d-none d-sm-block">Cancel</span>
 	                                    </button>
 	                                    <button type="button" class="btn btn-primary ml-1"
-	                                        data-bs-dismiss="modal">
+	                                        data-bs-dismiss="modal" onclick="createPull();">
 	                                        <i class="bx bx-check d-block d-sm-none"></i>
-	                                        <span class="d-none d-sm-block">Comment</span>
+	                                        <span class="d-none d-sm-block">Create</span>
 	                                    </button>
 	                                </div>
 	                            </form>
@@ -102,6 +117,29 @@
 	                    </div>
 	                </div>
 	                <!--/풀리퀘 추가 form Modal 끝 -->
+	                
+	                <script>
+	                	// 풀리퀘 생성하는 곳
+	                	function createPull(){
+	                		
+	                		let title = document.getElementById("createTitle").value;
+	                		let body = document.getElementById("createContent").value;
+	                		let branches = document.getElementById("branchSelect").value;
+	                		
+	                		
+	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches;
+	                		
+	                	}
+	                	
+	                	
+	                
+	                </script>
+	                
+	                
+	                
+	                
+	                
+	                
 					
                     <!-- 풀리퀘스트 table start -->
 				    <section class="section">
@@ -133,7 +171,7 @@
 					                            <table class="table table-bordered mb-0" id="pullListTable">
 					                                <thead>
 					                                    <tr>
-					                                    	<th>
+					                                    	<th style="width:30%;">
 						                                        TITLE
 						                                        
 					                                    	</th>
@@ -298,7 +336,7 @@
 				                    </div>
             					    <!-- /nav바 끝 -->
 				                    
-				                     <!-- 페이징바  // 페이징바 작동 잘 안함.....ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ -->
+				                     				<!-- 페이징바  -->
 													 <nav aria-label="Page navigation example">
 														<ul class="pagination pagination-primary  justify-content-center ">
 														
@@ -318,6 +356,7 @@
 																</c:otherwise>
 															</c:choose>
 	
+															
 															
 															<c:forEach var="i" begin="${pi.startPage }" end="${pi.endPage }">
 																<li class="page-item "><a class="page-link" href="myPullRequest.pu?cpage=${i }">${i }</a></li>
