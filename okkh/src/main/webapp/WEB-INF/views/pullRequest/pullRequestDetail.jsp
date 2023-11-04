@@ -509,7 +509,7 @@
 							
 							let value = document.getElementById(id).value;
 							
-							
+							// 아아
 							//console.log(value + " 과연 " + id);
 
 							location.href="updatePullReview.pull?pno="+num+"&body="+value+"&reviewId="+id;
