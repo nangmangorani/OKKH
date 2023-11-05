@@ -122,6 +122,11 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                                 <div class="iss-wrap2">
                                                     <div class="iss-time">
                                                         <span style="padding-left: 5px;">${ c.login } comments</span>
+                                                        <form action="deleteComments.iss" style="display:inline">
+                                                        	<button class="btn btn-danger btn-sm" style="float:right; margin-right:5px;">삭제하기</button>
+                                                        	<input type="hidden" value="${ c.id }" name="id">
+                                                        	<input type="hidden" value="${ ino }" name="ino">
+                                                        </form>
                                                     </div>
                                                     <span style="padding-left: 7px;" name="commentsDiv">${ c.body }</span>
                                                 </div>
