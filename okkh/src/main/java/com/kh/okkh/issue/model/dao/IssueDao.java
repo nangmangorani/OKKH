@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.okkh.common.errorPage.ErrorPageController;
+//import com.kh.okkh.common.errorPage.ErrorPageController;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.member.model.vo.Member;
 
@@ -35,8 +35,8 @@ public class IssueDao {
 	@Autowired
 	private WebClient webClient;
 	
-	@Autowired
-	private ErrorPageController err;
+//	@Autowired
+//	private ErrorPageController err;
 	
 //	public ArrayList<Issue> selectIssueList(SqlSessionTemplate sqlSession) {
 //		return (ArrayList)sqlSession.selectList("issueMapper.selectIssueList");
@@ -111,23 +111,23 @@ public class IssueDao {
 		if (method.equals("get")) {
 		    response = client.get().uri(url).retrieve().bodyToMono(String.class).block();
 		} else if (method.equals("delete")) {
-		    response = client.delete().uri(url).retrieve()
-		        .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
-		        	if (clientResponse.statusCode() == HttpStatus.BAD_REQUEST) {
-		                // Handle 400 Bad Request error
-		                return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Custom Bad Request Message"));
-		            } else if (clientResponse.statusCode() == HttpStatus.UNAUTHORIZED) {
-		                // Handle 401 Unauthorized error
-		                return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Custom Unauthorized Message"));
-		            } else if (clientResponse.statusCode() == HttpStatus.FORBIDDEN) {
-		                // Handle 403 Forbidden error
-		                return Mono.error(new ResponseStatusException(HttpStatus.FORBIDDEN, "Custom Forbidden Message"));
-		            } else if (clientResponse.statusCode() == HttpStatus.NOT_FOUND) {
-		                // Handle 404 Not Found error
-		                return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Custom Not Found Message"));
-		            }
-		        })
-		        .block();
+		    response = client.delete().uri(url).retrieve().bodyToMono(String.class).block();
+//		        .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
+//		        	if (clientResponse.statusCode() == HttpStatus.BAD_REQUEST) {
+//		                // Handle 400 Bad Request error
+//		                return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Custom Bad Request Message"));
+//		            } else if (clientResponse.statusCode() == HttpStatus.UNAUTHORIZED) {
+//		                // Handle 401 Unauthorized error
+//		                return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Custom Unauthorized Message"));
+//		            } else if (clientResponse.statusCode() == HttpStatus.FORBIDDEN) {
+//		                // Handle 403 Forbidden error
+//		                return Mono.error(new ResponseStatusException(HttpStatus.FORBIDDEN, "Custom Forbidden Message"));
+//		            } else if (clientResponse.statusCode() == HttpStatus.NOT_FOUND) {
+//		                // Handle 404 Not Found error
+//		                return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Custom Not Found Message"));
+//		            }
+//		        })
+//		        .block();
 		}
 		
 		System.out.println("삭제하면 반환값 뭐로나오는지 볼라고 ㅋㅋ" + response);
