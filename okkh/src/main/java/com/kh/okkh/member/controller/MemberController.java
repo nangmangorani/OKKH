@@ -45,7 +45,7 @@ public class MemberController {
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 		
-//		System.out.println(token);
+		System.out.println(token);
 	    
 		// access_token을 이용한 유저 정보 얻어오기
 		Member githubInfo = gService.getUserInfo(token);

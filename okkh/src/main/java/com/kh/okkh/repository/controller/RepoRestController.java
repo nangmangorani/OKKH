@@ -1,11 +1,14 @@
 package com.kh.okkh.repository.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import org.apache.catalina.filters.SetCharacterEncodingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -74,7 +77,7 @@ public class RepoRestController {
 		
 		try {
 			// 템플릿에 값들을 보내 결과값을 받는다
-			result = getGitHubAPIValue(g);
+			result = getGitHubValue(g);
 			
 		} catch (Exception e) {
 			// 오류 발생시 콘솔에 띄워줄 메세지
@@ -88,14 +91,21 @@ public class RepoRestController {
 		
 	}
 	
+	public String selectTeamMate() {
+		
+		String response = "";
+		
+		return response;
+		
+	}
+	
 	/**
-	 * 레포지토리에 속한 컨텐츠 조회용 Controller (ajax 호출 방식)
+	 * 코드 조회용 Controller (ajax 호출 방식)
 	 * 
-	 * @return
+	 * @return response : 넘어온 코드 내용
 	 * @throws IOException
 	 */
-	/*
-	@RequestMapping(value = "selectRepoContents.re", produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "selectCode.re", produces = "text/html; charset=UTF-8")
 	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) throws IOException {
 		
 		mypro = rService.selectMyProject(mpno);
@@ -106,13 +116,13 @@ public class RepoRestController {
 		
 		g.setMethod("GET");
 		g.setToken(token);
-		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + rnm + "/contents");
+		// 코드를 가져오는 uri
+		g.setUri("/" + mypro.getMyproTitle() + "/" + rnm + "/main/" + path);
 		
-		String response = getGitHubAPIValue(g);
+		String response = getGitHubCode(g);
 		
 		return response;
 		
 	}
-	*/
 
 }

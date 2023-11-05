@@ -28,7 +28,9 @@
                                     aria-controls="TeamMates" aria-selected="true" style="width: 125px; text-align: center;">TeamMates</a>
                             </li>
                         </ul>
+                        <!-- 친구, 팀원 목록 시작 -->
                         <div class="tab-content" id="myTabContent">
+                        	<!-- 친구 목록 시작 -->
                             <div class="tab-pane fade show active" id="Friends" role="tabpanel" aria-labelledby="Friends-tab">
                                 <br>
                                 <div class="recent-message d-flex px-4 py-3">
@@ -62,8 +64,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- /친구 목록 끝 -->
+                            <!-- 팀원 목록 시작 -->
                             <div class="tab-pane fade" id="TeamMates" role="tabpanel" aria-labelledby="TeamMates-tab">
-                                <br>
+                                <!-- 팀원 보여주는 자리 -->
+                                <!--  
                                 <div class="recent-message d-flex px-4 py-3">
                                     <div class="avatar avatar-lg">
                                         <img src="resources/compiled/jpg/4.jpg">
@@ -74,28 +79,54 @@
                                         <h6 class="text-muted mb-0">@johnducky</h6>
                                     </div>
                                 </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/5.jpg">
-                                        <span class="avatar-status bg-danger"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">@imdean</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/1.jpg">
-                                        <span class="avatar-status bg-success"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">@dodoljohn</h6>
-                                    </div>
-                                </div>
+                                -->
                             </div>
+                            <!-- /팀원 목록 끝 -->
+                            
+                            <script>
+                            
+                            	$(() => {
+                            		
+                            		$.ajax({
+                            			
+                            			url:"selectTeamMateList.re",
+                            			success:(list) => {
+                            				console.log(list);
+                            				
+                            				value = "<br>";
+                            				
+                            				for(let i in list) {
+                        						
+                        						value += "<div class='recent-message d-flex px-4 py-3'>"
+                            								+ "<div class='avatar avatar-lg'>"
+	                            								+ "<img src='" + list[i].profile + "'>"
+	                            								+ "<span class='avatar-status bg-success'></span>"
+                        									+ "</div>"
+                            								+ "<div class='name ms-4'>"
+	                            								+ "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
+	                            								+ "<h6 class='text-muted mb-0'>" + list[i].proWriter + "</h6>"
+                            								+ "</div>"
+                        								+ "</div>"
+                        						
+                        					}
+                            				
+                            				$("#TeamMates").html(value);
+                            				
+                            			},
+                            			error:(exeption) => {
+                            				console.log(exeption);
+                            				
+                            				$("#TeamMates").html("<br>" + exeption.responseText);
+                            			}
+                            			
+                            		})
+                            		
+                            	})
+                            	
+                            </script>
+                            
                         </div>
+                        <!-- /친구, 팀원 목록 끝 -->
                     </div>
                 </div>
             </div>

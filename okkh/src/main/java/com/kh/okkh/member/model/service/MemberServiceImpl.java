@@ -57,5 +57,10 @@ public class MemberServiceImpl implements MemberService {
 		return mDao.myPRList(sqlSession, m);
 	}
 
+	@Override
+	public ArrayList<PR> myPRList(PageInfo pi) {
+		return null;
+	}
+
 
 }

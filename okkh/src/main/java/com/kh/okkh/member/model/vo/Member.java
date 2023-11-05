@@ -29,7 +29,7 @@ public class Member {
 	private String status;
 	private int team;  // 참가 희망하는 프로젝트 번호
 	private String teamStatus;  //참여상태 y확정, n임시 , 일단은 default 값이 n임
-	private String avatarUrl;
+	private String proWriter;	// 프로젝트 작성자
 	
 	public Member(String gitNick, String profile) {
 		this.gitNick = gitNick;

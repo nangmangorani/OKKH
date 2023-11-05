@@ -12,7 +12,9 @@
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResult">
-		<result column="mem_id" property="memId"/>
+		<result column="git_nick" property="gitNick"/>
+		<result column="mem_no" property="memNo"/>
+		<result column="proWriter" property="pro_writer"/>
 	</resultMap>
 	
 	<resultMap type="Repo" id="repoResult">
@@ -28,16 +30,20 @@
 		     , mypro_member
 		     , mypro_status
 		  from my_project p
-		 where mypro_member like '%' || #{memId} || '%'
+		 where mypro_member like '%' || #{gitNick} || '%'
 		   and status = 'Y'
 		 order
     		by mypro_no desc
 	</select>
 	
 	<select id="selectTeamMateList" resultMap="memberResult">
-		select 
-		       mem_id
+		select
+			   mem_no 
+		     , git_nick
+		     , profile
+		     , pro_writer
 		  from member
+		  left join project on (mem_no = pro_writer) 
 		 where team = (
 		                 select 
 		                        team

@@ -330,11 +330,11 @@
 	   						
 		   					for(let i in teamMate) {
 		   						
-		   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='resources/images/samples/출근짱구.jpg' width='25' height='25' style='border-radius: 20px;''>"
-	   								+ teamMate[i].memId
+		   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='" + teamMate[i].profile + "' width='25' height='25' style='border-radius: 20px;'>"
+	   								+ teamMate[i].gitNick
 	   								+ "</a>";
 	   								
-	   							teamArr[i] = teamMate[i].memId;
+	   							teamArr[i] = teamMate[i].gitNick;
 	   								
 		   					}
 		   					
@@ -346,7 +346,7 @@
 	   					
 	   					console.log(members);
 	   					
-	   					$("input[name=myproMember]").val(${ loginMember.memId } + "," + members);
+	   					$("input[name=myproMember]").val("${ loginMember.gitNick }" + "," + members);
 	   					
 	   					}
 	   					
@@ -362,7 +362,7 @@
 	   			
 	   			$(".forTeam").css("display", "none");
 	   			
-	   			$("input[name=myproMember]").val(${ loginMember.memId });
+	   			$("input[name=myproMember]").val("${ loginMember.gitNick }");
 	   			
 	   		})
 	   		
