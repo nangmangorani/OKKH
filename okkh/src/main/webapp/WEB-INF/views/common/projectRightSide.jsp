@@ -149,7 +149,7 @@
                          
 		                            <p>
 		                                프로젝트에 추가할 팀원을 선택한 후 하단에 '팀원 추가하기' 버튼을 눌러주세요! <br>
-		                                (체크가 된 회원은 프로젝트 팀원입니다)
+		                                (체크 : 팀원 추가 / 체크 해제 : 팀원 해제)
 		                            </p>
 		                            
 		                      
@@ -169,7 +169,7 @@
 			                                   <c:forEach var="team" items="${teamList }">
 			                                        <c:if test="${team.team eq projectSession.proNo }">
 					                                    <li class="list-group-item">
-					
+															<input type="hidden" value="${team.team }" id="teamNo">
 					                                        <div class="upDiv">
 					                                          <c:choose>
 					                                          	<c:when test="${team.teamStatus eq 'Y' }">
@@ -277,15 +277,13 @@
 		                           // console.log( uncheckedMembers + "   노체크");
 		                            
 		                              
-		                           
-		                           
-		                           
 		                                
 		                                $.ajax({
 	                            			url:"enrollTeamMate.pro",
 	                            			data:{
 	                            				checkedMembers: checkedMembers,
 	                            	            uncheckedMembers: uncheckedMembers
+	                            	           
 	                            			},
 	                            			success:function(data){
 	                            				if(data=="success"){

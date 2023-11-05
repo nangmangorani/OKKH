@@ -238,9 +238,7 @@
 															<span>
 															
 															<c:if test="${loginMember.gitNick eq review.pullReviewWriter }">
-																<button type="button" class="btn btn-light-secondary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right; ">
-																	Delete Review
-																</button>
+																
 																<c:set var="id" value="${review.id }" />
 																<button type="button" class="btn btn-primary" onclick="updateReview(${review.refPull}, ${review.id });" data-bs-target=".form-control ${review.id }"   style="float: right; margin-right:5px;">
 																	Update Review
@@ -520,8 +518,16 @@
 						
                 	   
 						
+						// 삭제하는 건 코멘트만 가능 
+						// 리뷰는 삭제 불가!
+						/*
+						function deleteReview(num, id){
+							
+							location.href="deleteReview.pull?pno="+num + "&id="+id;
+							
+						}
 						
-						
+						*/
 					
 					</script>		
 							

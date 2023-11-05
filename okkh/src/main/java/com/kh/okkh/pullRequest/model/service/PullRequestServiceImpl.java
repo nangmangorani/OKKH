@@ -66,6 +66,24 @@ public class PullRequestServiceImpl {
 		JsonArray labelsArr = pullObj.get("labels").getAsJsonArray();
 		
 		
+		// head 안에 label도 가져오기 -> 이게 브랜치명인듯
+		JsonObject head = pullObj.get("head").getAsJsonObject();
+		git.setHead(head.get("label").getAsString());
+		
+		
+		JsonObject base = pullObj.get("base").getAsJsonObject();
+		
+		
+		// base 안에 label도 가져오기 -> 이게 어디에다가 병합할 건지
+		git.setBase(base.get("label").getAsString());
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		String[] labels = new String[labelsArr.size()];
 		
@@ -1005,6 +1023,9 @@ public class PullRequestServiceImpl {
 			
 			String method ="post";
 			
+			System.out.println(updateValue + " : 생성넘어옴?");
+			
+			
 			pullDao.toGitPullRequest(token, url, updateValue, method);
 			
 			
@@ -1034,7 +1055,23 @@ public class PullRequestServiceImpl {
 		
 		
 		
-		
+		/**
+		 * 리뷰 삭제하는 메소드
+		 */
+		public void deleteReview(String repository,String token,Map<String, Object> updateValue, int pno, int id) {
+			
+			// https://api.github.com/repos/nangmangorani/OKKH/pulls/2/reviews/1703092884/dismissals (리뷰아이디)
+			
+			
+			String url = repository + "/pulls/"+pno+"/reviews/"+id+"/dismissals ";
+			
+			String method = "put";
+			
+			
+			pullDao.toGitPullRequest(token, url, updateValue, method);
+			
+			
+		}
 		
 		
 		

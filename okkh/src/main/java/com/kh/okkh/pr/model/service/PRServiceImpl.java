@@ -1,6 +1,7 @@
 package com.kh.okkh.pr.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -215,6 +216,51 @@ public class PRServiceImpl implements PRService{
 	public int deletePrBookmark(Bookmark b) {
 		
 		return prdao.deletePrBookmark(b, sqlSession);
+	}
+
+
+
+
+
+
+
+	/**
+	 * 기술스택으로 조회
+	 */
+	@Override
+	public ArrayList<PR> selectStackPr(List<String> stack) {
+		
+		return prdao.selectStackPr(stack, sqlSession);
+	}
+
+
+
+
+
+
+
+	/**
+	 * 검색어로 조회
+	 */
+	@Override
+	public ArrayList<PR> selectSearchBar(String search, PageInfo pi) {
+		
+		return null;
+	}
+
+
+
+
+
+
+
+	/**
+	 * 조회수 순으로 조회
+	 */
+	@Override
+	public ArrayList<PR> selectPrCount(PageInfo pi) {
+		
+		return null;
 	}
 
 

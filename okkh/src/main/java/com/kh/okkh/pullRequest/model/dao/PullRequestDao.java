@@ -122,7 +122,9 @@ public class PullRequestDao {
                 .bodyToMono(String.class)
                 .block();
 		        
-		    }else{
+		    }else {
+	
+		    
 		    	throw new IllegalArgumentException("Invalid HTTP method");
 		    }
 		 
@@ -132,5 +134,35 @@ public class PullRequestDao {
 	}
 	
 	
+	
+
+	/**
+	 *  풀리퀘스트 리뷰 삭제하는 메소드
+	 */
+	public void toGitPullRequestD(String token,String url,String method) {
+		
+		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
+				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+		
+		//String response = null;
+		
+		
+		 if ("delete".equals(method)) {
+		    	client.delete()
+                .uri(url)
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+		    
+		    
+		    	throw new IllegalArgumentException("Invalid HTTP method");
+		    }
+		 
+		 
+		//return response;
+		
+	}
 	
 }

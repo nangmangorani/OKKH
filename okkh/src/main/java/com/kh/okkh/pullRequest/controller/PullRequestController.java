@@ -263,20 +263,33 @@ public class PullRequestController {
 	}
 	
 	
+	/**
+	 * 풀리퀘 새로 생성하는 메소드
+	 * @param title
+	 * @param body
+	 * @param branches
+	 * @param base
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("createPullRequest.pull")
-	public String createPullRequest(String title, String body, String branches, HttpSession session) {
+	public String createPullRequest(
+			@RequestParam String title,
+			@RequestParam String body, 
+			@RequestParam String branches,
+			@RequestParam String base, HttpSession session) {
 		//System.out.println("생성 나옴?  : " + title + ", " + body);  아싸뵤 잘나온당~!!
 		
 		String token = (String)session.getAttribute("token");
 		String repository = "nangmangorani/OKKH";
-		String base =  "main";  // 베이스는 어디에다가 머지 할건지 지정하는 거
-		String head = "nangmangorani:"+branches  ;  // 이건 어느 브랜치에서 변화가 있는지 
+		String base1 =   base;  // 베이스는 어디에다가 머지 할건지 지정하는 거
+		String head = branches  ;  // 이건 어느 브랜치에서 변화가 있는지 
 		
 		
 		Map<String, Object> updateValue = new HashMap<>();
 		updateValue.put("title", title);
 		updateValue.put("body", body);
-		updateValue.put("base", base);
+		updateValue.put("base", base1);
 		updateValue.put("head", head);
 		
 		pullService.enrollPullRequest(token,repository,updateValue);
@@ -458,6 +471,40 @@ public class PullRequestController {
 		
 		
 	}
+	
+	
+	
+	/**
+	 * 리뷰 삭제하는 메소드 (리뷰는 삭제 못함.... 코멘트만 가능... 그래서 이거 안씀..ㄸㄹㄹ..ㅠㅠ)
+	 * @param pno
+	 * @param id
+	 */
+	@RequestMapping("deleteReview.pull")
+	public String deleteReview(int pno, int id, HttpSession session) {
+		
+		// 토큰, 맵, 레파지토리
+		String repository = "nangmangorani/OKKH";
+		String token = (String)session.getAttribute("token");
+		String message="You are dismissed";
+		String event ="DISMISS";
+		
+		
+		
+		Map<String, Object> updateValue = new HashMap<>();
+		
+		updateValue.put("id", id);
+		updateValue.put("message", message);
+		updateValue.put("event",event);
+		
+		
+		
+		pullService.deleteReview(repository, token, updateValue,pno, id);
+		
+		return "redirect:pullRequestDetail.pu?pno="+pno;
+		
+		
+	}
+	
 	
 	
 	

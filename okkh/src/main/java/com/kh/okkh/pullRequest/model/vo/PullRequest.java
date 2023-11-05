@@ -42,7 +42,10 @@ public class PullRequest {
 	private String updatedAt; // 풀리퀘 수정일 
 	private String closedAt ; // 풀리퀘 마감한 날
 	private String mergedAt; // 풀리퀘 머지한 날 
-
+	private String head;  // 브랜치명 
+	private String base; // 병합할 브랜치명 
+	
+	
 	
 	
 	//===================== 풀리퀘의 작성자에 대한 내용

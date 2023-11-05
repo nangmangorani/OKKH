@@ -726,7 +726,7 @@
 																		owner: ${ pro.memNo }
                                       			
                                       				
-                                      			},
+                                      			                  },
 																success: function(data) {
 																	console.log(data + "프로젝트 참가버튼 용 ajax 결과!@!")
 																	if (data == 1) {

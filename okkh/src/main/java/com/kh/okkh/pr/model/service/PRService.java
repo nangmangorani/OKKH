@@ -1,12 +1,14 @@
 package com.kh.okkh.pr.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.okkh.common.model.vo.Bookmark;
 import com.kh.okkh.common.model.vo.PageInfo;
 import com.kh.okkh.common.model.vo.Reply;
 import com.kh.okkh.common.model.vo.Stack;
 import com.kh.okkh.pr.model.vo.PR;
+import com.kh.okkh.project.model.vo.Project;
 
 public interface PRService {
 
@@ -19,7 +21,15 @@ public interface PRService {
 		ArrayList<PR> selectPRList(PageInfo pi);
 	
 		
-		// selectbox 조회하는 거 아직 추가안함 하기!!
+				
+				// 4. 기술스택으로 조회 (기술스택 선택하면 선택한 값이 넘어옴)
+				ArrayList<PR> selectStackPr(List<String> stack);
+				
+				// 5. 제목, 글 내용으로 조회 (조회하려는 키워드 넘어옴)
+				ArrayList<PR> selectSearchBar(String search,PageInfo pi);
+				
+				// 6. 조회수 순으로 조회
+				ArrayList<PR> selectPrCount(PageInfo pi);
 		
 	
 	// 2. pr 상세조회

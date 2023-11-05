@@ -88,6 +88,21 @@
 	                                    
 	                                        
 	                                    </div>
+	                                    
+	                                    	<label>Base:</label>
+	                                    <div class="form-group">
+	                                    	 <div class="form-group">
+		                                        <select class="choices form-select" id="base">
+			                                         <c:forEach var="b" items="${blist }">
+			                                            <option value="${b.name }">${b.name }</option>
+			                                         
+			                                         </c:forEach>
+			                                           
+		                                        </select>
+                                             </div>
+	                                    
+	                                        
+	                                    </div>
 	                                
 	                                    <label>Title:</label>
 	                                    <div class="form-group">
@@ -125,9 +140,9 @@
 	                		let title = document.getElementById("createTitle").value;
 	                		let body = document.getElementById("createContent").value;
 	                		let branches = document.getElementById("branchSelect").value;
+	                		let base = document.getElementById("base").value;
 	                		
-	                		
-	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches;
+	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches+"&base="+base;
 	                		
 	                	}
 	                	
