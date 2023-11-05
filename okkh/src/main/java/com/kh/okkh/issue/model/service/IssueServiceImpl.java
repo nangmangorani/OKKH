@@ -432,7 +432,7 @@ public class IssueServiceImpl implements IssueService{
 
 		String url = repository + "/issues/" + ino + "/comments";
 		String method = "get";
-		String response = iDao.toGitGetIssue(url, token, ino);
+		String response = iDao.toGitGetIssue(url, token, method);
 		
 		ObjectMapper obj = new ObjectMapper();
 		JsonNode jsonNode;
@@ -441,10 +441,11 @@ public class IssueServiceImpl implements IssueService{
 		try {
 			jsonNode = obj.readTree(response);
 			for (int i = 0; i < jsonNode.size(); i++) {
+				int id = jsonNode.get(i).get("id").asInt();
 				String login = jsonNode.get(i).get("user").get("login").asText();
 	            String body = jsonNode.get(i).get("body").asText();
 	            String profile = jsonNode.get(i).get("user").get("avatar_url").asText();
-	            Comments c = new Comments(login, body, profile);
+	            Comments c = new Comments(id, login, body, profile);
 	            cList.add(c);
 	         }
 		
@@ -452,6 +453,7 @@ public class IssueServiceImpl implements IssueService{
 			e.printStackTrace();
 		}
 		
+		System.out.println("서비스 cList " + cList);
 		return cList;
 	}
 
@@ -485,6 +487,18 @@ public class IssueServiceImpl implements IssueService{
 		return mList;
 		
 		
+	}
+
+	@Override
+	public int deleteComments(String repository, String token, int id) {
+		
+		String url = repository + "/issues/comments/" + id;
+		System.out.println(url);
+		String method = "delete";
+		
+		String response = iDao.toGitGetIssue(url, token, method);
+		
+		return 0;
 	}
 	
 	

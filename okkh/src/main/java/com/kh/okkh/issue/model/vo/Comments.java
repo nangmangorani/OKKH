@@ -13,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class Comments {
 	
+	private int id;
 	private String login;
 	private String body;
 	private String profile;

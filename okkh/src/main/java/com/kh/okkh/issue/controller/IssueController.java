@@ -606,6 +606,18 @@ public class IssueController {
 
 	}
 	
+	@RequestMapping("deleteComments.iss")
+	public String deleteComments(HttpSession session, Integer id, Integer ino) {
+		
+		String repository = (String)session.getAttribute("repository");
+		
+		String token = (String)session.getAttribute("token");
+		
+		int response = iService.deleteComments(repository, token, id);
+		
+		return "redirect:/detail.iss?ino=" + ino;
+	}
+	
 
 	
 	
