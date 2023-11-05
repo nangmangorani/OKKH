@@ -81,12 +81,23 @@ function submitState() {
 	                        </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" style="float: right; margin-left: 10px;">수정하기</button>
+                    <button class="btn btn-primary" style="float: right; margin-left: 5px;">수정하기</button>
                 </form>
-                <form action="edit.mile?mno=${ milestone.number }" method="post">
-                    <input type="hidden" name="state" value="closed">
-                    <button class="btn btn-primary" style="float: right">마일스톤 종료</button> 
-                </form>
+                <c:choose>
+                    <c:when test="${ milestone.state eq 'open' }">
+                        <form action="edit.mile?mno=${ milestone.number }" method="post">
+                            <input type="hidden" name="state" value="closed">
+                            <button class="btn btn-primary" style="float: right">마일스톤 종료</button> 
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="edit.mile?mno=${ milestone.number }" method="post">
+                            <input type="hidden" name="state" value="open">
+                            <button class="btn btn-primary" style="float: right">마일스톤 다시열기</button> 
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+                <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
             </section>
             <jsp:include page="../common/footer.jsp"></jsp:include>
         </div>

@@ -94,6 +94,8 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 									   <input type="hidden" name="state" value="${ state }"> 
                      		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
 	                                </form>
+                                    
+                                    <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
 	                                <br>
 	                            </div>
 	                        </div>
@@ -135,7 +137,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 			                            <div class="card-body">
                                         <div id="editor"></div>
                                         <br>
-                                        <form action="commentEnroll.iss?ino=${ ino }" method="post">
+                                        <form action="commentEnroll.iss?ino=${ ino }" method="post" style="display: inline;">
                                             <button class="btn btn-primary" style="float: right;" onclick="enrollAjax();">등록하기</button>
                                             <input type="hidden" name="body" value="" id="body">
                                         </form>

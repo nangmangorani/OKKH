@@ -91,7 +91,7 @@
 															class="rounded-circle writerAvatar pull-up" id="avatarTitle"
 															name="firstAssignees" onclick="deleteAssignee(this.title);">
 														&nbsp;&nbsp;&nbsp;
-													</c:forEach>
+												</c:forEach>
 													<input type="hidden" name="memList" id="memList" value="">
 												</span>
 											</div>
@@ -111,9 +111,9 @@
 											<div class="labelSpan">
 												<c:forEach var="l" items="${ labels }">
 													<span class="labelSpan" name="firstLabel"
-													style="background-color:#${l.color}; display: inline-block;">${
+														style="background-color:#${l.color}; display: inline-block;">${
 														l.name }</span>
-													</c:forEach>
+												</c:forEach>
 												<input type="hidden" name="labelSet" id="labelSet" value="">
 											</div>
 											<br>
@@ -146,12 +146,24 @@
 									</div>
 								</div>
 							</div>
+							
 							<button class="btn btn-primary" style="float: right">수정하기</button>
 						</form>
-						<form action="state.iss?ino=${ino}" method="post">
-							<button class="btn btn-primary" style="float: right; margin-right: 5px;">종료하기</button>
-							<input type="hidden" value="closed" name="state">
-						</form>
+						<c:choose>
+							<c:when test="${ state eq 'open' || state eq null}">
+								<form action="state.iss?ino=${ino}" method="post">
+									<button class="btn btn-primary" style="float: right; margin-right: 5px;">종료하기</button>
+									<input type="hidden" value="closed" name="state">
+								</form>
+							</c:when>
+							<c:otherwise>
+								<form action="state.iss?ino=${ino}" method="post">
+									<button class="btn btn-primary" style="float: right; margin-right: 5px;">다시열기</button>
+									<input type="hidden" value="open" name="state">
+								</form>
+							</c:otherwise>
+						</c:choose>
+							<button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
 					</section>
 
 					<input type="hidden" id="labList" value="${ lList }">
@@ -174,52 +186,51 @@
 
 			<script>
 				var labelSet = new Array();
-				var initialLabels = document.querySelectorAll('[name="firstLabel"]');
-				var firstAssignees = document.querySelectorAll('[name="firstAssignees"]');
+				var assigneeSet = new Array();
 
 				function createLabel() {
 					var basicSelect = document.getElementById("basicSelect");
 					var label = basicSelect.options[basicSelect.selectedIndex].value;
 					var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
 
-					//var initialLabels = document.querySelectorAll('[name="firstLabel"]');
-
-					initialLabels.forEach(function (initialLabel) {
-						labelSet.push(initialLabel.textContent);
-					});
-
-					labelSet.push(label);
-					console.log(labelSet);
-
 					let labelSpan = document.querySelector(".labelSpan");
-					let spacer = document.createElement("span");
-					let span = document.createElement("span");
+
+					var span = document.createElement("span");
 					span.className = "label-badge";
 					span.style.backgroundColor = color;
 					span.innerText = label;
+
 					span.style.cursor = "pointer";
 
 					span.onclick = function () {
 						$(this).remove();
-						deleteLabel($(this).text());
+						deleteLabel(label); // 라벨 텍스트를 전달하여 해당 라벨 삭제
 					};
 
 					labelSpan.appendChild(span);
-					labelSpan.appendChild(spacer);
+
+					labelSet.push(label);
+
 					var labelString = labelSet.join(',');
 					document.getElementById("labelSet").value = labelString;
-
 				}
 
 				function deleteLabel(label) {
-					console.log("됨?")
-					labelSet.pop(label)
-					var labelString = labelSet.join(',');
-					document.getElementById("labelSet").value = labelString;
-					console.log(labelString);
-				}
+					var labelSpan = document.querySelector(".labelSpan");
+					var labels = labelSpan.querySelectorAll(".label-badge");
 
-				var assigneeSet = new Array();
+					labels.forEach(function (span) {
+						if (span.innerText === label) { // 라벨 텍스트로 체크
+							span.remove();
+							labelSet = labelSet.filter(function (value) {
+								return value !== label;
+							});
+
+							var labelString = labelSet.join(',');
+							document.getElementById("labelSet").value = labelString;
+						}
+					});
+				}
 
 
 				function createAssignee() {
@@ -227,18 +238,8 @@
 					var name = memSelect.options[memSelect.selectedIndex].value;
 					var profile = memSelect.options[memSelect.selectedIndex].getAttribute('data-url');
 
-					//var firstAssignees = document.querySelectorAll('[name="firstAssignees"]');
-					console.log(firstAssignees)
+					var labelSpan = document.querySelector(".labelSpan2");
 
-					firstAssignees.forEach(function (firstAssignees) {
-						assigneeSet.push(firstAssignees.getAttribute("title"));
-					});
-
-					assigneeSet.push(name);
-
-					console.log(assigneeSet);
-
-					let labelSpan = document.querySelector(".labelSpan2");
 					let span = document.createElement("span");
 					span.className = "avatar pull-up";
 					span.title = name;
@@ -246,7 +247,7 @@
 
 					span.onclick = function () {
 						$(this).remove();
-						deleteAssignee($(this).text());
+						deleteAssignee(this.title);
 					};
 
 					let img = document.createElement("img");
@@ -254,60 +255,41 @@
 					img.src = profile;
 					img.className = "rounded-circle writerAvatar";
 
-
 					labelSpan.appendChild(span).appendChild(img);
-					var assigneeString = assigneeSet.join(',');
 
+					assigneeSet.push(name);
+
+					var assigneeString = assigneeSet.join(',');
 					document.getElementById("memList").value = assigneeString;
 				}
 
 				function deleteAssignee(assignee) {
-					console.log("됨?")
-					console.log(assignee)
-					
-					var index = assigneeSet.indexOf(assignee);
-					if (index !== -1) {
-						assigneeSet.splice(index, 1);
-					}
-
-					// 이미지 요소 제거
 					var labelSpan = document.querySelector(".labelSpan2");
 					var images = labelSpan.querySelectorAll("img");
 
 					for (var i = 0; i < images.length; i++) {
 						if (images[i].title === assignee) {
-							images[i].remove(); // 이미지 요소를 삭제합니다.
-							break; // 이미지를 찾으면 루프를 종료합니다.
+							images[i].remove();
+							break;
 						}
 					}
 
-					// assigneeSet를 문자열로 변환하여 input 요소에 할당
+					assigneeSet = assigneeSet.filter(function (value) {
+						return value !== assignee;
+					});
+
 					var assigneeString = assigneeSet.join(',');
 					document.getElementById("memList").value = assigneeString;
 				}
 
-
-
-
-
 				$(function () {
-
 					$('#issueEnrollForm').submit(function () {
 						var markdown = editor.getMarkdown();
 						$("input[name='body']").val(markdown);
 					});
-
-
-
-
-
 				});
-
-
-
-
-
 			</script>
+
 
 			<script src="../../resources/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 			<script src="../../resources/js/bootstrap.bundle.min.js"></script>

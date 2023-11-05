@@ -564,7 +564,7 @@ public class IssueController {
 		String token = (String)session.getAttribute("token");
 
 		String repository = (String)session.getAttribute("repository");
-
+		
 		Map<String, Object> requestBody = new HashMap<>();
 		
 		requestBody.put("state", state);
