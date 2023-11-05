@@ -65,9 +65,15 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
+                                    	<!-- 프로젝트명 시작 -->
                                         <h4 class="card-title" style="float: left;">
                                         	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ mypro.myproTitle }
                                         </h4>
+                                        <!-- /프로젝트명 끝 -->
+                                        <!-- Merge 버튼 시작 -->
+	                                    <a href="merge.re" class="btn btn-primary" style="float: right;">Merge</a>
+	                                    <!-- /Merge 버튼 끝 -->
+	                                    <!-- branch list 시작 -->
                                         <fieldset class="form-group" style="float: right;">
 	                                        <select class="form-select" id="basicSelect">
 	                                        	<c:forEach var="b" items="${ bList }">
@@ -75,7 +81,7 @@
 	                                        	</c:forEach>
 	                                        </select>
 	                                    </fieldset>
-	                                    <a href="merge.re">Merge</a>
+	                                    <!-- /branch list 끝 -->
                                     </div>
                                     <div class="card-body">
                                         <!-- table head dark -->
@@ -93,6 +99,7 @@
                                                 <c:forEach var="c" items="${ list }">
 	                                                <tr>
 					                                    <td class='text-bold-500'>
+					                                    	<!-- 아이콘 시작 -->
 						                                    <c:choose>
 						                                    	<c:when test="${ fn:contains(c.name, '.') }">
 						                                    		<i class='fa-regular fa-file fa-shake'></i>
@@ -108,6 +115,7 @@
 						                                    		</c:choose>
 						                                    	</c:otherwise>
 						                                    </c:choose>
+						                                    <!-- /아이콘 끝 -->
 						                                    <span>${ c.name }</span>
 						                                    <input type="hidden" name="path" value="${ c.path }">
 						                                </td>
@@ -116,7 +124,7 @@
 						                                	<img src="${ recentCommit.author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
 						                                	${ recentCommit.author.login }
 						                                </td>
-						                                <td class='text-bold-500'>${ fn:replace(fn:replace(recentCommit.commit.author.date, "T", " "), "Z", "") }</td>
+						                                <td class='text-bold-500'>${ fn:substring(recentCommit.commit.author.date, 0, fn:indexOf(recentCommit.commit.author.date, "T")) }</td>
 					                                </tr>
 					                                <tr>
 					                                </tr>

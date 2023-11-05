@@ -106,9 +106,22 @@ public class RepositoryController {
 	@RequestMapping(value = "selectTeamMateList.re", produces = "application/json; charset=UTF-8")
 	public String selectTeamMateList(HttpSession session) {
 		
-		ArrayList<Member> teamMate = rService.selectTeamMateList(((Member)(session.getAttribute("loginMember"))).getMemNo());
+		try {
+			
+			ArrayList<Member> teamMate = rService.selectTeamMateList(((Member)(session.getAttribute("loginMember"))).getMemNo());
+
+			return new Gson().toJson(teamMate);
+			
+		} catch (Exception e) {
+			
+			 System.out.println("로그인 안 하고 팀원 목록 조회에 접근");
+			 
+			 String exeption = "로그인 후에 이용 가능한 서비스입니다.";
+			 
+			 return exeption;
+			
+		}
 		
-		return new Gson().toJson(teamMate);
 		
 	}
 	
@@ -172,8 +185,6 @@ public class RepositoryController {
 		
 		// api 사용을 위해 session에 있는 token 호출
 		token = (String)session.getAttribute("token");
-		
-		System.out.println("selectRepoList token : " + token);
 		
 //		System.out.println(pno);
 		

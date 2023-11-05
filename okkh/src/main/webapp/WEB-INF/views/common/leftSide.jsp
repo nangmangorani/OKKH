@@ -187,7 +187,7 @@
                         </li>
                         -->
                         <li class="sidebar-item">
-                            <a href="#" class='sidebar-link'>
+                            <a href="finProject.pr" class='sidebar-link'>
                                 <i class="fa-solid fa-trophy fa-sm"></i>
                                 <span>Project Output</span>
                             </a>
