@@ -14,7 +14,7 @@
 	<resultMap type="Member" id="memberResult">
 		<result column="git_nick" property="gitNick"/>
 		<result column="mem_no" property="memNo"/>
-		<result column="proWriter" property="pro_writer"/>
+		<result column="pro_writer" property="proWriter"/>
 	</resultMap>
 	
 	<resultMap type="Repo" id="repoResult">

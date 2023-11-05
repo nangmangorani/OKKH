@@ -110,6 +110,8 @@ public class RepositoryController {
 			
 			ArrayList<Member> teamMate = rService.selectTeamMateList(((Member)(session.getAttribute("loginMember"))).getMemNo());
 
+			System.out.println(teamMate);
+			
 			return new Gson().toJson(teamMate);
 			
 		} catch (Exception e) {
