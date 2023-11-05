@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,6 +77,43 @@ public class PrController {
 	
 	
 	/**
+	 * pr을 기술 스택을 눌렀을 때 조회하는메소드
+	 */
+	@ResponseBody
+	@RequestMapping(value="ajaxStackSelect.pr", produces="application/json; charset=UTF-8")
+	public ArrayList<PR> ajaxStackSelect(String stackList ) {
+		
+		// 넘어오는 값들이 대문자도 섞여있는데 db에는 모두 소문자로 있어서 변환시켜줘야함!
+		String lowerCase = stackList.toLowerCase();
+		
+		String[] arr = lowerCase.split(","); // 이렇게 하면 해쉬주소값이 나와버림...ㅠㅠ
+		
+		  
+	    List<String> stackListArray = Arrays.asList(arr);
+
+		
+		
+		//System.out.println(stackList + " : 이건 그냥 뽑는다아아");
+		
+		ArrayList<PR> list = prService.selectStackPr(stackListArray);
+		
+		System.out.println(list+ " : 이건 스택이이이잉");
+		
+		
+		return list;
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
 	 * pr 작성하는 폼으로 쏘는 메소드
 	 *  근데 폼으로 쏠때 기술 스택 조회해서 가야함 
 	 * @return
@@ -130,6 +169,7 @@ public class PrController {
 	 * @param mv
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping("detailPr.pr")
 	public ModelAndView selectDetailPR(int pno, ModelAndView mv, HttpSession session) {
 		
@@ -379,7 +419,9 @@ public class PrController {
 		
 		
 		
-		int result;
+		int result =0;
+		
+		
 		
 		if(count == 0) {
 			// 북마크가 안돼있으면 삽입하기

@@ -44,11 +44,11 @@
                     <!-- 왼쪽 내용 시작 -->
                     <!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
 					<div class="buttons">
-						<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
+						<a href="list.iss" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 						<!-- 레파지 추가 버튼 시작 -->
-	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal"   data-bs-target="#inlineForm" style="float: right;">
 	                    	New PullRequest
 	                	</button>
 	                	
@@ -74,15 +74,45 @@
 	                            </div>
 	                            <form action="insertRepo.re">
 	                                <div class="modal-body">
+	                                	<label>Branches:</label>
+	                                    <div class="form-group">
+	                                    	 <div class="form-group">
+		                                        <select class="choices form-select" id="branchSelect">
+			                                         <c:forEach var="b" items="${blist }">
+			                                            <option value="${b.name }">${b.name }</option>
+			                                         
+			                                         </c:forEach>
+			                                           
+		                                        </select>
+                                             </div>
+	                                    
+	                                        
+	                                    </div>
+	                                    
+	                                    	<label>Base:</label>
+	                                    <div class="form-group">
+	                                    	 <div class="form-group">
+		                                        <select class="choices form-select" id="base">
+			                                         <c:forEach var="b" items="${blist }">
+			                                            <option value="${b.name }">${b.name }</option>
+			                                         
+			                                         </c:forEach>
+			                                           
+		                                        </select>
+                                             </div>
+	                                    
+	                                        
+	                                    </div>
+	                                
 	                                    <label>Title:</label>
 	                                    <div class="form-group">
 	                                        <input type="text" placeholder="제목을 입력해주세요."
-	                                            class="form-control">
+	                                            class="form-control" id="createTitle">
 	                                    </div>
 	                                    <label>Content:</label>
 	                                    <div class="form-group">
 	                                        <input type="text" placeholder="내용을 작성해주세요."
-	                                            class="form-control">
+	                                            class="form-control" id="createContent">
 	                                    </div>
 	                                </div>
 	                                <div class="modal-footer">
@@ -92,9 +122,9 @@
 	                                        <span class="d-none d-sm-block">Cancel</span>
 	                                    </button>
 	                                    <button type="button" class="btn btn-primary ml-1"
-	                                        data-bs-dismiss="modal">
+	                                        data-bs-dismiss="modal" onclick="createPull();">
 	                                        <i class="bx bx-check d-block d-sm-none"></i>
-	                                        <span class="d-none d-sm-block">Comment</span>
+	                                        <span class="d-none d-sm-block">Create</span>
 	                                    </button>
 	                                </div>
 	                            </form>
@@ -102,6 +132,29 @@
 	                    </div>
 	                </div>
 	                <!--/풀리퀘 추가 form Modal 끝 -->
+	                
+	                <script>
+	                	// 풀리퀘 생성하는 곳
+	                	function createPull(){
+	                		
+	                		let title = document.getElementById("createTitle").value;
+	                		let body = document.getElementById("createContent").value;
+	                		let branches = document.getElementById("branchSelect").value;
+	                		let base = document.getElementById("base").value;
+	                		
+	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches+"&base="+base;
+	                		
+	                	}
+	                	
+	                	
+	                
+	                </script>
+	                
+	                
+	                
+	                
+	                
+	                
 					
                     <!-- 풀리퀘스트 table start -->
 				    <section class="section">
@@ -115,13 +168,13 @@
 				                        	<!-- open -->
 				                            <li class="nav-item" role="presentation">
 				                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"
-				                                    aria-controls="home" aria-selected="true"><i class="fa-solid fa-circle-notch" style="color: #0521f5;"></i> Open(2)</a>
+				                                    aria-controls="home" aria-selected="true"><i class="fa-solid fa-circle-notch" style="color: #0521f5;"></i> Open(${listCount })</a>
 				                            </li>
 				                            <!-- /open -->
 				                            <!-- close -->
 				                            <li class="nav-item" role="presentation">
 				                                <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
-				                                    aria-controls="profile" aria-selected="false"><i class="fa-solid fa-check" style="color: #f50535;"></i> Close(3)</a>
+				                                    aria-controls="profile" aria-selected="false"><i class="fa-solid fa-check" style="color: #f50535;"></i> Close(${closeListCount})</a>
 				                            </li>
 				                            <!-- /close -->
 				                        </ul>
@@ -133,37 +186,29 @@
 					                            <table class="table table-bordered mb-0" id="pullListTable">
 					                                <thead>
 					                                    <tr>
-					                                    	<th>
-						                                        <div class="checkbox">
-						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
-						                                            <label for="checkbox1">TITLE</label>
-						                                        </div>
+					                                    	<th style="width:30%;">
+						                                        TITLE
+						                                        
 					                                    	</th>
 					                                        <th>AUTHOR</th>
 					                                        <th>LABEL</th>
 					                                        <th>MILESTONE</th>
-					                                        <th>REVIEW</th>
+					                                    
 					                                    </tr>
 					                                </thead>
-					                                <tbody>
+					                                <tbody >
 					                           <c:choose> 
 					                           		<c:when test="${not empty plist}">  
 					                           		    
 		                           		       		     <c:forEach var="pull" items="${plist }"> 
 					                           		    
-					                           		          <c:if test="${pull.state eq 'open' }">
-					                           		             
-													                <tr onclick="pullDetail(${pull.number });">
-										                                 <td class='text-bold-500'>
-											                                 <div class='checkbox'>
-											                                 
-											                                  <input type='checkbox' id='checkbox1' class='form-check-input'>
-											                                 <label for='checkbox1'>${pull.title} </label>
-											                                 </div>
-										                                  </td>
+					                           		      
+													                <tr  onclick="location.href='pullRequestDetail.pu?pno=${pull.number}'">
+										                                 <td class='text-bold-500'> ${pull.title}  </td>
 										                                  <td>
+													                     
 											                                  <img src='${pull.profile}' height="30" width="30" style="border-radius: 15px;">
-											                                  <span> ${pull.user } </span>   
+											                                  <span> ${pull.user }  </span>   
 																		  </td>
 																		  
 																		  <!-- 라벨.... 있는지 없는지 확인하기 -->
@@ -192,10 +237,10 @@
 																		  </c:choose>
 										                                
 										                                
-										                                  <td><i class='fa-regular fa-comment'></i> 3 </td>
+								                                   
 								                                    </tr>
 								                                   
-							                                    </c:if>
+							                                  
 							                                    
 					                                     </c:forEach>
 					                                    </c:when> 
@@ -203,7 +248,7 @@
 					                                <c:otherwise>
 					                                <!--여긴 생성된 풀리퀘가 없을 때 -->
 					                                	<tr>
-					                                		<td colspan="5"><h5 style="">아직 생성된 Pull Request가 없습니다. Pull Request를 생성해보세요! </h5> </td>
+					                                		<td colspan="5"><h5 style="text-align:center;">아직 생성된 Pull Request가 없습니다. Pull Request를 생성해보세요! </h5> </td>
 					                                	</tr>
 					                                </c:otherwise>  
 					                                
@@ -218,20 +263,17 @@
 				                            
 				                     
 				                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-				                                <table class="table table-bordered mb-0">
+				                                <table class="table table-bordered mb-0" id="closeTable">
 					                                <thead>
 					                                    <tr>
 					                                    	<tr>
 					                                    	<th>
-						                                        <div class="checkbox">
-						                                            <input type="checkbox" id="checkbox1" class="form-check-input">
-						                                            <label for="checkbox1">TITLE</label>
-						                                        </div>
+						                                     TITLE
 					                                    	</th>
 					                                        <th>AUTHOR</th>
 					                                        <th>LABEL</th>
 					                                        <th>MILESTONE</th>
-					                                        <th>REVIEW</th>
+					                                       
 					                                    </tr>
 					                                    </tr>
 					                                </thead>
@@ -240,29 +282,29 @@
 					                                    
 					                       <!-- 여기는 state가 close인 풀리퀘를 조회하는 곳!! -->
 		                                      <c:choose> 
-					                           		<c:when test="${not empty plist}">  
+					                           		<c:when test="${not empty closeList}">  
 					                           		    
-		                           		       		     <c:forEach var="pull" items="${plist }"> 
+		                           		       		     <c:forEach var="close" items="${closeList }"> 
 					                           		    
-					                           		          <c:if test="${pull.state eq 'closed' }">
+					                           		         
 					                           		             
-													                <tr onclick="pullDetail(${pull.number });">
+													                <tr  onclick="location.href='pullRequestDetail.pu?pno=${close.number}'">
 										                                 <td class='text-bold-500'>
-											                                 <div class='checkbox' style="margin-left:20px;">
 											                                 
-											                                  <input type='checkbox' id='checkbox1' class='form-check-input'>
-											                                 <label for='checkbox1' >${pull.title} </label>
-											                                 </div>
+											                                
+											                                  
+											                                 ${close.title} 
+										
 										                                  </td>
 										                                  <td>
-											                                  <img src='${pull.profile}' height="30" width="30" style="border-radius: 15px;">
-											                                  <span> ${pull.user } </span>   
+											                                  <img src='${close.profile}' height="30" width="30" style="border-radius: 15px;">
+											                                  <span> ${close.user } </span>   
 																		  </td>
 																		  
 																		  <!-- 라벨.... 있는지 없는지 확인하기 -->
 																		  <c:choose>
-																		  	<c:when test="${not empty pull.labels }">
-										                                  		<td class='text-bold-500'> ${pull.labels } </td>
+																		  	<c:when test="${not empty close.labels }">
+										                                  		<td class='text-bold-500'> ${close.labels } </td>
 																		  	
 																		  	</c:when>
 																		  	
@@ -275,28 +317,24 @@
 										                                  <!-- 마일스톤.... 있는지 없는지 확인하기 -->
 										                                  
 										                                  <c:choose>
-																		  	<c:when test="${not empty pull.milestone }">
-										                                  		<td class='text-bold-500'> ${pull.milestone } </td>
+																		  	<c:when test="${not empty close.milestone }">
+										                                  		<td class='text-bold-500'> ${close.milestone } </td>
 																		  	</c:when>
 																		  	
 																		  	<c:otherwise>
 																		  	  <td class='text-bold-500'> milestone null... </td>
 																		  	</c:otherwise>
 																		  </c:choose>
-										                                
-										                                
-										                                  <td><i class='fa-regular fa-comment'></i> 3 </td>
-								                                    </tr>
-								                                   
-							                                    </c:if>
-							                                    
+										                             
+										                       
+										                              
 					                                     </c:forEach>
 					                                    </c:when> 
 					                                
 					                                <c:otherwise>
 					                                <!--여긴 생성된 풀리퀘가 없을 때 -->
 					                                	<tr>
-					                                		<td colspan="5"><h5 style="">아직 생성된 Pull Request가 없습니다. Pull Request를 생성해보세요! </h5> </td>
+					                                		<td colspan="5"><h5 style="text-align:center;">아직 closed된 Pull Request가 없습니다. Pull Request를 closed 생성해보세요! </h5> </td>
 					                                	</tr>
 					                                </c:otherwise>  
 					                                
@@ -313,6 +351,54 @@
 				                    </div>
             					    <!-- /nav바 끝 -->
 				                    
+				                     				<!-- 페이징바  -->
+													 <nav aria-label="Page navigation example">
+														<ul class="pagination pagination-primary  justify-content-center ">
+														
+														
+														
+															<c:choose>
+																<c:when test = "${pi.currentPage ne 1 }">
+																	<li class="page-item"><a class="page-link" href="myPullRequest.pu?cpage=${pi.currentPage -1 }">
+																		<span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+																	</a></li>
+																</c:when>
+																
+																<c:otherwise>
+																	    <li class="page-item disabled"><a class="page-link" >
+																			<span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+																		</a></li>
+																</c:otherwise>
+															</c:choose>
+	
+															
+															
+															<c:forEach var="i" begin="${pi.startPage }" end="${pi.endPage }">
+																<li class="page-item "><a class="page-link" href="myPullRequest.pu?cpage=${i }">${i }</a></li>
+															
+															</c:forEach>	
+																
+																
+																
+																	 <c:choose>	
+																	 
+																	 	<c:when test="${pi.currentPage eq pi.maxPage }">
+																			 	<li class="page-item disabled"><a class="page-link" >
+																					<span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+																				</a></li>
+																	 	</c:when>
+																	 	
+																	 	<c:otherwise>
+																	 	        <li class="page-item "><a class="page-link" href="myPullRequest.pu?cpage=${pi.currentPage +1 }">
+																					<span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+																				</a></li>
+																	 	</c:otherwise>
+																		
+																	</c:choose>
+															
+														</ul>
+													</nav>
+				                    
 				                </div>
 				            </div>
 				        </div>
@@ -327,70 +413,10 @@
             
             
             <script>
-            /*
-               $(function(){
-            	   selectPullRequest();
-               })
+            
+              
             
             
-            	function selectPullRequest(){
-            		
-            		$.ajax({
-            			url:"selectPullRequest.pull",
-            			success:function(data){
-            				
-            				//const pullList = JSON.stringify(data, null, 2)
-            				// 2는 들여쓰기 개수
-            				
-            				//console.log(pullList[5] + " 받아온 풀리퀘닷!!!!!!!!!!!!!!!!")
-            				let value = "";
-            				data.forEach(function(item){
-            					
-            				
-            				value += "<tr>"
-                                  + "<td class='text-bold-500'>"
-                                  +	"<div class='checkbox'>"
-                                  + "<input type='checkbox' id='checkbox1' class='form-check-input'>
-                                  + "<label for='checkbox1'>" +  item.title + "</label>"
-                                  + "</div>"
-                                  + "</td>"
-                                  + "<td>" 
-                                  +"<img src='"+ item.user.avatar_url +"'>"
-                                  + "<span>" + item.user.login  + "</span>"   
-								  + "</td>"
-                                  + "<td class='text-bold-500'> item.labels </td>"
-                                  + "<td>item.milestone </td>"
-                                  + "<td><i class='fa-regular fa-comment'></i>"+ 3 + "</td>"
-                                  + "</tr>" 	
-            					
-            					
-            				})
-            				
-            				
-            				$("#pullListTable tbody").html(value);
-            				
-            				
-            				
-            				
-            				
-            				
-            				
-            			},
-            			error:function(){
-            				console.log("풀리퀘스트 리스트 조회용 아작스 실패ㅠㅠㅠ")
-            			}
-            		
-            		})
-            		
-            	}	
-            
-            	
-               
-               $("#selectPull").click(function(){
-            	   selectPullRequest();
-               })
-            	
-            */
             </script>
             
             
@@ -415,19 +441,7 @@
 	<!-- /전체 div 끝 -->
 	
 	<!-- 풀리퀘스트 js -->
-	<script>
 	
-		$(() => {
-			
-			$("#myTabContent tbody>tr").click(() => {
-				
-				location.href = "pullRequestDetail.pu?pno=1";
-				
-			});
-			
-		})
-	
-	</script>
 </body>
 
 </html>

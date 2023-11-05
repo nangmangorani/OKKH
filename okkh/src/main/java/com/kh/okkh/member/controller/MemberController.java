@@ -36,6 +36,7 @@ public class MemberController {
 	@Autowired
 	private GithubService gService;
 	
+	
 	private String token = "";
 	
 	@GetMapping("callback")
@@ -68,6 +69,7 @@ public class MemberController {
         session.setAttribute("git", githubInfo); 			// github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", loginMember); 	// db에 쌓인 정보
         
+        System.out.println(loginMember + "  : git에 들어있는 정보");
 	    return "redirect:/";
 	}
 	

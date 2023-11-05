@@ -223,18 +223,18 @@
 		insert into 
   		       bookmark
   		       (
-  		         pro_no
-  		       , mem_no 
+  		          mem_no 
+  		        , pro_no  
   		       )
   		       values
   		       (
-  		         #{proNo}
-  		       , #{memNo}  
+  		         #{memNo}  
+  		       , #{proNo}
   		       )   
 	</insert>
 	
 	
-	
+	<!-- 북마크 제거하는 쿼리 -->
 	<delete id="deletePrBookmark">
 		delete from 
 		       bookmark
@@ -243,7 +243,27 @@
 	</delete>
 	
 	
+	<!-- 기술스택 별로 pr 조회하는 쿼리 -->
+	<select id="selectStackPr" resultMap="prSetResult">
+	   select 
+		        pr_no
+		      , pr_title
+		      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
+		      , pr.stack_name
+		      , git_nick
+		      , count
+		      , mem_no
+		  from my_pr pr
+		  join member using (mem_no)
+		 where pr.status ='Y'
+		   and 
+		<foreach collection="list" item="stack"  separator="or">
+			pr.stack_name like '%${stack}%'
+	    </foreach> 
+		 
+		 order by pr.create_date desc
 	
+	</select>
 	
 	
 

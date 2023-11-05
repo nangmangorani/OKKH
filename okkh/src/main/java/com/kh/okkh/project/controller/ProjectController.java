@@ -105,6 +105,7 @@ public class ProjectController {
 		 
 		 session.setAttribute("teamList", teamList);
 		 
+		 //System.out.println(teamList + "  : 아니 이것은 팀리스트????");
 		 
 		// 다시 상세조회 하는 코드로 넘어오장 
 		 // 조회수 증가 성공하면 찐 프로젝트 상세내용 조회하러 가자
@@ -544,32 +545,37 @@ public class ProjectController {
     //   (이때 List는 java.util에 있는 걸 import하기!!!)
     @ResponseBody
     @RequestMapping("enrollTeamMate.pro")
-    public String enrollTeamMate(@RequestParam(value="checkedMembers[]", required = false)List<Integer> checkedMembers,
-    							 @RequestParam(value="uncheckedMembers[]", required = false)List<Integer>uncheckedMembers) {
+    public String enrollTeamMate(@RequestParam(value="checkedMembers[]", required = false,defaultValue = "0")List<Integer> checkedMembers,
+    							 @RequestParam(value="uncheckedMembers[]", required = false,defaultValue = "0")List<Integer>uncheckedMembers,HttpSession session) {
     	
     	// System.out.println(memNo); // [10,6]값 아주 잘 넘어옴 예~!
     	
+    	// ArrayList<Member> teamList =  pservice.selectProjectTeamMateList(teamNo);
+    	
+    	
+    	// System.out.println(checkedMembers  + " : 팀팀팀팀팀");
+    	
+    	
+    	
+    	//System.out.println(checkedMembers + " : 과연");
     	
     	int result = 1;
+    	int result2 =1;
 
-        if (!checkedMembers.isEmpty()) {
-            result += pservice.enrollTeamMate(checkedMembers);
-        }
+       
+            result = pservice.enrollTeamMate(checkedMembers);
+            
+           if(result>0) {
+        	   
+        	   result2 = pservice.deleteTeamMate(uncheckedMembers);
+        	   
+           }
+         
 
-        if (!uncheckedMembers.isEmpty()) {
-            result += pservice.deleteTeamMate(uncheckedMembers);
-        }
-        
-        if(!checkedMembers.isEmpty() && uncheckedMembers.isEmpty() ) {
-        	
-        	 result += pservice.enrollTeamMate(checkedMembers);
-        }
-        
-        if(!uncheckedMembers.isEmpty() && checkedMembers.isEmpty()) {
-        	 result += pservice.deleteTeamMate(uncheckedMembers);
-        }
+       
+      
 
-        return result > 0 ? "success" : "fail";
+        return result*result2 > 0 ? "success" : "fail";
     
     	
     	

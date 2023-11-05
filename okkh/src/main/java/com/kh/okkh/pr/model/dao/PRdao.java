@@ -2,6 +2,7 @@ package com.kh.okkh.pr.model.dao;
 
 import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -202,6 +203,16 @@ public class PRdao {
 	}
 	
 	
+	
+	/**
+	 * pr을 기술스택별로 조회하는 메소드
+	 * @return
+	 */
+	public ArrayList<PR> selectStackPr(List<String> stack, SqlSessionTemplate sqlSession){
+		
+		return (ArrayList)sqlSession.selectList("prMapper.selectStackPr", stack);
+		
+	}
 	
 	
 	

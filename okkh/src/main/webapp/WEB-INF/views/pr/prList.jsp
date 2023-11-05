@@ -783,63 +783,102 @@ transform: scale(1.1);
 
 
 
-<script>
-var val1 = "";
-
-// ul 태그(class =LanguageBar_languages__2Ilqf)의 후손 li태그를 누를때마다 해당 li의 value 값 + ' '을 
-// val1에다가 누적하는 코드
-$(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
-     val1 += $(this).attr('value') + ' ';
-     console.log(val1);
-});
-
-</script>
-
-
-
-<!--테스트 끝 -->
+				<script>
+					var val1 = "";
+					
+					// ul 태그(class =LanguageBar_languages__2Ilqf)의 후손 li태그를 누를때마다 해당 li의 value 값 + ' '을 
+					// val1에다가 누적하는 코드
+					$(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
+					     val1 += $(this).attr('value') + ' ';
+					     console.log(val1);
+					});
+				
+				</script>
 
 
 
+				<!--테스트 끝 -->
 
+
+
+
+                <!-- 
                 
+                    기술 스택 누르면 해당 기술 스택이 포함된 pr이 나오는 곳
+	                	==> But! 저는 시간 관계상 하지 않았습니다. (프로젝트 포함)
+	                	==> 혹시라도 이걸 참고할 분이 있다면 미리 죄송하다는 말씀을....ㅎㅎ 
+	                	==> 저는 안했지만, 이걸 보시는 분은 꼭 도전해서 성공하길.... 화이팅!!
+	                	==> from 유정(호빵)
+                
+                 -->
                 <script>
-                // 버튼 요소와 대상 div 요소를 가져옵니다.
-                const button = document.getElementById("toggleButton");
-                const targetDiv = document.getElementById("targetDiv");
-                
-                // 버튼 클릭 이벤트 핸들러를 추가합니다.
-                button.addEventListener("click", () => {
-                  // 현재 div 요소의 표시 상태를 확인하고 토글합니다.
-                  if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
-                    targetDiv.style.display = "block"; // div를 엽니다.
-                  } else {
-                    targetDiv.style.display = "none"; // div를 닫습니다.
-                  }
-                });
-
-
-
-                const liItems = document.querySelectorAll('.LanguageBar_languages__2Ilqf li');
-                var val2 = [];
-        
-                liItems.forEach(li => {
-                  li.addEventListener('click', () => {
-                    if (li.classList.contains('selected')) {
-                      li.classList.remove('selected');
-                     val2 = val2.filter((element) => element !== li.getAttribute('value'));
-                    } else {
-                      li.classList.add('selected');
-                      val2.push(li.getAttribute('value'));
-                    }
-                       console.log(val2); // log value to console */
-
-                       let val3 = val2.join(",")  // val3은 val2를 ,로 나눠서 저장하겠다는 의미
-                       console.log(val3);
-
-                })
-                
-            })
+		                // 버튼 요소와 대상 div 요소를 가져옵니다.
+		                const button = document.getElementById("toggleButton");
+		                const targetDiv = document.getElementById("targetDiv");
+		                
+		                // 버튼 클릭 이벤트 핸들러를 추가합니다.
+		                button.addEventListener("click", () => {
+		                  // 현재 div 요소의 표시 상태를 확인하고 토글합니다.
+		                  if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
+		                    targetDiv.style.display = "block"; // div를 엽니다.
+		                  } else {
+		                    targetDiv.style.display = "none"; // div를 닫습니다.
+		                  }
+		                });
+		
+		        </script>
+		        
+		        <script>
+		
+		                const liItems = document.querySelectorAll('.LanguageBar_languages__2Ilqf li');
+		                var val2 = [];
+		        
+		                liItems.forEach(li => {
+		                  li.addEventListener('click', () => {
+		                    if (li.classList.contains('selected')) {
+		                      li.classList.remove('selected');
+		                     val2 = val2.filter((element) => element !== li.getAttribute('value'));
+		                    } else {
+		                      li.classList.add('selected');
+		                      val2.push(li.getAttribute('value'));
+		                    }
+		                       console.log(val2); // log value to console */
+		
+		                       let val3 = val2.join(",")  // val3은 val2를 ,로 나눠서 저장하겠다는 의미
+		                       console.log(val3);  // 이건 값이 잘 넘어옴
+		                       
+		                       
+		                       // 이건 스택 누를때마다 해당 기술이 포함된 리스트가 보이는 아작스
+		                       $.ajax({
+		                    	   
+		                    	   url:"ajaxStackSelect.pr",
+		                    	   data:{"stackList":val3},
+		                    	   type:"post",
+		                    	   success:function(data){
+		                    		   
+		                    		   var list = JSON.parse(data);
+		                    		   
+		                    		   console.log(data + " : 아아아ㄴ")
+		                    		   
+		                    		   
+		                    		  
+		                    		   
+		                    		   
+		                    		   
+		                    	   },
+		                    	   error:function(){
+		                    		   console.log("기술 스택으로 목록 조회용 아작스 실패ㅠㅠㅠㅠ")
+		                    	   }
+		                    		   
+		                    	 
+		                    	   
+		                       })
+		                       
+		                       
+		
+		                })
+		                
+		            })
                 </script>
 
 
@@ -871,7 +910,8 @@ $(document).on("click",".LanguageBar_languages__2Ilqf li", function(){
                         <option value="1">즐겨찾기 순</option>
                         <option value="2">최신 순</option>
                     </select>
-		
+
+		
 				<c:if test="${not empty loginMember }">
                     <button class="btn btn-primary" style="margin-left: 50px; width: 170px; border-radius: 10px;" onclick="location.href='enrollPRFr.pr'" >PR 작성하기</button>
 				

@@ -17,8 +17,8 @@
     <result column="bf_taker"  property="bfTaker"/>
     <result column="fStatus"  property="fStatus"/>
     <result column="request_date"  property="requestDate"/>
-    <result column="ISent" property="isent"/>
-	<result column="FriSent" property="friSent"/>
+    <result column="isent" property="isent"/>
+	<result column="friSent" property="friSent"/>
 	<result column="user_no" property="userNo"/>
  
  </resultMap>
@@ -96,7 +96,7 @@
 		from member
 		    left join 
 		        (
-		        select nvl(a.bf_taker, nvl(b.bf_giver, a.bf_taker)) user_no, a.status ISent, b.status FriSent
+		        select nvl(a.bf_taker, nvl(b.bf_giver, a.bf_taker)) user_no, a.status isent, b.status friSent
 		        from (select * from friend where bf_giver = #{memNo}) a
 		        full outer join (select * from friend where bf_taker = #{memNo}) b on (a.bf_taker = b.bf_giver)
 		        )
@@ -221,7 +221,14 @@
  <delete id="cancleRefuseFriend">
  	delete from friend     
  	 where bf_giver = #{bfGiver}
- 	   and bf_taker = #{bfTaker}      
+ 	   and bf_taker = #{bfTaker} 
+ 
+ </delete>
+ 
+ <delete id="cancleRefuseFriend2">
+ 	delete from friend     
+ 	 where bf_giver = #{bfTaker}
+ 	   and bf_taker = #{bfGiver} 
  
  </delete>
  

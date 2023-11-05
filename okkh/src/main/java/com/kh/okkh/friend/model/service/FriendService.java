@@ -59,11 +59,19 @@ public interface FriendService {
 	// 친구 차단 취소 
 	int cancleBlockFriend(Friend f);
 	
+	
+	
 	// 친구 거절하기
 	int refuseFriend(Friend f);
 	
-	// 친구 거절 취소하기
+	// 친구 거절 취소하기(내까)
 	int cancleRefuseFriend(Friend f);
+	
+	// 친구 거절 취소하기(친구꺼)
+	int cancleRefuseFriend2(Friend f);
+	
+	// 친구 거절 취소하기(만약 친구가 아닌데 차단할 경우)(친구꺼)
+	int cancleRefuseFriend3(Friend f);
 	
 	// 친구 삭제하기 (내꺼)
 	int deleteFriend(Friend f);

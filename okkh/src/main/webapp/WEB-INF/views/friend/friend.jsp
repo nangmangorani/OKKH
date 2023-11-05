@@ -560,17 +560,17 @@
 			                            					
 		                                                  	value += "<button class='friendBTN' type='button' style='background-color:#edb2ed; '>친구</button>"
 		                                                  	
-		                                                  }else if(list[i].userNo == 0){
+		                                                  }else if(list[i].userNo == null || list[i].userNo == 0){
 		                                                	  // 나와 친구가 아닐 때
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' style='background-color:#5ce5cf; '>친구 아님</button>"
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && list[i].friSent == null ){
+		                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && (list[i].friSent == 0  || list[i].friSent == null) ){
 		                                                	  // 내가 친구 요청
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' >친구 요청함</button>" 
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && list[i].isent == null && list[i].friSent == 'A'){
+		                                                  }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 0 ) && list[i].friSent == 'A'){
 		                                                	// 친구가 나한테 친추 보냈을 경우
 		                                                	  
 		                                                	  value +=  "<button class='friendBTN' type='button' style=' '>친구 요청옴</button>" 
@@ -585,12 +585,12 @@
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button'  style='background-color:#ff033e;'>친구 거절됨</button>"
 		                                                	
-		                                                  } else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null)){
+		                                                  } else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent ==0 || list[i].friSent == null )){
 		                                                	  // 내가 친구 차단했을 때
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' style='background-color:lightgray;'>친구 차단함</button>" 
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && (list[i].isent == 'Y' || list[i].isent == 'A' || list[i].isent == null ) && list[i].friSent == 'D' ){
+		                                                  }else if(list[i].userNo != 0 && (list[i].isent == 'Y' || list[i].isent == 'A' || list[i].isent == 0  || list[i].isent == null) && list[i].friSent == 'D' ){
 		                                                	// 친구가 나를 차단했을 때
 		                                                	  
 		                                                	  value +=  "<button class='friendBTN' type='button'; style='background-color:lightgray;'>친구 차단됨</button>"  
@@ -614,33 +614,33 @@
 	                                                	  // &#39; 는 '이걸 의미함, 이렇게 작성안하고 'list[i].ISent' 이런식으로 하면 이 값을 컴터가 못알아챔... 바보들...
 	                                                	  
 	                                                	  value += "<button class='dropdown-item' style='background-color:#f7f7f7;'    onclick='deleteFriend("+ list[i].memNo + "," + ${loginMember.memNo}  +");'>친구 삭제</button> "
-	                                                	        + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo  + ");'>친구 차단</button> "
+	                                                	        + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo  + ");'>친구 차단</button> "
 	                                                  
-	                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && list[i].friSent == null ){
+	                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && (list[i].friSent == null || list[i].friSent ==0) ){
 	                                                	  // 친구 요청보냈을 때 친구 요청취소
 	                                                	  
 	                                                	  value += "<button class='dropdown-item' onclick='cancleAddFriend("+ list[i].memNo  + "," + ${loginMember.memNo}  + ");'>친구 요청 취소</button> "
                                                                 
                                                          
-                                                      }else if(list[i].userNo != 0 && list[i].isent == null  && list[i].friSent == 'A'){
+                                                      }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 0)  && list[i].friSent == 'A'){
                                                     	  // 친구 요청왔을 때 친구 수락하거나 친구 거절하거나
                                                     	  
 	                                                	  value += "<button class='dropdown-item' onclick='acceptFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 수락</button> "
                                                                  + "<button class='dropdown-item' onclick='refuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 거절</button> "
                                                           
-                                                      }else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null)){
+                                                      }else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null || list[i].friSent == 0 )){
                                                     	  // 친구 차단했을 때
                                                     	  
-	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 차단 취소</button> "
+	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ",&#39;" + list[i].friSent +"&#39;" +");'>친구 차단 취소</button> "
 	                                                	  
                                                           
                                                       }else if(list[i].userNo != 0 && list[i].isent == 'B' && list[i].friSent == 'A'){
                                                     	  // 친구 거절 했을 때 거절 취소하거나 친구 차단하거나 (친추 왔을 때만 거절)
                                                     	  
-	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 거절 취소</button> "
-	                                                		    + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo     + ");'>친구 차단</button> "
+	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ",&#39;" + list[i].friSent +"&#39;" +");'>친구 거절 취소</button> "
+	                                                		    + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo     + ");'>친구 차단</button> "
                                                           
-                                                      }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 'B' || list[i].isent == 'A' || list[i].isent == 'Y') && list[i].friSent == 'D' ){
+                                                      }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 0 || list[i].isent == 'B' || list[i].isent == 'A' || list[i].isent == 'Y') && list[i].friSent == 'D' ){
                                                     	  // 친구가 날 차단했을 때 아무것도 없음 
                                                     	   value += "<button class='dropdown-item' type='button'>" + list[i].gitNick + " 님이 회원님을 차단했습니다. </button> "
                                                     	  
@@ -652,7 +652,7 @@
 	                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
 	                                                	  
 	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 요청</button> "
-	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
+	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
 	                                               
                                                       }
 	                                                  + "</div>"
@@ -700,8 +700,7 @@
                             		success:function(list){
                             			
                             		
-                            			//console.log(list[i] + "    반복문 안에서!!")
-                            			 
+                            			
                             		
                             			let value="";
                             			
@@ -709,7 +708,7 @@
                             			if(list.length != 0){
 	                            			for(let i in list){
 	                            				
-	                            			  console.log(list[i])
+	                            			  console.log(list[i].isent + "   : 친구상태태탵")
 	                            				
 	                            				value += "<tr>"
 	                                             	  + "<td >" + list[i].memNo +"</td>"
@@ -729,12 +728,12 @@
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' style='background-color:#5ce5cf; '>친구 아님</button>"
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && list[i].friSent == null ){
+		                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && (list[i].friSent == null || list[i].friSent == 0 ) ){
 		                                                	  // 내가 친구 요청
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' >친구 요청함</button>" 
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && list[i].isent == null && list[i].friSent == 'A'){
+		                                                  }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 0) && list[i].friSent == 'A'){
 		                                                	// 친구가 나한테 친추 보냈을 경우
 		                                                	  
 		                                                	  value +=  "<button class='friendBTN' type='button' style=' '>친구 요청옴</button>" 
@@ -749,12 +748,12 @@
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button'  style='background-color:#ff033e;'>친구 거절됨</button>"
 		                                                	
-		                                                  } else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null)){
+		                                                  } else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null || list[i].friSent == 0)){
 		                                                	  // 내가 친구 차단했을 때
 		                                                	  
 		                                                	value +=  "<button class='friendBTN' type='button' style='background-color:lightgray;'>친구 차단함</button>" 
 		                                                	
-		                                                  }else if(list[i].userNo != 0 && (list[i].isent == 'Y' || list[i].isent == 'A' || list[i].isent == null ) && list[i].friSent == 'D' ){
+		                                                  }else if(list[i].userNo != 0 && (list[i].isent == 'Y' || list[i].isent == 'A' || list[i].isent == null || list[i].isent == 0 ) && list[i].friSent == 'D' ){
 		                                                	// 친구가 나를 차단했을 때
 		                                                	  
 		                                                	  value +=  "<button class='friendBTN' type='button'; style='background-color:lightgray;'>친구 차단됨</button>"  
@@ -778,7 +777,7 @@
 	                                                	  // &#39; 는 '이걸 의미함, 이렇게 작성안하고 'list[i].ISent' 이런식으로 하면 이 값을 컴터가 못알아챔... 바보들...
 	                                                	  
 	                                                	  value += "<button class='dropdown-item' style='background-color:#f7f7f7;'    onclick='deleteFriend("+ list[i].memNo + "," + ${loginMember.memNo}  +");'>친구 삭제</button> "
-	                                                	        + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo  + ");'>친구 차단</button> "
+	                                                	        + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo  + ");'>친구 차단</button> "
 	                                                  
 	                                                  }else if(list[i].userNo != 0 && list[i].isent == 'A' && list[i].friSent == null ){
 	                                                	  // 친구 요청보냈을 때 친구 요청취소
@@ -795,14 +794,14 @@
                                                       }else if(list[i].userNo != 0 && list[i].isent == 'D' && (list[i].friSent == 'A' || list[i].friSent == 'Y' || list[i].friSent == null)){
                                                     	  // 친구 차단했을 때
                                                     	  
-	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 차단 취소</button> "
+	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ",&#39;" + list[i].friSent +"&#39;" +");'>친구 차단 취소</button> "
 	                                                	  
                                                           
                                                       }else if(list[i].userNo != 0 && list[i].isent == 'B' && list[i].friSent == 'A'){
                                                     	  // 친구 거절 했을 때 거절 취소하거나 친구 차단하거나 (친추 왔을 때만 거절)
                                                     	  
-	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ");'>친구 거절 취소</button> "
-	                                                		    + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo     + ");'>친구 차단</button> "
+	                                                	  value += "<button class='dropdown-item' onclick='cancleRefuseFriend(" + list[i].memNo + "," + ${loginMember.memNo} + ",&#39;" + list[i].friSent +"&#39;" +");'>친구 거절 취소</button> "
+	                                                		    + "<button class='dropdown-item' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo     + ");'>친구 차단</button> "
                                                           
                                                       }else if(list[i].userNo != 0 && (list[i].isent == null || list[i].isent == 'B' || list[i].isent == 'A' || list[i].isent == 'Y') && list[i].friSent == 'D' ){
                                                     	  // 친구가 날 차단했을 때 아무것도 없음 
@@ -816,7 +815,7 @@
 	                                                	  // 친구가 아닐 때 친추보내거나, 차단하거나
 	                                                	  
 	                                                	  value += "<button class='dropdown-item' style='border:0;' onclick='addFriend(" + list[i].memNo +"," + ${loginMember.memNo} + ");' >친구 요청</button> "
-	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" + list[i].ISent + "&#39;,&#39;" + list[i].FriSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
+	                                                            + "<button class='dropdown-item' style='border:0;' onclick='blockFriend(" + list[i].memNo  +"," +  ${loginMember.memNo} + ",&#39;" +list[i].isent + "&#39;,&#39;" + list[i].friSent + "&#39;," + list[i].userNo    + ");'>친구 차단</button> "
 	                                               
                                                       }
 	                                                  + "</div>"
@@ -1025,24 +1024,26 @@
                             
                             
                             // 친구 거절/차단 취소하는 함수
-                            function cancleRefuseFriend(memNo, login){
+                            function cancleRefuseFriend(memNo, login, frisent){
                             	$.ajax({
                             		url:"cancleRefuseFriend.fri",
                             		data:{
                             			bfTaker : memNo,
-                            			bfGiver : login
+                            			bfGiver : login,
+                            			frisent   : frisent
+                            			
                             		},
                             		
                             		success:function(data){
                             			if(data =="success"){
                             				// 성공 
                             				
-                            				alertify.alert("친구 거절을 취소했습니다!")
+                            				alertify.alert("친구 상태 요청을 성공했습니다!")
                             				selectMyFriend();
                             				selectAllFriend();
                             				
                             			}else{
-                            				alertify.alert("친구 거절 취소를 실패했습니다ㅠㅠ")
+                            				alertify.alert("친구 상태 요청을 실패했습니다ㅠㅠ")
                             			}		
                             			
                             		},
@@ -1057,7 +1058,7 @@
                             
                             // 친구 차단하는 함수 
                             function blockFriend(memNo, login, ISent, FriSent, userNo){
-                            	//console.log(ISent + " : ISent"   +  FriSent + " : FriSent")
+                            	console.log(ISent + " : ISent"   +  FriSent + " : FriSent")
                             	
                             	$.ajax({
                             		url:"blockFriend.fri",
