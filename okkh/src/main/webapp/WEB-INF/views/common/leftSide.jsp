@@ -53,7 +53,11 @@
     <!-- /alert 끝 -->
     
     
-    
+    <script>
+    window.addEventListener('beforeunload', function() {
+	    alertify.closeAll(); // alertify 또는 다른 alert 라이브러리의 함수를 사용하여 모든 alert 메시지를 닫습니다.
+	});
+    </script>
     
 			
 	

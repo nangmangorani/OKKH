@@ -63,11 +63,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            
                                             <button type="button" class="btn btn-primary me-1 mb-1"
-                                                style="width: 150px; float: right;"
-                                                onclick="location.href='editForm.mile?mno=${milestone.number}'">마일스톤
-                                                편집</button>
+                                            style="width: 150px; float: right;"
+                                            onclick="location.href='editForm.mile?mno=${milestone.number}'">마일스톤
+                                            편집</button>
+                                            <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
                                         </div>
                                         <button class="btn btn-primary" id="continueMile">진행중</button>
                                         <button class="btn btn-primary" id="finishMile">진행완료</button>

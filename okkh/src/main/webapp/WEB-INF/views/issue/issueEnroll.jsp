@@ -74,7 +74,7 @@
 												</select>
 											</fieldset>
 											<div class="labelSpan2">
-												
+											
 											</div>
 
 											<br>
@@ -109,6 +109,7 @@
 							</div>
 							<button class="btn btn-primary" style="float: right">등록하기</button>
 						</form>
+						<button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
 					</section>
 					<input type="hidden" id="labList" value="${ lList }">
 					<input type="hidden" id="issist" value="${ iList }">

@@ -39,4 +39,6 @@ public interface IssueService {
 	ArrayList<Comments> getComments(String repository, String token, int ino);
 	
 	ArrayList<Member> getOrgsMember(String orgs, String token);
+	
+	int deleteComments(String repository, String token, int id);
 }
