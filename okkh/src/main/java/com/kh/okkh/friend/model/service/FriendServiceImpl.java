@@ -251,6 +251,10 @@ public class FriendServiceImpl implements FriendService {
 
 	
 	
+	@Override
+	public ArrayList<Friend> mainListFriend(int memNo){
+		return fdao.mainListFriend(sqlsession, memNo);
+	}
 	
 	
 	

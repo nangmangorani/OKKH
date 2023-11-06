@@ -10,8 +10,15 @@
     <title>Chat</title>
     <link rel="stylesheet" href="resources/css/widgets/chat.css">
 	<style>
-		.chat-message{
-			font-size: 13px;
+		.chat .chat-message{
+			font-size: 15px;
+			margin-bottom: 0px!important;
+		}
+		
+		#msgArea{
+		    overflow-y: scroll;
+		    height: 350px;
+		    width: 100%;
 		}
 	</style>
 </head>
@@ -40,16 +47,14 @@
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="card">
-                                                        <!--채팅 상대방 프로필-->
+                                                        <!--채팅 프로필-->
                                                         <div class="card-header">
                                                             <div class="media d-flex align-items-center">
-                                                                <div class="avatar me-3">
+                                                                <div class="avatar avatar-xl" style="padding-right:20px">
                                                                     <img src="${git.profile }" alt="">
-                                                                    <span class="avatar-status bg-success"></span>
                                                                 </div>
-                                                                <div class="name flex-grow-1">
-                                                                    <h6 class="mb-0">${git.gitNick }</h6>
-                                                                    <span class="text-xs">Online</span>
+                                                                <div>
+                                                                    <h3 class="mb-0">${cr.roomTitle }</h3>
                                                                 </div>
                                                                 <button class="btn btn-sm">
                                                                     <i data-feather="x"></i>
@@ -57,32 +62,15 @@
                                                             </div>
                                                         <hr>
                                                         </div>
-                                                        <!-- 채팅 상대방 프로필끝 -->
-
-                                                        <!-- 채팅 메세지들 -->
-                                                        <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
-    													<th:block th:fragment="content">
-                                                       
+                                                        <!-- 채팅 프로필 끝 -->
+                                                        
+														<!-- 채팅 메세지들 시작 -->
                                                         <div class="card-body pt-4 bg-grey">
-                                                            <div class="chat-content" id="msgArea">
-                                                            	<!-- 
-                                                                <div class="chat">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">Hi Alfy, how can i help you?</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat chat-left">
-                                                                    <div class="chat-body">
-                                                                        <div class="chat-message">I'm looking for the best admin dashboard
-                                                                            template</div>
-                                                                    </div>
-                                                                </div>
-                                                                -->
+                                                            <div class="chat-content" id="msgArea" style="width:100%; height:350px; overflow-y: auto;">
+                                                            
                                                             </div>
                                                         </div>
-                                                        </th:block>
-														</th:block>
-                                                        <!-- 채팅 메세지들끝 -->
+                                                        <!-- 채팅 메세지들 끝 -->
 
                                                         <!--채팅 전송폼-->
                                                         <div class="card-footer">
@@ -112,16 +100,18 @@
                                                                         <!-- table hover -->
                                                                         <div class="table-responsive">
                                                                            	<input type="hidden" name="memNo" value="${loginMember.memNo }">
+                                                                           	<input type="hidden" name="gitNick" value="${loginMember.gitNick }">
 	                                                                         	
 	                                                                            <table class="table table-hover mb-0">
 	                                                                            	<c:forEach var="cm" items="${cmList }">
 	                                                                                    <tr id="rommList">
-	                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
-	                                                                                            <img src="resources/images/faces/1.jpg"
-	                                                                                            alt="avtar img holder" width="30" height="30"
-	                                                                                            class="rounded-circle">
-	                                                                                        </td>
 	                                                                                        <td>
+	                                                                                            <div class="avatar me-3">
+								                                                                    <img src="${cm.profile }" alt="">
+								                                                                    <span class="avatar-status bg-success"></span>
+								                                                                </div>
+	                                                                                        </td>
+	                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
 	                                                                                        	${cm.gitNick }
 	                                                                                        </td>
 	                                                                                    </tr>
@@ -131,6 +121,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <a class="btn btn-danger" style="width:100%;" href="/okkh/chat">나가기</a>
                                                             </div>
                                                         </div>
                                                     </section>
@@ -165,9 +156,10 @@
 		ws = socket;
 	}
 	
+	var username = "${loginMember.gitNick}";
+	
 	$(document).ready(function(){
-	    const username = ${loginMember.memNo};
-
+	    
 	    $("#button-send").on("click", () => {
 	        send();
 	    });
@@ -175,70 +167,90 @@
 	    ws.onmessage = onMessage;
 	    ws.onopen = onOpen;
 	    ws.onclose = onClose;
-	    ws.onerror = onError; // 에러 처리를 위한 콜백
-
+	    ws.onerror = onError;
+		
+	    // input에서 작성한 메시지를 핸들러의 handelTextMessage로 보냄
 	    function send() {
 	        let msg = document.getElementById("msg");
-	        console.log(username + ":" + msg.value);
-	        ws.send(username + ":" + msg.value);
+	        console.log("send메소드 -> " +  msg.value);
+	        
+	        ws.send(msg.value);
 	        msg.value = '';
 	    }
 
 		//채팅창에 들어왔을 때
 		function onOpen(evt) {
-	        console.log("연결 된거야?");
-	        var str = username + "님이 입장하셨습니다.";
-	        ws.send(str);
+	        console.log("채팅방 연결 성공");
+	        
+	        var str = username + ": 님이 입장하셨습니다.";
+            ws.send(str);
 	    }
 		
 		//채팅창에서 나갔을 때
 		function onClose(evt) {
-		    var str = username + "님이 방을 나가셨습니다.";
-			console.log("연결 왜 끊겨 ㅡㅡ..");
-		    ws.send(str);
+			console.log("채팅방 연결 해제");
+			
+			var str = username + ": 님이 방을 나가셨습니다.";
+            ws.send(str);
 		}
 		
+		// 에러
 		function onError(error) {
 	        console.error("에러라는데?..", error);
-	        // 에러 처리 로직 (예: 사용자에게 에러 표시, 재연결 시도 등)
 	    }
 		
+		// 핸들러 hadleTextMessage를 통해 받은 메시지를 어떤 형식으로 띄워줄 것인지 정하고 채팅 올림
 		function onMessage(msg) {
 		    var data = msg.data;
-		    console.log(data);
-		    var sessionId = null;
-		    //데이터를 보낸 사람
+		    var sessionId = null; //데이터를 보낸 사람
 		    var message = null;
-		    var arr = data.split(":");
-		
-		    for(var i=0; i<arr.length; i++){
-		        console.log('arr[' + i + ']: ' + arr[i]);
+		    var arr = data.split(" : ");
+		    
+		    console.log("onMessage -> " + data);
+		    
+		    for(var i=0; i<3; i++){
+		        console.log("onMessage for문 -> " + 'arr[' + i + ']:' + arr[i]);
 		    }
 		
-		    var cur_session = username;
+		    var cur_session = "${loginMember.gitNick}";
 		
 		    //현재 세션에 로그인 한 사람
 		    sessionId = arr[0];
 		    message = arr[1];
+		    time = arr[2];
+		    
+		    profile = "${loginMember.profile}"
 		
-		    console.log("sessionID : " + sessionId);
+		    console.log("sessionId : " + sessionId);
 		    console.log("cur_session : " + cur_session);
 		
 		    //로그인 한 클라이언트와 타 클라이언트를 분류하기 위함
 		    if(sessionId == cur_session){
-		        var str = "<div class='chat'>";
-		        str += "<div class='chat'>";
-		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
+		        var str = "<div class='chat' style='width:100%;'>";
+		        str += "<div class='chat-body'>";
+		        str += "<div class='chat-message'>" + message + "</div>";
+		        str += "<spa style='float:right;'>" + time + "</span>";
 		        str += "</div></div>";
+		        str += "<br><br><br>";
+		        
 		        $("#msgArea").append(str);
+		        $('#msgArea').scrollTop($('#msgArea')[0].scrollHeight);
 		    }
 		    else{
-		    	var str = "<div class='chat chat-left'>";
+		    	var str = "<div class='chat chat-left' style='width:100%; height:75px;'>";
+		    	str += "<i class='fa-solid fa-circle-user fa-fade fa-lg'></i>"
+		    	str += "<span style='font-size:14px'>&nbsp;&nbsp;" + sessionId + "</span>";
 		        str += "<div class='chat-body'>";
-		        str += "<div class='chat-message'>" + sessionId + " : " + message + "</div>";
-		        str += "</div></div>";
+		        str += "<div class='chat-message'>" + message + "</div>";
+		        str += "</div>";
+		        str += "<span>" + time + "</span>";
+		        str += "</div>";
+		        str += "<br>";
+		        
 		        $("#msgArea").append(str);
+		        $('#msgArea').scrollTop($('#msgArea')[0].scrollHeight);
 		    }
+		    
 		}
 		
 	})

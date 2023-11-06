@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.kh.okkh.chat.model.service.ChatServiceImpl;
 import com.kh.okkh.chat.model.vo.ChatMember;
@@ -25,20 +26,23 @@ public class ChatController {
 		
 		Member m = (Member)session.getAttribute("loginMember");
 		
+		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
+		
 		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(m);
 		ArrayList<Friend> frList = cService.searchMemberList(m);
+		ChatMember cm = cService.selectChatMember(memNo);
 		
-		mv.addObject("crList", crList).addObject("frList",frList).setViewName("chat/rooms");
+		mv.addObject("crList", crList).addObject("frList", frList).addObject("cm", cm).setViewName("chat/rooms");
 		
 		return mv;
 	}
 	
-	@RequestMapping("rooms.ch")
+	@RequestMapping("room.ch")
 	public ModelAndView chatRoomPage(int crno, ModelAndView mv, HttpSession session) {
 		
-		ChatRoom cr = cService.selectChatRoomRno(crno);
+		ChatRoom cr = cService.selectChatRoom(crno);
 		ArrayList<ChatMember> cmList = cService.selectChatMemberList(crno);
-		System.out.println(cmList);
+		
 		mv.addObject("cr", cr).addObject("cmList", cmList).setViewName("chat/room");
 		
 		return mv;
@@ -56,7 +60,7 @@ public class ChatController {
 		
 		if(result1 > 0 && result2 > 0 && result3 > 0) {
 			session.setAttribute("alertMsg", "성공적으로 채팅방이 개설되었습니다.");
-			return "redirect:rooms";
+			return "redirect:chat";
 		} else {
 			model.addAttribute("errorMsg", "채팅방 개설을 실패했습니다.");
 			return "common/errorPage";

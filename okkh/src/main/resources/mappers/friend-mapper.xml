@@ -250,6 +250,12 @@
  
  </select>
  
- 
+	<select id="mainListFriend" resultMap="friendResultSet">
+		select git_nick, profile
+		  from friend f
+		  join member on (bf_giver = mem_no)
+		 where bf_taker = #{memNo}
+		   and f.status = 'Y'
+	</select>
  
 </mapper>

@@ -428,7 +428,29 @@
         </if>
 </update>
   	
-  	
+  	<select id="selectProjectTopList" resultMap="projectResultSet">
+  	 	select *
+		  from (
+		  		select rownum rnum, a.*
+		  		  from(
+		  		  		select
+		                p.pro_no,
+		                git_nick,
+		                pro_stack,
+		                pro_title,
+		                to_char(pro_deadline, 'YYYY-MM-DD') as "pro_deadline",
+		                pro_position,
+		                pro_status,
+		                count,
+		                p.create_date
+		          from project p
+		          join member m on (pro_writer = m.mem_no)
+		         where p.STATUS = 'Y'
+		           and pro_status = 'Y'
+		         order by count desc)a
+		  		  )
+		  where rownum between 1 and 4
+  	</select>
   
   	
   	

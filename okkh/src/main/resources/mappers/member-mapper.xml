@@ -48,15 +48,16 @@
 	
 	<select id="selectMember" resultMap="memberResultSet">
 		select 
-		        mem_no
+		        git_nick
 		      , mem_id
 		      , mem_intro
 		      , stack_name
 		      , create_date
 		      , status
-		      , git_nick
+		      , mem_no
 		      , team
 		      , team_status
+		      , profile
 		  from member
 		  where mem_id = #{memId}
 	</select>
@@ -71,6 +72,7 @@
 		      , git_nick
 		      , create_date
 		      , status
+		      , profile
 		    )
 		    values
 		    (
@@ -80,6 +82,7 @@
 		      , #{gitNick}
 		      , SYSDATE
 		      , 'Y'
+		      , #{profile}
 		    )
 	</insert>
 	

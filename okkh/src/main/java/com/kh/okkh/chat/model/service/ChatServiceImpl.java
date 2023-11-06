@@ -21,7 +21,6 @@ import com.kh.okkh.member.model.vo.Member;
 
 @Service
 public class ChatServiceImpl implements ChatService {
-    private Map<String, ChatRoom> chatRooms;
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -30,8 +29,8 @@ public class ChatServiceImpl implements ChatService {
 	private ChatDao cDao;
 
 	@Override
-	public ChatMember selectChatMember(Member m) {
-		return cDao.selectChatMember(sqlSession, m);
+	public ChatMember selectChatMember(int memNo) {
+		return cDao.selectChatMember(sqlSession, memNo);
 	}
 	
 	@Override
@@ -60,13 +59,13 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ChatRoom selectChatRoomRno(int crno) {
-		return cDao.selectChatRoomRno(sqlSession, crno);
+	public ChatRoom selectChatRoom(int crno) {
+		return cDao.selectChatRoom(sqlSession, crno);
 	}
 
 	@Override
 	public ArrayList<ChatMember> selectChatMemberList(int crno) {
 		return cDao.selectChatMemberList(sqlSession, crno);
 	}
-
+	
 }

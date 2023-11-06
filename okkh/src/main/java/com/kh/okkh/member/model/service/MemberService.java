@@ -20,7 +20,10 @@ public interface MemberService {
 	int updateMember(Member m);
 	
 	ArrayList<PR> myPRList(PageInfo pi);
-	
+
+	ArrayList<Project> myPJList(Member m);
+
+	ArrayList<PR> myPRList(Member m);
 
 	
 }

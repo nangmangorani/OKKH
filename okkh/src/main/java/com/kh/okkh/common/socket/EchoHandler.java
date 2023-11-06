@@ -46,7 +46,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	// 접속시
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {//클라이언트와 서버가 연결
-	System.out.println("야너언제타니");
 		
 	sessions.add(session);  // 이건 한번 해봤습니당!!
 	String senderId = currentUserName(session);

@@ -90,6 +90,10 @@ public interface PRService {
 		
 	// pr 북마크 삭제하는 메소드
 		int deletePrBookmark(Bookmark b);
+
+		
+		// pr top 4
+		ArrayList<PR> selectPrTopList();
 		
 		
 		

@@ -265,6 +265,26 @@
 	
 	</select>
 	
+	<select id="selectPrTopList" resultMap="prSetResult">
+  	 	select *
+		  from (
+		  		select rownum rnum, a.*
+		  		  from(
+		  		  		select 
+						        pr_no
+						      , pr_title
+						      , to_char(pr.create_date, 'YYYY-MM-DD') as "create_date"
+						      , pr_content
+						      , git_nick
+						      , count
+						      , mem_no
+						  from my_pr pr
+						  join member using (mem_no)
+						 where pr.status ='Y'
+						 order by count desc)a
+		  		  )
+		  where rownum between 1 and 4
+  	</select>
 	
 
 </mapper>

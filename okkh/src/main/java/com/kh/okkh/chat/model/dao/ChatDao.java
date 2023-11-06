@@ -13,8 +13,8 @@ import com.kh.okkh.member.model.vo.Member;
 @Repository
 public class ChatDao {
 
-	public ChatMember selectChatMember(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.selectOne("chatMapper.selectChatMemberList", m);
+	public ChatMember selectChatMember(SqlSessionTemplate sqlSession, int memNo) {
+		return sqlSession.selectOne("chatMapper.selectChatMemberList", memNo);
 	}
 	public ArrayList<ChatRoom> selcetChatRoomList(SqlSessionTemplate sqlSession, Member m) {
 		return (ArrayList)sqlSession.selectList("chatMapper.selcetChatRoomList", m);
@@ -36,14 +36,12 @@ public class ChatDao {
 		return sqlSession.insert("chatMapper.insertChatMember", m);
 	}
 	
-	public ChatRoom selectChatRoomRno(SqlSessionTemplate sqlSession, int crno) {
-		return sqlSession.selectOne("chatMapper.selectChatRoomRno", crno);
+	public ChatRoom selectChatRoom(SqlSessionTemplate sqlSession, int crno) {
+		return sqlSession.selectOne("chatMapper.selectChatRoom", crno);
 	}
 	
 	public ArrayList<ChatMember> selectChatMemberList(SqlSessionTemplate sqlSession, int crno) {
 		return (ArrayList)sqlSession.selectList("chatMapper.selectChatMemberList", crno);
 	}
-
-
 
 }
