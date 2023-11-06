@@ -615,6 +615,9 @@ public class IssueController {
 		
 		int response = iService.deleteComments(repository, token, id);
 		
+		session.setAttribute("alertMsg", "성공적으로 삭제했습니다.");
+		
+		
 		return "redirect:/detail.iss?ino=" + ino;
 	}
 	

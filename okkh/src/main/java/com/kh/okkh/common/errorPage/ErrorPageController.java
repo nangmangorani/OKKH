@@ -25,15 +25,15 @@ public class ErrorPageController implements ErrorController {
 		if(status != null) {
 			int statusCode = Integer.valueOf(status.toString());
 			if(statusCode == HttpStatus.NOT_FOUND.value()) {
-				return ERROR_TEMPLATES_PATH + "error404";
+				return ERROR_TEMPLATES_PATH + "error.jsp";
 			}
 			
 			if(statusCode == HttpStatus.FORBIDDEN.value()){
-                return ERROR_TEMPLATES_PATH + "error500";
+                return ERROR_TEMPLATES_PATH + "error.jsp";
             }
 			
 			if(statusCode == HttpStatus.UNPROCESSABLE_ENTITY.value()){
-                return ERROR_TEMPLATES_PATH + "error422";
+                return ERROR_TEMPLATES_PATH + "error.jsp";
             }
         }
         return "error";

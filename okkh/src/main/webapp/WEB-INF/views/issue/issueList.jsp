@@ -386,29 +386,15 @@
 
                         // Prev 버튼 생성
                         if (currentPage != 1) { // state, labels
-                            if(lList != null && lList.length === 0) {
-                                ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + (currentPage - 1) + ");")));
-                            } else {
                             ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "sendAjaxRequest('" + state + "', " + (currentPage - 1) + ");")));
-                            }
                         } else {
-                        	if(lList != null && lList.length === 0) {
-                                ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text("Prev").attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + (currentPage - 1) + ");")));
-                        	} else {
                             ul.append($("<li>").addClass("page-item disabled").append($("<a>").addClass("page-link").attr("href", "#").text("Prev")));
-                        	}
                         }
 						
                         
-                        if(lList != null && lList.length === 0) {
-                        	for (var p = startPage; p <= endPage; p++) {
-	                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "callAjaxIssueFunction(lList,'" + state + "', " + p + ");")));
-                        	}
-                        } else {
-	                        for (var p = startPage; p <= endPage; p++) {
-	                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
-                        	}
-                        }
+                        for (var p = startPage; p <= endPage; p++) {
+                            ul.append($("<li>").addClass("page-item").append($("<a>").addClass("page-link").attr("href", "javascript:void(0);").text(p).attr("onclick", "sendAjaxRequest('" + state + "', " + p + ");")));
+                       	}
 
                         // Next 버튼 생성
                         // Next 버튼 생성

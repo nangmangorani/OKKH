@@ -95,7 +95,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                      		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
 	                                </form>
                                     
-                                    <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
+                                    <button type="button" class="btn btn-danger" onclick="javascript:history.back();" style="float: right; margin-right: 5px;">이전으로</button>
 	                                <br>
 	                            </div>
 	                        </div>

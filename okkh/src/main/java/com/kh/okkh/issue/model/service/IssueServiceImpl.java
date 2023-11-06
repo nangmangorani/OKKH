@@ -497,8 +497,11 @@ public class IssueServiceImpl implements IssueService{
 		String method = "delete";
 		
 		String response = iDao.toGitGetIssue(url, token, method);
-		
-		return 0;
+		int result = 0;
+		if(response != null) {
+			result = 1;
+		}
+		return result;
 	}
 	
 	

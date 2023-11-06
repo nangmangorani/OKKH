@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.okkh.common.errorPage.CustomClientException;
+import com.kh.okkh.common.errorPage.CustomServerException;
 //import com.kh.okkh.common.errorPage.ErrorPageController;
 import com.kh.okkh.issue.model.vo.Issue;
 import com.kh.okkh.member.model.vo.Member;
@@ -91,10 +93,15 @@ public class IssueDao {
 		System.out.println("dao requestbody" + requestBody);
 		
 		if(method.equals("post")) {
-			response = client.post().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
+			response = client.post().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve()
+					.onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.just(new CustomClientException("잘좀하징 ㅠㅠ")))
+		    		.onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.just(new CustomServerException("Custom server error message")))
+		    		.bodyToMono(String.class).block();
 		} else if(method.equals("patch")) {
 			response = client.patch().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
 		}
+		
+		System.out.println("에러뜨면 값이 반환됨? "+ response);
 		return response;
 	}
 	
@@ -111,7 +118,13 @@ public class IssueDao {
 		if (method.equals("get")) {
 		    response = client.get().uri(url).retrieve().bodyToMono(String.class).block();
 		} else if (method.equals("delete")) {
-		    response = client.delete().uri(url).retrieve().bodyToMono(String.class).block();
+		    response = client.delete().uri(url).retrieve()
+		    		.onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.just(new CustomClientException("잘좀하징 ㅠㅠ")))
+		    		.onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.just(new CustomServerException("Custom server error message")))
+		    		.bodyToMono(String.class).block();
+		    
+		   
+		    
 //		        .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
 //		        	if (clientResponse.statusCode() == HttpStatus.BAD_REQUEST) {
 //		                // Handle 400 Bad Request error
