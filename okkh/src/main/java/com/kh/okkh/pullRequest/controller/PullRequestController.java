@@ -58,7 +58,7 @@ public class PullRequestController {
 	 * 풀-리퀘스트 조회용 컨트롤러
 	 * 
 	 * @컨트롤러 생성 윤관현 
-	 * {@code 작성 유정(호빵)} 
+	 * {@code 작성 유정(호빵)} dddd
 	 */
 	
 	
