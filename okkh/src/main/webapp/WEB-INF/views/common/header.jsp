@@ -187,7 +187,7 @@
 	                                    </button>
 	                                </div>
                                     <div class="modal-body">
-                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20delete_repo%20project&client_id=44f96bb68ae9fe16e964">
+                                        <a href="https://github.com/login/oauth/authorize?scope=user%20repo%20delete_repo%20project&client_id=d81caaa37ed07a86dd0e">
                                         	<img src="resources/images/logo/gitLogo.png" alt="" style="width: 20%; margin: auto; display: block;">
                                         </a>
                                     </div>

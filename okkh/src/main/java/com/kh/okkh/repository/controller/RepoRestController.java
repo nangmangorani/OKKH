@@ -18,6 +18,7 @@ import static com.kh.okkh.common.model.service.GitHubTemplate.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.kh.okkh.common.model.vo.GitHub;
 import com.kh.okkh.repository.model.service.RepoImpl;
@@ -76,7 +77,13 @@ public class RepoRestController {
 		String result = "";
 		
 		try {
-			// 템플릿에 값들을 보내 결과값을 받는다
+			// 해당 조직이 깃허브에 있는지 체크
+			result = getGitHubValue(g);
+			
+			// 결과가 넘어오면 해당 조직의 멤버를 검색한다
+			g.setUri("/orgs/" + checkTitle + "/members");
+			
+			// 프로젝트를 등록하고자 하는 사람이 조직 구성원인지 체크
 			result = getGitHubValue(g);
 			
 		} catch (Exception e) {
