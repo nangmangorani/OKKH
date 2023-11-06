@@ -52,7 +52,7 @@
 
 /* 리스트 부분 */
 .UJ-content{
-	height: 1500px;
+	height: 350px;
 	/* border: 1px solid black; */
 }
 
