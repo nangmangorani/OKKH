@@ -125,7 +125,7 @@
 				            initialEditType: 'markdown',
 							breaks: true
 				         });
-				
+					  
 				      editor.getMarkdown();
 			    </script>
 			

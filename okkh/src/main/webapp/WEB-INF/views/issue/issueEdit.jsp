@@ -189,48 +189,49 @@
 				var assigneeSet = new Array();
 
 				function createLabel() {
-					var basicSelect = document.getElementById("basicSelect");
-					var label = basicSelect.options[basicSelect.selectedIndex].value;
-					var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
+			        var basicSelect = document.getElementById("basicSelect");
+			        var label = basicSelect.options[basicSelect.selectedIndex].value;
+			        var color = basicSelect.options[basicSelect.selectedIndex].getAttribute('data-color');
 
-					let labelSpan = document.querySelector(".labelSpan");
+			        let labelSpan = document.querySelector(".labelSpan");
 
-					var span = document.createElement("span");
-					span.className = "label-badge";
-					span.style.backgroundColor = color;
-					span.innerText = label;
+			        var span = document.createElement("span");
+			        span.className = "label-badge";
+			        span.style.backgroundColor = color;
+			        span.innerText = label;
 
-					span.style.cursor = "pointer";
+			        span.style.cursor = "pointer";
 
-					span.onclick = function () {
-						$(this).remove();
-						deleteLabel(label); // 라벨 텍스트를 전달하여 해당 라벨 삭제
-					};
+			        span.onclick = function () {
+			            deleteLabel(this); // 클릭한 라벨을 삭제하기 위해 deleteLabel 함수 호출
+			        };
 
-					labelSpan.appendChild(span);
+			        labelSpan.appendChild(span);
 
-					labelSet.push(label);
+			        labelSet.push(label);
 
-					var labelString = labelSet.join(',');
-					document.getElementById("labelSet").value = labelString;
-				}
+			        var labelString = labelSet.join(',');
+			        document.getElementById("labelSet").value = labelString;
+			    }
 
-				function deleteLabel(label) {
-					var labelSpan = document.querySelector(".labelSpan");
-					var labels = labelSpan.querySelectorAll(".label-badge");
+			    // 라벨을 삭제하는 함수
+			    function deleteLabel(clickedLabel) {
+			        var labelSpan = document.querySelector(".labelSpan");
+			        var labels = labelSpan.querySelectorAll(".label-badge");
 
-					labels.forEach(function (span) {
-						if (span.innerText === label) { // 라벨 텍스트로 체크
-							span.remove();
-							labelSet = labelSet.filter(function (value) {
-								return value !== label;
-							});
+			        labels.forEach(function (span) {
+			            if (span === clickedLabel) { // 클릭한 라벨과 일치하는 라벨을 찾아서 제거
+			                span.remove();
+			                var label = span.innerText;
+			                labelSet = labelSet.filter(function (value) {
+			                    return value !== label;
+			                });
 
-							var labelString = labelSet.join(',');
-							document.getElementById("labelSet").value = labelString;
-						}
-					});
-				}
+			                var labelString = labelSet.join(',');
+			                document.getElementById("labelSet").value = labelString;
+			            }
+			        });
+			    }
 
 
 				function createAssignee() {
