@@ -92,7 +92,7 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 	                                
 	                                <form action="editForm.iss?ino=${ino}" method="post" style="display:inline">
 									   <input type="hidden" name="state" value="${ state }"> 
-                     		           <button class="btn btn-primary" style="float:right">이슈 수정</button>
+                     		           <button class="btn btn-primary" style="float:right" id="editBtn">이슈 수정</button>
 	                                </form>
                                     
                                     <button type="button" class="btn btn-danger" onclick="javascript:history.back();" style="float: right; margin-right: 5px;">이전으로</button>
@@ -114,8 +114,9 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
 			                                    <div class="iss-time">
 			                                        <span style="padding-left: 5px;">${ userLogin } comments</span>
 			                                    </div>
-			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1">${ bodyMain }</span>
+			                                    <span style="padding-left: 7px;" id="exampleFormControlTextarea1"></span>
 			                                </div>
+		                            		<input type="hidden" id="bodyChangePlease" value="${ bodyMain }">
                                             <hr>
                                             <h5>커멘트</h5>
                                             <c:forEach var="c" items="${ cList }">
@@ -133,20 +134,25 @@ s<%@ page language="java" contentType="text/html; charset=UTF-8"
                                                 <br>
                                             </c:forEach>
 
-                                            
+                                            <script>
+                                            	const markdownGo = document.getElementById("bodyChangePlease").value;
+                                            	const markedHtml = marked(markdownGo);
+                                            	document.getElementById("exampleFormControlTextarea1").innerHTML = markedHtml;
+                                            </script>
 
 
                                             
-		                            		<input type="hidden" id="bodyChangePlease" value="${ bodyMain }">
 			                            </div>
 			                            <div class="card-body">
                                         <div id="editor"></div>
                                         <br>
                                         <form action="commentEnroll.iss?ino=${ ino }" method="post" style="display: inline;">
                                             <button class="btn btn-primary" style="float: right;" onclick="enrollAjax();">등록하기</button>
-                                            <input type="hidden" name="body" value="" id="body">
+                                            <input type="hidden" name="body" value="" id="bodyComment">
                                         </form>
 		                            	<!-- <input type="hidden" name="inoHere" id="inoHere" value="${ ino }"> -->
+                                    
+                                    
                                     
 			                            </div>
                                     </div> <br>
