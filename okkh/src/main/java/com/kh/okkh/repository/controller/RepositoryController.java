@@ -602,6 +602,14 @@ public class RepositoryController {
 		model.addAttribute("avatar_url", avatar);
 		model.addAttribute("commitList", commitList);
 		
+		// 브랜치 조회용 uri 세팅
+		g.setUri("/repos/" + owner + "/" + repo + "/branches");
+		
+		// 브랜치 리스트
+		ArrayList<Object> bList = getGitHubList(g);
+		
+		model.addAttribute("bList", bList);
+		
 		return "repo/commitList";
 		
 	}

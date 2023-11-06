@@ -79,7 +79,6 @@
 	                                     -->
 	                                    <!-- /Merge 버튼 끝 -->
 	                                    <!-- branch list 시작 -->
-	                                    <!-- 
                                         <fieldset class="form-group" style="float: right;">
 	                                        <select class="form-select" id="basicSelect">
 	                                        	<c:forEach var="b" items="${ bList }">
@@ -87,8 +86,14 @@
 	                                        	</c:forEach>
 	                                        </select>
 	                                    </fieldset>
-	                                     -->
 	                                    <!-- /branch list 끝 -->
+	                                    
+	                                    <script>
+	                                    
+											
+	                                    
+	                                    </script>
+	                                    
                                     </div>
                                     <div class="card-body">
                                         <!-- table head dark -->

@@ -133,12 +133,13 @@ public class RepoRestController {
 		String result = "";
 		
 		try {
-			// 템플릿에 값들을 보내 결과값을 받는다
+			// 해당 레포명이 사용 가능한지 체크
 			result = getGitHubValue(g);
 			
 		} catch (Exception e) {
 			// 오류 발생시 콘솔에 띄워줄 메세지
 			System.out.println("사용 가능한 레포명!!");
+			
 		}
 		
 //				System.out.println(result);
