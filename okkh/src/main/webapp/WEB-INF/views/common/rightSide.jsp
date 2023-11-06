@@ -7,6 +7,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+<style>
+	#friendList{
+		font-weight:bolder;
+		font-size: 20px;
+		color: black;
+	}
+</style>
 </head>
 <body>
 
@@ -31,7 +38,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="Friends" role="tabpanel" aria-labelledby="Friends-tab">
                                 <div style="margin:auto;">
-	                                <i class="fa-solid fa-lock fa-beat fa-2xl" style="margin:120px;"></i>
+                                    		<i class="fa-solid fa-lock fa-beat fa-2xl" style="margin:120px;"></i>
                                 </div>
                             </div>
                             
@@ -49,25 +56,32 @@
                             			memNo : ${loginMember.memNo}
                             		},
                             		success:function(list){
-                            			
+                            			console.log(list)
                             			let value = "";
-                            			for(let i in list){
-                            				value += "<br>"
-                            					   + "<div class='recent-message d-flex px-4 py-3'>"
-                            					   + "<div class='avatar avatar-lg'>"
-                            					   + "<img src='" + list[i].profile + "'>"
-                            					   + "</div>"
-                            					   + "<div class='name ms-4'>"
-                            					   + "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
-                            					   + "<h6 class='text-muted mb-0'>@베스트프렌드!!</h6>"
-                            					   + "</div></div>";
-                            			}	
+                            			if (list.length == 0){
+                            				value = "<br><br><div style='margin:30px'><a id='friendList' href='friendList.f'>친구를 사귀어보세요!!</a></div>"
+                            				$("#Friends").html(value);
+                            				
+                            			} else {
+                            				for(let i in list){
+                                   				value += "<br>"
+                                   					   + "<div class='recent-message d-flex px-4 py-3'>"
+                                   					   + "<div class='avatar avatar-lg'>"
+                                   					   + "<img src='" + list[i].profile + "'>"
+                                   					   + "</div>"
+                                   					   + "<div class='name ms-4'>"
+                                   					   + "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
+                                   					   + "<h6 class='text-muted mb-0'>@베스트프렌드!!</h6>"
+                                   					   + "</div></div>";
+                                   			}
+                               				
+                               				$("#Friends").html(value);
+                            			}
                             			
-                            			$("#Friends").html(value);
-                            			
-                            		},
+                           			},
                             		error:function(){
-                            			console.log("친구 ajax 통신 실패");
+                            			console.log("메인 친구 ajax 실패요")
+                            			
                             		}
                             	})
                             }

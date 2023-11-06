@@ -134,15 +134,4 @@
 		 where cm.room_no = #{roomNo}
 	</select>
 	
-	<update id="outRoom">
-		update chat_member
-		   set status = 'N'
-		 where mem_no = #{memNo}
-		   and room_no = #{roomNo}
-	</update>
-	
-	<delete id="deleteRoom">
-		delete chat_room
-		 where room_no = #{roomNo}
-	</delete>
 </mapper>

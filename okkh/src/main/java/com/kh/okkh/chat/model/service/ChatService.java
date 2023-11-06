@@ -24,9 +24,5 @@ public interface ChatService {
 	ChatRoom selectChatRoom(int crno);
 	
 	ArrayList<ChatMember> selectChatMemberList(int crno);
-
-	int outRoom(int memNo);
-
-	int deleteRoom(int roomNo);
 	
 }

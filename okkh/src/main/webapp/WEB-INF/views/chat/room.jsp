@@ -55,7 +55,6 @@
                                                                 </div>
                                                                 <div>
                                                                     <h3 class="mb-0">${cr.roomTitle }</h3>
-                                                                    <div>총 인원 : </div>
                                                                 </div>
                                                                 <button class="btn btn-sm">
                                                                     <i data-feather="x"></i>
@@ -122,7 +121,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn btn-danger" style="width:100%;" onclick="history.go(-1);">나가기</button>
+                                                                <a class="btn btn-danger" style="width:100%;" href="/okkh/chat">나가기</a>
                                                             </div>
                                                         </div>
                                                     </section>

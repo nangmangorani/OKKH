@@ -68,15 +68,4 @@ public class ChatServiceImpl implements ChatService {
 		return cDao.selectChatMemberList(sqlSession, crno);
 	}
 	
-	@Override
-	public int outRoom(int memNo) {
-		return cDao.outRoom(sqlSession, memNo);
-	}
-	
-	@Override
-	public int deleteRoom(int roomNo) {
-		return cDao.deleteRoom(sqlSession, roomNo);
-	}
-	
-
 }

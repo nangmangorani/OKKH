@@ -67,22 +67,4 @@ public class ChatController {
 		}
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="outRoom.ch", produces="application/json; charset=utf-8")
-	public String outRoom(int memNo, Model model, HttpSession session) {
-		int result = cService.outRoom(memNo);
-		
-		return result>0 ? "success" : "fail";
-		
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="deleteRoom.ch", produces="application/json; charset=utf-8")
-	public String deleteRoom(int roomNo, Model model, HttpSession session) {
-		int result = cService.deleteRoom(roomNo);
-		
-		return result>0 ? "success" : "fail";
-		
-	}
-	
 }

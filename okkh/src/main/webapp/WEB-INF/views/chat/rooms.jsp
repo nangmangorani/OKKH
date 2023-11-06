@@ -80,7 +80,6 @@
 			                                                                                        </c:otherwise>
 		                                                                                        </c:choose>
 		                                                                                        <td class="table-btn"><a href="room.ch?crno=${cr.roomNo }" id="enterRoom" class="btn btn-outline-primary">입장하기</a></td>
-		                                                                                        <td class="table-btn"><a onClick="deleteRoom();" class="btn btn-outline-danger">삭제</a></td>
 		                                                                                    </tr>
 		                                                                                    </tbody>
                                                                                    		</c:forEach>
@@ -175,28 +174,7 @@
           </div>
         </div>
       </div>
-<script>
-	function deleteRoom(){
-		
-		$.ajax({
-			url:"deleteRoom.ch",
-			data:{
-				  	roomNo:$(".crno").val()
-				  },
-			success:function(result){
-				if(result == "success"){
-					session.setAttribute("alertMsg", "성공적으로 채팅방을 삭제하였습니다.");
-				} else{
-					console.log("안해 식빵!")
-				}
-			},
-			error:function(){
-				console.log("방 나가기 ajax 실패");
-			}
-		})
-	}
-
-</script>
+      
 <!--여기 두개가 다중 select박스인듯-->    
 <script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
 <script src="resources/assets/static/js/pages/form-element-select.js"></script>

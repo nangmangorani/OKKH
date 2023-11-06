@@ -44,11 +44,4 @@ public class ChatDao {
 		return (ArrayList)sqlSession.selectList("chatMapper.selectChatMemberList", crno);
 	}
 
-	public int outRoom(SqlSessionTemplate sqlSession, int memNo) {
-		return sqlSession.update("chatMapper.outRoom", memNo);
-	}
-	
-	public int deleteRoom(SqlSessionTemplate sqlSession, int roomNo) {
-		return sqlSession.delete("chatMapper.deleteRoom", roomNo);
-	}
 }
