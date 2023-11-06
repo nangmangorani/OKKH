@@ -57,8 +57,6 @@ public class IssueController {
 	@Autowired
 	private IssueServiceImpl iService;
 	
-	@Autowired 
-	private LabelsServiceImpl lService;
 	
 	
 	/**
@@ -74,7 +72,7 @@ public class IssueController {
 		
 //		String repository = owner + "/" + repo;
 		session.setAttribute("repository", repository);
-//		session.getAttribute("repository", repository);
+
 		if(state == null) {
 			state = "open";
 		}
@@ -84,7 +82,7 @@ public class IssueController {
 		// 라벨만 받아온거잖아
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		String token = (String)session.getAttribute("token");
-		String token = (String)session.getAttribute("token");
+		// String token = (String)session.getAttribute("token");
 		
 		ArrayList<Issue> list;
 		
@@ -353,7 +351,7 @@ public class IssueController {
 	public String editIssueForm(HttpSession session, Model model, Integer ino) throws IOException {
 		
 		String token = (String)session.getAttribute("token");
-		String token = (String)session.getAttribute("token");
+		//String token = (String)session.getAttribute("token");
 		
 		String repository = (String)session.getAttribute("repository");
 
@@ -520,7 +518,7 @@ public class IssueController {
 	@RequestParam(value = "cpage", defaultValue = "1") int currentPage, @RequestParam(value="selectedValues[]", required = false) ArrayList selectedValuesList) {
 		
 		String token = (String)session.getAttribute("token");
-		String token = (String)session.getAttribute("token");
+		
 
 		String repository = (String)session.getAttribute("repository");
 

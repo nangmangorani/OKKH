@@ -66,6 +66,7 @@ public class PullRequestController {
 	/**
 	 * 나의 프로젝트에서 풀리퀘스트 누르자마자 실행되는 메소드
 	 * 풀리퀘 생성을 위해서 브랜치도 조회해와야 함
+	 *  ${mypro.myproTitle }/${ repoName }
 	 * @return
 	 */
 	
@@ -74,24 +75,31 @@ public class PullRequestController {
 
 	@RequestMapping(value ="myPullRequest.pu" )
 	public ModelAndView selectPullRequestList(@RequestParam(value="cpage",defaultValue = "1")int currentPage,  
-			                           ModelAndView mv, HttpSession session, String state/*, String owner, String repo*/) throws IOException  {
+			                           ModelAndView mv, HttpSession session, String state, String repository) throws IOException  {
 		
 		// 라벨과 토큰도 얻어오기 
 		
-		//String repository = owner + "/" + repo;  // 낭만고라니가 오너 / okkh가 레포
+		String repo;
 		
 		
-		String repository = "nangmangorani/OKKH";
+		//String repository = "nangmangorani/OKKH";
 		//String token = ((Member)session.getAttribute("loginMember")).getMemToken();
 		
 		// token 얻어올때 loginMember session에 있는 토큰 값이 아닌 
 		// setAttribute("git",mToken)에 있는 token 값을 받아와야 함 
 		String token = (String)session.getAttribute("token");
 		
+			if(repository != null) {
+				session.setAttribute("repository", repository);				
+			}
+	
+			repo = (String)session.getAttribute("repository");
+	
+
 		
 		//System.out.println(token  + "  : 토큰!!!!!!!!!!!!ㅃ");
 		
-		
+		System.out.println(repo + " : 아아아ㅏ레파");
 		
 		
 		if(state == null) {
@@ -112,10 +120,10 @@ public class PullRequestController {
 		// 이젠 풀리퀘스트의 list 값을 페이징처리해서 가져오자 
 		
 		// 오픈
-		int listCount = pullService.pullRequestCount(repository, token, session, state);
+		int listCount = pullService.pullRequestCount(repo, token, session, state);
 		
 		// 클로즈
-		int closeListCount = pullService.pullRequestCount1(repository, token, session, state);
+		int closeListCount = pullService.pullRequestCount1(repo, token, session, state);
 		
 		
 		// 오픈
@@ -125,13 +133,13 @@ public class PullRequestController {
 		PageInfo closePi = PagiNation.getPageInfo(closeListCount, currentPage, 5, 10);
 		
 		// state가 open인 list
-		ArrayList<PullRequest> plist = pullService.getPullRequest(repository,token,state, pi);
+		ArrayList<PullRequest> plist = pullService.getPullRequest(repo,token,state, pi,session);
 		
 		// state가 close인 list
-		ArrayList<PullRequest> closeList = pullService.getPullRequest1(repository, token, state, closePi);
+		ArrayList<PullRequest> closeList = pullService.getPullRequest1(repo, token, state, closePi,session);
 		
 		
-		ArrayList<Branches> blist = pullService.getBranches(repository,token);
+		ArrayList<Branches> blist = pullService.getBranches(repo,token);
 		
 		
 		
@@ -222,7 +230,9 @@ public class PullRequestController {
 
 		//System.out.println("이건 상세조회 번호 넘어옴dddd? : " +   pno);
 		
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
+		
+		
 		
 		
 		String token = (String)session.getAttribute("token");
@@ -240,9 +250,9 @@ public class PullRequestController {
 		//System.out.println("컨트롤러에서 찍는 상세 : " + pull);
 		
 		// 풀리퀘 리뷰도 얻어오자 (잘 받아짐)
-		ArrayList<PullReview> pullReview = pullService.getpullRequestReview(repository, token, pno);
+		ArrayList<PullReview> pullReview = pullService.getpullRequestReview(repository, token, pno,session);
 		
-		System.out.println("풀리퀘 리뷰 :  " + pullReview);
+		// System.out.println("풀리퀘 리뷰 :  " + pullReview);
 		
 	
 		// 이젠 커밋 리스트도 얻어오자 
@@ -272,19 +282,22 @@ public class PullRequestController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping("createPullRequest.pull")
+	@RequestMapping(value = "createPullRequest.pull"  )
 	public String createPullRequest(
 			@RequestParam String title,
 			@RequestParam String body, 
 			@RequestParam String branches,
-			@RequestParam String base, HttpSession session) {
+			@RequestParam String base,
+			HttpSession session) {
 		//System.out.println("생성 나옴?  : " + title + ", " + body);  아싸뵤 잘나온당~!!
 		
 		String token = (String)session.getAttribute("token");
-		String repository = "nangmangorani/OKKH";
+		//String repository = (String)session.getAttribute("repository");
 		String base1 =   base;  // 베이스는 어디에다가 머지 할건지 지정하는 거
 		String head = branches  ;  // 이건 어느 브랜치에서 변화가 있는지 
 		
+		//System.out.println(repository + "  :레파아아앙지토리링");
+		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> updateValue = new HashMap<>();
 		updateValue.put("title", title);
@@ -292,8 +305,16 @@ public class PullRequestController {
 		updateValue.put("base", base1);
 		updateValue.put("head", head);
 		
-		pullService.enrollPullRequest(token,repository,updateValue);
 		
+		System.out.println(updateValue + " : 컨트롤러에 값 넘어올까ㅏㅏㅏ...ㅠ");
+		
+		String response = pullService.enrollPullRequest(token,repository,updateValue);
+		
+		if(response.isEmpty() || response == null) {
+			session.setAttribute("alertMsg", "풀리퀘스트 생성에 실패하였습니다.");
+		} else {
+			session.setAttribute("alertMsg", "풀리퀘스트 생성에 성공하였습니다.");
+		}
 		
 		return "redirect:myPullRequest.pu";
 		
@@ -323,13 +344,13 @@ public class PullRequestController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> updateValue = new HashMap<>() ;
 		
 		updateValue.put("state", state);
 		
-		
+		System.out.println(repository + "  : 상태 레파");
 		pullService.updatePull(token,repository,pno,updateValue);
 		
 		return "redirect:myPullRequest.pu";
@@ -366,7 +387,7 @@ public class PullRequestController {
         String gitNick = ((Member)session.getAttribute("loginMember")).getGitNick();
         String profile = ((Member)session.getAttribute("loginMember")).getProfile();
 		String token = (String)session.getAttribute("token");
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		
 		String state ="COMMENTED";
 		String event = "COMMENT";  // 일반적인 리뷰를 달기위해선 이걸 작성해야함
@@ -399,7 +420,7 @@ public class PullRequestController {
 		//System.out.println("제목 수정 나옴? : "  +pno + ", " + title);  // 오우 잘 넘어온다잉 ~ ?
 		
 		// 레파지토리, map, 토큰
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		String token = (String)session.getAttribute("token");
 		
 		Map<String, Object>  updateValue = new HashMap<>() ;
@@ -411,6 +432,7 @@ public class PullRequestController {
 		return "redirect:pullRequestDetail.pu?pno="+pno;
 		
 	}
+	
 	
 	
 	
@@ -426,7 +448,7 @@ public class PullRequestController {
 		System.out.println("내용만 수정 나옴? : " + pno + ", " +  body);
 		
 		// 레파지토리, map, 토큰
-				String repository = "nangmangorani/OKKH";
+		        String repository = (String)session.getAttribute("repository");
 				String token = (String)session.getAttribute("token");
 				
 				Map<String, Object>  updateValue = new HashMap<>() ;
@@ -455,7 +477,7 @@ public class PullRequestController {
 		// 레파지토리, 멥, 토큰
 		String token = (String)session.getAttribute("token");
 		
-		String repository =  "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> updateValue = new HashMap<>() ;
 		
@@ -483,7 +505,7 @@ public class PullRequestController {
 	public String deleteReview(int pno, int id, HttpSession session) {
 		
 		// 토큰, 맵, 레파지토리
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		String token = (String)session.getAttribute("token");
 		String message="You are dismissed";
 		String event ="DISMISS";
@@ -529,7 +551,7 @@ public class PullRequestController {
 		
 		//System.out.println(pno  + "   : 풀리퀘 번호!!");
 		
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		String token = (String)session.getAttribute("token");
 		String state = "open";
 		
@@ -557,7 +579,7 @@ public class PullRequestController {
 	@RequestMapping(value="closeReviewCount.pull", produces="application/json; charset=UTF-8")
 	public String closeReviewCount(int pno, HttpSession session) {
 		
-		String repository = "nangmangorani/OKKH";
+		String repository = (String)session.getAttribute("repository");
 		String token = (String)session.getAttribute("token");
 		String state = "closed";
 		

@@ -280,7 +280,9 @@ public class PullRequestServiceImpl {
 	 */
 	public ArrayList<Labels> getLables(String repository, HttpSession session) {
 		
-		String url = repository + "/labels";
+		String repo = (String)session.getAttribute("repository");
+		
+		String url =  repo + "/labels";
 		
 		
 	    // 여기는 http요청(서버가 특정 동작을 하게끔 클리언트에서 전송하는 메시지)을 하면
@@ -336,8 +338,9 @@ public class PullRequestServiceImpl {
 		if(state.equals("open")) {
 			// 만약 state가  open 이라면?
 			
+			String repo = (String)session.getAttribute("repository");
 		
-			String pullState = repository + "/pulls?state=open";
+			String pullState =  repo + "/pulls?state=open";
 			
 			String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
 			
@@ -383,8 +386,8 @@ public class PullRequestServiceImpl {
 			if(state.equals("closed")) {
 				// 만약 state가  closed 이라면?
 				
-			
-				String pullState = repository + "/pulls?state=closed";
+				String repo = (String)session.getAttribute("repository");
+				String pullState =   repo + "/pulls?state=closed";
 				
 				String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
 				
@@ -427,7 +430,8 @@ public class PullRequestServiceImpl {
 			public int getpullRequestOpenReviewCount(String repository,String token, HttpSession session,
 					                                String state, int openNum) {
 			    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
-
+ 
+				String repo = (String)session.getAttribute("repository");
 				state = "open";
 				
 				int count = 0;
@@ -436,7 +440,7 @@ public class PullRequestServiceImpl {
 					// 만약 state가  closed 이라면?
 					
 				
-					String pullState = repository + "/pulls/"+openNum + "/reviews?state=open";
+					String pullState =  repo + "/pulls/"+openNum + "/reviews?state=open";
 					
 					String pullRequestResponse = pullDao.getGitContentsByGet1(pullState, session);
 					
@@ -483,14 +487,16 @@ public class PullRequestServiceImpl {
 				 * @throws IOException 
 				 */
 				public ArrayList<PullReview> getpullRequestCloseReviewCount(String repository, String token,String state,
-						                    PageInfo closePi,int pullRequestNumber) throws IOException  {
+						                    PageInfo closePi,int pullRequestNumber, HttpSession session) throws IOException  {
 				    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
 
 					String url ="";
 					
+					String repo = (String)session.getAttribute("repository");
+					
 					state = "closed";
 					
-					url = "https://api.github.com/repos/" + repository 
+					url = "https://api.github.com/repos/" + repo 
 						+ "/pulls/" + pullRequestNumber 
 						+ "/reviews?state=" + state + "&page="+ closePi.getCurrentPage()
 						+ "&per_page=" + closePi.getBoardLimit();
@@ -556,13 +562,13 @@ public class PullRequestServiceImpl {
 				 * @throws IOException 
 				 */
 				public ArrayList<PullReview> getpullRequestReview(String repository, String token,
-						                    int pno) throws IOException  {
+						                    int pno, HttpSession session) throws IOException  {
 				    // 리뷰 주소 : https://api.github.com/repos/nangmangorani/OKKH/pulls/3/reviews?state=open
 
 					String url ="";
 					
-					
-					url = "https://api.github.com/repos/" + repository 
+					String repo = (String)session.getAttribute("repository");
+					url = "https://api.github.com/repos/" + repo 
 						+ "/pulls/" + pno
 						+ "/reviews";
 					
@@ -698,13 +704,18 @@ public class PullRequestServiceImpl {
 		 * @return
 		 * @throws IOException 
 		 */
-		public ArrayList<PullRequest> getPullRequest(String repository,String token,String state,PageInfo pi) throws IOException{
+		public ArrayList<PullRequest> getPullRequest(String repository,String token,String state,PageInfo pi, HttpSession session) throws IOException{
 			
 			String url ="";
 			
-			url = "https://api.github.com/repos/" + repository 
+			String repo = (String)session.getAttribute("repository");
+			
+			url = "https://api.github.com/repos/" + repo 
 				+ "/pulls?state=" + state + "&page="+ pi.getCurrentPage()
 				+ "&per_page=" + pi.getBoardLimit();
+			
+			
+			//System.out.println(url + " : 이건 오픈 리스트 레포");
 			
 			URL requestUrl = new URL(url);
 			
@@ -765,12 +776,14 @@ public class PullRequestServiceImpl {
 		 * @return
 		 * @throws IOException 
 		 */
-		public ArrayList<PullRequest> getPullRequest1(String repository,String token,String state,PageInfo closePi) throws IOException{
+		public ArrayList<PullRequest> getPullRequest1(String repository,String token,String state,PageInfo closePi, HttpSession session) throws IOException{
+			
+			String repo = (String)session.getAttribute("repository");
 			
 			String url ="";
 			state = "closed";
 			
-			url = "https://api.github.com/repos/" + repository 
+			url = "https://api.github.com/repos/" +  repo
 				+ "/pulls?state=" +state+ "&page="+ closePi.getCurrentPage()
 				+ "&per_page=" + closePi.getBoardLimit();
 			
@@ -976,35 +989,35 @@ public class PullRequestServiceImpl {
 		/**
 		 * 풀리퀘를 변경하는 메소드 (상태/ 제목 / 내용 등등)
 		 */
-		public void updatePull(String token,String repository,int pno, Map<String, Object> updateValue) {
+		public String updatePull(String token,String repository,int pno, Map<String, Object> updateValue) {
 			
 			
 			// url 세팅해주기   https://api.github.com/repos/nangmangorani/OKKH/pulls/풀번호(num)
 			// method 세팅해주기
 			
-			String url = repository +"/pulls/"+pno;
+			String url =  repository +"/pulls/"+pno;
 			String method = "patch";  // 수정하는 거라 patch로
 			
-			pullDao.toGitPullRequest(token,url,updateValue, method);
+			String response = pullDao.toGitPullRequest1(token,url,updateValue, method);
 			
-			
+			return response;
 		}
 		
 		
 		/**
 		 * 풀리퀘 리뷰 작성하는 메소드
 		 */
-		public void enrollReview(String token,String repository,Map<String, Object> updateValue,int pno) {
+		public String enrollReview(String token,String repository,Map<String, Object> updateValue,int pno) {
 			
 			// https://api.github.com/repos/nangmangorani/OKKH/pulls/풀번호(num)/reviews
 			
-			String url = repository + "/pulls/"+pno+"/reviews";
+			String url =  repository + "/pulls/"+pno+"/reviews";
 			
 			String method = "post";  // 새로 작성하는 거라 post로 
 			
-			pullDao.toGitPullRequest(token, url, updateValue, method);
+			String response = pullDao.toGitPullRequest1(token, url, updateValue, method);
 			
-			
+			return response;
 		}
 		
 		
@@ -1013,21 +1026,23 @@ public class PullRequestServiceImpl {
 		/**
 		 *  풀리퀘스트 작성하는 메소드
 		 */
-		public void enrollPullRequest(String token, String repository,Map<String, Object> updateValue) {
+		public String enrollPullRequest(String token, String repository, Map<String, Object> updateValue) {
 			
 			
 			// https://api.github.com/repos/nangmangorani/OKKH/pulls
 			
+			System.out.println(repository + "  : 레파이아아아");
 			
-			String url =repository + "/pulls";
+			String url = repository + "/pulls";
 			
 			String method ="post";
 			
 			System.out.println(updateValue + " : 생성넘어옴?");
 			
 			
-			pullDao.toGitPullRequest(token, url, updateValue, method);
+			String response = pullDao.toGitPullRequest(token, url, updateValue, method);
 			
+			return response;
 			
 		}
 		
@@ -1037,20 +1052,21 @@ public class PullRequestServiceImpl {
 		/**
 		 * 풀리퀘 리뷰 수정하는메소드
 		 */
-		public void updateReview(String token,String repository,Map<String, Object> updateValue,int pno, int reviewId) {
+		public String updateReview(String token,String repository,Map<String, Object> updateValue,int pno, int reviewId) {
 			
 			// https://api.github.com/repos/nangmangorani/OKKH/pulls/풀번호(num)/reviews/리뷰아이디
 			
-			String url = repository + "/pulls/"+pno+"/reviews/" + reviewId;
+			String url =  repository + "/pulls/"+pno+"/reviews/" + reviewId;
+			
 			
 			
 			// 풀리퀘 리뷰는 put으로 수정해야함.... 문서에 그렇게 나와있음....
 			String method = "put"; 
 			
-			pullDao.toGitPullRequest(token, url, updateValue, method);
+			String response = pullDao.toGitPullRequest1(token, url, updateValue, method);
 			
 					
-			
+			return response;
 		}
 		
 		

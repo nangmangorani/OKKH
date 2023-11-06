@@ -56,7 +56,7 @@
 					<div class="buttons">
 						<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+						<a href="myPullRequest.pu?repository=${repository }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 					</div>
 					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 					<!-- 풀리퀘 리뷰 내용 시작 -->
@@ -318,7 +318,7 @@
 				                <br>
 				                <div class="buttons" align="right">
 									<button onclick="enrollReview(${pull.fullRequestNum});" class="btn btn-primary">Comment</button>
-									<a href="myPullRequest.pu" class="btn btn-light-secondary">Back</a>
+									<a href="myPullRequest.pu?repository=${repository }" class="btn btn-light-secondary">Back</a>
 								</div>
 				            </div>
 				        </div>
@@ -335,7 +335,9 @@
 						// 상태 변화시키는 함수
 						function changeState(num, state){
 							
-							location.href ="updatePullState.pull?pno="+num + "&state=" + state;
+							
+							
+							location.href ="updatePullState.pull?pno="+num + "&state=" + state ;
 							
 						}
 						

@@ -264,6 +264,8 @@ public class IssueServiceImpl implements IssueService{
 		
 		String url = repository + "/issues";
 		
+		System.out.println(url  + " : 이건 이슈 꺼");
+		
 		String method = "post";
 		
 		String response = iDao.toGitIssue(token, url, requestBody, method);

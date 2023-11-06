@@ -51,7 +51,7 @@ public class PullRequestDao {
 	
 	
 	/**
-	 * 여기는 라벨에 http요청해서 응답값을 반환하는 곳
+	 * 여기는  http요청해서 응답값을 반환하는 곳
 	 * @param url
 	 * @param session
 	 * @return
@@ -61,7 +61,7 @@ public class PullRequestDao {
 		String token = (String)session.getAttribute("token");
 		
 		
-		System.out.println(token  + "   :  토큰");
+		System.out.println(url  + "   :  깃 내용얻어오는 dao의 url");
 		
 		// HTTP 요청을 만들기 위한 WebClient 인스턴스를 생성
 		String response = webClient
@@ -88,34 +88,65 @@ public class PullRequestDao {
 	
 	
 	/**
-	 *  풀리퀘스트 수정 / 등록하는 메소드
+	 *  풀리퀘스트  등록하는 메소드
 	 */
-	public void toGitPullRequest(String token,String url,Map<String, Object> updateValue, String method) {
+	public String toGitPullRequest(String token,String url,Map<String, Object> updateValue, String method) {
+		
+		
 		
 		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
 				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 		
-		//String response = null;
+		String response = null;
 		
 		
-		 if ("post".equals(method)) {
-		          client.post()
+		
+			 response = client.post()
 		                .uri(url)
 		                .body(BodyInserters.fromValue(updateValue))
 		                .retrieve()
 		                .bodyToMono(String.class)
 		                .block();
-		    } else if ("patch".equals(method)) {
-		        client.patch()
+		  
+		        
+		   
+		return response;
+		
+	}
+	
+	
+	/**
+	 *  풀리퀘스트 수정 / 리뷰 수정 /등록하는 메소드
+	 */
+	public String toGitPullRequest1(String token,String url,Map<String, Object> updateValue, String method) {
+		
+		System.out.println(url + " : dao 레파");
+		
+		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
+				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
+				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
+		
+		String response = null;
+		if (method.equals("post")) {
+			 response = client.post()
+		                .uri(url)
+		                .body(BodyInserters.fromValue(updateValue))
+		                .retrieve()
+		                .bodyToMono(String.class)
+		                .block();
+		
+		}else if (method.equals("patch")) {
+		    	response =  client.patch()
 		                .uri(url)
 		                .body(BodyInserters.fromValue(updateValue))
 		                .retrieve()
 		                .bodyToMono(String.class)
 		                .block();
 		    } else if("put".equals(method)){
-		    	client.put()
+		    	response =  client.put()
                 .uri(url)
                 .body(BodyInserters.fromValue(updateValue))
                 .retrieve()
@@ -129,10 +160,9 @@ public class PullRequestDao {
 		    }
 		 
 		 
-		//return response;
+		return response;
 		
 	}
-	
 	
 	
 

@@ -46,7 +46,7 @@
 					<div class="buttons">
 						<a href="list.iss" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-						<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+						<a href="myPullRequest.pu?repository=${repository }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 						<!-- 레파지 추가 버튼 시작 -->
 	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal"   data-bs-target="#inlineForm" style="float: right;">
 	                    	New PullRequest
@@ -72,12 +72,12 @@
 	                                    <i data-feather="x"></i>
 	                                </button>
 	                            </div>
-	                            <form action="insertRepo.re">
+	                           
 	                                <div class="modal-body">
 	                                	<label>Branches:</label>
 	                                    <div class="form-group">
 	                                    	 <div class="form-group">
-		                                        <select class="choices form-select" id="branchSelect">
+		                                        <select class="choices form-select" id="branchSelect" name="branches">
 			                                         <c:forEach var="b" items="${blist }">
 			                                            <option value="${b.name }">${b.name }</option>
 			                                         
@@ -92,7 +92,7 @@
 	                                    	<label>Base:</label>
 	                                    <div class="form-group">
 	                                    	 <div class="form-group">
-		                                        <select class="choices form-select" id="base">
+		                                        <select class="choices form-select" id="base" name="base">
 			                                         <c:forEach var="b" items="${blist }">
 			                                            <option value="${b.name }">${b.name }</option>
 			                                         
@@ -127,22 +127,23 @@
 	                                        <span class="d-none d-sm-block">Create</span>
 	                                    </button>
 	                                </div>
-	                            </form>
+	                           
 	                        </div>
 	                    </div>
 	                </div>
 	                <!--/풀리퀘 추가 form Modal 끝 -->
 	                
 	                <script>
+	                
 	                	// 풀리퀘 생성하는 곳
 	                	function createPull(){
-	                		
+	                		console.log("Zz");
 	                		let title = document.getElementById("createTitle").value;
 	                		let body = document.getElementById("createContent").value;
 	                		let branches = document.getElementById("branchSelect").value;
 	                		let base = document.getElementById("base").value;
-	                		
-	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches+"&base="+base;
+	                		location.href="createPullRequest.pull?title="+title +"&body="+body+"&branches="+branches+"&base="+base
+	                				      ;
 	                		
 	                	}
 	                	
