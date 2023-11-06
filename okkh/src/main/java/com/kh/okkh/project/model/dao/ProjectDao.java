@@ -253,7 +253,6 @@ public class ProjectDao {
 	public int participateProject(Member m, SqlSessionTemplate sqlSession) {
 		
 		
-		//System.out.println(m.getTeam() + " : 팀 번호!!!");
 		
 		
 		

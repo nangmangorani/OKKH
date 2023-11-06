@@ -99,7 +99,6 @@ public class IssueController {
 		
 		list = iService.getIssues(repository, token, state, pi);
 		
-		System.out.println("리스트컨트롤러 list" + list);
 		
 		
 		model.addAttribute("pi", pi);
@@ -122,7 +121,6 @@ public class IssueController {
 			@RequestParam(required = false) String authorName, @RequestParam(required = false) String newTitle,
 			@RequestParam(required = false) String issueNumber, @RequestParam(required = false) String userObject) throws IOException {
 		
-		System.out.println("cpage받아지긴함? " + currentPage);
 		String repository = (String)session.getAttribute("repository");
 
 		if(state == null) {
@@ -139,7 +137,6 @@ public class IssueController {
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
 		
 		
-		System.out.println("pi입니다 " + pi);
 		
 		list = iService.getIssues(repository, token, state, pi);
 
@@ -163,7 +160,6 @@ public class IssueController {
 		
 		String orgs = repository.substring(0,repository.indexOf("/"));			
 		
-		System.out.println("등록할때 이거 받아짐???" + repository);
 		
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		
@@ -204,7 +200,6 @@ public class IssueController {
 		
 		if (memList != null && !memList.isEmpty()) {
 			String[] assignees = memList.split(",");
-			System.out.println("assignees 잘 받아짐? 등록컨" + assignees);
 			requestBody.put("assignees", assignees);
 	    }
 	       
@@ -236,9 +231,6 @@ public class IssueController {
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
 		ArrayList<Milestone> mList = iService.getMilestone(repository, session);
 
-//		Issue issue = new Issue();
-//		issue = iService.getComments(repository, token, ino);
-//		System.out.println("여기로 말할것같으면 컨트롤러 겟커멘트" + issue);
 		
 		ArrayList<Comments> cList = iService.getComments(repository, token, ino);
 		
@@ -304,7 +296,6 @@ public class IssueController {
 				labels.add(lab);
 			}
 		}
-		System.out.println("labels란다" + labels);
 		
 		
 		JsonElement userElement = issueJson.get("user");
@@ -324,7 +315,6 @@ public class IssueController {
 
 		}
 		
-		System.out.println("milestoneOne" + milestoneOne);
 		
 		model.addAttribute("createDateTime", createDateTime);
 		model.addAttribute("userLogin", userLogin);
@@ -471,7 +461,6 @@ public class IssueController {
 		
 		String token = (String)session.getAttribute("token");
 		
-		System.out.println("수정페이지 ino 결국보내지냐?" + ino);
 		String repository = (String)session.getAttribute("repository");
 		
 		Map<String, Object> requestBody = new HashMap<>();
@@ -487,16 +476,13 @@ public class IssueController {
 		if (memList != null && !memList.isEmpty()) {
 			String[] assignees = memList.split(",");
 			requestBody.put("assignees", assignees);
-			System.out.println("잘있을까요? " + assignees.length);
 	    }
 	       
 		if (labelSet != null && !labelSet.isEmpty()) {
 	        String[] labels = labelSet.split(",");
 			requestBody.put("labels", labels);
-			System.out.println("잘있을까요? " + labels.length);
 	    }
 		
-		System.out.println("잘있을까요? " + milestone);
 		
 		
 		String response = iService.editIssue(token, repository, requestBody, ino);
@@ -540,7 +526,6 @@ public class IssueController {
 		
 		int listCount = iService.issueCount(repository, token, session, state, labelToString);
 		
-		System.out.println("라벨로 찍을때 카운트야" + listCount);
 		
 		PageInfo pi = PagiNation.getPageInfo(listCount, currentPage, 10, 20);
 

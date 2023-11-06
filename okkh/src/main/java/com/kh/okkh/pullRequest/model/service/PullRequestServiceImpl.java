@@ -414,7 +414,6 @@ public class PullRequestServiceImpl {
 				}
 				
 			}
-			System.out.println(count  + "   : closed의 count");
 				
 				return count;
 				
@@ -467,7 +466,6 @@ public class PullRequestServiceImpl {
 					}
 					
 				}
-				//System.out.println(count  + "   : 의 count");
 					
 					return count;
 					
@@ -715,7 +713,6 @@ public class PullRequestServiceImpl {
 				+ "&per_page=" + pi.getBoardLimit();
 			
 			
-			//System.out.println(url + " : 이건 오픈 리스트 레포");
 			
 			URL requestUrl = new URL(url);
 			
@@ -902,7 +899,6 @@ public class PullRequestServiceImpl {
 		
 			// pull.add(git);
 				
-			System.out.println(git  + "  :  과연 서비스 깃에는 무엇이 들어있을지...?.");
 			
 		
 			
@@ -1031,13 +1027,11 @@ public class PullRequestServiceImpl {
 			
 			// https://api.github.com/repos/nangmangorani/OKKH/pulls
 			
-			System.out.println(repository + "  : 레파이아아아");
 			
 			String url = repository + "/pulls";
 			
 			String method ="post";
 			
-			System.out.println(updateValue + " : 생성넘어옴?");
 			
 			
 			String response = pullDao.toGitPullRequest(token, url, updateValue, method);

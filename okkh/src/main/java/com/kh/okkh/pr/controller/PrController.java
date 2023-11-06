@@ -94,11 +94,9 @@ public class PrController {
 
 		
 		
-		//System.out.println(stackList + " : 이건 그냥 뽑는다아아");
 		
 		ArrayList<PR> list = prService.selectStackPr(stackListArray);
 		
-		System.out.println(list+ " : 이건 스택이이이잉");
 		
 		
 		return list;
@@ -383,11 +381,9 @@ public class PrController {
 	@RequestMapping("deletePrReply.pr")
 	public String deleteReplyPR(int pno) {
 		
-		//System.out.println(pno + "댓글 번호호호홓호");
 		
 		int result = prService.deleteReplyPR(pno);
 		
-		//System.out.println(result + " 결과가가ㅏㄱ");
 		
 		return result>0 ? "success":"fail";
 		
@@ -406,7 +402,6 @@ public class PrController {
 		
 		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
 		
-		System.out.println(proNo + " : pr 컨트롤러 단에서 찍는 pno" );
 		// 먼저 해당 게시글에 로그인한 회원이 북마크를 했는지 여부를 판단해서 
 		// 북마크 했으면 북마크 삭제하고, 북마크 없으면 삽입하기 
 		
@@ -435,7 +430,6 @@ public class PrController {
 			
 		}
 		
-		System.out.println(result + " prController에서 찍는 result값");
 		
 		return result>0 ? "success" : "fail";
 		

@@ -45,14 +45,12 @@ public class MemberController {
 		// code를 통해 token 얻어오기
 		String token = gService.getToken(code);
 		
-		System.out.println(token);
 	    
 		// access_token을 이용한 유저 정보 얻어오기
 		Member githubInfo = gService.getUserInfo(token);
 		
 		// 우리 DB에 해당 유저 정보가 있는지 확인하기
         Member loginMember = mService.selectMember(githubInfo);
-        System.out.println(loginMember);
         // 저장된 멤버가 없을 경우 DB에 추가
         if(loginMember == null) {
         	int result = mService.insertMember(githubInfo);
@@ -69,7 +67,6 @@ public class MemberController {
         session.setAttribute("git", githubInfo); 			// github에서 가져온 정보 => gitNick, profile, bio 사용
         session.setAttribute("loginMember", loginMember); 	// db에 쌓인 정보
         
-        System.out.println(loginMember + "  : git에 들어있는 정보");
 	    return "redirect:/";
 	}
 	
@@ -90,8 +87,6 @@ public class MemberController {
 		ArrayList<PR> prList = mService.myPRList(m);
 		
 		mv.addObject("pjList", pjList).addObject("prList", prList).setViewName("member/myPage");
-		System.out.println("프로젝트" + pjList);
-		System.out.println("pr" + prList);
 		
 		return mv;
 		

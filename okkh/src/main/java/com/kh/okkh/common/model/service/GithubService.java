@@ -67,7 +67,6 @@ public class GithubService {
 				.bodyToMono(String.class)
 				.block();
 		
-//		System.out.println("getUserInfo response : " + response);
 		
 		ObjectMapper objecMapper = new ObjectMapper();
 		JsonNode jsonNode = null;

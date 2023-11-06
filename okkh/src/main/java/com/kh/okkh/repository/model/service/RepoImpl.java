@@ -78,7 +78,6 @@ public class RepoImpl implements RepoService {
 				.bodyToMono(String.class)
 				.block();
 		
-		System.out.println("getRepository response : " + response);
 		
 		ObjectMapper objecMapper = new ObjectMapper();
 		JsonNode jsonNode;
@@ -126,7 +125,6 @@ public class RepoImpl implements RepoService {
 			
 		}
 		
-//		System.out.println("responseText : " + responseText);
 
 		// reader와 urlConnector는 임무를 다했으니 귀가 하도록!!
 		br.close();
@@ -138,11 +136,7 @@ public class RepoImpl implements RepoService {
 		// Gson 객체를 생성해서 Json을 ArrayList로 변환하여 차곡차곡 옮겨담기
 		ArrayList<GithubRepo> repoList = new Gson().fromJson(responseText, type);
 		
-//		System.out.println(repoList.get(0).getOwner().getAvatar_url());
 		
-//		return r;
-		
-		// Controller로 가랏!!
 		return repoList;
 		
 	}

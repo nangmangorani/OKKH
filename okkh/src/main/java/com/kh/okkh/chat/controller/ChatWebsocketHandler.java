@@ -25,27 +25,23 @@ public class ChatWebsocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		list.add(session);
 		i++;
-		System.out.println(session.getId() + " 연결 성공 => 총 접속 인원 : " + i + "명");
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		list.remove(session);
 		i--;
-        System.out.println(session.getId() + " 연결 종료 => 총 접속 인원 : " + i + "명");
 	}
 	
 	// 채팅방에서 전달 받은 메시지를 가공
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		// 전달 받은 메시지
-		System.out.println("현재 유저 이름 : " + currentUserName(session));
 		
 		SimpleDateFormat stf = new SimpleDateFormat("HH:mm");
 		String strDate = stf.format(new Date());
 		
 		String msg = currentUserName(session) + " : " + message.getPayload() + " : " + strDate;
-		System.out.println("메시지 : " + msg);
 		
 		for (WebSocketSession sess : list) {
 			sess.sendMessage(new TextMessage(msg));

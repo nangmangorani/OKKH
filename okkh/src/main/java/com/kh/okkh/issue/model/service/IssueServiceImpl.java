@@ -63,7 +63,6 @@ public class IssueServiceImpl implements IssueService{
 	@Override
 	public ArrayList<Labels> getLabels(String repository, HttpSession session){
 		
-		System.out.println("repository getlabels" + repository);
 		String url = repository + "/labels";
 		
 		
@@ -146,9 +145,7 @@ public class IssueServiceImpl implements IssueService{
 	
 	@Override
 	public int issueCount(String repository, String token, HttpSession session, String state, String labelToString) {
-		//String repoState = repository;
 		
-		System.out.println("labelToString" + labelToString);
 		
 		if(state.equals("open")) {
 			
@@ -215,7 +212,6 @@ public class IssueServiceImpl implements IssueService{
 	         JsonObject issueObj = arr.get(i).getAsJsonObject();
 	         Issue git = createGitIssueFromJsonObject(issueObj);
 	         list.add(git);
-	         System.out.println(list.get(i));
 	      }
 	    return list;
 	      
@@ -264,7 +260,6 @@ public class IssueServiceImpl implements IssueService{
 		
 		String url = repository + "/issues";
 		
-		System.out.println(url  + " : 이건 이슈 꺼");
 		
 		String method = "post";
 		
@@ -455,7 +450,6 @@ public class IssueServiceImpl implements IssueService{
 			e.printStackTrace();
 		}
 		
-		System.out.println("서비스 cList " + cList);
 		return cList;
 	}
 
@@ -480,7 +474,6 @@ public class IssueServiceImpl implements IssueService{
 				mList.add(m);
 			}
 			
-			System.out.println("mList 나오길 기도" + mList);
 			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -495,7 +488,6 @@ public class IssueServiceImpl implements IssueService{
 	public int deleteComments(String repository, String token, int id) {
 		
 		String url = repository + "/issues/comments/" + id;
-		System.out.println(url);
 		String method = "delete";
 		
 		String response = iDao.toGitGetIssue(url, token, method);

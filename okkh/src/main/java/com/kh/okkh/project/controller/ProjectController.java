@@ -106,13 +106,11 @@ public class ProjectController {
 		 
 		 session.setAttribute("teamList", teamList);
 		 
-		 //System.out.println(teamList + "  : 아니 이것은 팀리스트????");
 		 
 		// 다시 상세조회 하는 코드로 넘어오장 
 		 // 조회수 증가 성공하면 찐 프로젝트 상세내용 조회하러 가자
 		if(result>0) {
 			
-			//System.out.println(result + "      result 결과!!");
 			// 조회수 증가 성공했으면 찐으로 상세 조회하러 가기
 			Project pro = pservice.selectDetailPro(pno);
 			session.setAttribute("projectSession", pro);  
@@ -124,18 +122,13 @@ public class ProjectController {
 			int count = pservice.selectBookCount(pno);
 			
 			
-			//System.out.println( pno + " 게시글 번호닷" + book + "  book이당");
 			
 			
-			// System.out.println(pro + "    컨트롤러 pro");
 			mv.addObject("count", count);
 			mv.addObject("book", book);
-			//mv.addObject("bookmarkCount", bookmarkCount);
 			mv.addObject("pro", pro);
 			mv.setViewName("project/detailProject");
 			
-			//System.out.println(((Member)session.getAttribute("loginMember")).getTeam()+ "  : 이건 로그인 세션 팀번호");
-			//System.out.println(pro.getTeam() + " : 이건  프로젝트 상세조회한 팀");
 			
 		}else {
 			// 조회수 증가 실패하면.... 에러메시지 띄우기 
@@ -367,7 +360,6 @@ public class ProjectController {
 	public String selectProjectReplyList(int pno) {
 		
 		ArrayList<Reply> list = pservice.selectProjectReplyList(pno);
-		//System.out.println(list + " 컨트롤단!!!!!!!!!!!!");
 		
 		return new Gson().toJson(list);
 		
@@ -410,7 +402,6 @@ public class ProjectController {
 		
 		
 		
-		//System.out.println(b  + "북마크 객체 뽑아봄");
 		 
 		
 		int result = 0;
@@ -428,7 +419,6 @@ public class ProjectController {
 			result = pservice.deleteProBookmark(b);
 		}
 		
-		//System.out.println(result + "   : 컨트롤러 단에서 북마크 result 확인");
 		
 		return result>0 ? "success" : "fail";
 		
@@ -462,7 +452,6 @@ public class ProjectController {
 		m.setMemNo(memNo);
 		m.setTeam(refProNo);
 		
-		//System.out.println(m + "멤버멤버메메멤");
 	
 		
 		int result = pservice.participateProject(m);
@@ -472,17 +461,14 @@ public class ProjectController {
 		
 			Member updateMember = pservice.selectMember(memNo);
 			
-			// System.out.println(updateMember + "플젝 참여 후 업데이트 멤버의 정보 출력!!!!!!!!!!!!");
 			
 			
 			// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!! -> 필요없어졌음...또르륵....ㅠㅠ
 			session.setAttribute("loginMember", updateMember);
 			
 			
-			///session.setAttribute("alertMsg", "프로젝트 참여 신청이 완료되었습니다! zj");
 			
 			
-			// System.out.println( ((Member)session.getAttribute("loginMember")).getTeam()  + "    : 이건 프로젝트 참여하기 성공하고 나서 찍는 팀번호");
 		
 			return 1;
 			
@@ -492,7 +478,6 @@ public class ProjectController {
 		}
 		
 		
-		//System.out.println(result + " 컨트롤러 단에서 찍는 결과값");
 		
 		
 		
@@ -514,7 +499,6 @@ public class ProjectController {
     	 
     	 if(result>0) {
     	
-    		//session.setAttribute("alertMsg", "프로젝트 참여를 취소했습니다!");
     		 
     		 Member updateMember = pservice.selectMember(memNo);
     		 
@@ -523,7 +507,6 @@ public class ProjectController {
     		 
     		 return 1; 
  			
- 			// System.out.println(updateMember + " 플젝 참여 취소 후 업데이트 멤버의 정보 출력!!!!!!!!!!!!");
     	 }else {
     		 session.setAttribute("alertMsg", "프로젝트 참여 취소를 실패했습니다ㅠㅠ");
     		 return 0;
@@ -549,16 +532,7 @@ public class ProjectController {
     public String enrollTeamMate(@RequestParam(value="checkedMembers[]", required = false,defaultValue = "0")List<Integer> checkedMembers,
     							 @RequestParam(value="uncheckedMembers[]", required = false,defaultValue = "0")List<Integer>uncheckedMembers,HttpSession session) {
     	
-    	// System.out.println(memNo); // [10,6]값 아주 잘 넘어옴 예~!
     	
-    	// ArrayList<Member> teamList =  pservice.selectProjectTeamMateList(teamNo);
-    	
-    	
-    	// System.out.println(checkedMembers  + " : 팀팀팀팀팀");
-    	
-    	
-    	
-    	//System.out.println(checkedMembers + " : 과연");
     	
     	int result = 1;
     	int result2 =1;

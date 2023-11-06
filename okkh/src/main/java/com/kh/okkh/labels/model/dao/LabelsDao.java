@@ -35,7 +35,6 @@ public class LabelsDao {
 	}
 	
 	public void toGitLabel(String url, String token, String method, Map<String, Object> requestBody) {
-		System.out.println("url" + url);
 		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
 				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)
 				.defaultHeader(HttpHeaders.ACCEPT, "application/vnd.github+json")
@@ -49,6 +48,5 @@ public class LabelsDao {
 			response = client.post().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
 		}
 		
-		System.out.println("response" + response);
 	}
 }

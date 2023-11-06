@@ -199,7 +199,6 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		ArrayList<Reply>list = pdao.selectProjectReplyList(pno, sqlSession);
 		
-		//System.out.println(list + "   서비스단!!!!!!!!");
 		
 		return list;
 		

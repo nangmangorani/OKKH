@@ -67,7 +67,6 @@ public class RepositoryController {
 		
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		//System.out.println(loginMember);
 		
 		ArrayList<MyProject> pList = rService.selectMyProjectList(loginMember);
 
@@ -114,7 +113,6 @@ public class RepositoryController {
 			
 		} catch (Exception e) {
 			
-			 System.out.println("로그인 안 하고 팀원 목록 조회에 접근");
 			 
 			 String exeption = "로그인 후에 이용 가능한 서비스입니다.";
 			 
@@ -133,7 +131,6 @@ public class RepositoryController {
 	@RequestMapping("insertMyProject.re")
 	public String insertMyProject(MyProject p, HttpSession session, Model model) {
 		
-//		 System.out.println(p);
 		 
 		int result = rService.insertMyProject(p);
 		
@@ -176,20 +173,14 @@ public class RepositoryController {
 	@RequestMapping("repoList.re")
 	public String selectRepoList(int pno, HttpSession session, Model model) throws IOException {
 		
-//		System.out.println(pno);
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
 		mypro = rService.selectMyProject(pno);
 		
-//		System.out.println(mypro.getMyproTitle());
 		
 		// api 사용을 위해 session에 있는 token 호출
 		token = (String)session.getAttribute("token");
 		
-//		System.out.println(pno);
-		
-		// 서비스단으로 꼬고!!
-//		ArrayList<GithubRepo> repoList = rService.getRepositoryList(pno, token);
 		
 		g = new GitHub();
 		
@@ -247,7 +238,6 @@ public class RepositoryController {
 		params.put("visibility", r.getRepoStatus());
 		params.put("auto_init", "true");
 		
-//		System.out.println(params);
 		
 		g.setParams(params);
 		
@@ -397,7 +387,6 @@ public class RepositoryController {
 	@RequestMapping("contentDetail.re")
 	public String contentDetail(int pno, String rnm, String vis, String ava, String path, HttpSession session, Model model) {
 		
-		System.out.println(path);
 		
 		// 가져온 프로젝트 번호를 통해 번호와 프로젝트명을 조회한다
 		mypro = rService.selectMyProject(pno);
@@ -482,7 +471,6 @@ public class RepositoryController {
 		
 		g.setParams(params);
 		
-		System.out.println(getGitHubValue(g));
 		
 		return "redirect:/";
 		

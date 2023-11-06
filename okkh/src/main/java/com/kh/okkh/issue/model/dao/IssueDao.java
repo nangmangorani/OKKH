@@ -49,7 +49,6 @@ public class IssueDao {
 	public String getGitContentsByGet1(String path, HttpSession session) {
 		
 		String token = (String)session.getAttribute("token");
-		System.out.println("겟깃 토큰 왜 널뜸? " + token);
 		String response = webClient
 				.get()
 				.uri("https://api.github.com/repos/"+path)
@@ -90,7 +89,6 @@ public class IssueDao {
 				.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).build();
 		String response = null;
 		
-		System.out.println("dao requestbody" + requestBody);
 		
 		if(method.equals("post")) {
 			response = client.post().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve()
@@ -101,7 +99,6 @@ public class IssueDao {
 			response = client.patch().uri(url).body(BodyInserters.fromValue(requestBody)).retrieve().bodyToMono(String.class).block();
 		}
 		
-		System.out.println("에러뜨면 값이 반환됨? "+ response);
 		return response;
 	}
 	
@@ -125,25 +122,8 @@ public class IssueDao {
 		    
 		   
 		    
-//		        .onStatus(HttpStatus::is4xxClientError, clientResponse -> {
-//		        	if (clientResponse.statusCode() == HttpStatus.BAD_REQUEST) {
-//		                // Handle 400 Bad Request error
-//		                return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Custom Bad Request Message"));
-//		            } else if (clientResponse.statusCode() == HttpStatus.UNAUTHORIZED) {
-//		                // Handle 401 Unauthorized error
-//		                return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Custom Unauthorized Message"));
-//		            } else if (clientResponse.statusCode() == HttpStatus.FORBIDDEN) {
-//		                // Handle 403 Forbidden error
-//		                return Mono.error(new ResponseStatusException(HttpStatus.FORBIDDEN, "Custom Forbidden Message"));
-//		            } else if (clientResponse.statusCode() == HttpStatus.NOT_FOUND) {
-//		                // Handle 404 Not Found error
-//		                return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Custom Not Found Message"));
-//		            }
-//		        })
-//		        .block();
 		}
 		
-		System.out.println("삭제하면 반환값 뭐로나오는지 볼라고 ㅋㅋ" + response);
 		
 		return response;
 	}
@@ -160,7 +140,6 @@ public class IssueDao {
 				  .bodyToMono(String.class)
 				  .block();
 		
-		System.out.println("dao 응답" + response);
 
 		return response;
 		

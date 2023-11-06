@@ -50,7 +50,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	sessions.add(session);  // 이건 한번 해봤습니당!!
 	String senderId = currentUserName(session);
 		if(senderId != null) {
-			System.out.println();
 			userSessionsMap.put(senderId,session);
 			
 		}
@@ -67,7 +66,6 @@ public class EchoHandler extends TextWebSocketHandler {
 		
 		String msg = message.getPayload();//자바스크립트에서 넘어온 Msg (내가 ajax로 보낸 메시지)
 		
-		System.out.println(msg + " 내가 보낸 메세지입니다!!!!");
 		
 		
 		
@@ -95,19 +93,12 @@ public class EchoHandler extends TextWebSocketHandler {
 				//WebSocketSession allSessions = sessions.get(Integer.parseInt(boardWriter));
 				
 				
-				//System.out.println(nick);
-				//System.out.println(boardWriter);
-				
-				//System.out.println(userSessionsMap.get(boardWriter));
 				userSessionsMap.put(boardWriter,session);
 				
 				
 				WebSocketSession replyWriterSession = userSessionsMap.get(wantWriter);
 				WebSocketSession boardWriterSession = userSessionsMap.get(boardWriter);
 				
-				//System.out.println(boardWriterSession);
-				
-				//System.out.println(cmd + "프로젝트?");
 				
 				
 				// 프로젝트 참여누르면 여기 메시지 보냄
@@ -140,9 +131,6 @@ public class EchoHandler extends TextWebSocketHandler {
 						
 	//					TextMessage tmpMsg = new TextMessage(nickName + bno +  title);
 						
-						System.out.println(team + "     이건 팀번호");
-						System.out.println(cmd + "이건 프로젝트와 동일해야함");
-						System.out.println(tmpMsg + " 메시지 보내지는 곳");
 						
 						targetSession.sendMessage(tmpMsg);
 						
@@ -180,64 +168,7 @@ public class EchoHandler extends TextWebSocketHandler {
 					targetSession.sendMessage(tmpMsg);
 					
 				}
-				
-//				//좋아요
-//				else if("like".equals(cmd) && boardWriterSession != null) {
-//					//replyWriter = 좋아요누른사람 , boardWriter = 게시글작성자
-//					TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 글을 좋아요했습니다!</a>");
-//
-//					boardWriterSession.sendMessage(tmpMsg);
-//					
-//				}
-				
-				//DEV
-//				else if("Dev".equals(cmd) && boardWriterSession != null) {
-//					//replyWriter = 좋아요누른사람 , boardWriter = 게시글작성자
-//					TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "&bgno="+bgno+"'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 글을 DEV했습니다!</a>");
-//
-//					boardWriterSession.sendMessage(tmpMsg);
-//					
-//				}
-//				
-				//댓글채택
-//				else if("questionCheck".equals(cmd) && replyWriterSession != null) {
-//					//replyWriter = 댓글작성자 , boardWriter = 글작성자
-//					TextMessage tmpMsg = new TextMessage(boardWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "&bgno="+bgno+"'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 댓글을 채택했습니다!</a>");
-//
-//					replyWriterSession.sendMessage(tmpMsg);
-//					
-//				}
-				
-				//댓글좋아요
-//				else if("commentLike".equals(cmd) && replyWriterSession != null) {
-//					logger.info("좋아요onmessage되나?");
-//					logger.info("result=board="+boardWriter+"//"+replyWriter+"//"+bno+"//"+bgno+"//"+title);
-//					//replyWriter=댓글작성자 , boardWriter=좋아요누른사람 
-//					TextMessage tmpMsg = new TextMessage(boardWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "&bgno="+bgno+"'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 댓글을 추천했습니다!</a>");
-//
-//					replyWriterSession.sendMessage(tmpMsg);
-//				}
-//				
-				
-				//댓글DEV
-//				else if("commentDev".equals(cmd) && replyWriterSession != null) {
-//					logger.info("좋아요onmessage되나?");
-//					logger.info("result=board="+boardWriter+"//"+replyWriter+"//"+bno+"//"+bgno+"//"+title);
-//					//replyWriter=댓글작성자 , boardWriter=좋아요누른사람 
-//					TextMessage tmpMsg = new TextMessage(boardWriter + "님이 "
-//							+ "<a href='/board/readView?bno=" + bno + "&bgno="+bgno+"'  style=\"color: black\"><strong>"
-//							+ title+"</strong> 에 작성한 댓글을 DEV했습니다!</a>");
-//
-//					replyWriterSession.sendMessage(tmpMsg);
-//				}
+
 				
 				
 					
@@ -262,7 +193,6 @@ public class EchoHandler extends TextWebSocketHandler {
 	private String currentUserName(WebSocketSession session) {
 		Map<String, Object> httpSession = session.getAttributes();
 		Member loginMember = (Member)httpSession.get("loginMember");
-		//System.out.println("여기는 currentUserName : " + loginMember);
 		String memNo = "0";
 		if(loginMember != null) {
 			

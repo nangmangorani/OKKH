@@ -68,7 +68,6 @@ public class FriendController {
 			
 			// 혹시 몰라서 친구 목록 조회한 거 세션에 담을 까...? -> 나중에 필요하면 담자!
 		
-			System.out.println(pi1 + "   : 이건 친구 누르자마자 페이징바 값1!!!!!!!!!!!!!!!!!");
 		
 	   //=================== 특정 회원의 친구가 아닌 리스트 조회 ==============
 //			int noneBfListCount = fservice.noneFriendListCount(memNo);
@@ -77,7 +76,6 @@ public class FriendController {
 //			ArrayList<Friend> noneBfList = fservice.selectNoneFriendList(memNo, pi2);
 		 
 		    
-			System.out.println(myBfList + " 내 친구 목록오오오옹");
 			
 	
 	   // 친구목록은 필요해서 세션에 담기
@@ -141,7 +139,6 @@ public class FriendController {
 		ArrayList<Member> allMemberList = fservice.selectMemberList(memNo);
 		
 		
-		 System.out.println(allMemberList  +"    이건 컨트롤러에서 찍는 리스트이당");
 		 
 		 // 혹시 몰라서 세션에 태움
 		 //session.setAttribute("allMemberList", allMemberList);
@@ -288,8 +285,6 @@ public class FriendController {
 		
 		 int result = 0;
 				
-		 System.out.println(ISent + " 내 상태!!!!!!!");
-		 System.out.println(FriSent + "  친구 상태!!!!!!!!!");
 		 
 		  // 친구인데 차단할때	
 		 if (userNo != 0 && ISent.equals("Y") && FriSent.equals("Y")) {
@@ -378,7 +373,6 @@ public class FriendController {
 	@RequestMapping(value = "searchMember.fri", produces = "application/json; charset=UTF-8")
 	public String searchMember(String search, HttpSession session) {
 		
-		//System.out.println(search + "   과연 내가 작성한 값이 넘어올지?????");  // 나이스~!
 		
 		int memNo = ((Member)session.getAttribute("loginMember")).getMemNo();
 		

@@ -26,13 +26,11 @@ public class LabelsServiceImpl implements LabelsService {
 		
 		String url = repository + "/labels";
 		
-		System.out.println("url 라벨리스트" + url);
 		
 		String method = "get";
 		
 		String response = lDao.toGitLabel(url, token, method);
 		
-		System.out.println("response 나오려나? " + response);
 		ObjectMapper obj = new ObjectMapper();
 		JsonNode jsonNode;
 		

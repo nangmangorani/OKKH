@@ -81,10 +81,8 @@ public class RepoRestController {
 			
 		} catch (Exception e) {
 			// 오류 발생시 콘솔에 띄워줄 메세지
-			System.out.println("존재하지 않는 조직명에 접근했음!!");
 		}
 		
-//		System.out.println(result);
 		
 		// 결과값 반환
 		return result;

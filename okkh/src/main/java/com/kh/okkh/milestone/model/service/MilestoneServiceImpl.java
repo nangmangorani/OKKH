@@ -199,7 +199,6 @@ public class MilestoneServiceImpl implements MilestoneService {
 						Date dueOnBefore = s1.parse(dueOnString);
 						dueOn = s2.format(dueOnBefore);
 					}
-					System.out.println("dueOnString" + dueOnString);
 					
 				} catch (ParseException e) {
 					e.printStackTrace();

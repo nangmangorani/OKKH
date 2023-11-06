@@ -107,12 +107,8 @@ public class MilestoneController {
 		if(state == null) {
 			state = "open";
 		}
-		System.out.println("state" + state);
 		ArrayList<Issue> iList = iService.getIssuesByMno(repository, session, state, mno);
 		ArrayList<Labels> lList = iService.getLabels(repository, session);
-
-		System.out.println(iList);		
-		System.out.println(lList);
 
 
 		Map<String, Object> response = new HashMap<>();
@@ -156,7 +152,6 @@ public class MilestoneController {
 	        dueOn = zonedDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
 	    }
 		
-		System.out.println("dueOn 봐줄만해..?" + dueOn);
 		
 		Map<String, Object> requestBody = new HashMap<>();
 	    requestBody.put("title", title);
@@ -200,7 +195,6 @@ public class MilestoneController {
 			@RequestParam(required = false) String dueOnDate) {
 			
 		String token = (String)session.getAttribute("token");
-		System.out.println("mno인데 내가 없어도 너무 슬퍼하지마" + mno);
 		String repository = (String)session.getAttribute("repository");
 		String dueOn = null;
 		
@@ -241,23 +235,11 @@ public class MilestoneController {
 		
 		requestBody.put("state", state);
 		
-		System.out.println("지금 requestbody 상태는? " + requestBody);
 		mService.editMilestone(repository, requestBody, token, mno);
 		
 		return "redirect:/detail.mile?mno=" + mno;
 	}
 	
-	// @RequestMapping("enrollIssue.mile")
-	// public String enrollIssueAtMile(HttpSession session, int mno, Model model) {
-		
-	// 	String repository = (String)session.getAttribute("repository");;
-		
-		
-
-		
-	// 	return "milestone/enrollIssueByMile";
-		
-	// }
 	
 	@RequestMapping(value="ajaxMile.mile", produces = "application/json; charset=utf-8")
 	@ResponseBody

@@ -124,7 +124,6 @@ public class GitHubTemplate {
 				.bodyToMono(ArrayList.class)
 				.block();
 		
-//		System.out.println(list);
 		
 		// 컨트롤러로 반환
 		return list;

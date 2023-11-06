@@ -61,7 +61,6 @@ public class PullRequestDao {
 		String token = (String)session.getAttribute("token");
 		
 		
-		System.out.println(url  + "   :  깃 내용얻어오는 dao의 url");
 		
 		// HTTP 요청을 만들기 위한 WebClient 인스턴스를 생성
 		String response = webClient
@@ -122,7 +121,6 @@ public class PullRequestDao {
 	 */
 	public String toGitPullRequest1(String token,String url,Map<String, Object> updateValue, String method) {
 		
-		System.out.println(url + " : dao 레파");
 		
 		WebClient client = WebClient.builder().baseUrl("https://api.github.com/repos/")
 				.defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token)

@@ -187,7 +187,6 @@ public class PRdao {
 	 */
 	public int insertPrBookmark(Bookmark b,SqlSessionTemplate sqlSession) {
 		
-		System.out.println(b + " : pr 컨트롤러 단에서 찍는 b");
 		
 		return sqlSession.insert("prMapper.insertPrBookmark", b);
 	}

@@ -28,14 +28,12 @@ public class LabelsController {
 	public String labelList(HttpSession session, Model model) {
 		
 		String token = (String)session.getAttribute("token");
-		System.out.println("token라벨컨트롤런데 나 잘있음" + token);
 		
 		String repository = (String)session.getAttribute("repository");
 		
 		ArrayList<Labels> lList = new ArrayList<Labels>();
 		
 		lList = lService.labelList(repository, token);
-		System.out.println(lList);
 		
 		model.addAttribute("lList", lList);
 		
@@ -52,7 +50,6 @@ public class LabelsController {
 		String repository = (String)session.getAttribute("repository");
 		
 		color = color.substring(1);
-		System.out.println("color 이제 깔끔? " + color);
 		
 		Map<String, Object> requestBody = new HashMap<String, Object>();
 		requestBody.put("new_name", name);
