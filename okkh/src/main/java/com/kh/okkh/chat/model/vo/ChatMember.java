@@ -16,4 +16,5 @@ public class ChatMember {
 	private int memNo;
 	
 	private String gitNick;
+	private String profile;
 }

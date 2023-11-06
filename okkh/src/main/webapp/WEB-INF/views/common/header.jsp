@@ -10,8 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
 	 <script type="text/javascript">
-	 
-	 console.log("zz")
 	 var socket = new SockJS('http://localhost:7777/okkh/websocket');
 	 //domRect = element.getBoundingClientRect();  // 이게 없다고 해서 추가했는데 왜 안돼...?
 		
@@ -19,16 +17,11 @@
 		
 		socket.onopen = function(){
 			console.log("소켓이 열림!")
-			
 		};
-		
-		
 		
 		socket.onmessage  = function(event){
 			//console.log('jsonObject로 받은 메세지 : ' + event.data);
 			 //var message = JSON.parse(event.data); // JSON 형식의 메시지를 파싱
-		
-			
 		 
 			var message = JSON.parse(event.data)
 				console.log(message);  //-> 내가 보낸 값이 객체 형태로 담겨있음 
@@ -57,10 +50,8 @@
 			
 			 	link.style.color= 'black';
 			 
-	
 			 var div = document.createElement('div');
 			
-			 
 			 // 카테고리별로 메세지 다르게 보낼거임
 			 if(category == "project"){
 				 
@@ -70,22 +61,14 @@
 				
 				 div.textContent = nick + ' 님이 '+ content;
 			 }
-				 
 			
 			 
 			 var container = document.getElementById('messageArea');
 			 
 			 container.appendChild(link);
 			 link.appendChild(div);
-			 
-			 
-			 
 		
 		 };
-				
-				
-		 
-		 
 		 
 		 socket.onclose = function(event) {
 			    if (event.wasClean) {
@@ -132,18 +115,6 @@
                         
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-lg-0">
-                                <li class="nav-item dropdown me-1">
-                                    <a class="nav-link active dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                        <i class='bi bi-envelope bi-sub fs-4'></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                        <li>
-                                            <h6 class="dropdown-header">Mail</h6>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">No new mail</a></li>
-                                    </ul>
-                                </li>
                                 <li class="nav-item dropdown me-3">
                                     <a class="nav-link active dropdown-toggle text-gray-600" href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
                                         <i class='bi bi-bell bi-sub fs-4'></i>
@@ -154,12 +125,9 @@
                                             <h6>Notifications</h6>
                                         </li>
                                         
-                                        
                                         <li class="dropdown-item notification-item" id="messageArea">
                                           	<!-- 실시간 메세지가 있으면 동적으로 a태그와 div를 그려서 메시지 나타낼 거임 -->
                                         </li>
-                                        
-                                        
                                        
                                         <li>
                                             <p class="text-center py-2 mb-0"><a href="#">See all notification</a></p>
@@ -185,17 +153,12 @@
                                     <li>
                                         <h6 class="dropdown-header">Hello, ${ git.gitNick }!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="myPage.me" id="myPage"><i class="icon-mid bi bi-person me-2"></i> My
-                                            Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
                                     <li>
-                                        <hr class="dropdown-divider">
+                                    	<a class="dropdown-item" href="myPage.me" id="myPage"><i class="icon-mid bi bi-person me-2"></i> My Profile </a>
                                     </li>
-                                    <li><a class="dropdown-item" href="logout.me"><i
-                                                class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a></li>
+                                    <li>
+                                    	<a class="dropdown-item" href="logout.me"><i class="icon-mid bi bi-box-arrow-left me-2"></i>Logout</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

@@ -52,7 +52,7 @@
 
 /* 리스트 부분 */
 .UJ-content{
-	height: 1500px;
+	height: 350px;
 	/* border: 1px solid black; */
 }
 
@@ -210,7 +210,6 @@
                                 <form action="updateForm.me" method="post">
                                 	<div class="form-group" style="float:right;">
                                         <button type="submit" class="btn btn-primary">Update</button>
-                                        <button type="button" class="btn btn-danger">Drop</button>
                                     </div>
                                     <input type="hidden" name="memId" id="memId" value="${loginMember.memId }">
                                     <div class="form-group">
@@ -265,14 +264,11 @@
 						                                			<div class="UJ-content" >
 															            <c:forEach var="pj" items="${pjList }">
 															            	<input type="hidden" name="prNo" value="${pj.proNo }" >
-															                <div  class="UJ-ProjectContent" onclick="location.href='detailPr.pr?pno=' + ${pj.proNo }" >
+															                <div  class="UJ-ProjectContent" onclick="location.href='selectDetailPro.pro?pno=' + ${pj.proNo }" >
 															                    <!-- 마감일 , 북마크 -->
 															                    <div id="UJ-dateMark">
 															                        <div id="UJ-date">
 															                            작성일 : ${pj.createDate }
-															                        </div>
-															                        <div id="UJ-bookMark">
-															                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
 															                        </div>
 															                    </div>
 															
@@ -325,9 +321,6 @@
 															                    <div id="UJ-dateMark">
 															                        <div id="UJ-date">
 															                            작성일 : ${pr.createDate }
-															                        </div>
-															                        <div id="UJ-bookMark">
-															                            <img class="heartImage" src="https://holaworld.io/images/info/bookmark.png" style="width: 45px; height: 45px;">
 															                        </div>
 															                    </div>
 															

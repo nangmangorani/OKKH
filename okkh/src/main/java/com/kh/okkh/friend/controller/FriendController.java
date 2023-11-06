@@ -392,6 +392,15 @@ public class FriendController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value="mainListFriend.fri", produces="application/json; charset=UTF-8")
+	public String mainListFriend(int memNo) {
+			ArrayList<Friend> list = fservice.mainListFriend(memNo);
+			return new Gson().toJson(list);
+			
+	}
+	
+	
 	
 	
 	

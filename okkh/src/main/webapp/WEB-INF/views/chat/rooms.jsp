@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="resources/assets/extensions/choices.js/public/assets/styles/choices.css">
 	
 	<style>
-		#room:hover {
-			cursor: pointer;
+		.table-btn {
+			width: 120px;
 		}
 	</style>
 </head>
@@ -45,7 +45,7 @@
                                                             <div class="col-12">
                                                                 <div class="card">
                                                                     <div class="card-header">
-                                                                        <span class="card-title" style="font-weight: bolder; font-size: 20px">채팅방 목록</span>
+                                                                        <span class="card-title" style="font-weight: bolder; font-size: 30px">채팅방 목록</span>
                                                                         <!-- 채팅방 추가 모달 -->
                                                                         <button class="btn btn-primary" style="float: right;" id="addChat"
                                                                         data-bs-toggle="modal" data-bs-target="#addChatModal">추가</button>
@@ -62,26 +62,27 @@
 		                                                                               		<tbody>
 		                                                                                    <tr id="room">
 		                                                                                    	<td class="crno" style="display:none;">${cr.roomNo }</td>
-		                                                                                        <td class="text-bold-500 rno" style="width: 50px;">
+		                                                                                        <td class="text-bold-500" style="width: 50px;">
 		                                                                                            <img src="resources/images/faces/1.jpg" alt="avtar img holder" width="30" height="30" class="rounded-circle">
 		                                                                                        </td>
 		                                                                                        <c:choose>
 			                                                                                        <c:when test="${not empty cr.lastChat }">
 				                                                                                        <td>
-				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
+				                                                                                        	<span style="font-weight: bold; font-size: 20px;">${cr.roomTitle }</span> <br>
 				                                                                                            <span style="font-size: 14px;">${cr.lastChat }</span>
 				                                                                                        </td>
 			                                                                                        </c:when>
 			                                                                                        <c:otherwise>
 				                                                                                        <td>
-				                                                                                        	<span style="font-weight: bold;">${cr.roomTitle }</span> <br>
-				                                                                                            <span style="font-size: 14px;">주고받은 메시지가 없습니다.</span>
+				                                                                                        	<span style="font-weight: bold; font-size: 18px;">${cr.roomTitle }</span> <br>
+				                                                                                            <span style="font-size: 13px;">주고받은 메시지가 없습니다.</span>
 				                                                                                        </td>
 			                                                                                        </c:otherwise>
 		                                                                                        </c:choose>
+		                                                                                        <td class="table-btn"><a href="room.ch?crno=${cr.roomNo }" id="enterRoom" class="btn btn-outline-primary">입장하기</a></td>
 		                                                                                    </tr>
 		                                                                                    </tbody>
-		                                                                                   </c:forEach>
+                                                                                   		</c:forEach>
 		                                                                            </table>
 	                                                                            </c:when>
 	                                                                            <c:otherwise>
@@ -89,13 +90,6 @@
 	                                                                            </c:otherwise>
                                                                             </c:choose>
                                                                         </div>
-                                                                        <script>
-																			$(function(){
-																				$("#roomList>tbody>tr").click(function(){
-																					location.href = "rooms.ch?crno=" + $(this).children(".crno").text();
-																				})
-																			})
-																		</script>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -180,8 +174,7 @@
           </div>
         </div>
       </div>
-	
-	
+      
 <!--여기 두개가 다중 select박스인듯-->    
 <script src="resources/assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
 <script src="resources/assets/static/js/pages/form-element-select.js"></script>

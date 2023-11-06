@@ -20,11 +20,10 @@ public class ChatMessage {
 //	private String today;
 //	private String gitNick;
 //	private int roomNo;
-	public enum MessageType{
-		ENTER, TALK, JOIN
-	}
-	private MessageType type;
+	
+	private int roomNo;
 	private String roomId;
 	private String writer;
 	private String message;
+	
 }

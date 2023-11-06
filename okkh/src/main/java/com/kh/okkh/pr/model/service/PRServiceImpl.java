@@ -218,8 +218,18 @@ public class PRServiceImpl implements PRService{
 		return prdao.deletePrBookmark(b, sqlSession);
 	}
 
-
-
+	
+	
+	
+	
+	/**
+	 * pr top 4
+	 */
+	@Override
+	public ArrayList<PR> selectPrTopList() {
+		
+		return prdao.selectPrTopList(sqlSession);
+	}
 
 
 

@@ -46,12 +46,11 @@
     <c:if test="${ not empty alertMsg }">
     	<script>
     		alertify.alert("${ alertMsg }");
+    		location.reload();
     	</script>
-    	
     	<c:remove var="alertMsg" scope="session"/>
     </c:if>
     <!-- /alert 끝 -->
-    
     
     
     
@@ -114,13 +113,25 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title" style="font-weight: bolder;">Project</li>
-
-                        <li class="sidebar-item">
-                            <a href="myProject.re" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>My Project</span>
-                            </a>
-                        </li>
+						
+						<c:choose>
+							<c:when test="${not empty loginMember }">
+	                        <li class="sidebar-item">
+	                            <a href="myProject.re" class='sidebar-link'>
+	                                <i class="bi bi-grid-fill"></i>
+	                                <span>My Project</span>
+	                            </a>
+	                        </li>
+	                        </c:when>
+							<c:otherwise>
+		                          <li class="sidebar-item">
+		                            <a onclick="notLogin();" class='sidebar-link'>
+		                                <i class="fa-solid fa-user-group fa-sm"></i>
+		                                <span>My Project</span>
+		                            </a>
+		                        </li>
+	                        </c:otherwise>
+	                     </c:choose>  
                         <!-- 
                         <li class="sidebar-item">
                             <a href="#" class='sidebar-link'>
@@ -144,7 +155,16 @@
                                 <span>Calendar</span>
                             </a>
                         </li>
-
+						 </c:when>
+							<c:otherwise>
+		                          <li class="sidebar-item">
+		                            <a onclick="notLogin();" class='sidebar-link'>
+		                                <i class="fa-solid fa-user-group fa-sm"></i>
+		                                <span>Calendar</span>
+		                            </a>
+		                        </li>
+	                        </c:otherwise>
+	                     </c:choose>  
                         <br><br>
                         
                         <li class="sidebar-title" style="font-weight: bolder;">Transfer</li>
@@ -210,26 +230,31 @@
                         </c:otherwise>
                      </c:choose>  
                         
-                        <script>
-                        	function notLogin(){
-                        		alertify.alert("로그인 후 이용 가능한 서비스입니다!")
-                        	}
-                        
-                        </script>
-                        
-                        
-                        
-                        
-                        <li class="sidebar-item">
-                            <a href="chat" class='sidebar-link'>
-                                <i class="fa-solid fa-comments fa-sm"></i>
-                                <span>Chat</span>
-                            </a>
-                        </li>
-                        
+                     <c:choose>    
+	                     <c:when test="${not empty loginMember }"> 
+	                        <li class="sidebar-item">
+	                            <a href="chat" class='sidebar-link'>
+	                                <i class="fa-solid fa-comments fa-sm"></i>
+	                                <span>Chat</span>
+	                            </a>
+	                        </li>
+                        </c:when>
+                        <c:otherwise>
+                        	<li class="sidebar-item">
+	                            <a onclick="notLogin();" class='sidebar-link'>
+	                                <i class="fa-solid fa-user-group fa-sm"></i>
+	                                <span>Chat</span>
+	                            </a>
+	                        </li>
+                        </c:otherwise>
+                    </c:choose>
                     
-                        
-                        
+					<script>
+						function notLogin(){
+							alertify.alert("로그인 후 이용 가능한 서비스입니다!")
+						}
+					</script>
+                    
                     </ul>
                     
                    

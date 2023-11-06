@@ -75,7 +75,7 @@
 								    
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">Save</button>
-                                        <button type="button" class="btn btn-danger" onclick="history.back()">Cancel</button>
+                                        <a type="button" class="btn btn-danger" href="/okkh/myPage.me">Cancel</a>
                                     </div>
                                 </form>
                             </div>

@@ -8,6 +8,7 @@
 		<result column="mem_no" property="memNo"/>
 		<result column="room_no" property="roomNo"/>
 		<result column="git_nick" property="gitNick"/>
+		<result column="profile" property="profile"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -35,9 +36,10 @@
 	
 	<select id="selectChatMember" resultMap="chatMemberResultSet">
 		select mem_no
-			 , room_no
-		  from chat_member
-		  join member using (mem_no)
+			 , cm.room_no
+			 , profile
+		  from chat_member cm
+		  join member m using (mem_no)
 		 where mem_no = #{memNo}
 		   and rownum = 1
 	</select>
@@ -47,9 +49,9 @@
 		     , room_title
 		     , last_chat
 		     , last_date
-		  from chat_room
-		  join chat_member using (room_no)
-		 where status = 'Y'
+		  from chat_room r
+		  join chat_member m using (room_no)
+		 where r.status = 'Y'
 		   and mem_no = #{memNo}
 	</select>
 
@@ -112,23 +114,24 @@
 		where m.status = 'Y'
 	</insert>
 	
-	<select id="selectChatRoomRno" resultMap="chatRoomResultSet">
+	<select id="selectChatRoom" resultMap="chatRoomResultSet">
 		select room_no
 		     , room_title
 		     , last_chat
 		     , last_date
 		  from chat_room
 		 where status = 'Y'
-		   and room_no = #{room_no}
+		   and room_no = #{roomNo}
 	</select>
 	
 	<select id="selectChatMemberList" resultMap="chatMemberResultSet">
 		select mem_no
-		     , room_no
+		     , cm.room_no
 		     , git_nick
-		  from chat_member
-		  join member using (mem_no)
-		 where room_no = #{roomNo}
+		     , profile
+		  from chat_member cm
+		  join member m using (mem_no)
+		 where cm.room_no = #{roomNo}
 	</select>
 	
 </mapper>

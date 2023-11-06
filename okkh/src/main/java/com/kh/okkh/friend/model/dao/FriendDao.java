@@ -251,6 +251,12 @@ public class FriendDao {
 		return (ArrayList)sqlsession.selectList("friendMapper.searchMember", map);
 		
 	}
+
+
+
+	public ArrayList<Friend> mainListFriend(SqlSessionTemplate sqlsession, int memNo) {
+		return (ArrayList)sqlsession.selectList("friendMapper.mainListFriend", memNo);
+	}
 	
 	
 	

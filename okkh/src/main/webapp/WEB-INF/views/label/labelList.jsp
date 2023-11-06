@@ -93,9 +93,10 @@
                                         <div class="card-header">
                                             <span class="card-title" style="font-weight:600">Label</span>
                                             <button class="btn btn-primary emrollBtn" style="float:right;">라벨추가</button>
+                                            <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);" style="float: right; margin-right: 5px;">이전으로</button>
                                         </div>
                                         
-                                        <div class="card-body enroll" style="padding-left: 25px; display:none">
+                                        <div class="card-body enroll" style="padding-left: 25px; display:none;">
                                             <div style="display: flex; height: 25px; width: 800px;">
                                                 <div style="flex: 1; width: 230px;">
                                                     <span class="hiddenFont">이름</span>
@@ -153,14 +154,14 @@
                                                             <td></td>
                                                             <td style="text-align: right;">
                                                             	<button class="btn btn-outline-primary edit" onclick="editMileForm();">수정</button>
-                                                            	<form action="delete.lab">
+                                                            	<form action="delete.lab" style="display: inline;">
                                                             		<input type="hidden" value="${ l.name }" name="name">
                                                             		<button class="btn btn-outline-primary delete" onclick="return realDelete();">삭제</button>
                                                             	</form>
                                                             </td>
                                                             
                                                         </tr>
-                                                        <tr style="display:none">
+                                                        <tr style="display:none; background-color: rgb(241, 240, 240);">
 	                                                        <form action="edit.lab" method="post">
 	                                                        	<td>
 	                                                        		<input class="form-control" style="width:200px;" value="${ l.name }" name="name">

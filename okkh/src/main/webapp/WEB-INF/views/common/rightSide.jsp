@@ -7,6 +7,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+<style>
+	#friendList{
+		font-weight:bolder;
+		font-size: 20px;
+		color: black;
+	}
+</style>
 </head>
 <body>
 
@@ -32,40 +39,57 @@
                         <div class="tab-content" id="myTabContent">
                         	<!-- 친구 목록 시작 -->
                             <div class="tab-pane fade show active" id="Friends" role="tabpanel" aria-labelledby="Friends-tab">
-                                <br>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/4.jpg">
-                                        <span class="avatar-status bg-success"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Hank Schrader</h5>
-                                        <h6 class="text-muted mb-0">@johnducky</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/5.jpg">
-                                        <span class="avatar-status bg-danger"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">Dean Winchester</h5>
-                                        <h6 class="text-muted mb-0">@imdean</h6>
-                                    </div>
-                                </div>
-                                <div class="recent-message d-flex px-4 py-3">
-                                    <div class="avatar avatar-lg">
-                                        <img src="resources/compiled/jpg/1.jpg">
-                                        <span class="avatar-status bg-success"></span>
-                                    </div>
-                                    <div class="name ms-4">
-                                        <h5 class="mb-1">John Dodol</h5>
-                                        <h6 class="text-muted mb-0">@dodoljohn</h6>
-                                    </div>
+                                <div style="margin:auto;">
+                                    		<i class="fa-solid fa-lock fa-beat fa-2xl" style="margin:120px;"></i>
                                 </div>
                             </div>
-                            <!-- /친구 목록 끝 -->
-                            <!-- 팀원 목록 시작 -->
+                            
+                            <script>
+                            $(function(){
+                            	if(${not empty loginMember}){
+									myBfList();
+                            	}
+							})
+							
+							function myBfList(){
+                            	$.ajax({
+                            		url:"mainListFriend.fri",
+    				  				data:{
+                            			memNo : ${loginMember.memNo}
+                            		},
+                            		success:function(list){
+                            			console.log(list)
+                            			let value = "";
+                            			if (list.length == 0){
+                            				value = "<br><br><div style='margin:30px'><a id='friendList' href='friendList.f'>친구를 사귀어보세요!!</a></div>"
+                            				$("#Friends").html(value);
+                            				
+                            			} else {
+                            				for(let i in list){
+                                   				value += "<br>"
+                                   					   + "<div class='recent-message d-flex px-4 py-3'>"
+                                   					   + "<div class='avatar avatar-lg'>"
+                                   					   + "<img src='" + list[i].profile + "'>"
+                                   					   + "</div>"
+                                   					   + "<div class='name ms-4'>"
+                                   					   + "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
+                                   					   + "<h6 class='text-muted mb-0'>@베스트프렌드!!</h6>"
+                                   					   + "</div></div>";
+                                   			}
+                               				
+                               				$("#Friends").html(value);
+                            			}
+                            			
+                           			},
+                            		error:function(){
+                            			console.log("메인 친구 ajax 실패요")
+                            			
+                            		}
+                            	})
+                            }
+                            </script>
+                            
+                            
                             <div class="tab-pane fade" id="TeamMates" role="tabpanel" aria-labelledby="TeamMates-tab">
                                 <!-- 팀원 보여주는 자리 -->
                                 <!--  

@@ -565,7 +565,7 @@ public class IssueController {
 		String token = (String)session.getAttribute("token");
 
 		String repository = (String)session.getAttribute("repository");
-
+		
 		Map<String, Object> requestBody = new HashMap<>();
 		
 		requestBody.put("state", state);
@@ -605,6 +605,21 @@ public class IssueController {
 
 		return "redirect:/detail.iss?ino=" + ino;
 
+	}
+	
+	@RequestMapping("deleteComments.iss")
+	public String deleteComments(HttpSession session, Integer id, Integer ino) {
+		
+		String repository = (String)session.getAttribute("repository");
+		
+		String token = (String)session.getAttribute("token");
+		
+		int response = iService.deleteComments(repository, token, id);
+		
+		session.setAttribute("alertMsg", "성공적으로 삭제했습니다.");
+		
+		
+		return "redirect:/detail.iss?ino=" + ino;
 	}
 	
 
