@@ -20,7 +20,7 @@
   		<result column="bookmark_pro_no" property="bookmarkProNo"/>
   		<result column="bookmark_mem_no" property="bookmarkMemNo"/>
   		<result column="team" property="team"/>
-  		
+  		<result column="team_status" property="teamStatus"/>
   		
   	</resultMap>
   	
@@ -134,6 +134,7 @@
 	     , p.create_date
 	     , mem_no
 	     , team
+	     , team_status
 	  from project p
 	  join member m on (pro_writer = m.mem_no)
 	 where pro_no = #{proNo}
@@ -361,6 +362,7 @@
 		      , status
 		      , git_nick
 		      , team
+		      , team_status
 		  from member
 		  where mem_No = #{memNo}
 	</select>

@@ -152,7 +152,7 @@
 	})
 	
 	function connectWs(){
-		var socket = new SockJS("http://localhost:7777/okkh/chat");
+		var socket = new SockJS("http://192.168.20.57:7777/okkh/chat");
 		ws = socket;
 	}
 	

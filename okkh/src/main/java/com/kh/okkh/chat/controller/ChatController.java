@@ -30,9 +30,8 @@ public class ChatController {
 		
 		ArrayList<ChatRoom> crList = cService.selcetChatRoomList(m);
 		ArrayList<Friend> frList = cService.searchMemberList(m);
-		ChatMember cm = cService.selectChatMember(memNo);
 		
-		mv.addObject("crList", crList).addObject("frList", frList).addObject("cm", cm).setViewName("chat/rooms");
+		mv.addObject("crList", crList).addObject("frList", frList).setViewName("chat/rooms");
 		
 		return mv;
 	}

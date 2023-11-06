@@ -116,6 +116,7 @@ public class ProjectController {
 			session.setAttribute("projectSession", pro);  
 			// 이건 projectRightSide.jsp에서 필요해서 세션에 담음(프로젝트 참여 희망자 목록 페이지)
 			
+			System.out.println(pro);
 			
 			Bookmark book = pservice.selectProBookmark(b);
 			
@@ -466,10 +467,6 @@ public class ProjectController {
 			// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!! -> 필요없어졌음...또르륵....ㅠㅠ
 			session.setAttribute("loginMember", updateMember);
 			
-			
-			
-			
-		
 			return 1;
 			
 		}else {
@@ -499,11 +496,9 @@ public class ProjectController {
     	 
     	 if(result>0) {
     	
-    		 
     		 Member updateMember = pservice.selectMember(memNo);
-    		 
-    		// 세션 갈아끼우기!! 아주 중요!! 이거 안하면 말짱 도루묵!! -> 도루묵..ㅠㅠ
-    		 //session.setAttribute("loginMember", updateMember);
+    		
+    		 session.setAttribute("loginMember", updateMember);
     		 
     		 return 1; 
  			

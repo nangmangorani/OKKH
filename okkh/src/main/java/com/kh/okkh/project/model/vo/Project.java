@@ -33,4 +33,5 @@ public class Project {
 	private int bookmarkProNo;  
 	private int bookmarkMemNo;
 	private int team;
+	private String teamStatus;
 }

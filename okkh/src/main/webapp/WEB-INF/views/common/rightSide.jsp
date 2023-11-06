@@ -69,7 +69,7 @@
                                    				value += "<br>"
                                    					   + "<div class='recent-message d-flex px-4 py-3'>"
                                    					   + "<div class='avatar avatar-lg'>"
-                                   					   + "<img src='" + list[i].avatarUrl + "'>"
+                                   					   + "<img src='" + list[i].profile + "'>"
                                    					   + "</div>"
                                    					   + "<div class='name ms-4'>"
                                    					   + "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
@@ -127,6 +127,8 @@
                             				else {
                             					
 	                            				for(let i in list) {
+	                            					
+	                            					console.log(list[i].profile)
 	                        						
 	                        						value += "<div class='recent-message d-flex px-4 py-3'>"
 	                            								+ "<div class='avatar avatar-lg'>"

@@ -163,9 +163,7 @@
 																	${pro.proDeadLine }
 
 
-																	<script>
-																		console.log(${ loginMember.team } + "팀@@@")
-																	</script>
+																	
 
 
 																	<c:choose>
@@ -212,7 +210,7 @@
 																		</c:when>
 
 																		<c:when
-																			test="${ loginMember.team eq 0 and loginMember.memNo ne pro.memNo}">
+																			test="${ loginMember.team == 0 and loginMember.teamStatus eq 'N' and  loginMember.memNo ne pro.memNo}">
 																			<!-- 신청한 프로젝트가 아직 없는데 로그인 회원이 게시글 작성자가 아닌 경우 -->
 
 																			<button
@@ -223,7 +221,7 @@
 
 
 																		<c:when
-																			test="${ loginMember.team ne 0 and  loginMember.team ne pro.proNo  and loginMember.memNo ne pro.memNo}">
+																			test="${ loginMember.team != 0 and  loginMember.team != pro.proNo  and loginMember.memNo ne pro.memNo}">
 																			<!-- 신청한 프로젝트가 있고, 로그인 멤버의 팀과 게시글 번호가 같고(즉, 회원이 신청한 프로젝트 게시물인 경우), 로그인 회원이 게시글 작성자가 아닌 경우 -->
 
 																			<button
@@ -236,7 +234,7 @@
 
 
 																		<c:when
-																			test="${ loginMember.team ne 0 and loginMember.team == pro.proNo  and loginMember.memNo ne pro.memNo}">
+																			test="${ loginMember.team eq pro.proNo and loginMember.team != 0 and pro.team ne 0 and loginMember.memNo ne pro.memNo}">
 																			<!--  프로젝트 게시글 작성자가 아니고, 프로젝트에 참여한 회원인 경우 -->
 
 
