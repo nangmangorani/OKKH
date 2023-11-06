@@ -196,7 +196,7 @@
 									                                                <!-- <div class="stats-icon blue">
 									                                                    <i class="iconly-boldShow"></i>
 									                                                </div> -->
-									                                                <img src="resources/icons/ing.png" alt="" width="50" height="50">
+									                                                <img src="resources/icons/chase.png" alt="" width="50" height="50">
 									                                            </div>
 									                                            <div class="col-md-8">
 									                                                <h6 class="text-muted font-semibold">${ pIng.myproType }</h6>
@@ -206,7 +206,7 @@
 									                                    </a>
 									                                    <form action="updateIngToFin.re" method="post" style="float: right;">
 								                                    		<input type="hidden" name="myproNo" value="${ pIng.myproNo }">
-							                                                <button class="btn btn-sm btn-outline-success">완료</button>
+							                                                <button onclick="return check();" class="btn btn-sm btn-outline-success">완료</button>
 									                                    </form>
 							                                    	</div>
 							                                	</div>
@@ -228,6 +228,18 @@
 					                    <!-- /진행중인 프로젝트 리스트 끝 -->
 		                            </div>
 		                            
+		                            <script>
+		                            
+		                            	function check() {
+											return confirm("완료 처리 하시겠습니까?");
+										}
+		                            	
+		                            	function checkPublish() {
+											return confirm("게시 하시겠습니까?");
+										}
+		                            
+		                            </script>
+		                            
 		                            <div class="tab-pane fade" id="fin" role="tabpanel" aria-labelledby="fin-tab">
 		                                <br><br>
 		                                <!-- 완료된 프로젝트 리스트 시작 -->
@@ -247,7 +259,7 @@
 									                                                <!-- <div class="stats-icon blue">
 									                                                    <i class="iconly-boldShow"></i>
 									                                                </div> -->
-									                                                <img src="resources/icons/fin.png" alt="" width="50" height="50">
+									                                                <img src="resources/icons/finish.png" alt="" width="50" height="50">
 									                                            </div>
 									                                            <div class="col-md-8">
 									                                                <h6 class="text-muted font-semibold">${ pEnd.myproType }</h6>
@@ -257,7 +269,7 @@
 							                                    		</a>
 							                                    		<form action="insertFinPro.re" method="post" style="float: right;">
 							                                    			<input type="hidden" name="myproNo" value="${ pEnd.myproNo }">
-							                                    			<button class="btn btn-sm btn-outline-success">게시</button>
+							                                    			<button onclick="return checkPublish();" class="btn btn-sm btn-outline-success">게시</button>
 							                                    		</form>
 							                                    	</div>
 							                                	</div>

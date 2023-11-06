@@ -95,20 +95,30 @@
                             				
                             				value = "<br>";
                             				
-                            				for(let i in list) {
-                        						
-                        						value += "<div class='recent-message d-flex px-4 py-3'>"
-                            								+ "<div class='avatar avatar-lg'>"
-	                            								+ "<img src='" + list[i].profile + "'>"
-	                            								+ "<span class='avatar-status bg-success'></span>"
-                        									+ "</div>"
-                            								+ "<div class='name ms-4'>"
-	                            								+ "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
-	                            								+ "<h6 class='text-muted mb-0'>" + list[i].proWriter + "</h6>"
-                            								+ "</div>"
-                        								+ "</div>"
-                        						
-                        					}
+                            				if(list.length == 0) {
+                            					
+                            					value += "팀원이 없습니다.";
+                            					
+                            				}
+                            				else {
+                            					
+	                            				for(let i in list) {
+	                        						
+	                        						value += "<div class='recent-message d-flex px-4 py-3'>"
+	                            								+ "<div class='avatar avatar-lg'>"
+		                            								+ "<img src='" + list[i].profile + "'>"
+		                            								+ "<span class='avatar-status bg-success'></span>"
+	                        									+ "</div>"
+	                            								+ "<div class='name ms-4'>"
+		                            								+ "<h5 class='mb-1'>" + list[i].gitNick + "</h5>"
+		                            								+ "<h6 class='text-muted mb-0'>Member</h6>"
+	                            								+ "</div>"
+	                        								+ "</div>"
+	                        						
+	                        					}
+                            				
+                            				}
+                            				
                             				
                             				$("#TeamMates").html(value);
                             				

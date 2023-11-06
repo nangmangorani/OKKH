@@ -52,11 +52,12 @@
 				<a href="list.iss?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
 				<a href="list.mile?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+				<a href="commitList.re?owner=${ mypro.myproTitle }&repo=${ repoName }&vis=${ visibility }&avatar=${ avatar_url }" class="btn btn-outline-warning"><i class="fa-solid fa-code-commit"></i> Commit List</a>
 			</div>
 			<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 			
             <!-- 내용 시작 -->
-            <div class="page-content"> 
+            <div class="page-content">
                 <section class="row">
                     <!-- 왼쪽 내용 시작 -->
                     <!-- 소스 리스트 시작 -->
@@ -71,8 +72,19 @@
                                         </h4>
                                         <!-- /프로젝트명 끝 -->
                                         <!-- Merge 버튼 시작 -->
-	                                    <a href="merge.re" class="btn btn-primary" style="float: right;">Merge</a>
+	                                    <a href="merge.re" onclick="return mergeCheck();" class="btn btn-primary" style="float: right;">Merge</a>
 	                                    <!-- /Merge 버튼 끝 -->
+	                                    
+	                                    <script>
+	                                    
+	                                    	function mergeCheck() {
+	                                    		
+	                                    		return confirm("머지 하시겠습니까?");
+	                                    		
+	                                    	}
+	                                    
+	                                    </script>
+	                                    
 	                                    <!-- branch list 시작 -->
                                         <fieldset class="form-group" style="float: right;">
 	                                        <select class="form-select" id="basicSelect">

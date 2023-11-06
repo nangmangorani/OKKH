@@ -51,6 +51,7 @@
 		                  where mem_no = #{memNo}
 		                 )
 		   and team_status = 'Y'
+		   and mem_no != #{memNo}
 	</select>
 	
 	<insert id="insertMyProject">
@@ -85,6 +86,7 @@
 		select 
 			   mypro_no
 		     , mypro_title
+		     , mypro_member
 		  from my_project
 		 where mypro_no = #{myproNo}
 	</select>

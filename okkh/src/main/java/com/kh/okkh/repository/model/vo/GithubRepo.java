@@ -16,7 +16,7 @@ public class GithubRepo {
 //	private String id;
 	private String name;
 	private String path;
-//	private String description;
+	private String description;
 //	private String visibility;
 //	private Object owner;
 	/*
