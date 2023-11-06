@@ -60,7 +60,7 @@
 		                        </ul>
 		                        <!-- /프로젝트명 끝 -->
 		                        <!-- 레파지 추가 버튼 시작 -->
-		                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
+		                        <button id="newRepo" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inlineForm" style="float: right;">
 				                    New Repository
 				                </button>
 				                <!-- /레파지 추가 버튼 끝 -->
@@ -80,13 +80,17 @@
 				                                    <i data-feather="x"></i>
 				                                </button>
 				                            </div>
-				                            <form action="insertRepo.re">
+				                            <form action="insertRepo.re" id="enrollForm">
 				                            	<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
 				                                <div class="modal-body">
 				                                    <label>Repository Name*:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="레파지토리 이름을 입력해주세요."
 				                                            class="form-control" name="repoTitle">
+				                                        <br>
+				                                    	<div id="checkResult" style="font-size:0.8em; display: none;">
+                    										<!-- 레포 이름 유효성 검사 결과가 출력될 자리 -->
+                    									</div>
 				                                    </div>
 				                                    <label>Description:</label>
 				                                    <div class="form-group">
@@ -136,6 +140,58 @@
 				                    </div>
 				                </div>
 				                <!--/레파지 추가 form Modal 끝 -->
+				                
+				                <!-- 레포명 유효성 검사 시작 -->
+				                <script>
+							    	$(function() {
+							    		// 레포명을 입력하는 input 요소객체 변수에 담아두기
+							    		const $titleInput = $("#enrollForm input[name=repoTitle]");
+							    		
+							    		$titleInput.keyup(function() {
+							    			//console.log($titleInput.val());
+							    			
+							    			// 최소 5글자 이상으로 입력이 되어있을 때만 ajax를 요청해서 중복체크 하도록
+							    			if($titleInput.val().length >= 1) {
+								    			$.ajax({
+								    				url:"repoTitleCheck.re",
+								    				data:{
+								    					checkTitle:$titleInput.val(),
+								    					myproTitle:"${ mypro.myproTitle }"
+								    				},
+								    				success:function(result) {
+								    					
+								    					console.log(result);
+								    					
+								    					// => 빨간색 메세지 (사용불가능) 출력
+							    						$("#checkResult").show();
+							    						$("#checkResult").css("color", "#dc3545").text("같은 이름의 레파지토리가 존재합니다. 다른 이름을 사용해 주세요.");    						
+							    						
+							    						// => 버튼 비활성화
+							    						$("#enrollForm :submit").attr("disabled", true);
+								    					
+								    				},
+								    				error:function() {
+								    					
+								    					// => 초록색 메세지 (사용가능) 출력
+							    						$("#checkResult").show();
+							    						$("#checkResult").css("color", "#198754").text("레파지토리명으로 사용 가능합니다!!");	  
+							    						
+							    						// => 버튼 활성화
+							    						$("#enrollForm :submit").removeAttr("disabled");
+								    					
+								    				}
+								    			});
+							    			}
+							    			else { // 5글자 미만일 경우 => 메시지 숨기기, 버튼 비활성화
+							    				$("#checkResult").hide();
+							    			
+							    				$("#enrollForm :submit").attr("disabled", true);
+							    			}
+							    		});
+							    	})
+							    </script>
+							    <!-- /프로젝트명 유효성 검사 끝 -->
+				                
 				                <c:choose>
 				                	<c:when test="${ not empty repoList }">
 				                		<!-- 레파지토리 리스트 시작 -->
@@ -170,7 +226,8 @@
 										                                	<input type="hidden" name="repoTitle" value="${ r.name }">
 								                                			<button class="btn btn-sm btn-outline-danger" onclick="return deleteBtn();">삭제</button>
 						                                    			</form>
-							                                    		<button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#updateRepoForm" style="float: right;">수정</button>
+							                                    		<input onclick="getOriginRepo('${ r.name }', '${ r.description }', '${ r.visibility }');" type="button" value="수정" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#updateRepoForm" style="float: right; margin-left: 8px;">
+							                                    		<button id="inviteMember" type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#inviteMemberForm" style="float: right;">초대</button>
 								                                    </div>
 								                                </div>
 								                            </div>
@@ -190,13 +247,73 @@
 				                
 				                <script>
 	
+									function deleteBtn() {
+										
+										return confirm("정말로 삭제하시겠습니까?");
+										
+									};
+									
+									function getOriginRepo(name, des, vis) {
+										
+										$("#repoTitle").val(name);
+										
+										$("input[name=updateTitle]").val(name);
+										$("input[name=repoContent]").val(des)
+										$("input[value=" + vis + "]").attr("checked", true);
+										
+									};
+									
 									$(() => {
 										
-										function deleteBtn() {
-											
-											return confirm("정말로 삭제하시겠습니까?");
-											
-										}
+										// 초대 버튼을 눌렀을 때 실행되는 function
+								   		$("#inviteMember").click(() => {
+								   			
+								   			$.ajax({
+								   				url:"selectTeamMateList.re",
+								   				success:(teamMate) => {
+								   					
+								   					console.log(teamMate);
+								   					
+								   					let value = "";
+								   					
+								   					let teamArr = [];
+								   					
+								   					if(teamMate.length == 1) {
+								   						
+								   						value = "팀원이 없습니다.";
+								   						
+								   					}
+								   					else {
+								   						
+									   					for(let i in teamMate) {
+									   						
+									   						value +=  "<a href='#' class='btn btn-outline-primary'><img src='" + teamMate[i].profile + "' width='25' height='25' style='border-radius: 20px;'>"
+								   								+ teamMate[i].gitNick
+								   								+ "</a>";
+								   								
+								   							teamArr[i] = teamMate[i].gitNick;
+								   								
+									   					}
+									   					
+								   					$("#teamMate").html(value);
+								   					
+								   					console.log(teamArr);
+								   					
+								   					let members = teamArr.join();
+								   					
+								   					console.log(members);
+								   					
+								   					$("input[name=myproMember]").val("${ loginMember.gitNick }" + "," + members);
+								   					
+								   					}
+								   					
+								   				},
+								   				error:() => {
+								   					console.log("new Project ajax failed");
+								   				}
+								   			})
+								   			
+								   		})
 										
 									})
 							
@@ -217,17 +334,18 @@
 				                                    <i data-feather="x"></i>
 				                                </button>
 				                            </div>
-				                            <form action="insertRepo.re">
+				                            <form action="updateRepo.re">
 				                            	<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
+				                            	<input type="hidden" id="repoTitle" name="repoTitle" value="">
 				                                <div class="modal-body">
 				                                    <label>Repository Name*:</label>
 				                                    <div class="form-group">
 				                                        <input type="text" placeholder="수정할 레파지토리명을 입력해주세요."
-				                                            class="form-control" name="repoTitle">
+				                                            class="form-control" name="updateTitle">
 				                                    </div>
 				                                    <label>Description:</label>
 				                                    <div class="form-group">
-				                                        <input type="text" placeholder="레파지토리에 대한 설명을 입력해주세요."
+				                                        <input type="text" placeholder="수정할 설명을 입력해주세요."
 				                                            class="form-control" name="repoContent">
 				                                    </div>
 				                                    <label>Public or Private:</label>
@@ -263,6 +381,48 @@
 				                    </div>
 				                </div>
 				                <!--/레파지 수정 form Modal 끝 -->
+				                
+				                <!--친구 초대 form Modal 시작 -->
+				                <div class="modal fade text-left" id="inviteMemberForm" tabindex="-1"
+				                    role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+				                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+				                        role="document">
+				                        <div class="modal-content">
+				                            <div class="modal-header bg-primary">
+				                                <h5 class="modal-title white" id="myModalLabel160">
+				                                    Invite Member
+				                                </h5>
+				                                <button type="button" class="close"
+				                                    data-bs-dismiss="modal" aria-label="Close">
+				                                    <i data-feather="x"></i>
+				                                </button>
+				                            </div>
+				                            <form action="inviteMember.re">
+				                            	<input type="hidden" name="myproNo" value="${ mypro.myproNo }">
+				                                <div class="modal-body">
+				                                    <label class="forTeam">Project Member:</label>
+				                                    <div id="teamMate" class="form-group forTeam">
+								                    	<!-- 팀원 목록이 노출될 자리 -->
+				                                    </div>
+				                                </div>
+				                                <div class="modal-footer">
+				                                    <button type="button" class="btn btn-light-secondary"
+				                                        data-bs-dismiss="modal">
+				                                        <i class="bx bx-x d-block d-sm-none"></i>
+				                                        <span class="d-none d-sm-block">Cancel</span>
+				                                    </button>
+				                                    <button type="submit" class="btn btn-primary ml-1"
+				                                        data-bs-dismiss="modal">
+				                                        <i class="bx bx-check d-block d-sm-none"></i>
+				                                        <span class="d-none d-sm-block">Invite</span>
+				                                    </button>
+				                                </div>
+				                            </form>
+				                        </div>
+				                    </div>
+				                </div>
+				                <!--/친구 초대 form Modal 끝 -->
+				                
 		                    </div>
 		                </div>
 		            </div>

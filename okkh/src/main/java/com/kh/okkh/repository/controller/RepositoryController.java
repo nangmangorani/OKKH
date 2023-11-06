@@ -135,6 +135,36 @@ public class RepositoryController {
 		int result = rService.insertMyProject(p);
 		
 		if(result > 0) {
+			/*
+			token = (String)session.getAttribute("token");
+			
+			String teamMate = p.getMyproMember();
+			
+			String[] teamArr = teamMate.split(",");
+			
+			g = new GitHub();
+			
+			g.setMethod("POST");
+			g.setToken(token);
+			g.setUri("/orgs/" + p.getMyproTitle() + "/invitations");
+			
+			System.out.println("/orgs/" + p.getMyproTitle() + "/invitations");
+			
+			ArrayList<Object> list = new ArrayList<Object>();
+
+			for(int i = 0; i <teamArr.length; i++) {
+				
+				Map<String, Object> params = new LinkedHashMap<String, Object>();
+				
+				params.put("invitee_id", "nangmangorani");
+				params.put("role", "admin");
+				
+				g.setParams(params);
+				
+				list.add(getGitHubValue(g));
+				
+			}
+			*/
 			return "redirect:myProject.re";
 		}
 		else {
@@ -171,7 +201,7 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("repoList.re")
-	public String selectRepoList(int pno, HttpSession session, Model model) throws IOException {
+	public String selectRepoList(int pno, HttpSession session, Model model) {
 		
 		
 		// 레파지토리가 담겨있는 프로젝트의 이름 조회
@@ -217,7 +247,7 @@ public class RepositoryController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("insertRepo.re")
-	public String insertRepo(int myproNo, Repo r, HttpSession session) throws IOException {
+	public String insertRepo(int myproNo, Repo r, HttpSession session) {
 		
 		// 조직명(프로젝트명) 가져오기
 		mypro = rService.selectMyProject(myproNo);
@@ -242,7 +272,58 @@ public class RepositoryController {
 		g.setParams(params);
 		
 		// 템플릿에서 얻은 결과값 받음
-		getGitHubValue(g);
+		String response = getGitHubValue(g);
+		
+		if(response != null) {
+			return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+		}
+		else {
+			return "common/errorPage";
+		}
+		
+	}
+	
+	/**
+	 * 팀원 초대용 컨트롤러
+	 * 
+	 * @param myproNo
+	 * @param r
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("inviteMember.re")
+	public String inviteMember(int myproNo, Repo r, HttpSession session) {
+		
+		// 조직명(프로젝트명) 가져오기
+		mypro = rService.selectMyProject(myproNo);
+		
+		System.out.println(mypro);
+		// 토큰 뽑아오기
+		token = (String)session.getAttribute("token");
+		
+		// 팀원들을 조회해 "," 기준으로 배열로 정렬한다
+		String teamMate = mypro.getMyproMember();
+		
+		String[] teamArr = teamMate.split(",");
+		
+		g = new GitHub();
+		
+		// 필요한 요소들 세팅
+		g.setMethod("PUT");
+		g.setToken(token);
+		
+		// 넘어올 값들을 담아줄 list
+		ArrayList<Object> list = new ArrayList<Object>();
+		
+		for(int i = 0; i <teamArr.length; i++) {
+			
+			g.setUri("/repos/" + mypro.getMyproTitle() + "/" + r.getRepoTitle() + "/collaborators/" + teamArr[i]);
+			
+			list.add(getGitHubValue(g));
+			
+		}
+		
+		System.out.println(list);
 		
 		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
 		
@@ -257,12 +338,40 @@ public class RepositoryController {
 	 * @return
 	 */
 	@RequestMapping("updateRepo.re")
-	public String updateRepo(MyProject mypro, String repoTitle, HttpSession session) {
+	public String updateRepo(int myproNo, Repo r, HttpSession session) {
 		
+		// 조직명(프로젝트명) 가져오기
+		mypro = rService.selectMyProject(myproNo);
 		// 토큰 뽑아오기
 		token = (String)session.getAttribute("token");
 		
-		return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+		g = new GitHub();
+		
+		// 필요한 요소들 세팅
+		g.setMethod("PATCH");
+		g.setToken(token);
+		g.setUri("/repos/" + mypro.getMyproTitle() + "/" + r.getRepoTitle());
+		
+		// 매개변수의 key, value를 담아줄 Map 세팅
+		Map<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("name", r.getUpdateTitle());
+		params.put("description", r.getRepoContent());
+		params.put("visibility", r.getRepoStatus());
+		
+//				System.out.println(params);
+		
+		g.setParams(params);
+		
+		// 템플릿에서 얻은 결과값 받음
+		String response = getGitHubValue(g);
+		
+		if(response != null) {
+			return "redirect:repoList.re?pno=" + mypro.getMyproNo();
+		}
+		else {
+			return "common/errorPage";
+		}
+				
 	}
 	
 	/**
@@ -380,7 +489,7 @@ public class RepositoryController {
 	}
 	
 	/**
-	 * 레포 컨텐츠 모두보기 컨트롤러
+	 * 컨텐츠 상세조회용 컨트롤러
 	 * 
 	 * @return
 	 */
@@ -473,6 +582,27 @@ public class RepositoryController {
 		
 		
 		return "redirect:/";
+		
+	}
+	
+	@RequestMapping("commitList.re")
+	public String selectCommitList(String owner, String repo, String vis, String avatar, HttpSession session, Model model) {
+		
+		g = new GitHub();
+		
+		g.setMethod("GET");
+		g.setToken((String)session.getAttribute("token"));
+		g.setUri("/repos/" + owner + "/" + repo + "/commits");
+		
+		ArrayList<Object> commitList = getGitHubList(g);
+		
+		model.addAttribute("owner", owner);
+		model.addAttribute("repo", repo);
+		model.addAttribute("visibility", vis);
+		model.addAttribute("avatar_url", avatar);
+		model.addAttribute("commitList", commitList);
+		
+		return "repo/commitList";
 		
 	}
 	

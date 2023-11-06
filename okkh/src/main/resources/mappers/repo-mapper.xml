@@ -14,7 +14,7 @@
 	<resultMap type="Member" id="memberResult">
 		<result column="git_nick" property="gitNick"/>
 		<result column="mem_no" property="memNo"/>
-		<result column="proWriter" property="pro_writer"/>
+		<result column="pro_writer" property="proWriter"/>
 	</resultMap>
 	
 	<resultMap type="Repo" id="repoResult">
@@ -51,6 +51,7 @@
 		                  where mem_no = #{memNo}
 		                 )
 		   and team_status = 'Y'
+		   and mem_no != #{memNo}
 	</select>
 	
 	<insert id="insertMyProject">
@@ -85,6 +86,7 @@
 		select 
 			   mypro_no
 		     , mypro_title
+		     , mypro_member
 		  from my_project
 		 where mypro_no = #{myproNo}
 	</select>

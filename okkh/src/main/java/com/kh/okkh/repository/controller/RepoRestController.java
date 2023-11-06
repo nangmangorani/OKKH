@@ -56,7 +56,7 @@ public class RepoRestController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "titleCheck.re", produces = "application/json; charset=UTF-8")
-	public String titleCheck(String checkTitle, HttpSession session) throws IOException {
+	public String titleCheck(String checkTitle, HttpSession session) {
 		
 		// api에 접근할 때 필요한 토큰
 		token = (String)session.getAttribute("token");
@@ -98,13 +98,57 @@ public class RepoRestController {
 	}
 	
 	/**
+	 * 레포명 유효성 검사용 컨트롤러
+	 * 
+	 * @param checkTitle : 입력한 레포명
+	 * @param myproTitle : 프로젝트명(조직명)
+	 * @param session
+	 * @return result : 결과값
+	 */
+	@RequestMapping(value = "repoTitleCheck.re", produces = "application/json; charset=UTF-8")
+	public String repoTitleCheck(String checkTitle, String myproTitle, HttpSession session) {
+		
+		// api에 접근할 때 필요한 토큰
+		token = (String)session.getAttribute("token");
+		
+		// 기본 url 뒤에 붙을 uri (레포 정보 조회 API)
+		String uri = "/repos/" + myproTitle + "/" + checkTitle;
+		
+		// GET => checkTitle에 들어있는 이름이 있는지 조회를 해야하기 때문
+		String method = "GET";
+		
+		g = new GitHub();
+		
+		g.setToken(token);
+		g.setUri(uri);
+		g.setMethod(method);
+		
+		String result = "";
+		
+		try {
+			// 템플릿에 값들을 보내 결과값을 받는다
+			result = getGitHubValue(g);
+			
+		} catch (Exception e) {
+			// 오류 발생시 콘솔에 띄워줄 메세지
+			System.out.println("사용 가능한 레포명!!");
+		}
+		
+//				System.out.println(result);
+		
+		// 결과값 반환
+		return result;
+		
+	}
+	
+	/**
 	 * 코드 조회용 Controller (ajax 호출 방식)
 	 * 
 	 * @return response : 넘어온 코드 내용
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "selectCode.re", produces = "text/html; charset=UTF-8")
-	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) throws IOException {
+	public String selectRepoContents(int mpno, String rnm, String path, HttpSession session, Model model) {
 		
 		mypro = rService.selectMyProject(mpno);
 		
@@ -122,5 +166,5 @@ public class RepoRestController {
 		return response;
 		
 	}
-
+	
 }

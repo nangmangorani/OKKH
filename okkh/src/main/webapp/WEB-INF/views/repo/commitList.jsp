@@ -40,7 +40,7 @@
             <div class="page-heading" style="margin-left: 20px; margin-top: 15px;">
 
                 <!-- 페이지 제목 시작 -->
-                <h3 style="float: left; margin-right: 10px;">${ repoName }</h3>
+                <h3 style="float: left; margin-right: 10px;">${ repo }</h3>
                 <span class="badge bg-light-secondary">${ visibility }</span>
                 <!-- /페이지 제목 끝 -->
 
@@ -48,15 +48,18 @@
             <!-- /페이지 제목 및 추가 버튼 끝 -->
             
 			<!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
+			<!-- 
 			<div class="buttons">
-				<a href="list.iss?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
-				<a href="list.mile?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-				<a href="myPullRequest.pu?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+				<a href="list.iss?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
+				<a href="list.mile?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
+				<a href="myPullRequest.pu" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+				<a href="commitList.re?owner=${ mypro.myproTitle }&repo=${ repoName }" class="btn btn-outline-warning"><i class="fa-solid fa-code-commit"></i> Commit List</a>
 			</div>
+			 -->
 			<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 			
             <!-- 내용 시작 -->
-            <div class="page-content"> 
+            <div class="page-content">
                 <section class="row">
                     <!-- 왼쪽 내용 시작 -->
                     <!-- 소스 리스트 시작 -->
@@ -65,9 +68,27 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">
-                                        	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ mypro.myproTitle }
+                                    	<!-- 프로젝트명 시작 -->
+                                        <h4 class="card-title" style="float: left;">
+                                        	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ owner }
                                         </h4>
+                                        <!-- /프로젝트명 끝 -->
+                                        <!-- Merge 버튼 시작 -->
+                                        <!-- 
+	                                    <a href="merge.re" class="btn btn-primary" style="float: right;">Merge</a>
+	                                     -->
+	                                    <!-- /Merge 버튼 끝 -->
+	                                    <!-- branch list 시작 -->
+	                                    <!-- 
+                                        <fieldset class="form-group" style="float: right;">
+	                                        <select class="form-select" id="basicSelect">
+	                                        	<c:forEach var="b" items="${ bList }">
+		                                            <option>${ b.name }</option>
+	                                        	</c:forEach>
+	                                        </select>
+	                                    </fieldset>
+	                                     -->
+	                                    <!-- /branch list 끝 -->
                                     </div>
                                     <div class="card-body">
                                         <!-- table head dark -->
@@ -75,27 +96,28 @@
                                             <table class="table mb-0" id="repo">
                                                 <thead class="thead-dark">
                                                     <tr>
-                                                        <th>NAME</th>
-                                                        <th>RECENT COMMIT</th>
+                                                        <th>NO.</th>
+                                                        <th>MESSAGE</th>
                                                         <th>AUTHOR</th>
                                                         <th>DATE</th>
+                                                        <th>SHA</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                <c:forEach var="i" begin="0" end="${ fn:length(commitList) - 1 }">
 	                                                <tr>
+	                                                	<td>${ fn:length(commitList) - i }</td>
+						                                <td class='text-bold-500'>${ commitList[i].commit.message }</td>
 					                                    <td class='text-bold-500'>
-					                                    	<i class='fa-regular fa-file fa-shake'></i>
-						                                    <span>${ content.name }</span>
-						                                </td>
-						                                <td class='text-bold-500'>${ recentCommit.commit.message }</td>
-						                                <td class='text-bold-500'>
-						                                	<img src="${ recentCommit.author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
-						                                	${ recentCommit.author.login }
-						                                </td>
-						                                <td class='text-bold-500'>${ fn:replace(fn:replace(recentCommit.commit.author.date, "T", " "), "Z", "") }</td>
+					                                    	<img src="${ commitList[i].author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
+					                                    	${ commitList[i].author.login }
+					                                    </td>
+						                                <td class='text-bold-500'>${ fn:substring(commitList[i].commit.author.date, 0, fn:indexOf(commitList[i].commit.author.date, "T")) }</td>
+						                                <td class='text-bold-500'>${ commitList[i].sha }</td>
 					                                </tr>
 					                                <tr>
 					                                </tr>
+                                                </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -106,58 +128,6 @@
                     </section>
                     <!-- /소스 리스트 끝 -->
                     
-                    <!-- 소스코드 호출 js 시작 -->
-                    <script>
-                    
-                    	$("#repo>tbody>tr").click(() => {
-                    		
-                    		$.ajax({
-                				url:"selectCode.re",
-                				data:{
-                					mpno:${ mypro.myproNo },
-                					rnm:"${ repoName }",
-                					path:"${ content.path }"
-                				},
-                				success:(response) => {
-                					
-                					console.log(response);
-                					
-                					$("#code").text(response);
-                					
-                					$("#source").toggle();
-                					
-                				},
-                				error:() => {
-                					console.log("ㅠㅠ");
-                				}
-                			})
-                    		
-                    	})
-                    </script>
-                    <!-- /소스코드 호출 js 끝 -->
-                    
-                    <!-- 소스코드 호출 부분 시작 -->
-				    <section class="section" id="source">
-				        <div class="row">
-				            <div class="col">
-				                <div class="card">
-				                    <div class="card-header">
-				                        ${ content.name }
-				                    </div>
-				                    <div class="card-body">
-				                        <div class="form-group with-title mb-3">
-				                        	<br><br>
-				                        	<pre id="code">
-				                        		
-				                        	</pre>
-				                            <label>💻 Your Code</label>
-				                        </div>
-				                    </div>
-				                </div>
-				            </div>
-				        </div>
-				    </section>
-                    <!-- /소스코드 호출 부분 끝 -->
                     <!-- /왼쪽 내용 끝 -->
                 </section>
             </div>

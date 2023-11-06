@@ -17,6 +17,7 @@ public class Repo {
 	
 	private int repoNo;			// 레파지토리 번호
 	private String repoTitle;	// 레파지토리 이름
+	private String updateTitle;	// 수정할 레파지토리 이름
 	private String repoContent;	// 레파지토리 내용
 	private String repoStatus;	// 레파지토리 공개여부
 	private Date createDate;	// 레파지토리 생성일
