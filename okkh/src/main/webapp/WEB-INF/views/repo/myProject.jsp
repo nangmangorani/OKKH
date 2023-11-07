@@ -136,7 +136,7 @@
 							    			//console.log($titleInput.val());
 							    			
 							    			// 최소 5글자 이상으로 입력이 되어있을 때만 ajax를 요청해서 중복체크 하도록
-							    			if($titleInput.val().length >= 5) {
+							    			if($titleInput.val().length >= 1) {
 								    			$.ajax({
 								    				url:"titleCheck.re",
 								    				data:{
@@ -146,12 +146,41 @@
 								    					
 								    					console.log(result);
 								    					
-								    					// => 초록색 메세지 (사용가능) 출력
-							    						$("#checkResult").show();
-							    						$("#checkResult").css("color", "#198754").text("존재하는 조직이네요!! 프로젝트명으로 등록이 가능합니다.");	  
-							    						
-							    						// => 버튼 활성화
-							    						$("#enrollForm :submit").removeAttr("disabled");
+								    					console.log("${ git.gitNick }");
+								    					
+								    					let count = 0;
+								    					
+								    					for(let i in result) {
+								    						
+								    						if(result[i].login == "${ git.gitNick }") {
+								    							
+								    							count++;
+								    							
+								    						}
+								    						
+								    					}
+								    					
+								    					if(count > 0) {
+								    					
+								    						// => 초록색 메세지 (사용가능) 출력
+								    						$("#checkResult").show();
+								    						$("#checkResult").css("color", "#198754").text("해당 조직에 속해있네요!! 프로젝트명으로 등록이 가능합니다.");	  
+								    						
+								    						// => 버튼 활성화
+								    						$("#enrollForm :submit").removeAttr("disabled");
+								    						
+								    					}
+								    					else {
+								    						
+								    						// => 노란색 메세지 (조직 존재 O, 조직 구성원 X) 출력
+								    						$("#checkResult").show();
+								    						$("#checkResult").css("color", "#FFC107").text("해당 조직의 구성원이 아닙니다. 본인이 속한 조직만 등록이 가능합니다.");	    						
+								    						
+								    						// => 버튼 비활성화
+								    						$("#enrollForm :submit").attr("disabled", true);
+								    						
+								    					}
+								    					
 								    					
 								    				},
 								    				error:function() {
@@ -269,7 +298,7 @@
 							                                    		</a>
 							                                    		<form action="insertFinPro.re" method="post" style="float: right;">
 							                                    			<input type="hidden" name="myproNo" value="${ pEnd.myproNo }">
-							                                    			<button onclick="return checkPublish();" class="btn btn-sm btn-outline-success">게시</button>
+							                                    			<button onclick="return checkPublish();" class="btn btn-sm btn-outline-danger"  disabled>게시</button>
 							                                    		</form>
 							                                    	</div>
 							                                	</div>

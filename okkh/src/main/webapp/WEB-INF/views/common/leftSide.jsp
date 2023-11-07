@@ -190,12 +190,21 @@
                         </li>
                         -->
                         <li class="sidebar-item">
-                            <a href="finProject.pr" class='sidebar-link'>
+                            <a href="#" class='sidebar-link' onclick="notYet();">
                                 <i class="fa-solid fa-trophy fa-sm"></i>
                                 <span>Project Output</span>
                             </a>
                         </li>
-                       
+                        
+                       	<script>
+
+                       		function notYet() {
+                       			
+                       			alert("서비스 준비중입니다.");
+                       			
+                       		}
+                       	
+						</script>
                        
                     <c:choose>    
                       <c:when test="${not empty loginMember }"> 

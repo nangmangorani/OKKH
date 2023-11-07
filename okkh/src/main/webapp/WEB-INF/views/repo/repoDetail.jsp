@@ -72,7 +72,12 @@
                                         </h4>
                                         <!-- /프로젝트명 끝 -->
                                         <!-- Merge 버튼 시작 -->
-	                                    <a href="merge.re" onclick="return mergeCheck();" class="btn btn-primary" style="float: right;">Merge</a>
+                                        <form action="merge.re" method="post">
+                                        	<input type="hidden" name="owner" value="${ mypro.myproTitle }">
+                                        	<input type="hidden" name="repo" value="${ repoName }">
+                                        	<input type="hidden" name="branch" value="">
+		                                    <button onclick="return mergeCheck();" class="btn btn-primary" style="float: right;">Merge</button>
+                                        </form>
 	                                    <!-- /Merge 버튼 끝 -->
 	                                    
 	                                    <script>
@@ -82,18 +87,25 @@
 	                                    		return confirm("머지 하시겠습니까?");
 	                                    		
 	                                    	}
+	                                    	
+	                                    	function branch(str) {
+	                                    		
+	                                    		$("input[name=branch]").val(str);
+	                                    		
+	                                    	}
 	                                    
 	                                    </script>
 	                                    
 	                                    <!-- branch list 시작 -->
                                         <fieldset class="form-group" style="float: right;">
-	                                        <select class="form-select" id="basicSelect">
+	                                        <select class="form-select" id="branch" onchange="branch(this.value);">
 	                                        	<c:forEach var="b" items="${ bList }">
-		                                            <option>${ b.name }</option>
+		                                            <option value="${ b.name }">${ b.name }</option>
 	                                        	</c:forEach>
 	                                        </select>
 	                                    </fieldset>
 	                                    <!-- /branch list 끝 -->
+	                                    
                                     </div>
                                     <div class="card-body">
                                         <!-- table head dark -->

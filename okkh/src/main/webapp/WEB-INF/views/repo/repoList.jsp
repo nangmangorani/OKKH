@@ -160,7 +160,7 @@
 								    				},
 								    				success:function(result) {
 								    					
-								    					console.log(result);
+								    					console.log("success : " + result);
 								    					
 								    					// => 빨간색 메세지 (사용불가능) 출력
 							    						$("#checkResult").show();
@@ -171,10 +171,10 @@
 								    					
 								    				},
 								    				error:function() {
-								    					
+								    						
 								    					// => 초록색 메세지 (사용가능) 출력
 							    						$("#checkResult").show();
-							    						$("#checkResult").css("color", "#198754").text("레파지토리명으로 사용 가능합니다!!");	  
+							    						$("#checkResult").css("color", "#198754").text("레파지토리명으로 사용 가능합니다. 잠깐!! 조직 초대 요청은 받으셨나요?!?! 등록 전에 꼭 확인해 주세요."); 
 							    						
 							    						// => 버튼 활성화
 							    						$("#enrollForm :submit").removeAttr("disabled");
