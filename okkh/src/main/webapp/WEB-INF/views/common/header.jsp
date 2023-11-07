@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 
 	 <script type="text/javascript">
-	 var socket = new SockJS('http://localhost:7777/okkh/websocket');
+	 var socket = new SockJS('http://192.168.20.57:7777/okkh/websocket');
 	 //domRect = element.getBoundingClientRect();  // 이게 없다고 해서 추가했는데 왜 안돼...?
 		
 		//소켓

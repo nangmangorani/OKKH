@@ -321,7 +321,6 @@ public class IssueController {
 		}
 
 		String referer = request.getHeader("Referer");
-		System.out.println("레퍼러 " + referer);
 		
 		
 		model.addAttribute("referer", referer);
