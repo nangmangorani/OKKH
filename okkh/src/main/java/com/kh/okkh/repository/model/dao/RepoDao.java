@@ -31,5 +31,9 @@ public class RepoDao {
 	public MyProject selectMyProject(SqlSessionTemplate sqlSession, int myproNo) {
 		return sqlSession.selectOne("repoMapper.selectMyProject", myproNo);
 	}
+	
+	public int updateTeam(SqlSessionTemplate sqlSession, int memNo) {
+		return sqlSession.update("repoMapper.updateTeam", memNo);
+	}
 
 }
