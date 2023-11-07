@@ -153,7 +153,7 @@ public class IssueController {
 	
 	
 	@RequestMapping("enrollForm.iss")
-	public String enrollIssueView(HttpSession session, Model model) {
+	public String enrollIssueView(HttpSession session, Model model, HttpServletRequest request) {
 		
 		String token = (String)session.getAttribute("token");
 		String repository = (String)session.getAttribute("repository");
@@ -167,6 +167,9 @@ public class IssueController {
 		
 		ArrayList<Member> memList = iService.getOrgsMember(orgs, token); 
 		
+		String referer = request.getHeader("Referer");
+		
+		model.addAttribute("referer", referer);
 		model.addAttribute("lList", lList);
 		model.addAttribute("mList", mList);
 		model.addAttribute("memList", memList);
@@ -183,7 +186,7 @@ public class IssueController {
 	public String enrollIssue(HttpSession session, Model model, 
 			@RequestParam String title, @RequestParam(required = false) String body, 
 			@RequestParam String memList, @RequestParam(required = false) String labelSet, 
-			@RequestParam(required = false) String milestone) throws IOException{
+			@RequestParam(required = false) String milestone, String referer) throws IOException{
 		
 		String token = (String)session.getAttribute("token");		
 		String repository = (String)session.getAttribute("repository");
@@ -216,14 +219,15 @@ public class IssueController {
 			session.setAttribute("alertMsg", "이슈등록에 성공하였습니다.");
 		}
 		
+	    return "redirect:"+ referer;
 		
-		
-		return "redirect:list.iss?repository=" + repository;
+		//return "redirect:list.iss?repository=" + repository;
 	}
 
 	
+	
 	@RequestMapping("detail.iss")
-	public String detailIssue(HttpSession session, Model model, Integer ino) throws IOException {
+	public String detailIssue(HttpSession session, Model model, Integer ino, HttpServletRequest request) throws IOException {
 		try {
 		String token = (String)session.getAttribute("token");
 		String repository = (String)session.getAttribute("repository");
@@ -236,6 +240,7 @@ public class IssueController {
 		
 		
 		String apiUrl = "https://api.github.com/repos/" + repository + "/issues/" + ino;
+		
 		
 		
 		RestTemplate restTemplate = new RestTemplate();
@@ -314,8 +319,11 @@ public class IssueController {
 			milestoneOne.setNumber(milestoneNumber);
 
 		}
+
+		String referer = request.getHeader("Referer");
 		
 		
+		model.addAttribute("referer", referer);
 		model.addAttribute("createDateTime", createDateTime);
 		model.addAttribute("userLogin", userLogin);
 		model.addAttribute("title", title);
@@ -492,7 +500,7 @@ public class IssueController {
 		} else {
 			session.setAttribute("alertMsg", "이슈 수정에 성공하였습니다.");
 		}
-
+		
 		return "redirect:/detail.iss?ino=" + ino;
 	}
 	

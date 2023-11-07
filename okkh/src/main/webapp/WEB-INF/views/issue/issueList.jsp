@@ -99,7 +99,7 @@
                                                                 <div class="row" style="margin-top: 8px;">
                                                                     <div class="col-1" style="line-height: 50px;">라벨
                                                                     </div>
-                                                                    <div class="form-group col-11" style="width:500px;">
+                                                                    <div class="form-group col-11" style="width:650px;">
 
                                                                         <select
                                                                             class="choices form-select multiple-remove"

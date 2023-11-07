@@ -76,7 +76,7 @@
 											<div class="labelSpan2">
 											
 											</div>
-
+											<input type="hidden" name="referer" value="${ referer }">
 											<br>
 											<h6>라벨</h6>
 											<fieldset class="form-group">
