@@ -113,7 +113,6 @@ public class RepositoryController {
 			
 		} catch (Exception e) {
 			
-			 
 			 String exeption = "로그인 후에 이용 가능한 서비스입니다.";
 			 
 			 return exeption;
@@ -181,12 +180,18 @@ public class RepositoryController {
 	 * @return 내 프로젝트 페이지
 	 */
 	@RequestMapping("updateIngToFin.re")
-	public String updateIngToFin(int myproNo) {
+	public String updateIngToFin(int myproNo, HttpSession session) {
 		
 		int result = rService.updateIngToFin(myproNo);
 		
 		if(result > 0) {
+			
+			int memNo = ((Member)(session.getAttribute("loginMember"))).getMemNo();
+			
+			rService.updateTeam(memNo);
+			
 			return "redirect:/myProject.re";
+			
 		}
 		else {
 			return "common/errorPage";

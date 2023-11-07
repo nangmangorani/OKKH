@@ -42,4 +42,6 @@ public interface RepoService {
 	// 레포가 담긴 프로젝트명 조회용 서비스
 	public MyProject selectMyProject(int pno);
 	
+	public int updateTeam(int memNo);
+	
 }

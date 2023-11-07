@@ -90,5 +90,14 @@
 		  from my_project
 		 where mypro_no = #{myproNo}
 	</select>
+	
+	<update id="updateTeam">
+		update
+			   member
+		   set team = 0
+		     , team_status = 'N'
+		 where mem_no = #{memNo}
+		   and status = 'Y'
+	</update>
 
 </mapper>
