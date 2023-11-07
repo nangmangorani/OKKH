@@ -565,21 +565,24 @@ public class RepositoryController {
 	 * @return
 	 */
 	@RequestMapping("merge.re")
-	public String mergeTest(HttpSession session) {
+	public String mergeTest(String owner, String repo, String branch, HttpSession session) {
 		
 		g = new GitHub();
 		
 		g.setMethod("POST");
 		g.setToken((String)session.getAttribute("token"));
-		g.setUri("/repos/kh05final/nonfiction/merges");
+		g.setUri("/repos/" + owner + "/" + repo + "/merges");
 		
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("base", "main");
-		params.put("head", "test");
-		params.put("commit_message", "되나??");
+		params.put("head", branch);
+		params.put("commit_message", branch + ": new commit");
 		
 		g.setParams(params);
 		
+		String response = getGitHubValue(g);
+		
+		System.out.println(response);
 		
 		return "redirect:/";
 		
@@ -611,6 +614,53 @@ public class RepositoryController {
 		model.addAttribute("bList", bList);
 		
 		return "repo/commitList";
+		
+	}
+	
+	/**
+	 * 브랜치 조회용 컨트롤러
+	 * 
+	 * @param branch
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("branchDetail.re")
+	public String branchDetail(String branch, String owner, String repo, String vis, String avatar, HttpSession session, Model model) {
+		
+		g = new GitHub();
+		
+		g.setMethod("GET");
+		g.setToken((String)session.getAttribute("token"));
+		
+		System.out.println((String)session.getAttribute("token"));
+		
+		g.setUri("/repos/" + owner + "/" + repo + "/branches/" + branch);
+		
+		// 템플릿에 보낸 후 다시 넘어온 JSON 결과값 받기
+		String response = getGitHubValue(g);
+		
+		// Json을 변환하여 담을 Object 준비
+		Type type = new TypeToken<Object>() {}.getType();
+		
+		// Gson 객체를 생성해서 Json을 Object로 변환하여 차곡차곡 옮겨담기
+		Object branchDetail = new Gson().fromJson(response, type);
+		
+		model.addAttribute("owner", owner);
+		model.addAttribute("repo", repo);
+		model.addAttribute("visibility", vis);
+		model.addAttribute("avatar_url", avatar);
+		model.addAttribute("branch", branch);
+		model.addAttribute("branchDetail", branchDetail);
+		
+		// 브랜치 조회용 uri 세팅
+		g.setUri("/repos/" + owner + "/" + repo + "/branches");
+		
+		// 브랜치 리스트
+		ArrayList<Object> bList = getGitHubList(g);
+		
+		model.addAttribute("bList", bList);
+		
+		return "repo/branchDetail";
 		
 	}
 	

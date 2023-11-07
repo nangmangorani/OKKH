@@ -70,7 +70,7 @@
                                     <div class="card-header">
                                     	<!-- 프로젝트명 시작 -->
                                         <h4 class="card-title" style="float: left;">
-                                        	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ owner } / Commit List
+                                        	<img src="${ avatar_url }" height="20" width="20" style="border-radius: 15px;"> ${ owner } / Recent Commit
                                         </h4>
                                         <!-- /프로젝트명 끝 -->
                                         <!-- Merge 버튼 시작 -->
@@ -95,7 +95,13 @@
 	                                    		location.href = "branchDetail.re?owner=${ owner }&repo=${ repo }&vis=${ visibility }&avatar=${ avatar_url }&branch=" + str;
 	                                    		
 	                                    	}
-	                                    
+	                                    	/*
+	                                    	$(() => {
+	                                    		
+	                                    		$("option[value=${ branch }]").attr("selected");
+	                                    		
+	                                    	})
+	                                    	*/
 	                                    </script>
 	                                    
                                     </div>
@@ -113,20 +119,18 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:forEach var="i" begin="0" end="${ fn:length(commitList) - 1 }">
 	                                                <tr>
-	                                                	<td>${ fn:length(commitList) - i }</td>
-						                                <td class='text-bold-500'>${ commitList[i].commit.message }</td>
+	                                                	<td>1</td>
+						                                <td class='text-bold-500'>${ branchDetail.commit.commit.message }</td>
 					                                    <td class='text-bold-500'>
-					                                    	<img src="${ commitList[i].author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
-					                                    	${ commitList[i].author.login }
+					                                    	<img src="${ branchDetail.commit.author.avatar_url }" height="20" width="20" style="border-radius: 15px;">
+					                                    	${ branchDetail.commit.author.login }
 					                                    </td>
-						                                <td class='text-bold-500'>${ fn:substring(commitList[i].commit.author.date, 0, fn:indexOf(commitList[i].commit.author.date, "T")) }</td>
-						                                <td class='text-bold-500'>${ commitList[i].sha }</td>
+						                                <td class='text-bold-500'>${ fn:substring(branchDetail.commit.commit.author.date, 0, fn:indexOf(branchDetail.commit.commit.author.date, "T")) }</td>
+						                                <td class='text-bold-500'>${ branchDetail.commit.sha }</td>
 					                                </tr>
 					                                <tr>
 					                                </tr>
-                                                </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
