@@ -71,7 +71,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 
 
-### 기술 스택 
+### 🌈 기술 스택 
 - FrontEnd : HTML5, JavaScript, JQuery , AJax , CSS3 , Json
 - BackEnd : Java 11, Spring, PostMan, MyBatis , Maven 
   
