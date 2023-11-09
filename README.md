@@ -18,10 +18,47 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 <br><br>
 ## 👨‍👩‍👧‍👦 멤버 구성 
-- 윤정묵 : Oauth를 통한 GitHub 로그인 연동, WebSocket을 통한 채팅 기능, 메인페이지, 마이페이지
-- 김유정 : 프로젝트 모집, 나의PR, 친구 추가 및 관리 / GitHub rest API를 통한 PullRequest 관리
-- 윤관현 : 나의 프로젝트 , 완료된 프로젝트, 캘린더 관리 /  GitHub rest API를 통한 Repository , Commit List, Branch, Merge 관리
-- 이승준 : 팀장!  / Web-Client 예외 처리 / GitHub rest API를 통한 label, issue, mileStone 관리
+- 윤정묵 :
+  
+   &nbsp;&nbsp;&nbsp; - Oauth를 통한 GitHub 로그인 연동
+  
+   &nbsp;&nbsp;&nbsp; -  WebSocket을 통한 채팅 기능, 메인페이지, 마이페이지
+  
+- 김유정 :
+  
+    &nbsp;&nbsp;&nbsp; - 프로젝트 모집
+
+    &nbsp;&nbsp;&nbsp; - 나의PR
+
+    &nbsp;&nbsp;&nbsp; - 친구 추가 및 관리
+
+    &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 PullRequest 관리
+  
+- 윤관현 :
+
+   &nbsp;&nbsp;&nbsp; - 나의 프로젝트
+  
+    &nbsp;&nbsp;&nbsp; - 완료된 프로젝트
+
+    &nbsp;&nbsp;&nbsp; - 캘린더 관리
+
+    &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 Repository
+
+    &nbsp;&nbsp;&nbsp; -  Commit List
+
+    &nbsp;&nbsp;&nbsp; -  Branch
+
+    &nbsp;&nbsp;&nbsp; -  Merge 관리
+  
+- 이승준 : 팀장!
+
+  &nbsp;&nbsp;&nbsp; - Web-Client 예외 처리
+
+  &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 label
+  
+  &nbsp;&nbsp;&nbsp; - issue 관리
+
+  &nbsp;&nbsp;&nbsp; - mileStone 관리
 
 
 <br><br>
