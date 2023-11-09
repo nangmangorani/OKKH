@@ -79,18 +79,40 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 <br><br>
 ## 📖 프로젝트 설명 
  #### ❓ 왜 이 프로젝트를 기획했나요?
-  &nbsp;&nbsp;&nbsp; - GitHub는 협업을 위한 웹 기반 플랫폼입니다. 하지만 GitHub를 처음 접하는 개발자들에게는 사용법이 다소 복잡하고 어렵게 느껴질 수 있습니다. <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  GitHub는 협업을 위한 웹 기반 플랫폼입니다. 하지만 처음 접하는 개발자들에게는 사용법이 다소 복잡하고 어렵게 느껴질 수 있습니다. 
+  
   &nbsp;&nbsp;저희 OKKH를 통해 손쉽게 프로젝트를 모집하고, GitHub rest API 연동을 통해 효율적인 협업이 가능합니다.
 
- 
+ <br><br>
  #### ❓ 이 프로젝트는 어떤 문제를 해결하나요?
-    &nbsp;&nbsp;&nbsp; 1. OKKH의 직관적인 UI로 다루기 어려운 GitHub 내의 주요 기능들을 쉽게 사용할 수 있습니다. 
+  &nbsp;&nbsp;&nbsp; 1. OKKH의 직관적인 UI로 다루기 어려운 GitHub 내의 주요 기능들을 쉽게 사용할 수 있습니다. 
+  
    &nbsp;&nbsp;&nbsp;  2. OKKH에서 프로젝트 모집과 더불어 프로젝트 진행 상황을 팀원들과 쉽게 공유할 수 있습니다.
+   
    &nbsp;&nbsp;&nbsp;  3. OKKH에서 채팅 기능을 통해 팀원과 쉽게 소통이 가능합니다.
 
-  
+  <br><br>
  #### ❓ 이 프로젝트를 통해 무엇을 배우셨나요?
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 그 전부터 GitHub를 이용했지만 주요 기능들 Issue, MileStone, Pull-Request나 Repository 등의 사용법을 잘 알지 못했습니다.
+
+  
+  &nbsp;&nbsp;&nbsp;  이번 프로젝트를 계기로 GitHub를 활용한 프로젝트 협업 방식에 대해 더 배우게 되었습니다.
+
+  
+  &nbsp;&nbsp;&nbsp; 이 경험을 토대로 GitHub를 활용한 현업에서도 잘 적응할 수 있는 자신감을 얻었습니다.
+  
+
+ <br><br>
  #### ❓ 여러분이 당면했던 문제나 나중에 추가하고 싶은 기능이 무엇인가요?
+
+&nbsp;&nbsp;&nbsp; - 윤정묵 :
+
+&nbsp;&nbsp;&nbsp; - 김유정 :
+
+&nbsp;&nbsp;&nbsp; - 윤관현 :
+
+&nbsp;&nbsp;&nbsp; - 이승준:
 
  
 <br><br>
