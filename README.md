@@ -1,6 +1,6 @@
 
 
-![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&text=Welcome%20to%20OKKH%20👋&animation=twinkling&fontSize=35&fontAlignY=40&fontAlign=70&height=250)
+![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&text=Welcome%20To%20OKKH%20👋&animation=twinkling&fontSize=35&fontAlignY=40&fontAlign=70&height=250)
 
 <!--
 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    <img src="okkh/src/main/webapp/resources/images/logo/okkh1.png" >
@@ -110,7 +110,10 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 &nbsp;&nbsp;&nbsp; - 김유정 :
 
-&nbsp;&nbsp;&nbsp; - 윤관현 :
+&nbsp;&nbsp;&nbsp; - 윤관현 : 
+  레파지토리 내의 컨텐츠를 불러오는 작업에 시간을 많이 할애했습니다. 최종적인 소스코드가 담긴 파일에 접근할 때까지는 List로 값을 불러오고, 최종 파일은 객체로 값을 불러옴으로써 문제를 해결할 수 있었습니다. 또한, 소스코드를 불러오는 일도 관련 API가 제공되지 않아 GitHub 내의 소스코드를 볼 수 있는 URL을 활용해 해결했습니다.
+
+  현재는 레파지토리 내의 컨텐츠를 조회하는 기능이 주를 이루지만 추후에는 새로운 코드를 Commit 하거나 수정하는 기능과 코드에 리뷰를 달 수 있는 기능을 구현하고 싶습니다.
 
 &nbsp;&nbsp;&nbsp; - 이승준:
 
