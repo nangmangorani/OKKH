@@ -121,31 +121,38 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
  
 <br><br>
 ## 프로젝트 구현
-### 😊 메인 페이지 😊 
+
+<br><br>
+### 윤정묵
+
+
+#### 😊 메인 페이지 😊 
 &nbsp;&nbsp;&nbsp; - Oauth를 통한 로그인
 
 &nbsp;&nbsp;&nbsp; - 조회수 기준 Top4 게시글 노출 및 조회
 
 <br><br>
-### 😊 마이 페이지 😊
+#### 😊 마이 페이지 😊
 &nbsp;&nbsp;&nbsp; - 나의 정보 수정 
 
 &nbsp;&nbsp;&nbsp; - 내가 작성한 게시글 조회
 
 <br><br>
-### 😊 친구 관리 😊
+#### 😊 채팅 (1:1 / 1:n) 😊
+&nbsp;&nbsp;&nbsp; - 채팅방 초대
+
+&nbsp;&nbsp;&nbsp; - 채팅
+
+<br><br>
+### 김유정
+
+
+#### 😊 친구 관리 😊
 &nbsp;&nbsp;&nbsp; - 친구 조회 
 
 &nbsp;&nbsp;&nbsp; - 친구 추가
 
 &nbsp;&nbsp;&nbsp; - 친구 차단
-
-<br><br>
-### 😊 채팅 (1:1 / 1:n) 😊
-&nbsp;&nbsp;&nbsp; - 채팅방 초대
-
-&nbsp;&nbsp;&nbsp; - 채팅
-
 
 <br><br>
 ### 😊 나의 PR 😊
@@ -155,7 +162,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 
 <br><br>
-### 😊 프로젝트 모집 😊
+#### 😊 프로젝트 모집 😊
 
 &nbsp;&nbsp;&nbsp; - 프로젝트 모집글 작성
 
@@ -164,27 +171,65 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 &nbsp;&nbsp;&nbsp; - 프로젝트 팀원 추가 및 확정
 
 <br><br>
-### 😊 나의 프로젝트 😊
-&nbsp;&nbsp;&nbsp; - 모집된 팀원으로 프로젝트 생성
-
-&nbsp;&nbsp;&nbsp; - 프로젝트 완료 처리
 
 <br><br>
-### 😊 Repository 😊
+#### 😊 Pull-Request 😊
+&nbsp;&nbsp;&nbsp; - Repository 별 Pull-Request 조회
+
+&nbsp;&nbsp;&nbsp; - Pull-Request 작성 
+
+&nbsp;&nbsp;&nbsp; - Pull-Request review 작성 및 조회
+
+&nbsp;&nbsp;&nbsp; - Pull-Request 진행 상태 관리
+
+<br><br>
+### 윤관현
+
+
+#### 😊 나의 프로젝트 😊
+&nbsp;&nbsp;&nbsp; - 모집된 팀원으로 프로젝트 생성 및 조회
+
+<img src="https://user-images.githubusercontent.com/126389803/282291341-73443f50-6cd4-4d4f-ab8f-e6a8f6c5f452.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291342-378ee231-4efb-4595-8278-d1273580df81.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291344-17a68b32-c1b6-4bf6-a10e-4104292d8738.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291345-aee0550d-4529-44ff-88f0-a68304af6809.png">
+
+<br><br>
+#### 😊 Repository 😊
 
 &nbsp;&nbsp;&nbsp; - Repository 생성 및 관리
 
-&nbsp;&nbsp;&nbsp; - Branch 별 최근 commit 조회
-
-&nbsp;&nbsp;&nbsp; - Repository 전체 Commit 조회
-
-&nbsp;&nbsp;&nbsp; - Repository 코드 조회
-
-&nbsp;&nbsp;&nbsp; - Repository Branch 별 Merge
-
+<img src="https://user-images.githubusercontent.com/126389803/282291346-641cc35a-7b28-46a2-918e-9911de2d386e.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291349-96d83ce4-7fbb-4d74-a495-6ca7925f093f.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291352-bc19fcbb-4aef-41a4-a200-0fe36994a926.png">
 
 <br><br>
-### 😊 Issue 😊
+&nbsp;&nbsp;&nbsp; - Branch 별 최근 commit 조회
+
+<img src="https://user-images.githubusercontent.com/126389803/282291358-6992bb99-e04c-4111-813e-60aafb55200e.png">
+
+<br><br>
+&nbsp;&nbsp;&nbsp; - Repository 전체 Commit 조회
+
+<img src="https://user-images.githubusercontent.com/126389803/282291357-7f4843d8-1c26-491d-8502-87dafa92f055.png">
+
+<br><br>
+&nbsp;&nbsp;&nbsp; - Repository 컨텐츠 및 코드 조회
+
+<img src="https://user-images.githubusercontent.com/126389803/282291353-f59c319d-6a7a-432a-92d4-afe7c2151e12.png">
+<img src="https://user-images.githubusercontent.com/126389803/282291356-0008707f-e4f4-40bf-babb-61bef45c1982.png">
+
+<br><br>
+#### 😊 Calendar 😊
+&nbsp;&nbsp;&nbsp; - 일정관리
+
+<img src="https://user-images.githubusercontent.com/126389803/282291360-fe49f405-6518-4c56-bdcb-72cea1810cb8.png">
+
+<br><br>
+### 이승준
+
+
+#### 😊 Issue 😊
 
 &nbsp;&nbsp;&nbsp; - Repository 별 Issue 목록 조회
 
@@ -194,19 +239,8 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 
 <br><br>
-### 😊 MileStone 😊
+#### 😊 MileStone 😊
 &nbsp;&nbsp;&nbsp; - MileStone 생성 및 관리
 
 &nbsp;&nbsp;&nbsp; - MileStone 내 Issue 진행 상태로 진척도 관리
-
-
-<br><br>
-### 😊 Pull-Request 😊
-&nbsp;&nbsp;&nbsp; - Repository 별 Pull-Request 조회
-
-&nbsp;&nbsp;&nbsp; - Pull-Request 작성 
-
-&nbsp;&nbsp;&nbsp; - Pull-Request review 작성 및 조회
-
-&nbsp;&nbsp;&nbsp; - Pull-Request 진행 상태 관리
 
