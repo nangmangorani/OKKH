@@ -6,6 +6,9 @@
 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;    <img src="okkh/src/main/webapp/resources/images/logo/okkh1.png" >
 -->
 # OKKH
+
+<br><br>
+## 📢프로젝트 소개
 GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트 
 
 <br><br>
