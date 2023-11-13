@@ -18,13 +18,13 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
 <br><br>
 ## 👨‍👩‍👧‍👦 멤버 구성 
-- [윤정묵](https://github.com/JMOOK0816) :
+- 윤정묵 (https://github.com/JMOOK0816)
   
    &nbsp;&nbsp;&nbsp; - Oauth를 통한 GitHub 로그인 연동
   
    &nbsp;&nbsp;&nbsp; -  WebSocket을 통한 채팅 기능, 메인페이지, 마이페이지
   
-- [김유정](https://github.com/HoBBang1004) :
+- 김유정 (https://github.com/HoBBang1004)
   
     &nbsp;&nbsp;&nbsp; - 프로젝트 모집
 
@@ -34,7 +34,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
     &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 PullRequest 관리
   
-- [윤관현](https://github.com/YoonTarget) :
+- 윤관현 (https://github.com/YoonTarget)
 
    &nbsp;&nbsp;&nbsp; - 나의 프로젝트
   
@@ -50,11 +50,13 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 
     &nbsp;&nbsp;&nbsp; -  Merge 관리
   
-- [이승준](https://github.com/nangmangorani) : 팀장!
+- 이승준 (https://github.com/nangmangorani)
+  
+  &nbsp;&nbsp;&nbsp; - 팀장
 
   &nbsp;&nbsp;&nbsp; - Web-Client 예외 처리
 
-  &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 label
+  &nbsp;&nbsp;&nbsp; - GitHub rest API를 통한 label
   
   &nbsp;&nbsp;&nbsp; - issue 관리
 
@@ -106,24 +108,24 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
  <br><br>
  #### ❓ 여러분이 당면했던 문제나 나중에 추가하고 싶은 기능이 무엇인가요?
 
-&nbsp;&nbsp;&nbsp; - 윤정묵 :
+- 윤정묵
 
-&nbsp;&nbsp;&nbsp; - 김유정 :
+- 김유정
 
-&nbsp;&nbsp;&nbsp; - 윤관현 : 
+- 윤관현
 
   레파지토리 내의 컨텐츠를 불러오는 작업에 시간을 많이 할애했습니다. 최종적인 소스코드가 담긴 파일에 접근할 때까지는 List로 값을 불러오고, 최종 파일은 객체로 값을 불러옴으로써 문제를 해결할 수 있었습니다. 또한, 소스코드를 불러오는 일도 관련 API가 제공되지 않아 GitHub 내의 소스코드를 볼 수 있는 URL을 활용해 해결했습니다.
 
   현재는 레파지토리 내의 컨텐츠를 조회하는 기능이 주를 이루지만 추후에는 새로운 코드를 Commit 하거나 수정하는 기능과 코드에 리뷰를 달 수 있는 기능을 구현하고 싶습니다.
 
-&nbsp;&nbsp;&nbsp; - 이승준:
+- 이승준
 
  
 <br><br>
-## 프로젝트 구현
+## 🎞프로젝트 구현
 
 <br><br>
-### 윤정묵
+### 🐶윤정묵
 
 
 #### 😊 메인 페이지 😊 
@@ -144,7 +146,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 &nbsp;&nbsp;&nbsp; - 채팅
 
 <br><br>
-### 김유정
+### 🐯김유정
 
 
 #### 😊 친구 관리 😊
@@ -183,7 +185,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 &nbsp;&nbsp;&nbsp; - Pull-Request 진행 상태 관리
 
 <br><br>
-### 윤관현
+### 🐷윤관현
 
 
 #### 😊 나의 프로젝트 😊
@@ -226,7 +228,7 @@ GitHub API를 활용한 팀 프로젝트 구성 및 관리 사이트
 <img src="https://user-images.githubusercontent.com/126389803/282291360-fe49f405-6518-4c56-bdcb-72cea1810cb8.png">
 
 <br><br>
-### 이승준
+### 🐮이승준
 
 
 #### 😊 Issue 😊
