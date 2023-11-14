@@ -20,6 +20,7 @@
     <result column="isent" property="isent"/>
 	<result column="friSent" property="friSent"/>
 	<result column="user_no" property="userNo"/>
+	<result column="profile" property="profile"/>
  
  </resultMap>
  

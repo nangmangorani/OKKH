@@ -73,8 +73,10 @@
 
 											<span style="float:right; " id="btn">
 
-												<button  class="btn btn-primary" onclick="updateTitle();">Update Title</button>
 
+											<c:if test="${loginMember.gitNick eq pull.user}">
+												<button  class="btn btn-primary" onclick="updateTitle();">Update Title</button>
+											</c:if>
 											</span>
 					                    	
 					                    	

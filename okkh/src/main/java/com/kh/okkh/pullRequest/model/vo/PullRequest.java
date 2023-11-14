@@ -53,7 +53,7 @@ public class PullRequest {
 	private String userId; // 풀리퀘 작성자의 id(숫자로 이뤄짐)
 	private String profile; // 풀리퀘 작성자의 프로필  -> avatar_url 값이 들어갈듯
 
-	private String login; // 넥서스 분들...이건 왜 필요한걸까용.....? 
+	private String login; 
 	
 	
 	

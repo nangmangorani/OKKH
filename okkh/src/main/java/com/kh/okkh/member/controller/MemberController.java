@@ -49,6 +49,10 @@ public class MemberController {
 		// access_token을 이용한 유저 정보 얻어오기
 		Member githubInfo = gService.getUserInfo(token);
 		
+		System.out.println(githubInfo + " : 깃허브 로그임");
+		
+		
+		
 		// 우리 DB에 해당 유저 정보가 있는지 확인하기
         Member loginMember = mService.selectMember(githubInfo);
         // 저장된 멤버가 없을 경우 DB에 추가
