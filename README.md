@@ -172,6 +172,8 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 &nbsp;&nbsp;&nbsp; - 친구 조회 
 
 
+![실시간 알람 확인 및 친구 수락](https://github.com/nangmangorani/OKKH/assets/134485591/8adeeb64-acfd-401e-b330-b44e74de62a5)
+
 <img src="https://im.ezgif.com/tmp/ezgif-1-5d6ef1c1f4.gif">
 
 &nbsp;&nbsp;&nbsp; - 친구 추가
