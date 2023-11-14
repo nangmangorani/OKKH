@@ -62,8 +62,9 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
     &nbsp;&nbsp;&nbsp; -  Branch
 
     &nbsp;&nbsp;&nbsp; -  Merge 관리
+
   
--🐮이승준 (https://github.com/nangmangorani)
+- 🐮이승준 (https://github.com/nangmangorani)
   
   &nbsp;&nbsp;&nbsp; - 팀장 ✨
 
