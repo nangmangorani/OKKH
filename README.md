@@ -169,44 +169,44 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 #### 😊 친구 관리 😊
 
-&nbsp;&nbsp;&nbsp; - 전체 친구 조회 및 친구 요청
+&nbsp;&nbsp;&nbsp; - 전체 친구 조회 및 친구 요청 (HoBBang1004 계정)
 
 ![친구 조회 및 요청](https://github.com/nangmangorani/OKKH/assets/134485591/035a67f9-b8b7-4004-9faf-84568ede3921)
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 요청 수락 
+&nbsp;&nbsp;&nbsp; - 친구 요청 수락 (ETCHoBBang1 계정)
 
 ![친구 요청 수락](https://github.com/nangmangorani/OKKH/assets/134485591/450f0d28-05f7-45f3-8034-fcb313eb8866)
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 삭제
+&nbsp;&nbsp;&nbsp; - 친구 삭제 (ETCHoBBang1 계정)
 
 ![친구 삭제](https://github.com/nangmangorani/OKKH/assets/134485591/bd2e3eb8-c6ff-451f-8e4c-a1b8a188ea52)
 
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 차단
+&nbsp;&nbsp;&nbsp; - 친구 차단 (HoBBang1004 계정)
 
 ![친구 차단하기](https://github.com/nangmangorani/OKKH/assets/134485591/ad50b50e-9f61-4533-8063-95527c258e70)
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 차단 확인
+&nbsp;&nbsp;&nbsp; - 친구 차단 확인 (anotherHobbang 계정)
 
 ![친구 차단 확인 ㅠ](https://github.com/nangmangorani/OKKH/assets/134485591/18be4331-f018-4e73-ab17-0ca07184bf81)
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 거절
+&nbsp;&nbsp;&nbsp; - 친구 거절 (ETCHoBBang1 계정)
 
 ![친구 거절](https://github.com/nangmangorani/OKKH/assets/134485591/30a018fc-2dcc-4325-985a-79c9b551ace6)
 
 <br><br>
 
-&nbsp;&nbsp;&nbsp; - 친구 거절 확인
+&nbsp;&nbsp;&nbsp; - 친구 거절 확인 (HoBBang1004 계정)
 
 ![거절 확인 ㅠ](https://github.com/nangmangorani/OKKH/assets/134485591/26f1440d-e392-4b4a-b3d7-0aaccb0e95ec)
 
