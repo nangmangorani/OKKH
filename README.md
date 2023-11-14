@@ -168,8 +168,13 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 
 #### 😊 친구 관리 😊
+
 &nbsp;&nbsp;&nbsp; - 친구 조회 
-<img src="https://github.com/nangmangorani/OKKH/assets/134485591/a549f829-a820-4413-b4f7-f387fce3f79d">
+
+
+<img src="https://github.com/nangmangorani/OKKH/assets/134485591/fe0511d7-883d-4d5e-aec1-29e85fcfb1dc">
+
+
 &nbsp;&nbsp;&nbsp; - 친구 추가
 
 &nbsp;&nbsp;&nbsp; - 친구 차단
