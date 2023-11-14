@@ -261,15 +261,30 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 <br><br>
 #### 😊 Pull-Request 😊
-&nbsp;&nbsp;&nbsp; - Repository 별 Pull-Request 조회
+
 
 &nbsp;&nbsp;&nbsp; - Pull-Request 작성 
 
-&nbsp;&nbsp;&nbsp; - Pull-Request review 작성 및 조회
-
-&nbsp;&nbsp;&nbsp; - Pull-Request 진행 상태 관리
-
+![풀리퀘 작성1](https://github.com/nangmangorani/OKKH/assets/134485591/5ee5e3ee-da64-4afe-9c3a-02cf9366e11b)
 <br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 상태 변경 (open / close)
+
+![풀리퀘 상태 변경](https://github.com/nangmangorani/OKKH/assets/134485591/df2a6ceb-9638-4d88-a84e-46a0a3f4cd66)
+<br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 수정 및 커밋 리스트 조회
+
+![풀리퀘 수정 및 커밋 리스트 보기](https://github.com/nangmangorani/OKKH/assets/134485591/08b7a207-a6b5-4c09-9342-8e5f2aac7357)
+<br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 리뷰 작성 및 수정 (수정은 본인이 작성한 리뷰만 수정 가능)
+
+![풀리퀘 리뷰 작성](https://github.com/nangmangorani/OKKH/assets/134485591/7445d91a-5e80-4b52-a103-98bfae2529ff)
+<br><br>
+&nbsp;&nbsp;&nbsp; - GitHub의 Pull-Request 변경 확인
+
+![풀리퀘 변경 확인](https://github.com/nangmangorani/OKKH/assets/134485591/d9a562d4-dc14-4a85-9435-fb4cbdfafd3d)
+<br><br><br><br>
+
+
 ### 🐷윤관현
 
 
