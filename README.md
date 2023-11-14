@@ -130,9 +130,9 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 - 🐯김유정
   
-&nbsp;GitHub의 Pull-Request를 보면 Reviewer를 따로 지정해서 Review를 요청하고,  Merge 여부를 동의를 받은 후 Merge도 진행합니다. 하지만 OKKH에서 Merge는 다른 팀원들의 결과물에 영향을 줄 수 있다고 판단하여 구현하지 않았습니다. 또한, Reviewer도 따로 지정하지 않고, 조직에 속한 팀원들 전체를 Reviewer라고 임의로 지정한 후, 코드에 대한 Review만 진행하도록 구현했습니다. 
+&nbsp;&nbsp;GitHub의 Pull-Request를 보면 Reviewer를 따로 지정해서 Review를 요청하고,  Merge 여부를 동의를 받은 후 Merge도 진행합니다. 하지만 OKKH에서 Merge는 다른 팀원들의 결과물에 영향을 줄 수 있다고 판단하여 구현하지 않았습니다. 또한, Reviewer도 따로 지정하지 않고, 조직에 속한 팀원들 전체를 Reviewer라고 임의로 지정한 후, 코드에 대한 Review만 진행하도록 구현했습니다. 
 
-&nbsp; GitHub의 Pull-Request에서 제공하는 서비스처럼 OKKH의 Pull-Request에서도 Reviewer를 따로 지정한 후 동의를 받아 Merge까지 할 수 있는 기능을 추가하고 싶습니다.
+&nbsp;&nbsp; GitHub의 Pull-Request에서 제공하는 서비스처럼 OKKH의 Pull-Request에서도 Reviewer를 따로 지정한 후 동의를 받아 Merge까지 할 수 있는 기능을 추가하고 싶습니다.
 
 
 - 🐷윤관현
