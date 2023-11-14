@@ -174,7 +174,6 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 <img src="https://im.ezgif.com/tmp/ezgif-1-5d6ef1c1f4.gif">
 
-https://im.ezgif.com/tmp/ezgif-1-5d6ef1c1f4.gif
 &nbsp;&nbsp;&nbsp; - 친구 추가
 
 &nbsp;&nbsp;&nbsp; - 친구 차단
