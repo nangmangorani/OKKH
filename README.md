@@ -32,11 +32,11 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
   
    &nbsp;&nbsp;&nbsp; - 프로젝트 모집
 
-   &nbsp;&nbsp;&nbsp; -  WebSocket을 통한 실시간 알림
-
    &nbsp;&nbsp;&nbsp; - 나의PR
-
+  
    &nbsp;&nbsp;&nbsp; - 친구 추가 및 관리
+
+   &nbsp;&nbsp;&nbsp; -  WebSocket을 통한 실시간 알림
 
    &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 PullRequest 관리
  
