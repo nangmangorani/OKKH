@@ -18,7 +18,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 <br><br>
 ## 👨‍👩‍👧‍👦 멤버 구성 
-- 윤정묵 (https://github.com/JMOOK0816)
+- 🐶윤정묵 (https://github.com/JMOOK0816)
   
    &nbsp;&nbsp;&nbsp; - Oauth를 통한 GitHub 로그인 연동
   
@@ -28,7 +28,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
    &nbsp;&nbsp;&nbsp; - 마이페이지
   
-- 김유정 (https://github.com/HoBBang1004)
+- 🐯김유정 (https://github.com/HoBBang1004)
   
    &nbsp;&nbsp;&nbsp; - 프로젝트 모집
 
@@ -47,7 +47,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
    &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 PullRequest Review List
 
   
-- 윤관현 (https://github.com/YoonTarget)
+- 🐷윤관현 (https://github.com/YoonTarget)
 
    &nbsp;&nbsp;&nbsp; - 나의 프로젝트
   
@@ -63,9 +63,9 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
     &nbsp;&nbsp;&nbsp; -  Merge 관리
   
-- 이승준 (https://github.com/nangmangorani)
+-🐮이승준 (https://github.com/nangmangorani)
   
-  &nbsp;&nbsp;&nbsp; - 팀장
+  &nbsp;&nbsp;&nbsp; - 팀장 ✨
 
   &nbsp;&nbsp;&nbsp; - Web-Client 예외 처리
 
