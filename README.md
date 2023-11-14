@@ -234,11 +234,28 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 <br><br>
 #### 😊 프로젝트 모집 😊
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 모집글 작성
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집글 작성 (HoBBang1004 계정)
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 참여하기(작성자에게 실시간 알림)
+![플젝 작성](https://github.com/nangmangorani/OKKH/assets/134485591/0a68ecde-268f-49e1-815c-3f89182f8308)
+<br><br>
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 팀원 추가 및 확정
+&nbsp;&nbsp;&nbsp; - 프로젝트 참여하기 (ETCHobbang1 계정)
+
+![프로젝트 참여신청](https://github.com/nangmangorani/OKKH/assets/134485591/79799c56-786e-4503-bd14-683bf3e32f3e)
+<br><br>
+&nbsp;&nbsp;&nbsp; - 실시간 알림 & 프로젝트 팀원 추가 여부 (HoBBang1004 계정)
+
+![프로젝트 실시간 알림, 팀원 추가](https://github.com/nangmangorani/OKKH/assets/134485591/f53ddc90-61c5-4080-8677-3fa5418da4e8)
+<br><br>
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집 완료 (HoBBang1004 계정)
+
+![프로젝트 모집 완료'](https://github.com/nangmangorani/OKKH/assets/134485591/32c55aeb-f82e-4ac4-ab20-5bd7908b138c)
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집 완료 후 참여자 화면 & 중복 참여는 불가 (ETCHobbang1 계정)
+
+![프젝 모집 완료 후 참여자 화면](https://github.com/nangmangorani/OKKH/assets/134485591/b595055e-87ca-4aa8-98a8-ccc8b455985c)
+
 
 <br><br>
 
