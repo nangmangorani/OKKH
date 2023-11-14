@@ -221,8 +221,15 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 ### 😊 나의 PR 😊
 &nbsp;&nbsp;&nbsp; - PR 작성
 
-&nbsp;&nbsp;&nbsp; - PR 수정 및 삭제
+![pr 작성](https://github.com/nangmangorani/OKKH/assets/134485591/79529ea6-bdec-4eaa-bb02-2ea450537347)
+<br><br>
+&nbsp;&nbsp;&nbsp; - PR 수정 
 
+![pr 수정](https://github.com/nangmangorani/OKKH/assets/134485591/195f04d0-45dc-4bb2-b828-a1788fd3ecac)
+<br><br>
+&nbsp;&nbsp;&nbsp; - PR 북마크 & 댓글 작성
+
+![pr 북마크, 댓글](https://github.com/nangmangorani/OKKH/assets/134485591/a0e3c526-7e10-4429-b095-c2b125a0cadd)
 
 <br><br>
 #### 😊 프로젝트 모집 😊
