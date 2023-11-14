@@ -18,7 +18,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 <br><br>
 ## 👨‍👩‍👧‍👦 멤버 구성 
-- 윤정묵 (https://github.com/JMOOK0816)
+- 🐶윤정묵 (https://github.com/JMOOK0816)
   
    &nbsp;&nbsp;&nbsp; - Oauth를 통한 GitHub 로그인 연동
   
@@ -28,7 +28,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
    &nbsp;&nbsp;&nbsp; - 마이페이지
   
-- 김유정 (https://github.com/HoBBang1004)
+- 🐯김유정 (https://github.com/HoBBang1004)
   
    &nbsp;&nbsp;&nbsp; - 프로젝트 모집
 
@@ -47,7 +47,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
    &nbsp;&nbsp;&nbsp; -  GitHub rest API를 통한 PullRequest Review List
 
   
-- 윤관현 (https://github.com/YoonTarget)
+- 🐷윤관현 (https://github.com/YoonTarget)
 
    &nbsp;&nbsp;&nbsp; - 나의 프로젝트
   
@@ -62,10 +62,11 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
     &nbsp;&nbsp;&nbsp; -  Branch
 
     &nbsp;&nbsp;&nbsp; -  Merge 관리
+
   
-- 이승준 (https://github.com/nangmangorani)
+- 🐮이승준 (https://github.com/nangmangorani)
   
-  &nbsp;&nbsp;&nbsp; - 팀장
+  &nbsp;&nbsp;&nbsp; - 팀장 ✨
 
   &nbsp;&nbsp;&nbsp; - Web-Client 예외 처리
 
@@ -94,9 +95,13 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 <br><br>
 ## 📖 프로젝트 설명 
  #### ❓ 왜 이 프로젝트를 기획했나요?
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  GitHub는 협업을 위한 웹 기반 플랫폼입니다. 하지만 처음 접하는 개발자들에게는 사용법이 다소 복잡하고 어렵게 느껴질 수 있습니다. 
-  
-  &nbsp;&nbsp;저희 OKKH를 통해 손쉽게 프로젝트를 모집하고, GitHub rest API 연동을 통해 효율적인 협업이 가능합니다.
+
+ <div>
+     &nbsp;&nbsp; GitHub는 협업을 위한 웹 기반 플랫폼입니다. 하지만 처음 접하는 개발자들에게는 사용법이 다소 복잡하고 어렵게 느껴질 수 있습니다. 
+  저희 OKKH를 통해 손쉽게 프로젝트를 모집하고, GitHub rest API 연동을 통해 효율적인 협업이 가능합니다.
+   
+ </div>
+ 
 
  <br><br>
  #### ❓ 이 프로젝트는 어떤 문제를 해결하나요?
@@ -121,22 +126,22 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
  <br><br>
  #### ❓ 여러분이 당면했던 문제나 나중에 추가하고 싶은 기능이 무엇인가요?
 
-- 윤정묵
+- 🐶윤정묵
 
-- 김유정
+- 🐯김유정
   
-&nbsp;GitHub의 Pull-Request를 보면 Reviewer를 따로 지정해서 Review를 요청하고,  Merge 여부를 동의를 받은 후 Merge도 진행합니다. 하지만 OKKH에서 Merge는 다른 팀원들의 결과물에 영향을 줄 수 있다고 판단하여 구현하지 않았습니다. 또한, Reviewer도 따로 지정하지 않고, 조직에 속한 팀원들 전체를 Reviewer라고 임의로 지정한 후, 코드에 대한 Review만 진행하도록 구현했습니다. 
+&nbsp;&nbsp;GitHub의 Pull-Request를 보면 Reviewer를 따로 지정해서 Review를 요청하고,  Merge 여부를 동의를 받은 후 Merge도 진행합니다. 하지만 OKKH에서 Merge는 다른 팀원들의 결과물에 영향을 줄 수 있다고 판단하여 구현하지 않았습니다. 또한, Reviewer도 따로 지정하지 않고, 조직에 속한 팀원들 전체를 Reviewer라고 임의로 지정한 후, 코드에 대한 Review만 진행하도록 구현했습니다. 
 
-&nbsp; GitHub의 Pull-Request에서 제공하는 서비스처럼 OKKH의 Pull-Request에서도 Reviewer를 따로 지정한 후 동의를 받아 Merge까지 할 수 있는 기능을 추가하고 싶습니다.
+&nbsp;&nbsp; GitHub의 Pull-Request에서 제공하는 서비스처럼 OKKH의 Pull-Request에서도 Reviewer를 따로 지정한 후 동의를 받아 Merge까지 할 수 있는 기능을 추가하고 싶습니다.
 
 
-- 윤관현
+- 🐷윤관현
 
- 레파지토리 내의 컨텐츠를 불러오는 작업에 시간을 많이 할애했습니다. 최종적인 소스코드가 담긴 파일에 접근할 때까지는 List로 값을 불러오고, 최종 파일은 객체로 값을 불러옴으로써 문제를 해결할 수 있었습니다. 또한, 소스코드를 불러오는 일도 관련 API가 제공되지 않아 GitHub 내의 소스코드를 볼 수 있는 URL을 활용해 해결했습니다.
+&nbsp;&nbsp;레파지토리 내의 컨텐츠를 불러오는 작업에 시간을 많이 할애했습니다. 최종적인 소스코드가 담긴 파일에 접근할 때까지는 List로 값을 불러오고, 최종 파일은 객체로 값을 불러옴으로써 문제를 해결할 수 있었습니다. 또한, 소스코드를 불러오는 일도 관련 API가 제공되지 않아 GitHub 내의 소스코드를 볼 수 있는 URL을 활용해 해결했습니다.
 
-  현재는 레파지토리 내의 컨텐츠를 조회하는 기능이 주를 이루지만 추후에는 새로운 코드를 Commit 하거나 수정하는 기능과 코드에 리뷰를 달 수 있는 기능을 구현하고 싶습니다.
+&nbsp;&nbsp;현재는 레파지토리 내의 컨텐츠를 조회하는 기능이 주를 이루지만 추후에는 새로운 코드를 Commit 하거나 수정하는 기능과 코드에 리뷰를 달 수 있는 기능을 구현하고 싶습니다.
 
-- 이승준
+- 🐮이승준
 
  
 <br><br>
@@ -168,41 +173,118 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 
 
 #### 😊 친구 관리 😊
-&nbsp;&nbsp;&nbsp; - 친구 조회 
 
-&nbsp;&nbsp;&nbsp; - 친구 추가
+&nbsp;&nbsp;&nbsp; - 전체 친구 조회 및 친구 요청 (HoBBang1004 계정)
 
-&nbsp;&nbsp;&nbsp; - 친구 차단
+![친구 조회 및 요청](https://github.com/nangmangorani/OKKH/assets/134485591/035a67f9-b8b7-4004-9faf-84568ede3921)
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 요청 수락 (ETCHoBBang1 계정)
+
+![친구 요청 수락](https://github.com/nangmangorani/OKKH/assets/134485591/450f0d28-05f7-45f3-8034-fcb313eb8866)
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 삭제 (ETCHoBBang1 계정)
+
+![친구 삭제](https://github.com/nangmangorani/OKKH/assets/134485591/bd2e3eb8-c6ff-451f-8e4c-a1b8a188ea52)
+
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 차단 (HoBBang1004 계정)
+
+![친구 차단하기](https://github.com/nangmangorani/OKKH/assets/134485591/ad50b50e-9f61-4533-8063-95527c258e70)
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 차단 확인 (anotherHobbang 계정)
+
+![친구 차단 확인 ㅠ](https://github.com/nangmangorani/OKKH/assets/134485591/18be4331-f018-4e73-ab17-0ca07184bf81)
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 거절 (ETCHoBBang1 계정)
+
+![친구 거절](https://github.com/nangmangorani/OKKH/assets/134485591/30a018fc-2dcc-4325-985a-79c9b551ace6)
+
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 친구 거절 확인 (HoBBang1004 계정)
+
+![거절 확인 ㅠ](https://github.com/nangmangorani/OKKH/assets/134485591/26f1440d-e392-4b4a-b3d7-0aaccb0e95ec)
+
+<br><br>
 
 <br><br>
 ### 😊 나의 PR 😊
 &nbsp;&nbsp;&nbsp; - PR 작성
 
-&nbsp;&nbsp;&nbsp; - PR 수정 및 삭제
+![pr 작성](https://github.com/nangmangorani/OKKH/assets/134485591/79529ea6-bdec-4eaa-bb02-2ea450537347)
+<br><br>
+&nbsp;&nbsp;&nbsp; - PR 수정 
 
+![pr 수정](https://github.com/nangmangorani/OKKH/assets/134485591/195f04d0-45dc-4bb2-b828-a1788fd3ecac)
+<br><br>
+&nbsp;&nbsp;&nbsp; - PR 북마크 & 댓글 작성
+
+![pr 북마크, 댓글](https://github.com/nangmangorani/OKKH/assets/134485591/a0e3c526-7e10-4429-b095-c2b125a0cadd)
 
 <br><br>
 #### 😊 프로젝트 모집 😊
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 모집글 작성
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집글 작성 (HoBBang1004 계정)
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 참여하기(작성자에게 실시간 알림)
+![플젝 작성](https://github.com/nangmangorani/OKKH/assets/134485591/0a68ecde-268f-49e1-815c-3f89182f8308)
+<br><br>
 
-&nbsp;&nbsp;&nbsp; - 프로젝트 팀원 추가 및 확정
+&nbsp;&nbsp;&nbsp; - 프로젝트 참여하기 (ETCHobbang1 계정)
+
+![프로젝트 참여신청](https://github.com/nangmangorani/OKKH/assets/134485591/79799c56-786e-4503-bd14-683bf3e32f3e)
+<br><br>
+&nbsp;&nbsp;&nbsp; - 실시간 알림 & 프로젝트 팀원 추가 여부 (HoBBang1004 계정)
+
+![프로젝트 실시간 알림, 팀원 추가](https://github.com/nangmangorani/OKKH/assets/134485591/f53ddc90-61c5-4080-8677-3fa5418da4e8)
+<br><br>
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집 완료 (HoBBang1004 계정)
+
+![프로젝트 모집 완료'](https://github.com/nangmangorani/OKKH/assets/134485591/32c55aeb-f82e-4ac4-ab20-5bd7908b138c)
+<br><br>
+
+&nbsp;&nbsp;&nbsp; - 프로젝트 모집 완료 후 참여자 화면 & 중복 참여는 불가 (ETCHobbang1 계정)
+
+![프젝 모집 완료 후 참여자 화면](https://github.com/nangmangorani/OKKH/assets/134485591/b595055e-87ca-4aa8-98a8-ccc8b455985c)
+
 
 <br><br>
 
 <br><br>
 #### 😊 Pull-Request 😊
-&nbsp;&nbsp;&nbsp; - Repository 별 Pull-Request 조회
+
 
 &nbsp;&nbsp;&nbsp; - Pull-Request 작성 
 
-&nbsp;&nbsp;&nbsp; - Pull-Request review 작성 및 조회
-
-&nbsp;&nbsp;&nbsp; - Pull-Request 진행 상태 관리
-
+![풀리퀘 작성1](https://github.com/nangmangorani/OKKH/assets/134485591/5ee5e3ee-da64-4afe-9c3a-02cf9366e11b)
 <br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 상태 변경 (open / close)
+
+![풀리퀘 상태 변경](https://github.com/nangmangorani/OKKH/assets/134485591/df2a6ceb-9638-4d88-a84e-46a0a3f4cd66)
+<br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 수정 및 커밋 리스트 조회
+
+![풀리퀘 수정 및 커밋 리스트 보기](https://github.com/nangmangorani/OKKH/assets/134485591/08b7a207-a6b5-4c09-9342-8e5f2aac7357)
+<br><br>
+&nbsp;&nbsp;&nbsp; - Pull-Request 리뷰 작성 및 수정 (수정은 본인이 작성한 리뷰만 수정 가능)
+
+![풀리퀘 리뷰 작성](https://github.com/nangmangorani/OKKH/assets/134485591/7445d91a-5e80-4b52-a103-98bfae2529ff)
+<br><br>
+&nbsp;&nbsp;&nbsp; - GitHub의 Pull-Request 변경 확인
+
+![풀리퀘 변경 확인](https://github.com/nangmangorani/OKKH/assets/134485591/d9a562d4-dc14-4a85-9435-fb4cbdfafd3d)
+<br><br><br><br>
+
+
 ### 🐷윤관현
 
 
