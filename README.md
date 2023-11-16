@@ -81,7 +81,7 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 ## ⚙️개발 환경 
 
 - 개발 툴 : STS(Spring Tool Suite) , VScode
-- Server : Apach Tomcat 9.0 
+- Server : Apache Tomcat 9.0 
 - DB : Oracle DB
 - 형상 관리 : Git, GitHub, SourceTree
 
