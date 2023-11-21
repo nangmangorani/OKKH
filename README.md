@@ -262,6 +262,10 @@ GitHub API 연동을 통한 팀 프로젝트 구성 및 협업 사이트
 <br><br>
 #### 😊 Pull-Request 😊
 
+&nbsp;&nbsp;&nbsp; - GitHub 각 기능들에 대한 설명
+
+![각 기능들에 대한 설명](https://github.com/nangmangorani/OKKH/assets/134485591/7970f017-d451-475f-a0eb-e1d07e1a8559)
+
 
 &nbsp;&nbsp;&nbsp; - Pull-Request 작성 
 
