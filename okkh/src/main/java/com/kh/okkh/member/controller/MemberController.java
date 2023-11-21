@@ -49,7 +49,7 @@ public class MemberController {
 		// access_token을 이용한 유저 정보 얻어오기
 		Member githubInfo = gService.getUserInfo(token);
 		
-		System.out.println(githubInfo + " : 깃허브 로그임");
+		//System.out.println(githubInfo + " : 깃허브 로그임");
 		
 		
 		

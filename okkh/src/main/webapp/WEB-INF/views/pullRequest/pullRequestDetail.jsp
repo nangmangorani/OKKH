@@ -54,9 +54,8 @@
                     <!-- 왼쪽 내용 시작 -->
                     <!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
 					<div class="buttons">
-						<a href="#" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
-						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-						<a href="myPullRequest.pu?repository=${repository }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+						
+						<a href="myPullRequest.pu?repository=${repository }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests List</a>
 					</div>
 					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 					<!-- 풀리퀘 리뷰 내용 시작 -->

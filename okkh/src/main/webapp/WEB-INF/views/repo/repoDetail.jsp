@@ -20,6 +20,8 @@
 		cursor: pointer;
 		background-color: #f8f8f8;
 	}
+
+	
 </style>
 </head>
 
@@ -47,15 +49,42 @@
             </div>
             <!-- /페이지 제목 및 추가 버튼 끝 -->
             
+		
+
+
+
+
 			<!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
-			<div class="buttons">
-				<a href="list.iss?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
-				<a href="list.mile?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
-				<a href="myPullRequest.pu?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
-				<a href="commitList.re?owner=${ mypro.myproTitle }&repo=${ repoName }&vis=${ visibility }&avatar=${ avatar_url }" class="btn btn-outline-warning"><i class="fa-solid fa-code-commit"></i> Commit List</a>
+			<!-- 호버하면 각 기능에 대한 설명 나옴 -->
+			<div class="buttons" >
+				<a href="list.iss?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-primary  " data-bs-toggle="tooltip" data-bs-placement="top"
+				title="Issues는 작업, 개선 사항, 버그 및 기타 프로젝트 관련 활동을 Label을 통해 관리할 수 있는 기능입니다. (Label은 버그, 개선 사항, 문서화 등의 성격을 기준으로 문제를 분류하고 필터링하는 데 사용합니다.)"><i class="bi bi-stack"> Issues</i></a>
+				<a href="list.mile?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-info " data-bs-toggle="tooltip" data-bs-placement="top"
+				title="MileStones는 Issue에 대한 진행 상황을 확인 및 관리할 수 있는 프로젝트 관리 도구입니다."><i class="bi bi-puzzle"></i> Milestones</a>
+				<a href="myPullRequest.pu?repository=${ mypro.myproTitle }/${ repoName }" class="btn btn-outline-success" data-bs-toggle="tooltip" data-bs-placement="top"
+				title="Pull-Request는 작업한 코드에 대한 검토를 용이하게 하는 기능입니다. Pull-Request를 생성하기 위해서는 새 브랜치를 생성 및 커밋한 기록이 있어야 합니다."><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+				<a href="commitList.re?owner=${ mypro.myproTitle }&repo=${ repoName }&vis=${ visibility }&avatar=${ avatar_url }" class="btn btn-outline-warning" data-bs-toggle="tooltip" data-bs-placement="top"
+				title="Commit List에서는 모든 팀원이 Commit한 기록을 확인할 수 있습니다."><i class="fa-solid fa-code-commit"></i> Commit List</a>
 			</div>
 			<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
+
+
+
 			
+	   <!-- 각 기능들 호버 했을 때 나오는 메세지에 대한 스크립트 -->
+		<script>
+		
+			document.addEventListener('DOMContentLoaded', function () {
+				var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+				var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+					return new bootstrap.Tooltip(tooltipTriggerEl)
+				})
+			}, false);
+		</script>
+
+
+
+
             <!-- 내용 시작 -->
             <div class="page-content">
                 <section class="row">

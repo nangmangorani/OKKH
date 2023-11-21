@@ -44,17 +44,32 @@
                     <!-- 왼쪽 내용 시작 -->
                     <!-- 이슈, 마일스톤, 풀리퀘 버튼 시작 -->
 					<div class="buttons">
-						<a href="list.iss" class="btn btn-outline-primary"><i class="bi bi-stack"> Issues</i></a>
-						<a href="#" class="btn btn-outline-info"><i class="bi bi-puzzle"></i> Milestones</a>
 						<a href="myPullRequest.pu?repository=${repository }" class="btn btn-outline-success"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
 						<!-- 레파지 추가 버튼 시작 -->
-	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal"   data-bs-target="#inlineForm" style="float: right;">
+	                   	<button type="button" class="btn btn-primary" data-bs-toggle="modal"   data-bs-target="#inlineForm" style="float: right;" data-bs-toggle="tooltip" data-bs-placement="top"
+						   title="Pull-Request를 생성하려면 새로운 브랜치를 생성 후 Commit한 기록이 있어야 합니다.">
 	                    	New PullRequest
 	                	</button>
+
+
 	                	
 	                	
 	                	<!-- /레파지 추가 버튼 끝 -->
 					</div>
+
+					<!-- 각 기능들 호버 했을 때 나오는 메세지에 대한 스크립트 -->
+					<script>
+							
+						document.addEventListener('DOMContentLoaded', function () {
+							var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="modal"]'))
+							var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+								return new bootstrap.Tooltip(tooltipTriggerEl)
+							})
+						}, false);
+					</script>
+
+
+
 					<!-- /이슈, 마일스톤, 풀리퀘 버튼 끝 -->
 					
 					<!-- 풀리퀘 추가 form Modal 시작 -->
